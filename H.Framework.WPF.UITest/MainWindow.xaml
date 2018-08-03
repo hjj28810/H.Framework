@@ -1,0 +1,78 @@
+﻿<Window
+    x:Class="H.Framework.WPF.UITest.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extender="clr-namespace:H.Framework.WPF.Control.Controls;assembly=H.Framework.WPF.Control"
+    xmlns:local="clr-namespace:H.Framework.WPF.UITest"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    Loaded="Window_Loaded"
+    mc:Ignorable="d">
+
+    <Grid>
+        <extender:RectangleLoading ShowUp="Collapsed" />
+        <extender:DownloadComponent
+            Margin="266,23,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            FilePath="https://dldir1.qq.com/qqfile/qq/TIM2.2.5/20882/TIM2.2.5.exe"
+            FileSize="12322222"
+            IsDownLoaded="False" />
+        <extender:UnreadTip
+            Margin="129,108,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            IsShowText="False"
+            Text="2" />
+        <extender:SearchBox
+            Width="130"
+            Height="22"
+            Margin="72,23,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="#FFf3f3f3"
+            CaneclFontFamily="Webdings"
+            Foreground="White"
+            Visibility="{Binding SBVisibility, Mode=TwoWay}"
+            Watermark="搜索" />
+        <extender:ImageButton
+            Width="16"
+            Height="15"
+            Margin="0,23,238,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="ImageButton_Click"
+            CoverImageSource="D:\GitLocal\H.Framework\H.Framework.WPF.UITest\s_emoji.png"
+            ImageSource="D:\GitLocal\H.Framework\H.Framework.WPF.UITest\i_emoji.png" />
+        <extender:ExpanderEx
+            Width="100"
+            Height="26"
+            Margin="502,92,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Header="ExpanderEx"
+            IsExpanded="False">
+            <Grid Background="#FFE5E5E5">
+                <TextBlock Text="aaaaa" />
+            </Grid>
+        </extender:ExpanderEx>
+
+        <extender:ButtonEx
+            Width="15"
+            Height="15"
+            Margin="23,61,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="r"
+            FontFamily="Marlett" />
+
+        <extender:WarnBlock
+            Name="warmBlock"
+            Margin="0,131,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" />
+    </Grid>
+</Window>

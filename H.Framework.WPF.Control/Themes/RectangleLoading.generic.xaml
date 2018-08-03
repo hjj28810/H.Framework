@@ -1,0 +1,845 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:H.Framework.WPF.Control.Controls">
+
+    <Storyboard x:Key="RectStoryBoard" RepeatBehavior="Forever">
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:0"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C0"
+            Storyboard.TargetProperty="Margin"
+            From="0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:0"
+            Storyboard.TargetName="rectR0C0"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:2.2"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C0"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:2.2"
+            Storyboard.TargetName="rectR0C0"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:0.3"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C1"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:0.3"
+            Storyboard.TargetName="rectR0C1"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:2.5"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C1"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:2.5"
+            Storyboard.TargetName="rectR0C1"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:1"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C20"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:1"
+            Storyboard.TargetName="rectR0C20"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:3.2"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C20"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:3.2"
+            Storyboard.TargetName="rectR0C20"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:1.2"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C21"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:1.2"
+            Storyboard.TargetName="rectR0C21"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:3.4"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C21"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:3.4"
+            Storyboard.TargetName="rectR0C21"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:1.3"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C22"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:1.3"
+            Storyboard.TargetName="rectR0C22"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:3.5"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C22"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:3.5"
+            Storyboard.TargetName="rectR0C22"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:1.4"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C11"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:1.4"
+            Storyboard.TargetName="rectR0C11"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:3.6"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C11"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:3.6"
+            Storyboard.TargetName="rectR0C11"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:1.5"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C12"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:1.5"
+            Storyboard.TargetName="rectR0C12"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:3.7"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR0C12"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:3.7"
+            Storyboard.TargetName="rectR0C12"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:0.1"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR1C00"
+            Storyboard.TargetProperty="Margin"
+            From="0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:0.1"
+            Storyboard.TargetName="rectR1C00"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:2.3"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR1C00"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:2.3"
+            Storyboard.TargetName="rectR1C00"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:0.4"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR1C01"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:0.4"
+            Storyboard.TargetName="rectR1C01"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:2.6"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR1C01"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:2.6"
+            Storyboard.TargetName="rectR1C01"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:0.9"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR1C11"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:0.9"
+            Storyboard.TargetName="rectR1C11"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:3.1"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR1C11"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:3.1"
+            Storyboard.TargetName="rectR1C11"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:1.1"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR1C200"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:1.1"
+            Storyboard.TargetName="rectR1C200"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:3.3"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR1C200"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:3.3"
+            Storyboard.TargetName="rectR1C200"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:1.6"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR1C201"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:1.6"
+            Storyboard.TargetName="rectR1C201"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:3.8"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR1C201"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:3.8"
+            Storyboard.TargetName="rectR1C201"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:0.2"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C000"
+            Storyboard.TargetProperty="Margin"
+            From="0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:0.2"
+            Storyboard.TargetName="rectR2C000"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:2.4"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C000"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:2.4"
+            Storyboard.TargetName="rectR2C000"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:0.5"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C001"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:0.5"
+            Storyboard.TargetName="rectR2C001"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:2.7"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C001"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:2.7"
+            Storyboard.TargetName="rectR2C001"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:0.6"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C002"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:0.6"
+            Storyboard.TargetName="rectR2C002"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:2.8"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C002"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:2.8"
+            Storyboard.TargetName="rectR2C002"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:0.7"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C011"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:0.7"
+            Storyboard.TargetName="rectR2C011"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:2.9"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C011"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:2.9"
+            Storyboard.TargetName="rectR2C011"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:0.8"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C012"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:0.8"
+            Storyboard.TargetName="rectR2C012"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:3"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C012"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:3"
+            Storyboard.TargetName="rectR2C012"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:1.7"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C200"
+            Storyboard.TargetProperty="Margin"
+            From="2,0,0,0"
+            To="-770,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:1.7"
+            Storyboard.TargetName="rectR2C200"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.5" />
+        <ThicknessAnimation
+            AccelerationRatio="0.3"
+            BeginTime="0:0:3.9"
+            DecelerationRatio="0.7"
+            Storyboard.TargetName="rectR2C200"
+            Storyboard.TargetProperty="Margin"
+            From="0,-870,0,0"
+            To="2,0,0,0"
+            Duration="0:0:0.5" />
+        <DoubleAnimation
+            BeginTime="0:0:3.9"
+            Storyboard.TargetName="rectR2C200"
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.5" />
+    </Storyboard>
+
+    <Storyboard x:Key="TextColorStoryBoard" RepeatBehavior="Forever">
+        <ColorAnimation
+            AutoReverse="True"
+            BeginTime="0:0:0"
+            Storyboard.TargetName="LoadText"
+            Storyboard.TargetProperty="Foreground.Color"
+            From="#FF9666C5"
+            To="Transparent" />
+    </Storyboard>
+    <Storyboard x:Key="TextStoryBoard" RepeatBehavior="Forever">
+        <StringAnimationUsingKeyFrames
+            BeginTime="00:00:00"
+            Storyboard.TargetName="LoadText"
+            Storyboard.TargetProperty="Text">
+            <DiscreteStringKeyFrame KeyTime="00:00:00" Value="Loading" />
+            <DiscreteStringKeyFrame KeyTime="00:00:00.5" Value="Loading." />
+            <DiscreteStringKeyFrame KeyTime="00:00:01" Value="Loading.." />
+            <DiscreteStringKeyFrame KeyTime="00:00:01.5" Value="Loading..." />
+            <DiscreteStringKeyFrame KeyTime="00:00:02" Value="Loading...." />
+            <DiscreteStringKeyFrame KeyTime="00:00:02.5" Value="Loading....." />
+        </StringAnimationUsingKeyFrames>
+    </Storyboard>
+    <Style TargetType="{x:Type local:RectangleLoading}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:RectangleLoading}">
+                    <Grid x:Name="MainGrid" Visibility="{TemplateBinding ShowUp}">
+                        <Grid.Resources>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Setter Property="Fill" Value="#FF9666C5" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                <BeginStoryboard Storyboard="{StaticResource RectStoryBoard}" />
+                                <BeginStoryboard Storyboard="{StaticResource TextColorStoryBoard}" />
+                                <!--<BeginStoryboard Storyboard="{StaticResource TextStoryBoard}" />-->
+                            </EventTrigger>
+                        </Grid.Triggers>
+                        <Grid.Background>
+                            <SolidColorBrush Opacity="0" />
+                        </Grid.Background>
+                        <Grid
+                            Width="200"
+                            Height="160"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="120" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="#FF9666C5" BorderThickness="4">
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Rectangle
+                                        Name="rectR0C0"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Width="60"
+                                        Height="30" />
+                                    <Rectangle
+                                        Name="rectR0C1"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Width="60"
+                                        Height="30"
+                                        Margin="2,0,0,0" />
+                                    <Grid Grid.Row="0" Grid.Column="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Rectangle
+                                            Name="rectR0C20"
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="0"
+                                            Width="30"
+                                            Height="30"
+                                            Margin="2,0,0,0" />
+                                        <Rectangle
+                                            Name="rectR0C21"
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Width="13"
+                                            Height="13"
+                                            Margin="2,0,0,0" />
+                                        <Rectangle
+                                            Name="rectR0C22"
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Width="13"
+                                            Height="13"
+                                            Margin="2,0,0,0" />
+                                        <Rectangle
+                                            Name="rectR0C11"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Width="13"
+                                            Height="13"
+                                            Margin="2,0,0,0" />
+                                        <Rectangle
+                                            Name="rectR0C12"
+                                            Grid.Row="1"
+                                            Grid.Column="2"
+                                            Width="13"
+                                            Height="13"
+                                            Margin="2,0,0,0" />
+                                    </Grid>
+
+                                    <Grid Grid.Row="1" Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Rectangle
+                                            Name="rectR1C00"
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Width="30"
+                                            Height="30" />
+                                        <Rectangle
+                                            Name="rectR1C01"
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Width="28"
+                                            Height="30"
+                                            Margin="2,0,0,0" />
+                                    </Grid>
+                                    <Rectangle
+                                        Name="rectR1C11"
+                                        Grid.Row="1"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="1"
+                                        Width="60"
+                                        Height="64"
+                                        Margin="2,0,0,0" />
+                                    <Grid Grid.Row="1" Grid.Column="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Rectangle
+                                            Name="rectR1C200"
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Width="30"
+                                            Height="30"
+                                            Margin="2,0,0,0" />
+                                        <Rectangle
+                                            Name="rectR1C201"
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Width="30"
+                                            Height="30"
+                                            Margin="2,0,0,0" />
+                                    </Grid>
+
+                                    <Grid Grid.Row="2" Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Rectangle
+                                            Name="rectR2C000"
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="0"
+                                            Width="30"
+                                            Height="30" />
+                                        <Rectangle
+                                            Name="rectR2C001"
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Width="13"
+                                            Height="13"
+                                            Margin="2,0,0,0" />
+                                        <Rectangle
+                                            Name="rectR2C002"
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Width="13"
+                                            Height="13"
+                                            Margin="2,0,0,0" />
+                                        <Rectangle
+                                            Name="rectR2C011"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Width="13"
+                                            Height="13"
+                                            Margin="2,0,0,0" />
+                                        <Rectangle
+                                            Name="rectR2C012"
+                                            Grid.Row="1"
+                                            Grid.Column="2"
+                                            Width="13"
+                                            Height="13"
+                                            Margin="2,0,0,0" />
+                                    </Grid>
+                                    <Rectangle
+                                        Name="rectR2C200"
+                                        Grid.Row="2"
+                                        Grid.Column="2"
+                                        Width="60"
+                                        Height="30"
+                                        Margin="2,0,0,0" />
+                                </Grid>
+                            </Border>
+                            <TextBlock
+                                Name="LoadText"
+                                Grid.Row="1"
+                                Margin="0,15,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                FontSize="17"
+                                FontWeight="Bold"
+                                Foreground="#FF9666C5"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LoadingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
