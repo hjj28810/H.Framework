@@ -13,8 +13,9 @@
     mc:Ignorable="d">
 
     <Grid>
-        <extender:RectangleLoading ShowUp="Collapsed" />
-        <extender:SwingLoading ShowUp="Visible" />
+        <extender:RectangleLoading ShowUp="Visible" />
+        <extender:SwingLoading ShowUp="Collapsed" />
+        <extender:BusyCircle Visibility="Visible" />
         <extender:DownloadComponent
             Margin="266,23,0,0"
             HorizontalAlignment="Left"

@@ -622,6 +622,7 @@
         </StringAnimationUsingKeyFrames>
     </Storyboard>
     <Style TargetType="{x:Type local:RectangleLoading}">
+        <Setter Property="Panel.ZIndex" Value="99" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:RectangleLoading}">
@@ -631,13 +632,15 @@
                                 <Setter Property="Fill" Value="#FF9666C5" />
                             </Style>
                         </Grid.Resources>
-                        <Grid.Triggers>
+                        <!--<Grid.Triggers>
                             <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                                 <BeginStoryboard Storyboard="{StaticResource RectStoryBoard}" />
                                 <BeginStoryboard Storyboard="{StaticResource TextColorStoryBoard}" />
-                                <!--<BeginStoryboard Storyboard="{StaticResource TextStoryBoard}" />-->
+                        -->
+                        <!--<BeginStoryboard Storyboard="{StaticResource TextStoryBoard}" />-->
+                        <!--
                             </EventTrigger>
-                        </Grid.Triggers>
+                        </Grid.Triggers>-->
                         <Grid.Background>
                             <SolidColorBrush Opacity="0" />
                         </Grid.Background>
@@ -838,6 +841,29 @@
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LoadingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=MainGrid, Path=Visibility}" Value="Visible">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Name="beginRectStory" Storyboard="{StaticResource RectStoryBoard}" />
+                                <BeginStoryboard Name="beginTextColorStory" Storyboard="{StaticResource TextColorStoryBoard}" />
+                                <BeginStoryboard Name="beginTextStory" Storyboard="{StaticResource TextStoryBoard}" />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=MainGrid, Path=Visibility}" Value="Hidden">
+                            <DataTrigger.EnterActions>
+                                <StopStoryboard BeginStoryboardName="beginRectStory" />
+                                <StopStoryboard BeginStoryboardName="beginTextColorStory" />
+                                <StopStoryboard BeginStoryboardName="beginTextStory" />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=MainGrid, Path=Visibility}" Value="Collapsed">
+                            <DataTrigger.EnterActions>
+                                <StopStoryboard BeginStoryboardName="beginRectStory" />
+                                <StopStoryboard BeginStoryboardName="beginTextColorStory" />
+                                <StopStoryboard BeginStoryboardName="beginTextStory" />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -9,13 +9,13 @@
                     <Border
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Background="Transparent"
-                        ToolTip="Loading....">
+                        Background="Transparent">
                         <Canvas
                             x:Name="PART_Panel"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             RenderTransformOrigin="0.5,0.5"
+                            ToolTip="Loading...."
                             Visibility="{TemplateBinding Visibility}">
                             <Canvas.RenderTransform>
                                 <RotateTransform x:Name="spinnerRotate" Angle="0" />
@@ -39,6 +39,11 @@
                             </DataTrigger.EnterActions>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ElementName=PART_Panel, Path=Visibility}" Value="Collapsed">
+                            <DataTrigger.EnterActions>
+                                <StopStoryboard BeginStoryboardName="enterStory" />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=PART_Panel, Path=Visibility}" Value="Hidden">
                             <DataTrigger.EnterActions>
                                 <StopStoryboard BeginStoryboardName="enterStory" />
                             </DataTrigger.EnterActions>
