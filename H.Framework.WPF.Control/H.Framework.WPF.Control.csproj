@@ -63,6 +63,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\SwingLoading.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\WindowEx.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -114,6 +118,7 @@
     <Compile Include="Controls\BusyDecorator.cs" />
     <Compile Include="Controls\ButtonEx.cs" />
     <Compile Include="Controls\CaptionsMarquee.cs" />
+    <Compile Include="Controls\SwingLoading.cs" />
     <Compile Include="Controls\WindowEx.cs" />
     <Compile Include="Controls\DownloadComponent.cs" />
     <Compile Include="Controls\ExpanderEx.cs" />
@@ -149,9 +154,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\down.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\H.Framework.Core\H.Framework.Core.csproj">
       <Project>{3dcf40c8-b94e-4378-9232-4d1bc9afd26c}</Project>
       <Name>H.Framework.Core</Name>
@@ -160,6 +162,9 @@
       <Project>{aa9cc67b-d7a2-49ae-87df-be6edb72e5eb}</Project>
       <Name>H.Framework.WPF.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\downFile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

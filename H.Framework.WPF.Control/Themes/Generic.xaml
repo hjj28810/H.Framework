@@ -16,5 +16,6 @@
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/ExpanderEx.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/WindowEx.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/ButtonEx.generic.xaml" />
+        <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/SwingLoading.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

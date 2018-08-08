@@ -14,6 +14,7 @@
 
     <Grid>
         <extender:RectangleLoading ShowUp="Collapsed" />
+        <extender:SwingLoading ShowUp="Visible" />
         <extender:DownloadComponent
             Margin="266,23,0,0"
             HorizontalAlignment="Left"
@@ -45,8 +46,8 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Click="ImageButton_Click"
-            CoverImageSource="D:\GitLocal\H.Framework\H.Framework.WPF.UITest\s_emoji.png"
-            ImageSource="D:\GitLocal\H.Framework\H.Framework.WPF.UITest\i_emoji.png" />
+            CoverImageSource="pack://application:,,,/s_emoji.png"
+            ImageSource="pack://application:,,,/i_emoji.png" />
         <extender:ExpanderEx
             Width="100"
             Height="26"
@@ -55,6 +56,7 @@
             VerticalAlignment="Top"
             Header="ExpanderEx"
             IsExpanded="False">
+
             <Grid Background="#FFE5E5E5">
                 <TextBlock Text="aaaaa" />
             </Grid>

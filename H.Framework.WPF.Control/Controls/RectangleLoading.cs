@@ -31,8 +31,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public Visibility ShowUp
         {
-            get { return (Visibility)GetValue(LoadingTextProperty); }
-            set { SetValue(LoadingTextProperty, value); }
+            get { return (Visibility)GetValue(ShowUpProperty); }
+            set { SetValue(ShowUpProperty, value); }
         }
 
         private static void OnShowUpPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -18,6 +18,18 @@ namespace H.Framework.Core.Utilities
 {
     public static class Extensions
     {
+        public static IEnumerable<T> AddRangeNoRept<T>(this IEnumerable<T> list, IEnumerable<T> addList, IEqualityComparer<T> comparer = null)
+        {
+            var bothList = list.Intersect(addList, comparer);
+            var notExsitList = addList.Except(bothList, comparer);
+            return list.Concat(notExsitList);
+        }
+
+        public static string GetFileExt(this string fileName)
+        {
+            return fileName.Substring(fileName.LastIndexOf(".") + 1, (fileName.Length - fileName.LastIndexOf(".") - 1));
+        }
+
         public static byte[] FileToBytes(this string path)
         {
             if (!File.Exists(path))

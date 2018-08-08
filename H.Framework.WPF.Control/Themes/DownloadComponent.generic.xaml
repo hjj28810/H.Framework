@@ -5,8 +5,8 @@
     xmlns:local="clr-namespace:H.Framework.WPF.Control.Controls">
     <converter:ObjectConverter x:Key="objConverter" />
     <Style TargetType="{x:Type local:DownloadComponent}">
-        <Setter Property="Height" Value="120" />
-        <Setter Property="Width" Value="150" />
+        <!--<Setter Property="Height" Value="90" />
+        <Setter Property="Width" Value="140" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DownloadComponent}">
@@ -18,49 +18,49 @@
                             Visibility="Collapsed" />
                         <Grid x:Name="PART_Panel" Background="Transparent">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="2*" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition />
+                                <RowDefinition />
                             </Grid.RowDefinitions>
                             <Border
                                 Grid.Row="0"
-                                Width="150"
-                                Height="80"
-                                Background="#0cC2E7"
+                                Width="140"
+                                Height="50"
+                                Background="{TemplateBinding BrushColor}"
                                 CornerRadius="6,6,0,0">
-                                <Border
-                                    Width="50"
-                                    Height="50"
+                                <StackPanel
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Background="White"
-                                    CornerRadius="25">
+                                    Orientation="Horizontal">
                                     <Image
                                         Width="25"
-                                        Height="25"
+                                        Height="20"
                                         Source="{TemplateBinding IconSource}"
                                         Stretch="Fill" />
-                                </Border>
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="22"
+                                        Foreground="White"
+                                        Text="{TemplateBinding FileExt}" />
+                                </StackPanel>
                             </Border>
                             <Border
                                 Grid.Row="1"
-                                Width="150"
+                                Width="140"
                                 Height="40"
-                                BorderBrush="#0cC2E7"
+                                BorderBrush="{TemplateBinding BrushColor}"
                                 BorderThickness=".5,0,.5,.5"
                                 CornerRadius="0,0,6,6">
                                 <StackPanel Margin="6,5,5,6">
-                                    <TextBlock
-                                        FontSize="11"
-                                        Foreground="Gray"
-                                        Text="{TemplateBinding FileName}" />
-                                    <Grid>
+                                    <TextBlock FontSize="11" Text="{TemplateBinding FileName}" />
+                                    <Grid Margin="0,3,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*" />
                                             <ColumnDefinition Width="1.8*" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
-                                            FontSize="11"
-                                            Foreground="Gray"
+                                            FontSize="9"
+                                            Foreground="#A5A5A5"
                                             Text="{TemplateBinding FileSizeReadable}" />
                                         <StackPanel
                                             Grid.Column="1"
@@ -69,14 +69,14 @@
                                                                          Converter={StaticResource objConverter},
                                                                          ConverterParameter=true:Visible:Collapsed}">
                                             <TextBlock
-                                                FontSize="11"
-                                                Foreground="Gray"
+                                                FontSize="9"
+                                                Foreground="#A5A5A5"
                                                 Text="已下载" />
                                             <Path
                                                 Margin="2,0,0,0"
-                                                Data="M 0,8 L 0,8 4,11 4,11 11,2"
-                                                Stroke="LightGreen"
-                                                StrokeThickness="1.5" />
+                                                Data="M 2,5 L 2,5 5,9 5,9 9,2"
+                                                Stroke="#5FCAA6"
+                                                StrokeThickness="1" />
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>

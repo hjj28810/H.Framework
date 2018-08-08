@@ -99,10 +99,13 @@ namespace H.Framework.WPF.Control.Controls
         {
             var c = d as DownloadComponent;
             if (e.NewValue != null && string.IsNullOrWhiteSpace(c.FileName))
+            {
                 c.FileName = Path.GetFileName(e.NewValue.ToString());
+                c.FileExt = Path.GetExtension(e.NewValue.ToString()).TrimStart('.');
+            }
         }
 
-        public static readonly DependencyProperty IconSourceProperty = DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(DownloadComponent), new PropertyMetadata(new BitmapImage(new Uri("pack://application:,,,/H.Framework.WPF.Control;component/Assets/down.png", UriKind.RelativeOrAbsolute)), null));
+        public static readonly DependencyProperty IconSourceProperty = DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(DownloadComponent), new PropertyMetadata(new BitmapImage(new Uri("pack://application:,,,/H.Framework.WPF.Control;component/Assets/downFile.png", UriKind.RelativeOrAbsolute)), null));
 
         /// <summary>
         /// icon图片
@@ -126,6 +129,19 @@ namespace H.Framework.WPF.Control.Controls
         {
             get { return (bool)GetValue(IsShowMenuProperty); }
             set { SetValue(IsShowMenuProperty, value); }
+        }
+
+        public static readonly DependencyProperty BrushColorProperty = DependencyProperty.Register("BrushColor", typeof(Brush), typeof(DownloadComponent), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(63, 151, 254)), null));
+
+        /// <summary>
+        /// 整体颜色
+        /// </summary>
+        [Description("获取或设置整体颜色")]
+        [Category("Defined Properties")]
+        public Brush BrushColor
+        {
+            get { return (Brush)GetValue(BrushColorProperty); }
+            set { SetValue(BrushColorProperty, value); }
         }
 
         public static void OnIsShowMenuPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -158,6 +174,19 @@ namespace H.Framework.WPF.Control.Controls
         {
             get { return (string)GetValue(SavePathProperty); }
             set { SetValue(SavePathProperty, value); }
+        }
+
+        public static readonly DependencyProperty FileExtProperty = DependencyProperty.Register("FileExt", typeof(string), typeof(DownloadComponent), new PropertyMetadata("", null));
+
+        /// <summary>
+        /// 文件扩展名
+        /// </summary>
+        [Description("获取或设置文件扩展名")]
+        [Category("Defined Properties")]
+        public string FileExt
+        {
+            get { return (string)GetValue(FileExtProperty); }
+            set { SetValue(FileExtProperty, value); }
         }
 
         public override void OnApplyTemplate()

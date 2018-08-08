@@ -1,4 +1,5 @@
-﻿using System;
+﻿using H.Framework.Core.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -42,10 +43,14 @@ namespace H.Framework.WPF.UITest
         {
             if (SBVisibility == Visibility) SBVisibility = Visibility.Collapsed;
             else SBVisibility = Visibility.Visible;
-            warmBlock.Show("hahahahah");
+            warmBlock.Show("hahahahah", Control.Controls.AlertStyle.Info);
             //warmBlock.Show("haaaaaa");
             //warmBlock.Show("ggggggggggggggggggg");
             //warmBlock.Show("ha");
+
+            var list = new List<string>();
+            var list2 = new string[] { "1", "2" };
+            list.AddRangeNoRept(list2);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

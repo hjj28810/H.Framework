@@ -79,8 +79,8 @@ namespace H.Framework.WPF.Control.Controls
             }
             if (style == AlertStyle.Info)
             {
-                shadow.Color = Colors.ForestGreen;
-                border.Background = new SolidColorBrush(Colors.ForestGreen);
+                shadow.Color = Colors.LawnGreen;
+                border.Background = new SolidColorBrush(Colors.LawnGreen);
             }
             if (style == AlertStyle.Warinng)
             {
@@ -184,8 +184,8 @@ namespace H.Framework.WPF.Control.Controls
 
     public enum AlertStyle
     {
-        Warinng,
         Info,
-        Error
+        Error,
+        Warinng
     }
 }

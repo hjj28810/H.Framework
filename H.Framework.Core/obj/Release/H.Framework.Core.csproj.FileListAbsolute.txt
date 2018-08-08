@@ -12,3 +12,9 @@ D:\GitLocal\H.Framework\H.Framework.Core\obj\Release\H.Framework.Core.csproj.Cor
 D:\GitLocal\H.Framework\H.Framework.Core\obj\Release\H.Framework.Core.csproj.CopyComplete
 D:\GitLocal\H.Framework\H.Framework.Core\obj\Release\H.Framework.Core.dll
 D:\GitLocal\H.Framework\H.Framework.Core\obj\Release\H.Framework.Core.pdb
+D:\GitHubRepo\H.Framework\Release\H.Framework.Core.dll
+D:\GitHubRepo\H.Framework\Release\H.Framework.Core.pdb
+D:\GitHubRepo\H.Framework\H.Framework.Core\obj\Release\H.Framework.Core.csproj.CoreCompileInputs.cache
+D:\GitHubRepo\H.Framework\H.Framework.Core\obj\Release\H.Framework.Core.csproj.CopyComplete
+D:\GitHubRepo\H.Framework\H.Framework.Core\obj\Release\H.Framework.Core.dll
+D:\GitHubRepo\H.Framework\H.Framework.Core\obj\Release\H.Framework.Core.pdb
