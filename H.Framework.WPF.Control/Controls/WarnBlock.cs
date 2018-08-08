@@ -126,9 +126,11 @@ namespace H.Framework.WPF.Control.Controls
             Grid.SetRow(txtWarn, 1);
 
             var sbArr = CreateAnimation(border);
-            txt2.MouseDown += (o, e) => sbArr[1].Begin();
+            txt2.MouseDown += (o, e) => { sbArr[1]?.Begin(); txt2.IsEnabled = false; };
             sbArr[1].Completed += (o, e) =>
             {
+                sbArr[0]?.Stop();
+                sbArr[1]?.Stop();
                 sbArr[0] = null;
                 sbArr[1] = null;
                 _grid.Children.Remove(border);
