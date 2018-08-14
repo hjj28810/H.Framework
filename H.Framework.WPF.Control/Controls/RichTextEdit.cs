@@ -41,13 +41,27 @@ namespace H.Framework.WPF.Control.Controls
             }
         }
 
+        public static readonly DependencyProperty TextMaxWidthProperty = DependencyProperty.Register("TextMaxWidth", typeof(double), typeof(RichTextEdit), new PropertyMetadata((double)245, null)); //属性默认值
+
+        public double TextMaxWidth
+        {
+            get
+            {
+                return (double)GetValue(TextMaxWidthProperty);
+            }
+            set
+            {
+                SetValue(TextMaxWidthProperty, value);
+            }
+        }
+
         private static void RTFTextPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null)
                 return;
             var rtbx = d as RichTextEdit;
             LoadRTF(e.NewValue.ToString(), rtbx);
-            rtbx.Width = CalcMessageWidth(rtbx, 245);
+            rtbx.Width = CalcMessageWidth(rtbx, rtbx.TextMaxWidth);
         }
 
         private static void TextPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -149,25 +163,19 @@ namespace H.Framework.WPF.Control.Controls
             {
                 if (position.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementEnd)
                 {
-                    var run = position.Parent as Run;
-
-                    if (run != null)
+                    if (position.Parent is Run run)
                     {
                         yield return run;
                     }
                     else
                     {
-                        var para = position.Parent as Paragraph;
-
-                        if (para != null)
+                        if (position.Parent is Paragraph para)
                         {
                             yield return para;
                         }
                         else
                         {
-                            var lineBreak = position.Parent as LineBreak;
-
-                            if (lineBreak != null)
+                            if (position.Parent is LineBreak lineBreak)
                             {
                                 yield return lineBreak;
                             }
