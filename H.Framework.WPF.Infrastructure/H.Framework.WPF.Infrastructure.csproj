@@ -34,6 +34,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +53,7 @@
     <Compile Include="Lists\IItemsProvider.cs" />
     <Compile Include="Lists\ThreadSafeObservableCollection.cs" />
     <Compile Include="Lists\VirtualizingCollection.cs" />
+    <Compile Include="Lists\VirtualizingObservableCollection.cs" />
     <Compile Include="Mvvm\BasicEntity.cs" />
     <Compile Include="Mvvm\BasicViewModel.cs" />
     <Compile Include="Mvvm\Command\CommandManager.cs" />
@@ -69,5 +73,6 @@
       <Name>H.Framework.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,60 @@
+﻿<UserControl
+    x:Class="H.Framework.WPF.Control.Controls.Caputre.ToolBarControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:H.Framework.WPF.Control.Controls.Caputre"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="25"
+    d:DesignWidth="75"
+    mc:Ignorable="d">
+    <Grid>
+        <ToolBarPanel
+            x:Name="toolbarButton"
+            Margin="0,0,0,0"
+            Orientation="Horizontal">
+            <Button
+                x:Name="buttonSave"
+                Width="25"
+                Height="25"
+                VerticalAlignment="Top"
+                Click="buttonSave_Click"
+                ToolTip="保存">
+                <Button.Content>
+                    <Image
+                        Width="17"
+                        Height="17"
+                        Source="pack://application:,,,/H.Framework.WPF.Control;component/Assets/save.png" />
+                </Button.Content>
+            </Button>
+            <Button
+                x:Name="buttonCancel"
+                Width="25"
+                Height="25"
+                VerticalAlignment="Top"
+                Click="buttonCancel_Click"
+                ToolTip="取消">
+                <Button.Content>
+                    <Image
+                        Width="17"
+                        Height="17"
+                        Source="pack://application:,,,/H.Framework.WPF.Control;component/Assets/close.png" />
+                </Button.Content>
+            </Button>
+            <Button
+                x:Name="buttonComplete"
+                Width="25"
+                Height="25"
+                VerticalAlignment="Top"
+                Click="buttonComplete_Click"
+                ToolTip="完成">
+                <Button.Content>
+                    <Image
+                        Width="17"
+                        Height="17"
+                        Source="pack://application:,,,/H.Framework.WPF.Control;component/Assets/ok.png" />
+                </Button.Content>
+            </Button>
+        </ToolBarPanel>
+    </Grid>
+</UserControl>

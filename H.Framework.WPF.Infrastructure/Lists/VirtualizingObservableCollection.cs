@@ -10,19 +10,7 @@ using System.Threading.Tasks;
 
 namespace H.Framework.WPF.Infrastructure.Lists
 {
-    /// <summary>
-    /// Specialized list implementation that provides data virtualization. The collection is divided up into pages,
-    /// and pages are dynamically fetched from the IItemsProvider when required. Stale pages are removed after a
-    /// configurable period of time.
-    /// Intended for use with large collections on a network or disk resource that cannot be instantiated locally
-    /// due to memory consumption or fetch latency.
-    /// </summary>
-    /// <remarks>
-    /// The IList implmentation is not fully complete, but should be sufficient for use as read only collection
-    /// data bound to a suitable ItemsControl.
-    /// </remarks>
-    /// <typeparam name="T"></typeparam>
-    public class VirtualizingCollection<T> : IList<T>, IList, INotifyCollectionChanged
+    public class VirtualizingObservableCollection<T> : ObservableCollection<T>, IList<T>, IList
     {
         #region Constructors
 
@@ -32,7 +20,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// <param name="itemsProvider">The items provider.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="pageTimeout">The page timeout.</param>
-        public VirtualizingCollection(IItemsProvider<T> itemsProvider, int pageSize, int pageTimeout)
+        public VirtualizingObservableCollection(IItemsProvider<T> itemsProvider, int pageSize, int pageTimeout)
         {
             ItemsProvider = itemsProvider;
             PageSize = pageSize;
@@ -44,7 +32,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// </summary>
         /// <param name="itemsProvider">The items provider.</param>
         /// <param name="pageSize">Size of the page.</param>
-        public VirtualizingCollection(IItemsProvider<T> itemsProvider, int pageSize)
+        public VirtualizingObservableCollection(IItemsProvider<T> itemsProvider, int pageSize)
         {
             ItemsProvider = itemsProvider;
             PageSize = pageSize;
@@ -54,7 +42,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// Initializes a new instance of the <see cref="VirtualizingCollection&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="itemsProvider">The items provider.</param>
-        public VirtualizingCollection(IItemsProvider<T> itemsProvider)
+        public VirtualizingObservableCollection(IItemsProvider<T> itemsProvider)
         {
             ItemsProvider = itemsProvider;
         }
@@ -93,7 +81,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// <returns>
         /// The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </returns>
-        public virtual int Count
+        public new virtual int Count
         {
             get
             {
@@ -118,7 +106,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// the corresponding page from the IItemsProvider if required.
         /// </summary>
         /// <value></value>
-        public T this[int index]
+        public new T this[int index]
         {
             get
             {
@@ -169,7 +157,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// <returns>
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
-        public IEnumerator<T> GetEnumerator()
+        public new IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
@@ -192,18 +180,6 @@ namespace H.Framework.WPF.Infrastructure.Lists
 
         #region Add
 
-        /// <summary>
-        /// Not supported.
-        /// </summary>
-        /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
-        /// <exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
-        /// </exception>
-        public void Add(T item)
-        {
-            throw new NotSupportedException();
-        }
-
         int IList.Add(object value)
         {
             throw new NotSupportedException();
@@ -225,27 +201,12 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// <returns>
         /// Always false.
         /// </returns>
-        public bool Contains(T item)
+        public new bool Contains(T item)
         {
             return false;
         }
 
         #endregion Contains
-
-        #region Clear
-
-        /// <summary>
-        /// Not supported.
-        /// </summary>
-        /// <exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
-        /// </exception>
-        public void Clear()
-        {
-            throw new NotSupportedException();
-        }
-
-        #endregion Clear
 
         #region IndexOf
 
@@ -254,37 +215,9 @@ namespace H.Framework.WPF.Infrastructure.Lists
             return IndexOf((T)value);
         }
 
-        /// <summary>
-        /// Not supported
-        /// </summary>
-        /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.IList`1"/>.</param>
-        /// <returns>
-        /// Always -1.
-        /// </returns>
-        public int IndexOf(T item)
-        {
-            return -1;
-        }
-
         #endregion IndexOf
 
         #region Insert
-
-        /// <summary>
-        /// Not supported.
-        /// </summary>
-        /// <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param>
-        /// <param name="item">The object to insert into the <see cref="T:System.Collections.Generic.IList`1"/>.</param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// 	<paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.
-        /// </exception>
-        /// <exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.Generic.IList`1"/> is read-only.
-        /// </exception>
-        public void Insert(int index, T item)
-        {
-            throw new NotSupportedException();
-        }
 
         void IList.Insert(int index, object value)
         {
@@ -295,76 +228,12 @@ namespace H.Framework.WPF.Infrastructure.Lists
 
         #region Remove
 
-        /// <summary>
-        /// Not supported.
-        /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.</param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// 	<paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.
-        /// </exception>
-        /// <exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.Generic.IList`1"/> is read-only.
-        /// </exception>
-        public void RemoveAt(int index)
-        {
-            throw new NotSupportedException();
-        }
-
         void IList.Remove(object value)
         {
             throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// Not supported.
-        /// </summary>
-        /// <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
-        /// <returns>
-        /// true if <paramref name="item"/> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"/>.
-        /// </returns>
-        /// <exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
-        /// </exception>
-        public bool Remove(T item)
-        {
-            throw new NotSupportedException();
-        }
-
         #endregion Remove
-
-        #region CopyTo
-
-        /// <summary>
-        /// Not supported.
-        /// </summary>
-        /// <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from <see cref="T:System.Collections.Generic.ICollection`1"/>. The <see cref="T:System.Array"/> must have zero-based indexing.</param>
-        /// <param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// 	<paramref name="array"/> is null.
-        /// </exception>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// 	<paramref name="arrayIndex"/> is less than 0.
-        /// </exception>
-        /// <exception cref="T:System.ArgumentException">
-        /// 	<paramref name="array"/> is multidimensional.
-        /// -or-
-        /// <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
-        /// -or-
-        /// The number of elements in the source <see cref="T:System.Collections.Generic.ICollection`1"/> is greater than the available space from <paramref name="arrayIndex"/> to the end of the destination <paramref name="array"/>.
-        /// -or-
-        /// Type <paramref name="T"/> cannot be cast automatically to the type of the destination <paramref name="array"/>.
-        /// </exception>
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            throw new NotSupportedException();
-        }
-
-        void ICollection.CopyTo(Array array, int index)
-        {
-            throw new NotSupportedException();
-        }
-
-        #endregion CopyTo
 
         #region Misc
 
@@ -517,23 +386,5 @@ namespace H.Framework.WPF.Infrastructure.Lists
         }
 
         #endregion Fetch methods
-
-        #region INotifyCollectionChanged
-
-        /// <summary>
-        /// Occurs when the collection changes.
-        /// </summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-        /// <summary>
-        /// Raises the <see cref="E:CollectionChanged"/> event.
-        /// </summary>
-        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
-        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            CollectionChanged?.Invoke(this, e);
-        }
-
-        #endregion INotifyCollectionChanged
     }
 }

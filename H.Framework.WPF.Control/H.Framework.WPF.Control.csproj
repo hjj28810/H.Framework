@@ -33,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -47,6 +49,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\Caputre\ToolBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\BusyChrome.generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -62,6 +68,10 @@
     <Page Include="Themes\CaptionsMarquee.generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\IndicatorObject.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\SwingLoading.generic.xaml">
       <SubType>Designer</SubType>
@@ -118,6 +128,18 @@
     <Compile Include="Controls\BusyDecorator.cs" />
     <Compile Include="Controls\ButtonEx.cs" />
     <Compile Include="Controls\CaptionsMarquee.cs" />
+    <Compile Include="Controls\Caputre\BitmapCursor.cs" />
+    <Compile Include="Controls\Caputre\Config.cs" />
+    <Compile Include="Controls\Caputre\IndicatorObject.cs" />
+    <Compile Include="Controls\Caputre\MaskCanvas.cs" />
+    <Compile Include="Controls\Caputre\MaskWindow.cs" />
+    <Compile Include="Controls\Caputre\MoveThumb.cs" />
+    <Compile Include="Controls\Caputre\ResizeThumb.cs" />
+    <Compile Include="Controls\Caputre\ScreenCaputre.cs" />
+    <Compile Include="Controls\Caputre\ThumbBase.cs" />
+    <Compile Include="Controls\Caputre\ToolBarControl.xaml.cs">
+      <DependentUpon>ToolBarControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SwingLoading.cs" />
     <Compile Include="Controls\WindowEx.cs" />
     <Compile Include="Controls\DownloadComponent.cs" />
@@ -143,6 +165,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Utilities\Caputre\HelperMethods.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -165,6 +188,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\downFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\close.png" />
+    <Resource Include="Assets\ok.png" />
+    <Resource Include="Assets\save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
