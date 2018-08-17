@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
@@ -13,6 +14,9 @@ namespace H.Framework.WPF.Control.Utilities.Caputre
 {
     internal static class HelperMethods
     {
+        [DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr o);
+
         /// <summary>
         /// 保存图片到文件
         /// </summary>
@@ -20,7 +24,7 @@ namespace H.Framework.WPF.Control.Utilities.Caputre
         /// <param name="filePath">保存路径</param>
         public static void SaveImageToFile(this BitmapSource image, string filePath)
         {
-            BitmapEncoder encoder = GetBitmapEncoder(filePath);
+            var encoder = GetBitmapEncoder(filePath);
             encoder.Frames.Add(BitmapFrame.Create(image));
 
             using (var stream = new FileStream(filePath, FileMode.Create))
@@ -100,18 +104,34 @@ namespace H.Framework.WPF.Control.Utilities.Caputre
         public static BitmapSource ToBitmapSource(this Bitmap bmp)
         {
             BitmapSource returnSource;
-
+            var bitItr = bmp.GetHbitmap();
             try
             {
-                returnSource = Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                returnSource = Imaging.CreateBitmapSourceFromHBitmap(bitItr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                DeleteObject(bitItr);
             }
             catch (Exception e)
             {
                 returnSource = null;
                 Debug.WriteLine(e);
             }
-
+            returnSource?.Freeze();
             return returnSource;
+        }
+
+        public static BitmapImage ToBitmapImage(this Bitmap bitmap)
+        {
+            var bitmapImage = new BitmapImage();
+            using (var ms = new MemoryStream())
+            {
+                bitmap.Save(ms, bitmap.RawFormat);
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = ms;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+            }
+            return bitmapImage;
         }
 
         public static T GetAncestor<T>(this DependencyObject element)

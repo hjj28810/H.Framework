@@ -27,11 +27,40 @@ namespace H.Framework.WPF.Control.Controls.Caputre
         //截图保存图片
         private Bitmap m_bmpLayerCurrent;
 
-        public MaskWindow(ScreenCaputre screenCaputreOwner)
+        private int _timeOutSecond;
+
+        public MaskWindow(ScreenCaputre screenCaputreOwner, int timeOutSecond)
         {
             this.screenCaputreOwner = screenCaputreOwner;
+            _timeOutSecond = timeOutSecond;
+            if (timeOutSecond > 0)
+            {
+                if (timeOutTimmer == null)
+                {
+                    timeOutTimmer = new System.Windows.Forms.Timer();
+                    timeOutTimmer.Tick += OnTimeOutTimmerTick;
+                    timeOutTimmer.Interval = _timeOutSecond * 1000;
+                }
+            }
+            GetScreenShoot();
             Init();
             innerCanvas.OnMove += DrawShowSize;
+        }
+
+        public void GetScreenShoot()
+        {
+            screenSnapshot = HelperMethods.GetScreenSnapshot();
+
+            if (screenSnapshot != null)
+            {
+                var bmp = screenSnapshot.ToBitmapSource();
+                //var bmp = screenSnapshot.ToBitmapImage();
+                if (bmp == null)
+                    return;
+                Background = new ImageBrush(bmp);
+            }
+
+            timeOutTimmer?.Start();
         }
 
         private void Init()
@@ -50,16 +79,20 @@ namespace H.Framework.WPF.Control.Controls.Caputre
             Height = rect.Height;
 
             //set background
-            screenSnapshot = HelperMethods.GetScreenSnapshot();
+            //AllowsTransparency = true;
+            //Background = new SolidColorBrush(System.Windows.Media.Colors.Black);
+            //Opacity = .3;
 
-            if (screenSnapshot != null)
-            {
-                var bmp = screenSnapshot.ToBitmapSource();
-                if (bmp == null)
-                    return;
-                bmp.Freeze();
-                Background = new ImageBrush(bmp);
-            }
+            //screenSnapshot = HelperMethods.GetScreenSnapshot();
+
+            //if (screenSnapshot != null)
+            //{
+            //    var bmp = screenSnapshot.ToBitmapSource();
+            //    if (bmp == null)
+            //        return;
+            //    bmp.Freeze();
+            //    Background = new ImageBrush(bmp);
+            //}
 
             //ini canvas
             innerCanvas = new MaskCanvas
@@ -199,6 +232,7 @@ namespace H.Framework.WPF.Control.Controls.Caputre
         private void CancelCaputre()
         {
             //Close();
+            timeOutTimmer?.Stop();
             Dispose();
             screenCaputreOwner.OnScreenCaputreCancelled(null);
         }
@@ -236,7 +270,6 @@ namespace H.Framework.WPF.Control.Controls.Caputre
                     {
                         g.DrawImage(screenSnapshot, destRect, sourceRect, GraphicsUnit.Pixel);
                     }
-
                     return bitmap.ToBitmapSource();
                 }
             }
@@ -303,19 +336,8 @@ namespace H.Framework.WPF.Control.Controls.Caputre
             return null;
         }
 
-        public void Show(int timeOutSecond, System.Windows.Size? defaultSize)
+        public void Show(System.Windows.Size? defaultSize)
         {
-            if (timeOutSecond > 0)
-            {
-                if (timeOutTimmer == null)
-                {
-                    timeOutTimmer = new System.Windows.Forms.Timer();
-                    timeOutTimmer.Tick += OnTimeOutTimmerTick;
-                }
-                timeOutTimmer.Interval = timeOutSecond * 1000;
-                timeOutTimmer.Start();
-            }
-
             if (innerCanvas != null)
             {
                 innerCanvas.DefaultSize = defaultSize;
@@ -327,7 +349,6 @@ namespace H.Framework.WPF.Control.Controls.Caputre
 
         private void OnTimeOutTimmerTick(object sender, EventArgs e)
         {
-            timeOutTimmer.Stop();
             CancelCaputre();
         }
 
@@ -355,8 +376,11 @@ namespace H.Framework.WPF.Control.Controls.Caputre
         protected override void OnMouseRightButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseRightButtonUp(e);
-            label.Visibility = Visibility.Hidden;
-            toolBarContrl.Visibility = Visibility.Hidden;
+            if (toolBarContrl != null && label != null)
+            {
+                label.Visibility = Visibility.Hidden;
+                toolBarContrl.Visibility = Visibility.Hidden;
+            }
         }
 
         public void Dispose()
@@ -368,6 +392,10 @@ namespace H.Framework.WPF.Control.Controls.Caputre
                 toolBarContrl.Visibility = Visibility.Hidden;
             }
             Visibility = Visibility.Collapsed;
+            screenSnapshot?.Dispose();
+            //GC.SuppressFinalize(screenSnapshot);
+            screenSnapshot = null;
+            Background = null;
         }
     }
 }

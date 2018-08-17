@@ -20,11 +20,12 @@ namespace H.Framework.WPF.Control.Controls.Caputre
         {
             if (_mask == null)
             {
-                _mask = new MaskWindow(this);
-                _mask.Show(timeOutSeconds, defaultSize);
+                _mask = new MaskWindow(this, timeOutSeconds);
+                _mask.Show(defaultSize);
             }
             else
             {
+                _mask.GetScreenShoot();
                 _mask.Visibility = Visibility.Visible;
             }
         }
