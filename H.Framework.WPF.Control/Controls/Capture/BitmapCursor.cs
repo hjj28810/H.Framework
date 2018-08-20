@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace H.Framework.WPF.Control.Controls.Caputre
+namespace H.Framework.WPF.Control.Controls.Capture
 {
     internal class BitmapCursor : SafeHandle
     {

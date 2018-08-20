@@ -1,8 +1,8 @@
-﻿using H.Framework.WPF.Control.Utilities.Caputre;
+﻿using H.Framework.WPF.Control.Utilities.Capture;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 
-namespace H.Framework.WPF.Control.Controls.Caputre
+namespace H.Framework.WPF.Control.Controls.Capture
 {
     internal class MoveThumb : ThumbBase
     {

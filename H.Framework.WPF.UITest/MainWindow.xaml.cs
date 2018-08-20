@@ -1,5 +1,5 @@
 ﻿using H.Framework.Core.Utilities;
-using H.Framework.WPF.Control.Controls.Caputre;
+using H.Framework.WPF.Control.Controls.Capture;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -11,7 +11,7 @@ namespace H.Framework.WPF.UITest
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private readonly ScreenCaputre screenCaputre = new ScreenCaputre();
+        private readonly ScreenCapture screenCapture = new ScreenCapture();
 
         public MainWindow()
         {
@@ -43,7 +43,8 @@ namespace H.Framework.WPF.UITest
             var list2 = new string[] { "1", "2" };
             list.AddRangeNoRept(list2);
 
-            screenCaputre.StartCaputre(30);
+            screenCapture.StartCapture(30);
+            //swingLoading.ShowUp = swingLoading.ShowUp == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

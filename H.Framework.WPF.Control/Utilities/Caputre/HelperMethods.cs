@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
-namespace H.Framework.WPF.Control.Utilities.Caputre
+namespace H.Framework.WPF.Control.Utilities.Capture
 {
     internal static class HelperMethods
     {

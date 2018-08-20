@@ -1,22 +1,22 @@
-﻿using H.Framework.WPF.Control.Utilities.Caputre;
+﻿using H.Framework.WPF.Control.Utilities.Capture;
 using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace H.Framework.WPF.Control.Controls.Caputre
+namespace H.Framework.WPF.Control.Controls.Capture
 {
-    public class ScreenCaputre
+    public class ScreenCapture
     {
-        public void StartCaputre(int timeOutSeconds)
+        public void StartCapture(int timeOutSeconds)
         {
             Thread.Sleep(150);
-            StartCaputre(timeOutSeconds, null);
+            StartCapture(timeOutSeconds, null);
         }
 
         private MaskWindow _mask;
 
-        public void StartCaputre(int timeOutSeconds, Size? defaultSize)
+        public void StartCapture(int timeOutSeconds, Size? defaultSize)
         {
             if (_mask == null)
             {
@@ -30,26 +30,26 @@ namespace H.Framework.WPF.Control.Controls.Caputre
             }
         }
 
-        public event EventHandler<ScreenCaputredEventArgs> ScreenCaputred;
+        public event EventHandler<ScreenCapturedEventArgs> ScreenCaptured;
 
-        public event EventHandler<EventArgs> ScreenCaputreCancelled;
+        public event EventHandler<EventArgs> ScreenCaptureCancelled;
 
-        internal void OnScreenCaputred(object sender, BitmapSource caputredBmp)
+        internal void OnScreenCaptured(object sender, BitmapSource caputredBmp)
         {
             var filePath = Environment.GetEnvironmentVariable("TEMP") + @"\" + Guid.NewGuid().ToString("N") + ".png";
             caputredBmp.SaveImageToFile(filePath);
             Clipboard.SetFileDropList(new System.Collections.Specialized.StringCollection { filePath });
             //Clipboard.SetImage(e.Bmp);直接保存图片到剪贴板
-            ScreenCaputred?.Invoke(sender, new ScreenCaputredEventArgs(caputredBmp));
+            ScreenCaptured?.Invoke(sender, new ScreenCapturedEventArgs(caputredBmp));
         }
 
-        internal void OnScreenCaputreCancelled(object sender)
+        internal void OnScreenCaptureCancelled(object sender)
         {
-            ScreenCaputreCancelled?.Invoke(sender, EventArgs.Empty);
+            ScreenCaptureCancelled?.Invoke(sender, EventArgs.Empty);
         }
     }
 
-    public class ScreenCaputredBitmapEventArgs : EventArgs
+    public class ScreenCapturedBitmapEventArgs : EventArgs
     {
         public System.Drawing.Bitmap BitMapArg
         {
@@ -57,13 +57,13 @@ namespace H.Framework.WPF.Control.Controls.Caputre
             private set;
         }
 
-        public ScreenCaputredBitmapEventArgs(System.Drawing.Bitmap bmp)
+        public ScreenCapturedBitmapEventArgs(System.Drawing.Bitmap bmp)
         {
             BitMapArg = bmp;
         }
     }
 
-    public class ScreenCaputredEventArgs : EventArgs
+    public class ScreenCapturedEventArgs : EventArgs
     {
         public BitmapSource Bmp
         {
@@ -71,7 +71,7 @@ namespace H.Framework.WPF.Control.Controls.Caputre
             private set;
         }
 
-        public ScreenCaputredEventArgs(BitmapSource bmp)
+        public ScreenCapturedEventArgs(BitmapSource bmp)
         {
             Bmp = bmp;
         }

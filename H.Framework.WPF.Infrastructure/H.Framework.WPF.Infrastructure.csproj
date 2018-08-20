@@ -60,6 +60,7 @@
     <Compile Include="Mvvm\Command\OperationCommand.cs" />
     <Compile Include="Mvvm\Command\ParameterEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\AppHotKey.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\ImageExtender.cs" />
     <Compile Include="Utilities\ListBoxExtender.cs" />

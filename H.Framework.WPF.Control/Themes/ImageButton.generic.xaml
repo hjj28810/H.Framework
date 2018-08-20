@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:H.Framework.WPF.Control.Controls">
     <Style TargetType="{x:Type local:ImageButton}">
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ImageButton}">
@@ -15,7 +16,6 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_Image" Property="Source" Value="{Binding CoverImageSource, RelativeSource={RelativeSource TemplatedParent}}" />
-                            <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="PART_Image" Property="Source" Value="{Binding PressImageSource, RelativeSource={RelativeSource TemplatedParent}}" />

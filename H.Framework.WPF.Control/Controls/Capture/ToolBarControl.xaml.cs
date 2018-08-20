@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace H.Framework.WPF.Control.Controls.Caputre
+namespace H.Framework.WPF.Control.Controls.Capture
 {
     /// <summary>
     /// ToolBarControl.xaml 的交互逻辑

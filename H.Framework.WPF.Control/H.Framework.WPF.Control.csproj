@@ -50,7 +50,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\Caputre\ToolBarControl.xaml">
+    <Page Include="Controls\Capture\ToolBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,16 +129,16 @@
     <Compile Include="Controls\BusyDecorator.cs" />
     <Compile Include="Controls\ButtonEx.cs" />
     <Compile Include="Controls\CaptionsMarquee.cs" />
-    <Compile Include="Controls\Caputre\BitmapCursor.cs" />
-    <Compile Include="Controls\Caputre\Config.cs" />
-    <Compile Include="Controls\Caputre\IndicatorObject.cs" />
-    <Compile Include="Controls\Caputre\MaskCanvas.cs" />
-    <Compile Include="Controls\Caputre\MaskWindow.cs" />
-    <Compile Include="Controls\Caputre\MoveThumb.cs" />
-    <Compile Include="Controls\Caputre\ResizeThumb.cs" />
-    <Compile Include="Controls\Caputre\ScreenCaputre.cs" />
-    <Compile Include="Controls\Caputre\ThumbBase.cs" />
-    <Compile Include="Controls\Caputre\ToolBarControl.xaml.cs">
+    <Compile Include="Controls\Capture\BitmapCursor.cs" />
+    <Compile Include="Controls\Capture\Config.cs" />
+    <Compile Include="Controls\Capture\IndicatorObject.cs" />
+    <Compile Include="Controls\Capture\MaskCanvas.cs" />
+    <Compile Include="Controls\Capture\MaskWindow.cs" />
+    <Compile Include="Controls\Capture\MoveThumb.cs" />
+    <Compile Include="Controls\Capture\ResizeThumb.cs" />
+    <Compile Include="Controls\Capture\ScreenCapture.cs" />
+    <Compile Include="Controls\Capture\ThumbBase.cs" />
+    <Compile Include="Controls\Capture\ToolBarControl.xaml.cs">
       <DependentUpon>ToolBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SwingLoading.cs" />

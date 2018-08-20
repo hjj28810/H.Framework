@@ -11,12 +11,28 @@
     Height="450"
     Loaded="Window_Loaded"
     mc:Ignorable="d">
-
+    <Window.Resources>
+        <Style x:Key="btnStyle" TargetType="{x:Type extender:ButtonEx}">
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <extender:RectangleLoading ShowUp="Hidden" />
-        <extender:SwingLoading ShowUp="Hidden" />
-        <extender:BusyCircle Visibility="Hidden" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="67*" />
+            <RowDefinition Height="352*" />
+        </Grid.RowDefinitions>
+        <extender:RectangleLoading Grid.RowSpan="2" ShowUp="Hidden" />
+        <extender:SwingLoading
+            Name="swingLoading"
+            Grid.Row="1"
+            ShowUp="Hidden" />
+        <extender:BusyCircle Grid.RowSpan="2" Visibility="Hidden" />
         <extender:DownloadComponent
+            Grid.RowSpan="2"
             Margin="266,23,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
@@ -24,7 +40,8 @@
             FileSize="12322222"
             IsDownLoaded="False" />
         <extender:UnreadTip
-            Margin="129,108,0,0"
+            Grid.Row="1"
+            Margin="129,41,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             IsShowText="False"
@@ -50,9 +67,10 @@
             CoverImageSource="pack://application:,,,/s_emoji.png"
             ImageSource="pack://application:,,,/i_emoji.png" />
         <extender:ExpanderEx
+            Grid.Row="1"
             Width="100"
             Height="26"
-            Margin="502,92,0,0"
+            Margin="502,25,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Header="ExpanderEx"
@@ -64,17 +82,20 @@
         </extender:ExpanderEx>
 
         <extender:ButtonEx
+            Grid.RowSpan="2"
             Width="15"
             Height="15"
             Margin="23,61,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="r"
-            FontFamily="Marlett" />
+            FontFamily="Marlett"
+            Style="{StaticResource btnStyle}" />
 
         <extender:WarnBlock
             Name="warmBlock"
-            Margin="0,131,0,0"
+            Grid.Row="1"
+            Margin="0,64,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top" />
     </Grid>

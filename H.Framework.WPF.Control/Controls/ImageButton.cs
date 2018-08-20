@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace H.Framework.WPF.Control.Controls
 {
-    public class ImageButton : System.Windows.Controls.Button
+    public class ImageButton : ButtonBase
     {
         static ImageButton()
         {
@@ -26,8 +22,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public ImageSource ImageSource
         {
-            get { return (ImageSource)GetValue(ImageSourceProperty); }
-            set { SetValue(ImageSourceProperty, value); }
+            get => (ImageSource)GetValue(ImageSourceProperty);
+            set => SetValue(ImageSourceProperty, value);
         }
 
         public static void OnImageSourceChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -52,8 +48,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public ImageSource CoverImageSource
         {
-            get { return (ImageSource)GetValue(CoverImageSourceProperty); }
-            set { SetValue(CoverImageSourceProperty, value); }
+            get => (ImageSource)GetValue(CoverImageSourceProperty);
+            set => SetValue(CoverImageSourceProperty, value);
         }
 
         public static void OnCoverImageSourceChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -80,8 +76,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public ImageSource PressImageSource
         {
-            get { return (ImageSource)GetValue(PressImageSourceProperty); }
-            set { SetValue(PressImageSourceProperty, value); }
+            get => (ImageSource)GetValue(PressImageSourceProperty);
+            set => SetValue(PressImageSourceProperty, value);
         }
     }
 }

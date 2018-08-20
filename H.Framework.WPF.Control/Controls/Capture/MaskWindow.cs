@@ -1,4 +1,4 @@
-﻿using H.Framework.WPF.Control.Utilities.Caputre;
+﻿using H.Framework.WPF.Control.Utilities.Capture;
 using System;
 using System.Drawing;
 using System.Windows;
@@ -9,14 +9,14 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace H.Framework.WPF.Control.Controls.Caputre
+namespace H.Framework.WPF.Control.Controls.Capture
 {
     internal class MaskWindow : Window
     {
         private MaskCanvas innerCanvas;
         private Bitmap screenSnapshot;
         private Timer timeOutTimmer;
-        private readonly ScreenCaputre screenCaputreOwner;
+        private readonly ScreenCapture screenCaptureOwner;
 
         //截图显示尺寸label
         private System.Windows.Controls.Label label = null;
@@ -29,9 +29,9 @@ namespace H.Framework.WPF.Control.Controls.Caputre
 
         private int _timeOutSecond;
 
-        public MaskWindow(ScreenCaputre screenCaputreOwner, int timeOutSecond)
+        public MaskWindow(ScreenCapture screenCaptureOwner, int timeOutSecond)
         {
-            this.screenCaputreOwner = screenCaputreOwner;
+            this.screenCaptureOwner = screenCaptureOwner;
             _timeOutSecond = timeOutSecond;
             if (timeOutSecond > 0)
             {
@@ -109,7 +109,7 @@ namespace H.Framework.WPF.Control.Controls.Caputre
             //鼠标右键双击取消
             if (e.RightButton == MouseButtonState.Pressed && e.ClickCount >= 2)
             {
-                CancelCaputre();
+                CancelCapture();
             }
 
             CreatLabel(e.GetPosition(innerCanvas));
@@ -195,7 +195,7 @@ namespace H.Framework.WPF.Control.Controls.Caputre
 
         //    if (e.Key == Key.Escape)
         //    {
-        //        CancelCaputre();
+        //        CancelCapture();
         //    }
         //}
 
@@ -217,7 +217,7 @@ namespace H.Framework.WPF.Control.Controls.Caputre
                     switch (wParam.ToInt32())
                     {
                         case PKeyEsc:
-                            CancelCaputre();
+                            CancelCapture();
                             break;
                     }
                     break;
@@ -229,12 +229,12 @@ namespace H.Framework.WPF.Control.Controls.Caputre
             return IntPtr.Zero;
         }
 
-        private void CancelCaputre()
+        private void CancelCapture()
         {
             //Close();
             timeOutTimmer?.Stop();
             Dispose();
-            screenCaputreOwner.OnScreenCaputreCancelled(null);
+            screenCaptureOwner.OnScreenCaptureCancelled(null);
         }
 
         internal void OnShowMaskFinished(Rect maskRegion)
@@ -246,7 +246,7 @@ namespace H.Framework.WPF.Control.Controls.Caputre
             BitmapSource caputredBmp = CopyFromScreenSnapshot(clipRegion);
             if (caputredBmp != null)
             {
-                screenCaputreOwner.OnScreenCaputred(null, caputredBmp);
+                screenCaptureOwner?.OnScreenCaptured(null, caputredBmp);
             }
             //close mask window
             Dispose();
@@ -349,7 +349,7 @@ namespace H.Framework.WPF.Control.Controls.Caputre
 
         private void OnTimeOutTimmerTick(object sender, EventArgs e)
         {
-            CancelCaputre();
+            CancelCapture();
         }
 
         public void DrawShowSize(Rect rec)
@@ -370,7 +370,7 @@ namespace H.Framework.WPF.Control.Controls.Caputre
 
         public void CancelAction()
         {
-            CancelCaputre();
+            CancelCapture();
         }
 
         protected override void OnMouseRightButtonUp(MouseButtonEventArgs e)

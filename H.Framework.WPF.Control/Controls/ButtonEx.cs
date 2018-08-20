@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace H.Framework.WPF.Control.Controls
 {
-    public class ButtonEx : Button
+    public class ButtonEx : ButtonBase
     {
         static ButtonEx()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ButtonEx), new FrameworkPropertyMetadata(typeof(ButtonEx)));
         }
 
-        public static readonly DependencyProperty CornerProperty = DependencyProperty.Register("Corner", typeof(CornerRadius), typeof(WindowEx), new UIPropertyMetadata(new CornerRadius(0, 0, 0, 0), null));
+        public static readonly DependencyProperty CornerProperty = DependencyProperty.Register("Corner", typeof(CornerRadius), typeof(ButtonEx), new UIPropertyMetadata(new CornerRadius(0, 0, 0, 0), null));
 
         /// <summary>
         /// 圆角
@@ -26,8 +20,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public CornerRadius Corner
         {
-            get { return (CornerRadius)GetValue(CornerProperty); }
-            set { SetValue(CornerProperty, value); }
+            get => (CornerRadius)GetValue(CornerProperty);
+            set => SetValue(CornerProperty, value);
         }
     }
 }

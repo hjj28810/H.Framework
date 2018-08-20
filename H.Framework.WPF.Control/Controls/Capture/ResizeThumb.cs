@@ -1,11 +1,11 @@
-﻿using H.Framework.WPF.Control.Utilities.Caputre;
+﻿using H.Framework.WPF.Control.Utilities.Capture;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
-namespace H.Framework.WPF.Control.Controls.Caputre
+namespace H.Framework.WPF.Control.Controls.Capture
 {
     internal class ResizeThumb : ThumbBase
     {
