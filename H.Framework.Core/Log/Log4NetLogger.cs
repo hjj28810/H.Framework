@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace H.Framework.Core.Log
 {
@@ -17,12 +14,13 @@ namespace H.Framework.Core.Log
 
         private static readonly Dictionary<string, ILog> LoggerDictionary = new Dictionary<string, ILog>();
         private readonly ILog _logger;
+        private object _locker = new object();
 
         public Log4NetLogger(string logType)
         {
             if (!LoggerDictionary.ContainsKey(logType))
             {
-                lock (this)
+                lock (_locker)
                 {
                     if (!LoggerDictionary.ContainsKey(logType))
                     {

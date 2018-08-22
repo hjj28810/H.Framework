@@ -11,8 +11,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace H.Framework.Core.Utilities
 {
