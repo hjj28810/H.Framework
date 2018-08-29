@@ -280,6 +280,7 @@ namespace H.Framework.WPF.Control.Controls.Capture
 
         private void SaveCaptureAction()
         {
+            timeOutTimmer.Stop();
             using (m_bmpLayerCurrent = innerCanvas.GetSnapBitmap())
             {
                 if (m_bmpLayerCurrent == null)
@@ -386,6 +387,7 @@ namespace H.Framework.WPF.Control.Controls.Capture
 
         public void Dispose()
         {
+            timeOutTimmer.Stop();
             innerCanvas.ClearSelectedDataAndView();
             if (toolBarContrl != null && label != null)
             {

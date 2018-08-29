@@ -137,9 +137,13 @@ namespace H.Framework.Core.Utilities
 
         public static bool IsPicture(this string filePath)
         {
-            var picTypes = new string[] { ".jpg", ".png", ".bmp", ".jpeg" };
+            return filePath.IsMatchFileExt(new string[] { ".jpg", ".png", ".bmp", ".jpeg" });
+        }
+
+        public static bool IsMatchFileExt(this string filePath, params string[] exts)
+        {
             var ext = Path.GetExtension(filePath);
-            if (picTypes.Contains(ext))
+            if (exts.Contains(ext))
                 return true;
             return false;
         }

@@ -39,7 +39,9 @@ namespace H.Framework.WPF.Control.Controls.Capture
             var filePath = Environment.GetEnvironmentVariable("TEMP") + @"\" + Guid.NewGuid().ToString("N") + ".png";
             caputredBmp.SaveImageToFile(filePath);
             //Clipboard.SetFileDropList(new System.Collections.Specialized.StringCollection { filePath });
-            Clipboard.SetDataObject(filePath);
+            var dataObject = new DataObject();
+            dataObject.SetData(DataFormats.FileDrop, new string[] { filePath });
+            Clipboard.SetDataObject(dataObject, true);
             //Clipboard.SetImage(e.Bmp);直接保存图片到剪贴板
             ScreenCaptured?.Invoke(sender, new ScreenCapturedEventArgs(caputredBmp));
         }
