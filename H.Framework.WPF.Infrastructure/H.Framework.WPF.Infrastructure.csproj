@@ -70,10 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\H.Framework.Core\H.Framework.Core.csproj">
-      <Project>{3DCF40C8-B94E-4378-9232-4D1BC9AFD26C}</Project>
+      <Project>{5cabebef-8408-4713-a005-aae14b48f10c}</Project>
       <Name>H.Framework.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using H.Framework.Core.Utilities;
+﻿using H.Framework.Core.Log;
+using H.Framework.Core.Utilities;
 using H.Framework.WPF.Control.Controls.Capture;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +35,7 @@ namespace H.Framework.WPF.UITest
         {
             if (SBVisibility == Visibility) SBVisibility = Visibility.Collapsed;
             else SBVisibility = Visibility.Visible;
-            warmBlock.Show("hahahahah", Control.Controls.AlertStyle.Info);
+            warnBlock.Show("hahahahah", Control.Controls.AlertStyle.Info);
             //warmBlock.Show("haaaaaa");
             //warmBlock.Show("ggggggggggggggggggg");
             //warmBlock.Show("ha");
@@ -50,6 +51,10 @@ namespace H.Framework.WPF.UITest
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SBVisibility = Visibility.Collapsed;
+            var a = "asdasd.pdf".IsMatchFileExt(".pdf");
+            LogHelper.Register(new Log4NetLogger("Error"), "Error");
+            LogHelper.Register(new Log4NetLogger("Business"), "Business");
+            LogHelper.WriteLogFileAsync(new LogMessage<string> { Title = "消息处理XAML", Data = "adsasd" }, LogType.Business);
         }
     }
 }

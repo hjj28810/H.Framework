@@ -142,19 +142,12 @@ namespace H.Framework.Core.Utilities
 
         public static bool IsMatchFileExt(this string filePath, params string[] exts)
         {
-            var ext = Path.GetExtension(filePath);
-            if (exts.Contains(ext))
-                return true;
-            return false;
+            return exts.Contains(Path.GetExtension(filePath));
         }
 
         public static DateTime ToDateTime(this long d)
         {
-            var dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            var lTime = long.Parse(d + "0000");
-            var toNow = new TimeSpan(lTime);
-            var dtResult = dtStart.Add(toNow);
-            return dtResult;
+            return TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).Add(new TimeSpan(long.Parse(d + "0000")));
         }
 
         public static long ToLong(this DateTime dt)

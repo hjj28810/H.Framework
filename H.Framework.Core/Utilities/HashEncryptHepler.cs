@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Security.Permissions;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace H.Framework.Core.Utilities
 {
@@ -29,7 +26,7 @@ namespace H.Framework.Core.Utilities
 
         public static string MD5Hash(string filename)
         {
-            new FileIOPermission(FileIOPermissionAccess.Read, filename).Demand();
+            //new FileIOPermission(FileIOPermissionAccess.Read, filename).Demand();
 
             var md5 = new MD5CryptoServiceProvider();
             using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))

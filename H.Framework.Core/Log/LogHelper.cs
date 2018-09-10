@@ -22,8 +22,7 @@ namespace H.Framework.Core.Log
         {
             lock (_locker)
             {
-                ILogger result;
-                return loggers.TryGetValue(name, out result) ? result : null;
+                return loggers.TryGetValue(name, out ILogger result) ? result : null;
             }
         }
 
@@ -58,7 +57,7 @@ namespace H.Framework.Core.Log
         {
             lock (_locker)
             {
-                Task.Factory.StartNew(() =>
+                Task.Run(() =>
                 {
                     WriteLogFile(input, logType, innnerException);
                 });

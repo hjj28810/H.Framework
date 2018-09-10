@@ -1,7 +1,10 @@
 ﻿using log4net;
+using log4net.Repository;
 using System;
 using System.Collections.Generic;
 using System.IO;
+
+//[assembly: log4net.Config.XmlConfigurator(ConfigFileExtension = "log4net", Watch = true)]
 
 namespace H.Framework.Core.Log
 {
@@ -9,12 +12,14 @@ namespace H.Framework.Core.Log
     {
         static Log4NetLogger()
         {
-            log4net.Config.XmlConfigurator.Configure(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config"));
+            _repository = LogManager.CreateRepository("NETStandardRepository");
+            log4net.Config.XmlConfigurator.Configure(_repository, new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config"));
         }
 
         private static readonly Dictionary<string, ILog> LoggerDictionary = new Dictionary<string, ILog>();
         private readonly ILog _logger;
         private object _locker = new object();
+        private static readonly ILoggerRepository _repository;
 
         public Log4NetLogger(string logType)
         {
@@ -24,7 +29,7 @@ namespace H.Framework.Core.Log
                 {
                     if (!LoggerDictionary.ContainsKey(logType))
                     {
-                        LoggerDictionary.Add(logType, LogManager.GetLogger(logType));
+                        LoggerDictionary.Add(logType, LogManager.GetLogger(_repository.Name, logType));
                     }
                 }
             }

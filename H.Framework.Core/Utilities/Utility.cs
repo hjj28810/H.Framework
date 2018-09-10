@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace H.Framework.Core.Utilities
 {
     public class Utility
     {
-        public static string ObjectID
-        {
-            get { return Guid.NewGuid().ToString("N"); }
-        }
+        public static string ObjectID => Guid.NewGuid().ToString("N");
 
         public static long UTCSeconds()
         {

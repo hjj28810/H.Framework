@@ -93,7 +93,7 @@
             Style="{StaticResource btnStyle}" />
 
         <extender:WarnBlock
-            Name="warmBlock"
+            Name="warnBlock"
             Grid.Row="1"
             Margin="0,64,0,0"
             HorizontalAlignment="Left"
