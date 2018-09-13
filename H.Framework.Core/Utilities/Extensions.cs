@@ -10,7 +10,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace H.Framework.Core.Utilities
 {
@@ -112,18 +111,6 @@ namespace H.Framework.Core.Utilities
         public static bool NotNullAny<T>(this IEnumerable<T> source)
         {
             return source != null && source.Any();
-        }
-
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="search"></param>
-        /// <returns></returns>
-        public static int CharNum(this string str, string search)
-        {
-            var count = 0;
-            if (!string.IsNullOrWhiteSpace(@str) && !string.IsNullOrEmpty(@search))
-                count = Regex.Matches(str, @search).Count;
-            return count;
         }
 
         /// <summary>
