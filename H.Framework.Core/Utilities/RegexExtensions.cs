@@ -21,7 +21,8 @@ namespace H.Framework.Core.Utilities
 
         private static string DatePattern(char separator)
         {
-            return @"(?:(?!0000)[0-9]{4}" + separator + "(?:(?:0[1-9]|1[0-2])" + separator + "(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])" + separator + "(?:29|30)|(?:0[13578]|1[02])" + separator + "31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)" + separator + "02" + separator + "29)";
+            //return @"(?:(?!0000)[0-9]{4}" + separator + "(?:(?:0[1-9]|1[0-2])" + separator + "(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])" + separator + "(?:29|30)|(?:0[13578]|1[02])" + separator + "31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)" + separator + "02" + separator + "29)";
+            return @"(?:(?!0000)[0-9]{4}" + separator + "(?:(?:0?[1-9]|1[0-2])" + separator + "(?:0?[1-9]|1[0-9]|2[0-8])|(?:0?[13-9]|1[0-2])" + separator + "(?:29|30)|(?:0?[13578]|1[02])" + separator + "31)|(?:[0-9]{2}(?:0?[48]|[2468][048]|[13579][26])|(?:0?[48]|[2468][048]|[13579][26])00)(" + separator + "2|" + separator + "02)" + separator + "29)";
         }
 
         private static string TimePattern()
@@ -31,7 +32,7 @@ namespace H.Framework.Core.Utilities
 
         private static string DateTimePattern(char separator)
         {
-            return @"(?:(?!0000)[0-9]{4}" + separator + "(?:(?:0[1-9]|1[0-2])" + separator + "(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])" + separator + "(?:29|30)|(?:0[13578]|1[02])" + separator + "31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)" + separator + "02" + separator + "29) " + TimePattern();
+            return @DatePattern(separator) + " " + @TimePattern();
         }
 
         public static bool IsMatchDate(this string str, char separator = '-')

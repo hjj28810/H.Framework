@@ -56,9 +56,9 @@ namespace H.Framework.WPF.UITest
             LogHelper.Register(new Log4NetLogger("Business"), "Business");
             LogHelper.WriteLogFileAsync(new LogMessage<string> { Title = "消息处理XAML", Data = "adsasd" }, LogType.Business);
 
-            var ste = "asdasd > 2017/02/01 18:22:33 && asdasd < 2017/03/01 12:23:43";
-            var r = ste.IsMatchTime();
-            var r1 = ste.MatchsTime();
+            var ste = "asdasd > 2019/2/28 18:22:33 && asdasd < 2017/12/01 12:23:43";
+            var r = ste.IsMatchDateTime('/');
+            var r1 = ste.MatchsDateTime('/');
         }
     }
 }
