@@ -59,6 +59,21 @@ namespace H.Framework.WPF.UITest
             var ste = "asdasd > 2019/2/28 18:22:33 && asdasd < 2017/12/01 12:23:43";
             var r = ste.IsMatchDateTime('/');
             var r1 = ste.MatchsDateTime('/');
+            var aaa = Get().BuildLine(aa => aa.ID, bb => bb.PID, m => m.Parent, (c, p) => new Node { ID = c.ID, PID = c.PID, Parent = p }, "222");
         }
+
+        public IEnumerable<Node> Get()
+        {
+            return new List<Node> { new Node { ID = "1", PID = "0" }, new Node { ID = "11", PID = "1" }, new Node { ID = "22", PID = "1" }, new Node { ID = "33", PID = "1" }, new Node { ID = "111", PID = "11" }, new Node { ID = "112", PID = "11" }, new Node { ID = "1111", PID = "111" }, new Node { ID = "222", PID = "22" } };
+        }
+    }
+
+    public class Node
+    {
+        public string ID { get; set; }
+        public string PID { get; set; }
+        public IEnumerable<Node> Children { get; set; }
+
+        public Node Parent { get; set; }
     }
 }
