@@ -88,7 +88,7 @@ namespace H.Framework.Core.Utilities
 
         {
             var list = source.BuildLineList(idSelector, pidSelector, (m) => selector(m, default(T)), leafID);
-            return list.ProcessLine(new Dictionary<TId, T>(), idSelector, pidSelector, pSelector, (m, n) => selector(m, n), list.FirstOrDefault()); ;
+            return list.ProcessLine(new Dictionary<TId, T>(), idSelector, pidSelector, pSelector, (m, n) => selector(m, n), list.FirstOrDefault());
         }
 
         private static T ProcessLine<T, TId>(this IEnumerable<T> source, Dictionary<TId, T> dict, Func<T, TId> idSelector, Func<T, TId> pidSelector, Func<T, T> pSelector, Func<T, T, T> selector, T argModel = default(T))
