@@ -1,6 +1,7 @@
 ﻿using H.Framework.Core.Log;
 using H.Framework.Core.Utilities;
 using H.Framework.WPF.Control.Controls.Capture;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -60,6 +61,7 @@ namespace H.Framework.WPF.UITest
             var r = ste.IsMatchDateTime('/');
             var r1 = ste.MatchsDateTime('/');
             var aaa = Get().BuildLine(aa => aa.ID, bb => bb.PID, m => m.Parent, (c, p) => new Node { ID = c.ID, PID = c.PID, Parent = p }, "222");
+            var aaaaa = Uri.EscapeDataString(HashEncryptHepler.AESEncrypt("NGWHN201809170206051544315", @")O[NB]6,YF}+efcaj{+oESb9d8>Z'e9M", @"L+\~f4,Ir)b$=pkf"));
         }
 
         public IEnumerable<Node> Get()
