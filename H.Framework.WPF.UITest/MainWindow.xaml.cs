@@ -61,6 +61,8 @@ namespace H.Framework.WPF.UITest
             var r = ste.IsMatchDateTime('/');
             var r1 = ste.MatchsDateTime('/');
             var aaa = Get().BuildLine(aa => aa.ID, bb => bb.PID, m => m.Parent, (c, p) => new Node { ID = c.ID, PID = c.PID, Parent = p }, "222");
+            var l = (new DateTime(2018, 9, 1)).ToLong();
+
             var aaaaa = Uri.EscapeDataString(HashEncryptHepler.AESEncrypt("NGWHN201809170206051544315", @")O[NB]6,YF}+efcaj{+oESb9d8>Z'e9M", @"L+\~f4,Ir)b$=pkf"));
         }
 

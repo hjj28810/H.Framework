@@ -137,12 +137,13 @@ namespace H.Framework.Core.Utilities
             return TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).Add(new TimeSpan(long.Parse(d + "0000")));
         }
 
-        public static long ToLong(this DateTime dt)
+        public static long ToLong(this DateTime dt, bool isMillisecond = false)
         {
             var dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
             var toNow = dt.Subtract(dtStart);
             var timeStamp = toNow.Ticks;
-            timeStamp = long.Parse(timeStamp.ToString().Substring(0, timeStamp.ToString().Length - 4));
+            var len = isMillisecond ? 4 : 7;
+            timeStamp = long.Parse(timeStamp.ToString().Substring(0, timeStamp.ToString().Length - len));
             return timeStamp;
         }
 
