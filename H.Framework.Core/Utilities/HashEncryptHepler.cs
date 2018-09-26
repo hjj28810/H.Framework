@@ -8,31 +8,37 @@ namespace H.Framework.Core.Utilities
 {
     public class HashEncryptHepler
     {
-        public static string MD5Hash(byte[] bytes)
+        public static string MD5Hash(byte[] bytes, MD5Format md5Format = MD5Format.x2)
         {
             var md5 = new MD5CryptoServiceProvider();
             var data = md5.ComputeHash(bytes);
 
-            return string.Join(null, data.Select(x => x.ToString("x")));
+            return string.Join(null, data.Select(x => x.ToString(Enum.GetName(typeof(MD5Format), md5Format))));
         }
 
-        public static string MD5Hash(Stream stream)
+        public static string MD5Hash(Stream stream, MD5Format md5Format = MD5Format.x2)
         {
             var md5 = new MD5CryptoServiceProvider();
             var data = md5.ComputeHash(stream);
 
-            return string.Join(null, data.Select(x => x.ToString("x")));
+            return string.Join(null, data.Select(x => x.ToString(Enum.GetName(typeof(MD5Format), md5Format))));
         }
 
-        public static string MD5Hash(string filename)
+        public static string MD5Hash(string str, MD5Format md5Format = MD5Format.x2, bool isFile = false)
         {
             //new FileIOPermission(FileIOPermissionAccess.Read, filename).Demand();
 
-            var md5 = new MD5CryptoServiceProvider();
-            using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            var md5 = MD5.Create();
+            if (isFile)
+                using (var stream = new FileStream(str, FileMode.Open, FileAccess.Read))
+                {
+                    var data = md5.ComputeHash(stream);
+                    return string.Join(null, data.Select(x => x.ToString(Enum.GetName(typeof(MD5Format), md5Format))));
+                }
+            else
             {
-                var data = md5.ComputeHash(stream);
-                return string.Join(null, data.Select(x => x.ToString("x")));
+                var data = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
+                return string.Join(null, data.Select(x => x.ToString(Enum.GetName(typeof(MD5Format), md5Format))));
             }
         }
 
@@ -81,5 +87,13 @@ namespace H.Framework.Core.Utilities
             var cipherBytes = transform.TransformFinalBlock(plainText, 0, plainText.Length);
             return Convert.ToBase64String(cipherBytes);
         }
+    }
+
+    public enum MD5Format
+    {
+        X,
+        x,
+        X2,
+        x2
     }
 }
