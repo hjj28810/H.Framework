@@ -64,6 +64,7 @@
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\ImageExtender.cs" />
     <Compile Include="Utilities\ListBoxExtender.cs" />
+    <Compile Include="Utilities\PasswordBoxHelper.cs" />
     <Compile Include="Utilities\PopupHelper.cs" />
     <Compile Include="Utilities\ScrollViewerExtensions.cs" />
     <Compile Include="Utilities\WindowExtensions.cs" />
