@@ -18,5 +18,6 @@
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/ButtonEx.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/SwingLoading.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/IndicatorObject.generic.xaml" />
+        <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/Pager.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

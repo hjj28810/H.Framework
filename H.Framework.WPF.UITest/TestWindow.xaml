@@ -7,12 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="800"
     Height="450"
+    ShowLoading="False"
     WinCornerRadius="5">
 
     <local:WindowEx.TitleBarContent>
         <TextBlock Text="aaaaa" />
     </local:WindowEx.TitleBarContent>
     <Grid>
-        <TextBlock Text="aaaaa" />
+        <local:Pager DataCount="1222" PageSize="20" />
     </Grid>
 </local:WindowEx>

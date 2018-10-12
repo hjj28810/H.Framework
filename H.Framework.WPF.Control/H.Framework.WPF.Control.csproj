@@ -77,6 +77,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Pager.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\SwingLoading.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -144,6 +148,7 @@
     <Compile Include="Controls\Capture\ToolBarControl.xaml.cs">
       <DependentUpon>ToolBarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Pager.cs" />
     <Compile Include="Controls\SwingLoading.cs" />
     <Compile Include="Controls\WindowEx.cs" />
     <Compile Include="Controls\DownloadComponent.cs" />

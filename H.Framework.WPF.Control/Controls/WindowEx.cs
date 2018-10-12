@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -58,7 +54,7 @@ namespace H.Framework.WPF.Control.Controls
             SetTitleBarCornerRadius(WinCornerRadius);
 
             var resizeGrid = GetTemplateChild("PART_ResizeGrid") as Grid;
-            if (resizeGrid != null)
+            if (resizeGrid != null && ResizeMode != ResizeMode.NoResize)
             {
                 foreach (var element in resizeGrid.Children)
                 {
@@ -228,8 +224,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public Brush TitleBarBG
         {
-            get { return (Brush)GetValue(TitleBarBGProperty); }
-            set { SetValue(TitleBarBGProperty, value); }
+            get => (Brush)GetValue(TitleBarBGProperty);
+            set => SetValue(TitleBarBGProperty, value);
         }
 
         public static readonly DependencyProperty TitleBarContentProperty = DependencyProperty.Register("TitleBarContent", typeof(object), typeof(WindowEx), new PropertyMetadata(null, null));
@@ -241,8 +237,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public object TitleBarContent
         {
-            get { return GetValue(TitleBarContentProperty); }
-            set { SetValue(TitleBarContentProperty, value); }
+            get => GetValue(TitleBarContentProperty);
+            set => SetValue(TitleBarContentProperty, value);
         }
 
         public static readonly DependencyProperty WinCornerRadiusProperty = DependencyProperty.Register("WinCornerRadius", typeof(CornerRadius), typeof(WindowEx), new UIPropertyMetadata(new CornerRadius(0, 0, 0, 0), OnWinCornerRadiusPropertyChanged));
@@ -254,8 +250,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public CornerRadius WinCornerRadius
         {
-            get { return (CornerRadius)GetValue(WinCornerRadiusProperty); }
-            set { SetValue(WinCornerRadiusProperty, value); }
+            get => (CornerRadius)GetValue(WinCornerRadiusProperty);
+            set => SetValue(WinCornerRadiusProperty, value);
         }
 
         public static void OnWinCornerRadiusPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -295,8 +291,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public Visibility CloseVisibility
         {
-            get { return (Visibility)GetValue(CloseVisibilityProperty); }
-            set { SetValue(CloseVisibilityProperty, value); }
+            get => (Visibility)GetValue(CloseVisibilityProperty);
+            set => SetValue(CloseVisibilityProperty, value);
         }
 
         public static readonly DependencyProperty MaxSizeVisibilityProperty = DependencyProperty.Register("MaxSizeVisibility", typeof(Visibility), typeof(WindowEx), new UIPropertyMetadata(Visibility.Visible, null));
@@ -308,8 +304,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public Visibility MaxSizeVisibility
         {
-            get { return (Visibility)GetValue(MaxSizeVisibilityProperty); }
-            set { SetValue(MaxSizeVisibilityProperty, value); }
+            get => (Visibility)GetValue(MaxSizeVisibilityProperty);
+            set => SetValue(MaxSizeVisibilityProperty, value);
         }
 
         public static readonly DependencyProperty MinSizeVisibilityProperty = DependencyProperty.Register("MinSizeVisibility", typeof(Visibility), typeof(WindowEx), new UIPropertyMetadata(Visibility.Visible, null));
@@ -321,8 +317,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public Visibility MinSizeVisibility
         {
-            get { return (Visibility)GetValue(MinSizeVisibilityProperty); }
-            set { SetValue(MinSizeVisibilityProperty, value); }
+            get => (Visibility)GetValue(MinSizeVisibilityProperty);
+            set => SetValue(MinSizeVisibilityProperty, value);
         }
 
         public static readonly DependencyProperty WinBorderBrushProperty = DependencyProperty.Register("WinBorderBrush", typeof(Brush), typeof(WindowEx), new UIPropertyMetadata(new SolidColorBrush(Colors.Gray), null));
@@ -334,8 +330,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public Brush WinBorderBrush
         {
-            get { return (Brush)GetValue(WinBorderBrushProperty); }
-            set { SetValue(WinBorderBrushProperty, value); }
+            get => (Brush)GetValue(WinBorderBrushProperty);
+            set => SetValue(WinBorderBrushProperty, value);
         }
 
         public static readonly DependencyProperty WinBorderThicknessProperty = DependencyProperty.Register("WinBorderThickness", typeof(Thickness), typeof(WindowEx), new UIPropertyMetadata(new Thickness(0, 0, 0, 0), null));
@@ -347,8 +343,21 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public Thickness WinBorderThickness
         {
-            get { return (Thickness)GetValue(WinBorderThicknessProperty); }
-            set { SetValue(WinBorderThicknessProperty, value); }
+            get => (Thickness)GetValue(WinBorderThicknessProperty);
+            set => SetValue(WinBorderThicknessProperty, value);
+        }
+
+        public static readonly DependencyProperty ShowLoadingProperty = DependencyProperty.Register("ShowLoading", typeof(bool), typeof(WindowEx), new UIPropertyMetadata(false, null));
+
+        /// <summary>
+        /// 是否显示Loading
+        /// </summary>
+        [Description("获取或设置是否显示Loading")]
+        [Category("Defined Properties")]
+        public bool ShowLoading
+        {
+            get => (bool)GetValue(ShowLoadingProperty);
+            set => SetValue(ShowLoadingProperty, value);
         }
     }
 
