@@ -9,6 +9,20 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Pager}">
                     <ControlTemplate.Resources>
+                        <Style TargetType="{x:Type local:RadioButtonEx}">
+                            <Setter Property="Background" Value="#F5F5F6" />
+                            <Setter Property="Width" Value="30" />
+                            <Setter Property="Height" Value="30" />
+                            <Setter Property="Corner" Value="3" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Cursor" Value="Hand" />
+                            <Setter Property="Foreground" Value="#FF4F4F4F" />
+                            <Setter Property="FontSize" Value="13" />
+                            <Setter Property="Margin" Value="10,0,0,0" />
+                            <Setter Property="GroupName" Value="PagerBTN" />
+                            <Setter Property="CheckedColor" Value="{Binding BtnColor, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                        </Style>
                         <Style TargetType="{x:Type local:ButtonEx}">
                             <Setter Property="Background" Value="#F5F5F6" />
                             <Setter Property="Width" Value="30" />
@@ -26,7 +40,7 @@
                         <local:ButtonEx
                             x:Name="PART_PreviousBtn"
                             Margin="0,0"
-                            IsEnabled="False">
+                            Cursor="No">
                             <Path
                                 Name="PreviousArrow"
                                 Width="5"
@@ -40,28 +54,24 @@
                                 </Path.RenderTransform>
                             </Path>
                         </local:ButtonEx>
-                        <local:ButtonEx
+                        <local:RadioButtonEx
                             x:Name="PART_FirstPageBtn"
-                            Content="1" />
+                            Content="1"
+                            IsChecked="True" />
                         <local:ButtonEx
                             x:Name="PART_PreviousFiveBtn"
                             Content="···"
                             Visibility="Collapsed" />
                         <StackPanel Name="PART_PageBtnPanel" Orientation="Horizontal" />
-                        <!--<local:ButtonEx x:Name="PART_PageBtn1" />
-                        <local:ButtonEx x:Name="PART_PageBtn2" />
-                        <local:ButtonEx x:Name="PART_PageBtn3" />
-                        <local:ButtonEx x:Name="PART_PageBtn4" />
-                        <local:ButtonEx x:Name="PART_PageBtn5" />-->
                         <local:ButtonEx
                             x:Name="PART_NextFiveBtn"
                             Content="···"
                             Visibility="Collapsed" />
-                        <local:ButtonEx
+                        <local:RadioButtonEx
                             x:Name="PART_LastPageBtn"
                             Content="99"
                             Visibility="Collapsed" />
-                        <local:ButtonEx x:Name="PART_NextBtn" IsEnabled="False">
+                        <local:ButtonEx x:Name="PART_NextBtn" Cursor="No">
                             <Path
                                 Name="NextArrow"
                                 Width="5"
@@ -72,7 +82,6 @@
                                 StrokeThickness="1.2" />
                         </local:ButtonEx>
                     </StackPanel>
-
                     <ControlTemplate.Triggers>
 
                         <!--<MultiTrigger>

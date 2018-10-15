@@ -14,6 +14,12 @@
         <TextBlock Text="aaaaa" />
     </local:WindowEx.TitleBarContent>
     <Grid>
-        <local:Pager DataCount="1222" PageSize="20" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <local:Pager DataCount="12722" PageSize="20" />
+        <local:RadioButtonEx Grid.Row="1" Content="hahahahah" />
     </Grid>
 </local:WindowEx>

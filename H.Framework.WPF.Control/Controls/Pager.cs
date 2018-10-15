@@ -3,16 +3,18 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace H.Framework.WPF.Control.Controls
 {
-    [TemplatePart(Name = "PART_PreviousBtn", Type = typeof(ButtonEx))]
-    [TemplatePart(Name = "PART_FirstPageBtn", Type = typeof(ButtonEx))]
-    [TemplatePart(Name = "PART_PreviousFiveBtn", Type = typeof(ButtonEx))]
+    [TemplatePart(Name = "PART_PreviousBtn", Type = typeof(RadioButtonEx))]
+    [TemplatePart(Name = "PART_FirstPageBtn", Type = typeof(RadioButtonEx))]
+    [TemplatePart(Name = "PART_PreviousFiveBtn", Type = typeof(RadioButtonEx))]
     [TemplatePart(Name = "PART_PageBtnPanel", Type = typeof(StackPanel))]
-    [TemplatePart(Name = "PART_NextFiveBtn", Type = typeof(ButtonEx))]
-    [TemplatePart(Name = "PART_LastPageBtn", Type = typeof(ButtonEx))]
-    [TemplatePart(Name = "PART_NextBtn", Type = typeof(ButtonEx))]
+    [TemplatePart(Name = "PART_NextFiveBtn", Type = typeof(RadioButtonEx))]
+    [TemplatePart(Name = "PART_LastPageBtn", Type = typeof(RadioButtonEx))]
+    [TemplatePart(Name = "PART_NextBtn", Type = typeof(RadioButtonEx))]
     public class Pager : System.Windows.Controls.Control
     {
         static Pager()
@@ -59,6 +61,19 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(BtnCapacityProperty, value);
         }
 
+        public static readonly DependencyProperty BtnColorProperty = DependencyProperty.Register("BtnColor", typeof(Brush), typeof(Pager), new PropertyMetadata(new SolidColorBrush(Colors.CadetBlue), null));
+
+        /// <summary>
+        /// 选中色
+        /// </summary>
+        [Description("获取或设置选中色")]
+        [Category("Defined Properties")]
+        public Brush BtnColor
+        {
+            get => (Brush)GetValue(BtnColorProperty);
+            set => SetValue(BtnColorProperty, value);
+        }
+
         public static readonly RoutedEvent SelectedChangedEvent = EventManager.RegisterRoutedEvent("SelectedChanged", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<object>), typeof(Pager));
 
         [Description("选择项后触发")]
@@ -82,23 +97,26 @@ namespace H.Framework.WPF.Control.Controls
 
         private StackPanel _panel;
         private int _pageCapacity;
-        private int _currentPage;
+        private int _currentPage = 1;
         private ButtonEx _previousFiveBtn;
         private ButtonEx _nextFiveBtn;
         private ButtonEx _nextBtn;
         private ButtonEx _previousBtn;
+        private RadioButtonEx _firstPageBtn;
+        private RadioButtonEx _lastPageBtn;
+        private int _midIndex;
 
         private void CreateControl()
         {
             _previousBtn = (ButtonEx)GetTemplateChild("PART_PreviousBtn");
-            var firstPageBtn = (ButtonEx)GetTemplateChild("PART_FirstPageBtn");
+            _firstPageBtn = (RadioButtonEx)GetTemplateChild("PART_FirstPageBtn");
             _previousFiveBtn = (ButtonEx)GetTemplateChild("PART_PreviousFiveBtn");
             _nextFiveBtn = (ButtonEx)GetTemplateChild("PART_NextFiveBtn");
-            var lastPageBtn = (ButtonEx)GetTemplateChild("PART_LastPageBtn");
+            _lastPageBtn = (RadioButtonEx)GetTemplateChild("PART_LastPageBtn");
             _nextBtn = (ButtonEx)GetTemplateChild("PART_NextBtn");
             _panel = (StackPanel)GetTemplateChild("PART_PageBtnPanel");
-            firstPageBtn.Click += FirstPageBtn_Click;
-            lastPageBtn.Click += LastPageBtn_Click;
+            _firstPageBtn.Checked += FirstPageBtn_Click;
+            _lastPageBtn.Checked += LastPageBtn_Click;
             _previousBtn.Click += PreviousBtn_Click;
             _nextBtn.Click += NextBtn_Click;
             _previousFiveBtn.Click += PreviousFiveBtn_Click;
@@ -111,62 +129,115 @@ namespace H.Framework.WPF.Control.Controls
 
             if (_pageCapacity > 1)
             {
-                lastPageBtn.Content = _pageCapacity;
-                lastPageBtn.Width = CalWidth(_pageCapacity);
-                if (_pageCapacity > BtnCapacity)
+                _lastPageBtn.Content = _pageCapacity;
+                _lastPageBtn.Width = CalWidth(_pageCapacity);
+                if (_pageCapacity > BtnCapacity + 1)
                 {
-                    _nextFiveBtn.Visibility = Visibility.Visible;
-                    lastPageBtn.Visibility = Visibility.Visible;
+                    ShowBtn(_nextFiveBtn);
+                    _lastPageBtn.Visibility = Visibility.Visible;
                 }
-                _nextBtn.IsEnabled = true;
-                var count = _pageCapacity > BtnCapacity ? BtnCapacity : _pageCapacity;
+                AbleBtn(_nextBtn);
+                var count = _pageCapacity > BtnCapacity ? BtnCapacity : _pageCapacity - 1;
                 for (int i = 0; i < count; i++)
                 {
-                    var btn = new ButtonEx
+                    var btn = new RadioButtonEx
                     {
-                        Content = i + 2
+                        Content = i + 2,
+                        GroupName = "GroupName",
+                        CheckedColor = BtnColor
                     };
-                    btn.Click += PageBtn_Click;
+                    //btn.Click += PageBtn_Click;
+                    btn.Checked += PageBtn_Checked;
                     _panel.Children.Add(btn);
                 }
+                _midIndex = (int)Math.Ceiling((decimal)_panel.Children.Count / 2) - 1;
             }
+        }
+
+        private void PageBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            var selectedIndex = (int)((RadioButtonEx)sender).Content;
+            if (selectedIndex == _currentPage) return;
+            MoveSelectedPage(selectedIndex);
+            if (_currentPage == _pageCapacity)
+            {
+                ShowBtn(_previousFiveBtn);
+                AbleBtn(_previousBtn);
+                DisableBtn(_nextBtn);
+            }
+            FirstLastUnchecked();
         }
 
         private void NextFiveBtn_Click(object sender, RoutedEventArgs e)
         {
+            FirstLastUnchecked();
             if (_currentPage < _pageCapacity - 7)
                 MoveSelectedPage(_currentPage + 5);
             else
+            {
                 LastPageBtn_Click(sender, e);
+                _lastPageBtn.IsChangedBackground = true;
+            }
         }
 
         private void PreviousFiveBtn_Click(object sender, RoutedEventArgs e)
         {
+            FirstLastUnchecked();
             if (_currentPage > 8)
                 MoveSelectedPage(_currentPage - 5);
             else
+            {
                 FirstPageBtn_Click(sender, e);
+                _firstPageBtn.IsChangedBackground = true;
+            }
         }
 
         private void NextBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (((ButtonEx)sender).Cursor == Cursors.No)
+                return;
+            FirstLastUnchecked();
             MoveSelectedPage(_currentPage + 1);
             if (_currentPage == _pageCapacity)
             {
-                _previousFiveBtn.Visibility = Visibility.Visible;
-                _previousBtn.IsEnabled = true;
-                _nextBtn.IsEnabled = false;
+                ShowBtn(_previousFiveBtn);
+                AbleBtn(_previousBtn);
+                DisableBtn(_nextBtn);
             }
         }
 
         private void PreviousBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (((ButtonEx)sender).Cursor == Cursors.No)
+                return;
+            FirstLastUnchecked();
+            if (_previousFiveBtn.Visibility == Visibility.Collapsed)
+            {
+                for (int i = 0; i < _panel.Children.Count; i++)
+                {
+                    var item = _panel.Children[i] as RadioButtonEx;
+                    if (item.IsChangedBackground)
+                    {
+                        item.IsChangedBackground = false;
+                        item.IsChecked = false;
+                        if (i != 0)
+                            ((RadioButtonEx)_panel.Children[i - 1]).IsChangedBackground = true;
+                        else
+                            _firstPageBtn.IsChangedBackground = true;
+                        break;
+                    }
+                }
+            }
+            if (_nextFiveBtn.Visibility == Visibility.Collapsed && _previousFiveBtn.Visibility == Visibility.Visible)
+            {
+                ((RadioButtonEx)_panel.Children[_panel.Children.Count - 1]).IsChangedBackground = true;
+            }
             MoveSelectedPage(_currentPage - 1);
             if (_currentPage == 1)
             {
-                _nextFiveBtn.Visibility = Visibility.Visible;
-                _nextBtn.IsEnabled = true;
-                _previousBtn.IsEnabled = false;
+                ShowBtn(_nextFiveBtn);
+                AbleBtn(_nextBtn);
+                DisableBtn(_previousBtn);
             }
         }
 
@@ -175,51 +246,56 @@ namespace H.Framework.WPF.Control.Controls
             _currentPage = _pageCapacity;
             OnSelectedChanged(null, _currentPage);
             RebuildPage(_pageCapacity - 3);
-            _previousFiveBtn.Visibility = Visibility.Visible;
-            _previousBtn.IsEnabled = true;
-            _nextBtn.IsEnabled = false;
+            ShowBtn(_previousFiveBtn);
+            AbleBtn(_previousBtn);
+            DisableBtn(_nextBtn);
+            UncheckRB();
         }
 
         private void FirstPageBtn_Click(object sender, RoutedEventArgs e)
         {
             _currentPage = 1;
             OnSelectedChanged(null, _currentPage);
-            RebuildPage(4);
-            _nextFiveBtn.Visibility = Visibility.Visible;
-            _nextBtn.IsEnabled = true;
-            _previousBtn.IsEnabled = false;
-        }
-
-        private void PageBtn_Click(object sender, RoutedEventArgs e)
-        {
-            MoveSelectedPage((int)((ButtonEx)sender).Content);
+            if (_pageCapacity > 6)
+                RebuildPage(4);
+            ShowBtn(_nextFiveBtn);
+            AbleBtn(_nextBtn);
+            DisableBtn(_previousBtn);
+            UncheckRB();
         }
 
         private void MoveSelectedPage(int selectedPage)
         {
             _currentPage = selectedPage;
             OnSelectedChanged(null, selectedPage);
-            _nextBtn.IsEnabled = true;
-            _previousBtn.IsEnabled = true;
+            AbleBtn(_nextBtn);
+            AbleBtn(_previousBtn);
             if (_pageCapacity > BtnCapacity && selectedPage > 4 && selectedPage + 1 < _pageCapacity)
             {
-                _nextFiveBtn.Visibility = Visibility.Visible;
+                ShowBtn(_nextFiveBtn);
                 if (selectedPage == _pageCapacity - 2)
                     RebuildPage(_pageCapacity - 3);
                 else
                     RebuildPage(selectedPage);
-                _previousFiveBtn.Visibility = Visibility.Visible;
+                SelectedIndex(_midIndex);
+                ShowBtn(_previousFiveBtn);
             }
             else if ((selectedPage == 3 || selectedPage == 4) && _pageCapacity > BtnCapacity && _previousFiveBtn.Visibility == Visibility.Visible)
             {
                 RebuildPage(4);
-                _nextFiveBtn.Visibility = Visibility.Visible;
+                SelectedIndex(selectedPage - 2);
+                ShowBtn(_nextFiveBtn);
+            }
+            else if ((selectedPage == 3 || selectedPage == 4) && _pageCapacity > BtnCapacity && _previousFiveBtn.Visibility == Visibility.Collapsed)
+            {
+                RebuildPage(selectedPage);
+                SelectedIndex(selectedPage - 2);
             }
         }
 
         private int CalWidth(int num)
         {
-            var len = num.ToString().Length;
+            var len = num.ToString().Length == 1 ? 2 : num.ToString().Length;
             var width = 30;
             width += 6 * (len - 2);
             return width;
@@ -227,17 +303,17 @@ namespace H.Framework.WPF.Control.Controls
 
         private void RebuildPage(int selectedPage)
         {
-            var midIndex = (int)Math.Ceiling((decimal)_panel.Children.Count / 2) - 1;
-            var firstPage = selectedPage - midIndex;
+            var firstPage = selectedPage - _midIndex;
             if (selectedPage == 1)
-                _previousBtn.IsEnabled = false;
+                DisableBtn(_previousBtn);
             if (selectedPage == _pageCapacity)
-                _nextBtn.IsEnabled = false;
+                DisableBtn(_nextBtn);
             for (int i = 0; i < _panel.Children.Count; i++)
             {
-                var btn = _panel.Children[i] as ButtonEx;
+                var btn = _panel.Children[i] as RadioButtonEx;
                 btn.Content = firstPage + i;
                 btn.Visibility = Visibility.Visible;
+                btn.Width = CalWidth(firstPage + BtnCapacity);
                 if (firstPage + i == _pageCapacity)
                 {
                     btn.Visibility = Visibility.Collapsed;
@@ -257,6 +333,46 @@ namespace H.Framework.WPF.Control.Controls
                     _previousFiveBtn.Visibility = Visibility.Collapsed;
                 }
             }
+        }
+
+        private void SelectedIndex(int index)
+        {
+            UncheckRB();
+            (_panel.Children[index] as RadioButtonEx).IsChangedBackground = true;
+        }
+
+        private void UncheckRB()
+        {
+            foreach (var item in _panel.Children)
+            {
+                var b = item as RadioButtonEx;
+                b.IsChecked = false;
+                b.IsChangedBackground = false;
+            }
+        }
+
+        private void DisableBtn(ButtonEx btn)
+        {
+            btn.Cursor = Cursors.No;
+        }
+
+        private void AbleBtn(ButtonEx btn)
+        {
+            btn.Cursor = Cursors.Hand;
+        }
+
+        private void ShowBtn(ButtonEx btn)
+        {
+            if (_pageCapacity > 6)
+                btn.Visibility = Visibility.Visible;
+        }
+
+        private void FirstLastUnchecked()
+        {
+            _firstPageBtn.IsChecked = false;
+            _firstPageBtn.IsChangedBackground = false;
+            _lastPageBtn.IsChecked = false;
+            _lastPageBtn.IsChangedBackground = false;
         }
     }
 }
