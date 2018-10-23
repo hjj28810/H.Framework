@@ -277,19 +277,19 @@ namespace H.Framework.WPF.Control.Controls
                     RebuildPage(_pageCapacity - 3);
                 else
                     RebuildPage(selectedPage);
-                SelectedIndex(_midIndex);
+                SelectedMidIndex(_midIndex);
                 ShowBtn(_previousFiveBtn);
             }
             else if ((selectedPage == 3 || selectedPage == 4) && _pageCapacity > BtnCapacity && _previousFiveBtn.Visibility == Visibility.Visible)
             {
                 RebuildPage(4);
-                SelectedIndex(selectedPage - 2);
+                SelectedMidIndex(selectedPage - 2);
                 ShowBtn(_nextFiveBtn);
             }
             else if ((selectedPage == 3 || selectedPage == 4) && _pageCapacity > BtnCapacity && _previousFiveBtn.Visibility == Visibility.Collapsed)
             {
                 RebuildPage(selectedPage);
-                SelectedIndex(selectedPage - 2);
+                SelectedMidIndex(selectedPage - 2);
             }
         }
 
@@ -335,7 +335,7 @@ namespace H.Framework.WPF.Control.Controls
             }
         }
 
-        private void SelectedIndex(int index)
+        private void SelectedMidIndex(int index)
         {
             UncheckRB();
             (_panel.Children[index] as RadioButtonEx).IsChangedBackground = true;
