@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -16,14 +12,14 @@ namespace H.Framework.WPF.Control.Adorners
         public WatermarkAdorner(UIElement adornedElement)
             : base(adornedElement)
         {
-            this.IsHitTestVisible = false;
+            IsHitTestVisible = false;
             if (adornedElement is TextBox)
             {
                 adornedTextBox = adornedElement as TextBox;
                 adornedTextBox.TextChanged += (s1, e1) => InvalidateVisual();
                 adornedTextBox.GotFocus += (s1, e1) => InvalidateVisual();
                 adornedTextBox.LostFocus += (s1, e1) => InvalidateVisual();
-                this.InvalidateVisual();
+                InvalidateVisual();
             }
         }
 
@@ -31,20 +27,22 @@ namespace H.Framework.WPF.Control.Adorners
         {
             if (adornedTextBox != null && !adornedTextBox.IsFocused && adornedTextBox.Visibility == Visibility.Visible)
             {
+                var fontSize = GetFontSize(adornedTextBox);
                 var fmt = new FormattedText(GetText(adornedTextBox),
                 CultureInfo.CurrentCulture,
                 adornedTextBox.FlowDirection,
                 adornedTextBox.FontFamily.GetTypefaces().FirstOrDefault(),
-                GetFontSize(adornedTextBox),
+                fontSize,
                 //adornedTextBox.FontSize,
                 GetForeground(adornedTextBox));
                 fmt.SetFontStyle(GetFontStyle(adornedTextBox));
 
+                var topOffset = GetTopOffset(adornedTextBox);
                 dc.DrawRectangle(GetBackground(adornedTextBox), null, new Rect(
-                    new Point(adornedTextBox.Padding.Left + 4, adornedTextBox.Padding.Top + 3),
+                    new Point(adornedTextBox.Padding.Left + 4, adornedTextBox.Padding.Top + topOffset),
                     new Size(fmt.Width, fmt.Height)));
 
-                dc.DrawText(fmt, new Point(adornedTextBox.Padding.Left + 4, adornedTextBox.Padding.Top + 3));
+                dc.DrawText(fmt, new Point(adornedTextBox.Padding.Left + 4, adornedTextBox.Padding.Top + topOffset));
             }
         }
 
@@ -127,6 +125,19 @@ namespace H.Framework.WPF.Control.Adorners
 
         public static readonly DependencyProperty FontSizeProperty =
             DependencyProperty.RegisterAttached("FontSize", typeof(int), typeof(WatermarkAdorner), new UIPropertyMetadata(10));
+
+        public static int GetTopOffset(DependencyObject obj)
+        {
+            return (int)obj.GetValue(TopOffsetProperty);
+        }
+
+        public static void SetTopOffset(DependencyObject obj, int value)
+        {
+            obj.SetValue(TopOffsetProperty, value);
+        }
+
+        public static readonly DependencyProperty TopOffsetProperty =
+            DependencyProperty.RegisterAttached("TopOffset", typeof(int), typeof(WatermarkAdorner), new UIPropertyMetadata(2));
 
         private TextBox adornedTextBox;
     }
