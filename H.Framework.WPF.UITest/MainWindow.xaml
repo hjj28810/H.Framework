@@ -1,9 +1,10 @@
-﻿<Window
+﻿<extender:WindowEx
     x:Class="H.Framework.WPF.UITest.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extenal="clr-namespace:H.Framework.WPF.Control.Adorners;assembly=H.Framework.WPF.Control"
+    xmlns:extenalHelper="clr-namespace:H.Framework.WPF.Infrastructure.Utilities;assembly=H.Framework.WPF.Infrastructure"
     xmlns:extender="clr-namespace:H.Framework.WPF.Control.Controls;assembly=H.Framework.WPF.Control"
     xmlns:local="clr-namespace:H.Framework.WPF.UITest"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -48,6 +49,7 @@
             IsShowText="False"
             Text="2" />
         <extender:SearchBox
+            Name="search"
             Width="130"
             Height="22"
             Margin="72,23,0,0"
@@ -58,6 +60,16 @@
             Foreground="White"
             Visibility="{Binding SBVisibility, Mode=TwoWay}"
             Watermark="搜索" />
+        <Popup
+            Width="150"
+            Height="200"
+            Panel.ZIndex="90"
+            extenalHelper:PopupHelper.PopupPlacementTarget="{Binding ElementName=search}"
+            IsOpen="True"
+            Placement="Bottom"
+            PlacementTarget="{Binding ElementName=search}"
+            StaysOpen="True" />
+
         <extender:ImageButton
             Width="16"
             Height="15"
@@ -111,4 +123,4 @@
             extenal:WatermarkAdorner.TopOffset="4"
             TextWrapping="Wrap" />
     </Grid>
-</Window>
+</extender:WindowEx>

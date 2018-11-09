@@ -25,6 +25,8 @@ namespace H.Framework.Core.Log
     public enum LogType
     {
         Error,
-        Business
+        Business,
+        System,
+        Other
     }
 }

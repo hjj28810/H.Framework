@@ -1,5 +1,6 @@
 ﻿using H.Framework.Core.Log;
 using H.Framework.Core.Utilities;
+using H.Framework.WPF.Control.Controls;
 using H.Framework.WPF.Control.Controls.Capture;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace H.Framework.WPF.UITest
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : WindowEx, INotifyPropertyChanged
     {
         private readonly ScreenCapture screenCapture = new ScreenCapture();
 
