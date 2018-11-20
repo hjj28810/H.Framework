@@ -6,9 +6,10 @@
     <Authors>H</Authors>
     <Product>H.Framework</Product>
     <Description>C#整理了一些基础类库</Description>
-    <Version>2.0.1.4</Version>
-    <FileVersion>2.0.1.4</FileVersion>
-    <AssemblyVersion>2.0.1.4</AssemblyVersion>
+    <Version>2.0.1.6</Version>
+    <FileVersion>2.0.1.6</FileVersion>
+    <AssemblyVersion>2.0.1.6</AssemblyVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>

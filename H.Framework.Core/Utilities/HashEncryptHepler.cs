@@ -136,7 +136,7 @@ namespace H.Framework.Core.Utilities
         /// <param name="iv">解密矢量：只有在CBC解密模式下才适用</param>
         /// <param name="cMode">运算模式</param>
         /// <returns>解密的字符串</returns>
-        public static string Decrypt3DES(string text, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
+        public static byte[] Decrypt3DES(string text, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
         {
             try
             {
@@ -152,12 +152,12 @@ namespace H.Framework.Core.Utilities
                         des.IV = Encoding.UTF8.GetBytes(iv);
                     }
                     var buffer = Convert.FromBase64String(text);
-                    return Encoding.UTF8.GetString(des.CreateDecryptor().TransformFinalBlock(buffer, 0, buffer.Length)).TrimEnd('\0');
+                    return des.CreateDecryptor().TransformFinalBlock(buffer, 0, buffer.Length);
                 }
             }
-            catch (Exception)
+            catch
             {
-                return string.Empty;
+                throw new Exception();
             }
         }
     }

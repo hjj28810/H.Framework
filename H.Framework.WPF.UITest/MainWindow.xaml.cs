@@ -56,7 +56,8 @@ namespace H.Framework.WPF.UITest
             var a = "asdasd.pdf".IsMatchFileExt(".pdf");
             LogHelper.Register(new Log4NetLogger("Error"), "Error");
             LogHelper.Register(new Log4NetLogger("Business"), "Business");
-            LogHelper.WriteLogFileAsync(new LogMessage<string> { Title = "消息处理XAML", Data = "adsasd" }, LogType.Business);
+            LogHelper.Register(new Log4NetLogger("System"), "System");
+            LogHelper.WriteLogFile(new LogMessage<string> { Title = "消息处理XAML", Data = "adsasd" }, LogType.System);
 
             var ste = "asdasd > 2019/2/28 18:22:33 && asdasd < 2017/12/01 12:23:43";
             var r = ste.IsMatchDateTime('/');
@@ -66,7 +67,7 @@ namespace H.Framework.WPF.UITest
 
             var aaaaa = HashEncryptHepler.MD5Hash("appId=wx329328d6d1af8bd8&customer_weixin=wxid_411rjwe7lvgz22&secret=d16dc6fe103c3fc600fe13903a0ed5d2&timestamp=1537953627&user_id=100100&weixin=HUANGBO19891006", MD5Format.X);
             var Hash = HashEncryptHepler.Encrypt3DES("123456789", "SKFMNGHJVBNDKI=56ELBGKFW");
-            var aHash = HashEncryptHepler.Decrypt3DES(Hash, "SKFMNGHJVBNDKI=56ELBGKFW");
+            var aHash = HashEncryptHepler.Decrypt3DES("OiVvvDsBLMamzZgGbV4ewydHd21dh841OeFlCIHK/my8voGa7D9QDe4UO7fQTiCoLRif07forwejeeaMxHL+AP4eUsl4dU6sFpJYpRsNkViyyZ4XsmV4z/Kk5tf+fN5W", "SKFMNGHJVBNDKI=56ELBGKFW");
         }
 
         public IEnumerable<Node> Get()
