@@ -28,12 +28,12 @@
             <RowDefinition Height="67*" />
             <RowDefinition Height="352*" />
         </Grid.RowDefinitions>
-        <extender:RectangleLoading Grid.RowSpan="2" ShowUp="Hidden" />
-        <extender:SwingLoading
+        <!--<extender:RectangleLoading Grid.RowSpan="2" ShowUp="Hidden" />-->
+        <!--<extender:SwingLoading
             Name="swingLoading"
             Grid.Row="1"
             ShowUp="Hidden" />
-        <extender:BusyCircle Grid.RowSpan="2" Visibility="Hidden" />
+        <extender:BusyCircle Grid.RowSpan="2" Visibility="Hidden" />-->
         <extender:DownloadComponent
             Grid.RowSpan="2"
             Margin="266,23,0,0"
@@ -61,7 +61,7 @@
             Foreground="White"
             Visibility="{Binding SBVisibility, Mode=TwoWay}"
             Watermark="搜索" />
-        <Popup
+        <!--<Popup
             Width="150"
             Height="200"
             Panel.ZIndex="90"
@@ -69,7 +69,7 @@
             IsOpen="True"
             Placement="Bottom"
             PlacementTarget="{Binding ElementName=search}"
-            StaysOpen="True" />
+            StaysOpen="True" />-->
 
         <extender:ImageButton
             Width="16"
@@ -112,16 +112,18 @@
             Margin="0,64,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top" />
-        <TextBox
+        <extender:TextBoxEx
             Width="120"
-            Height="33"
-            Margin="653,30,0,0"
+            Height="35"
+            Margin="652,20,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             VerticalContentAlignment="Center"
-            extenal:WatermarkAdorner.FontSize="18"
-            extenal:WatermarkAdorner.Text="哈哈哈"
-            extenal:WatermarkAdorner.TopOffset="4"
-            TextWrapping="Wrap" />
+            Background="Blue"
+            BorderCornerRadius="5"
+            BorderThickness="0"
+            TextWrapping="Wrap"
+            Watermark="aaaaa"
+            WatermarkVisibility="Collapsed" />
     </Grid>
 </extender:WindowEx>

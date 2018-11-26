@@ -89,6 +89,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\TextBoxEx.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\WindowEx.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -155,6 +159,7 @@
     <Compile Include="Controls\Pager.cs" />
     <Compile Include="Controls\RadioButtonEx.cs" />
     <Compile Include="Controls\SwingLoading.cs" />
+    <Compile Include="Controls\TextBoxEx.cs" />
     <Compile Include="Controls\WindowEx.cs" />
     <Compile Include="Controls\DownloadComponent.cs" />
     <Compile Include="Controls\ExpanderEx.cs" />

@@ -38,11 +38,11 @@ namespace H.Framework.WPF.Control.Adorners
                 fmt.SetFontStyle(GetFontStyle(adornedTextBox));
 
                 var topOffset = GetTopOffset(adornedTextBox);
-                dc.DrawRectangle(GetBackground(adornedTextBox), null, new Rect(
-                    new Point(adornedTextBox.Padding.Left + 4, adornedTextBox.Padding.Top + topOffset),
-                    new Size(fmt.Width, fmt.Height)));
+                //dc.DrawRectangle(GetBackground(adornedTextBox), null, new Rect(
+                //    new Point(adornedTextBox.Padding.Left, adornedTextBox.Padding.Top + topOffset),
+                //    new Size(fmt.Width, fmt.Height)));
 
-                dc.DrawText(fmt, new Point(adornedTextBox.Padding.Left + 4, adornedTextBox.Padding.Top + topOffset));
+                dc.DrawText(fmt, new Point(adornedTextBox.Padding.Left, adornedTextBox.Padding.Top + topOffset));
             }
         }
 
