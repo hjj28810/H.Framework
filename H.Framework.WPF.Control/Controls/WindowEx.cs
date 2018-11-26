@@ -359,6 +359,32 @@ namespace H.Framework.WPF.Control.Controls
             get => (bool)GetValue(ShowLoadingProperty);
             set => SetValue(ShowLoadingProperty, value);
         }
+
+        public static readonly DependencyProperty TitleBorderBrushProperty = DependencyProperty.Register("TitleBorderBrush", typeof(Brush), typeof(WindowEx), new UIPropertyMetadata(new SolidColorBrush(Colors.Gray), null));
+
+        /// <summary>
+        /// 窗口Title边框颜色
+        /// </summary>
+        [Description("获取或设置窗口边框颜色")]
+        [Category("Defined Properties")]
+        public Brush TitleBorderBrush
+        {
+            get => (Brush)GetValue(TitleBorderBrushProperty);
+            set => SetValue(TitleBorderBrushProperty, value);
+        }
+
+        public static readonly DependencyProperty TitleBorderThicknessProperty = DependencyProperty.Register("TitleBorderThickness", typeof(Thickness), typeof(WindowEx), new UIPropertyMetadata(new Thickness(0, 0, 0, 0), null));
+
+        /// <summary>
+        /// 窗口Title边框
+        /// </summary>
+        [Description("获取或设置窗口边框")]
+        [Category("Defined Properties")]
+        public Thickness TitleBorderThickness
+        {
+            get => (Thickness)GetValue(TitleBorderThicknessProperty);
+            set => SetValue(TitleBorderThicknessProperty, value);
+        }
     }
 
     public enum ResizeDirection

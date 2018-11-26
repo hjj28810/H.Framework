@@ -12,6 +12,7 @@
     Width="800"
     Height="450"
     Loaded="Window_Loaded"
+    TitleBorderThickness="0,0,0,1"
     mc:Ignorable="d">
     <Window.Resources>
         <Style x:Key="btnStyle" TargetType="{x:Type extender:ButtonEx}">

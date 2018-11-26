@@ -42,45 +42,48 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
 
                                     <Border
                                         x:Name="PART_MoveableBorder"
                                         Grid.Row="0"
-                                        Grid.Column="0"
-                                        Background="{TemplateBinding TitleBarBG}">
-                                        <ContentPresenter Content="{TemplateBinding TitleBarContent}" />
+                                        Background="{TemplateBinding TitleBarBG}"
+                                        BorderBrush="{TemplateBinding TitleBorderBrush}"
+                                        BorderThickness="{TemplateBinding TitleBorderThickness}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0">
+                                                <ContentPresenter Content="{TemplateBinding TitleBarContent}" />
+                                            </Border>
+                                            <StackPanel
+                                                Grid.Column="1"
+                                                Background="Transparent"
+                                                Orientation="Horizontal">
+                                                <local:ButtonEx
+                                                    x:Name="PART_MinimizeButton"
+                                                    VerticalAlignment="Center"
+                                                    Content="0"
+                                                    Style="{StaticResource WindowButtonStyle}"
+                                                    Visibility="{TemplateBinding MinSizeVisibility}" />
+                                                <local:ButtonEx
+                                                    x:Name="PART_RestoreButton"
+                                                    VerticalAlignment="Center"
+                                                    Content="1"
+                                                    Style="{StaticResource WindowButtonStyle}"
+                                                    Visibility="{TemplateBinding MaxSizeVisibility}" />
+                                                <local:ButtonEx
+                                                    x:Name="PART_CloseButton"
+                                                    VerticalAlignment="Center"
+                                                    Content="r"
+                                                    Style="{StaticResource WindowButtonStyle}"
+                                                    Visibility="{TemplateBinding CloseVisibility}" />
+                                            </StackPanel>
+                                        </Grid>
                                     </Border>
-                                    <StackPanel
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        Background="Transparent"
-                                        Orientation="Horizontal">
-                                        <local:ButtonEx
-                                            x:Name="PART_MinimizeButton"
-                                            VerticalAlignment="Center"
-                                            Content="0"
-                                            Style="{StaticResource WindowButtonStyle}"
-                                            Visibility="{TemplateBinding MinSizeVisibility}" />
-                                        <local:ButtonEx
-                                            x:Name="PART_RestoreButton"
-                                            VerticalAlignment="Center"
-                                            Content="1"
-                                            Style="{StaticResource WindowButtonStyle}"
-                                            Visibility="{TemplateBinding MaxSizeVisibility}" />
-                                        <local:ButtonEx
-                                            x:Name="PART_CloseButton"
-                                            VerticalAlignment="Center"
-                                            Content="r"
-                                            Style="{StaticResource WindowButtonStyle}"
-                                            Visibility="{TemplateBinding CloseVisibility}" />
-                                    </StackPanel>
                                     <local:RectangleLoading
                                         Grid.Row="1"
-                                        Grid.ColumnSpan="2"
                                         Panel.ZIndex="999"
                                         ShowUp="{TemplateBinding ShowLoading,
                                                                  Converter={StaticResource objConverter},

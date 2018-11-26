@@ -67,7 +67,7 @@ namespace H.Framework.WPF.UITest
 
             var aaaaa = HashEncryptHepler.MD5Hash("appId=wx329328d6d1af8bd8&customer_weixin=wxid_411rjwe7lvgz22&secret=d16dc6fe103c3fc600fe13903a0ed5d2&timestamp=1537953627&user_id=100100&weixin=HUANGBO19891006", MD5Format.X);
             var Hash = HashEncryptHepler.Encrypt3DES("123456789", "SKFMNGHJVBNDKI=56ELBGKFW");
-            var aHash = HashEncryptHepler.Decrypt3DES("OiVvvDsBLMamzZgGbV4ewydHd21dh841OeFlCIHK/my8voGa7D9QDe4UO7fQTiCoLRif07forwejeeaMxHL+AP4eUsl4dU6sFpJYpRsNkViyyZ4XsmV4z/Kk5tf+fN5W", "SKFMNGHJVBNDKI=56ELBGKFW");
+            var aHash = HashEncryptHepler.Decrypt3DES("Mk3H0XFcl6gS1rKMAG2woL0fG2ni9AcrcbOE2DVbKRgSs4eWMadeHtPVlBBAQqDwtYXKFo8mBFlyuOkuB/fMEvnwJdNlbsegaAwKf73H6nCdhyUWZOlVtwpY9mzQf/oU", "SKFMNGHJVBNDKI=56ELBGKFW");
         }
 
         public IEnumerable<Node> Get()
