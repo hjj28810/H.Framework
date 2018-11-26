@@ -31,18 +31,6 @@ namespace H.Framework.WPF.Control.Controls
 
         #endregion Watermark
 
-        #region WatermarkVisibility
-
-        public static readonly DependencyProperty WatermarkVisibilityProperty = DependencyProperty.Register("WatermarkVisibility", typeof(Visibility), typeof(TextBoxEx), new UIPropertyMetadata(Visibility.Collapsed));
-
-        public Visibility WatermarkVisibility
-        {
-            get => (Visibility)GetValue(WatermarkVisibilityProperty);
-            set => SetValue(WatermarkVisibilityProperty, value);
-        }
-
-        #endregion WatermarkVisibility
-
         #region WatermarkTemplate
 
         public static readonly DependencyProperty WatermarkTemplateProperty = DependencyProperty.Register("WatermarkTemplate", typeof(DataTemplate), typeof(TextBoxEx), new UIPropertyMetadata(null));

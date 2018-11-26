@@ -62,7 +62,7 @@
                                     Content="{TemplateBinding Watermark}"
                                     ContentTemplate="{Binding WatermarkTemplate, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultWatermarkTemplate}}"
                                     IsHitTestVisible="False"
-                                    Visibility="{TemplateBinding WatermarkVisibility}" />
+                                    Visibility="Collapsed" />
                             </Grid>
                         </Border>
                         <Border
@@ -84,7 +84,6 @@
                                 <Condition Property="KeepWatermarkOnGotFocus" Value="False" />
                                 <Condition Property="IsFocused" Value="False" />
                                 <Condition Property="Text" Value="" />
-                                <Condition Property="WatermarkVisibility" Value="Visible" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="PART_WatermarkHost" Property="Visibility" Value="Visible" />
@@ -92,19 +91,8 @@
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="KeepWatermarkOnGotFocus" Value="False" />
-                                <Condition Property="IsFocused" Value="True" />
-                                <Condition Property="WatermarkVisibility" Value="Visible" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="PART_WatermarkHost" Property="Visibility" Value="Collapsed" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
                                 <Condition Property="KeepWatermarkOnGotFocus" Value="True" />
                                 <Condition Property="Text" Value="" />
-                                <Condition Property="WatermarkVisibility" Value="Visible" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="PART_WatermarkHost" Property="Visibility" Value="Visible" />

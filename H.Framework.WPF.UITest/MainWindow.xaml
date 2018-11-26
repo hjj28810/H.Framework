@@ -119,11 +119,9 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             VerticalContentAlignment="Center"
-            Background="Blue"
+            Background="SkyBlue"
             BorderCornerRadius="5"
             BorderThickness="0"
-            TextWrapping="Wrap"
-            Watermark="aaaaa"
-            WatermarkVisibility="Collapsed" />
+            TextWrapping="Wrap" />
     </Grid>
 </extender:WindowEx>
