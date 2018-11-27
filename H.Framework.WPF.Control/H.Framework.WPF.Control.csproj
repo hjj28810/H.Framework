@@ -185,6 +185,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Utilities\Caputre\HelperMethods.cs" />
+    <Compile Include="Utilities\Enums.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -5,7 +5,6 @@
     xmlns:local="clr-namespace:H.Framework.WPF.Control.Controls">
     <converter:ObjectConverter x:Key="objConverter" />
     <Style x:Key="WindowButtonStyle" TargetType="{x:Type local:ButtonEx}">
-        <Setter Property="FontSize" Value="12" />
         <Setter Property="FontFamily" Value="Webdings" />
         <Setter Property="Width" Value="20" />
         <Setter Property="Height" Value="20" />
@@ -22,8 +21,8 @@
                     <Grid Margin="10">
                         <Rectangle
                             Fill="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
-                            RadiusX="5"
-                            RadiusY="5">
+                            RadiusX="{TemplateBinding RectangleRadius}"
+                            RadiusY="{TemplateBinding RectangleRadius}">
                             <Rectangle.Effect>
                                 <DropShadowEffect BlurRadius="10" ShadowDepth="0" />
                             </Rectangle.Effect>
@@ -65,18 +64,26 @@
                                                     x:Name="PART_MinimizeButton"
                                                     VerticalAlignment="Center"
                                                     Content="0"
+                                                    FontSize="{TemplateBinding WinButtonSize}"
+                                                    Foreground="{TemplateBinding WinButtonFG}"
                                                     Style="{StaticResource WindowButtonStyle}"
                                                     Visibility="{TemplateBinding MinSizeVisibility}" />
                                                 <local:ButtonEx
                                                     x:Name="PART_RestoreButton"
+                                                    Margin="5,0,0,0"
                                                     VerticalAlignment="Center"
                                                     Content="1"
+                                                    FontSize="{TemplateBinding WinButtonSize}"
+                                                    Foreground="{TemplateBinding WinButtonFG}"
                                                     Style="{StaticResource WindowButtonStyle}"
                                                     Visibility="{TemplateBinding MaxSizeVisibility}" />
                                                 <local:ButtonEx
                                                     x:Name="PART_CloseButton"
+                                                    Margin="5,0,10,0"
                                                     VerticalAlignment="Center"
                                                     Content="r"
+                                                    FontSize="{TemplateBinding WinButtonSize}"
+                                                    Foreground="{TemplateBinding WinButtonFG}"
                                                     Style="{StaticResource WindowButtonStyle}"
                                                     Visibility="{TemplateBinding CloseVisibility}" />
                                             </StackPanel>

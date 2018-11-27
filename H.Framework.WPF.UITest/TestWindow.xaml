@@ -8,12 +8,12 @@
     Width="800"
     Height="450"
     ShowLoading="False"
-    WinCornerRadius="5">
+    TitleBarBG="SkyBlue"
+    WinButtonFG="White"
+    WinButtonSize="16"
+    WinCornerRadius="8">
 
-    <local:WindowEx.TitleBarContent>
-        <TextBlock Text="aaaaa" />
-    </local:WindowEx.TitleBarContent>
-    <Grid>
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -21,7 +21,9 @@
 
         <local:Pager DataCount="12722" PageSize="20" />
 
-        <!--<local:RadioButtonEx Grid.Row="1" Content="hahahahah" />-->
+    -->
+    <!--<local:RadioButtonEx Grid.Row="1" Content="hahahahah" />-->
+    <!--
         <StackPanel
             Grid.Row="1"
             Width="13"
@@ -50,5 +52,5 @@
                 Fill="DarkGray"
                 Stretch="Fill" />
         </StackPanel>
-    </Grid>
+    </Grid>-->
 </local:WindowEx>

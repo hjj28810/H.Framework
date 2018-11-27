@@ -43,7 +43,7 @@ namespace H.Framework.WPF.Control.Controls
         private void InitializeControl()
         {
             _titleBar = GetTemplateChild("PART_MoveableBorder") as Border;
-            _titleBar.PreviewMouseDown += MoveableRect_PreviewMouseDown;
+            _titleBar.MouseDown += MoveableRect_MouseDown;
 
             _minimizeButton = GetTemplateChild("PART_MinimizeButton") as ButtonEx;
             _restoreButton = GetTemplateChild("PART_RestoreButton") as ButtonEx;
@@ -68,7 +68,7 @@ namespace H.Framework.WPF.Control.Controls
             }
         }
 
-        private void MoveableRect_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void MoveableRect_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed)
                 DragMove();
@@ -76,7 +76,7 @@ namespace H.Framework.WPF.Control.Controls
 
         private void ResizeRectangle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            Rectangle rectangle = sender as Rectangle;
+            var rectangle = sender as Rectangle;
 
             if (rectangle != null)
             {
@@ -259,6 +259,7 @@ namespace H.Framework.WPF.Control.Controls
             var c = (WindowEx)sender;
             var value = (CornerRadius)e.NewValue;
             c.SetTitleBarCornerRadius(value);
+            c.RectangleRadius = value.TopLeft;
         }
 
         private void SetTitleBarCornerRadius(CornerRadius cr)
@@ -384,6 +385,45 @@ namespace H.Framework.WPF.Control.Controls
         {
             get => (Thickness)GetValue(TitleBorderThicknessProperty);
             set => SetValue(TitleBorderThicknessProperty, value);
+        }
+
+        public static readonly DependencyProperty WinButtonSizeProperty = DependencyProperty.Register("WinButtonSize", typeof(double), typeof(WindowEx), new UIPropertyMetadata(12.0, null));
+
+        /// <summary>
+        /// 按钮大小
+        /// </summary>
+        [Description("获取或设置按钮大小")]
+        [Category("Defined Properties")]
+        public double WinButtonSize
+        {
+            get => (double)GetValue(WinButtonSizeProperty);
+            set => SetValue(WinButtonSizeProperty, value);
+        }
+
+        public static readonly DependencyProperty WinButtonFGProperty = DependencyProperty.Register("WinButtonFG", typeof(Brush), typeof(WindowEx), new UIPropertyMetadata(new SolidColorBrush(Colors.Black), null));
+
+        /// <summary>
+        /// 按钮前景色
+        /// </summary>
+        [Description("获取或设置按钮前景色")]
+        [Category("Defined Properties")]
+        public Brush WinButtonFG
+        {
+            get => (Brush)GetValue(WinButtonFGProperty);
+            set => SetValue(WinButtonFGProperty, value);
+        }
+
+        public static readonly DependencyProperty RectangleRadiusProperty = DependencyProperty.Register("RectangleRadius", typeof(double), typeof(WindowEx), new UIPropertyMetadata(0.0, null));
+
+        /// <summary>
+        /// RectangleRadius
+        /// </summary>
+        [Description("获取或设置RectangleRadius")]
+        [Category("Defined Properties")]
+        public double RectangleRadius
+        {
+            get => (double)GetValue(RectangleRadiusProperty);
+            set => SetValue(RectangleRadiusProperty, value);
         }
     }
 
