@@ -51,6 +51,32 @@
             </AdornedElementPlaceholder>
         </Grid>
     </ControlTemplate>-->
+    <DataTemplate x:Key="ErrorTipDataTemplate">
+        <StackPanel
+            MinHeight="28"
+            Margin="10,0"
+            Orientation="Horizontal">
+            <Grid Margin="0,0,5,0" Visibility="Visible">
+                <Ellipse
+                    Width="13"
+                    Height="13"
+                    Fill="#FF494A"
+                    StrokeThickness="0" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="10"
+                    Foreground="White"
+                    Text="!" />
+            </Grid>
+            <TextBlock
+                VerticalAlignment="Center"
+                FontFamily="PingFangSC-Regular"
+                FontSize="12"
+                Foreground="#FF494A"
+                Text="{Binding}" />
+        </StackPanel>
+    </DataTemplate>
     <Style TargetType="{x:Type local:TextBoxEx}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
@@ -73,11 +99,14 @@
                             Background="{TemplateBinding ErrorBackground}"
                             BorderBrush="{TemplateBinding ErrorBorderBrush}"
                             BorderThickness="1"
+                            Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(Validation.Errors)[0].ErrorContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            ContentTemplate="{StaticResource ErrorTipDataTemplate}"
                             Corner="{TemplateBinding ErrorCorner}"
+                            FontSize="12"
                             IsShow="{TemplateBinding Validation.HasError}"
                             Placement="Custom"
                             PlacementTarget="{Binding ElementName=Border}"
-                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(Validation.Errors)[0].ErrorContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            ShadowColor="{TemplateBinding ErrorBorderBrush}" />
                         <Border
                             x:Name="Border"
                             Background="{TemplateBinding Background}"

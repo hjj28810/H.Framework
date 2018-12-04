@@ -105,7 +105,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="r"
-            ErrorMsg="{Binding TestText, UpdateSourceTrigger=PropertyChanged}"
+            ErrorMsg="{Binding TestBtnText, UpdateSourceTrigger=PropertyChanged}"
             FontFamily="Marlett"
             Style="{StaticResource btnStyle}" />
 
@@ -116,6 +116,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top" />
         <extender:TextBoxEx
+            Name="asdsa"
             Width="120"
             Height="35"
             Margin="652,20,0,0"
@@ -127,11 +128,21 @@
             BorderThickness="0"
             Text="{Binding TestText, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             TextWrapping="Wrap" />
+
         <extender:TipBubble
             Name="tipBubble"
-            BorderBrush="Red"
-            BorderThickness="1"
-            PlacementTarget="{Binding ElementName=search}"
-            Text="哈哈哈" />
+            Padding="12"
+            Background="#257AFF"
+            BorderThickness="0"
+            FontFamily="PingFangSC-Regular"
+            FontSize="14"
+            Foreground="White"
+            IsShow="True"
+            PlacementTarget="{Binding ElementName=asdsa}"
+            ShadowColor="#A3A3A3">
+            <extender:TipBubble.Content>
+                <TextBlock Text="dsdss" />
+            </extender:TipBubble.Content>
+        </extender:TipBubble>
     </Grid>
 </extender:WindowEx>

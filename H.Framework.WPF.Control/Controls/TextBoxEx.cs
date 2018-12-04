@@ -104,7 +104,7 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(ErrorBackgroundProperty, value);
         }
 
-        public static readonly DependencyProperty ErrorBorderBrushProperty = DependencyProperty.Register("ErrorBorderBrush", typeof(Brush), typeof(TextBoxEx), new UIPropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFF494A")), null));
+        public static readonly DependencyProperty ErrorBorderBrushProperty = DependencyProperty.Register("ErrorBorderBrush", typeof(Brush), typeof(TextBoxEx), new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(255, 73, 74)), null));
 
         /// <summary>
         /// 异常-边框色

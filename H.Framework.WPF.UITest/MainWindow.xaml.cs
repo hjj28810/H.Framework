@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Windows;
-using System.Windows.Media;
 
 namespace H.Framework.WPF.UITest
 {
@@ -74,8 +73,7 @@ namespace H.Framework.WPF.UITest
             list.AddRangeNoRept(list2);
 
             //screenCapture.StartCapture(30);
-            tipBubble.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1"));
-            tipBubble.IsShow = true;
+
             //swingLoading.ShowUp = swingLoading.ShowUp == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 

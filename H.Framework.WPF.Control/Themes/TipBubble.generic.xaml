@@ -4,7 +4,6 @@
     xmlns:inf="clr-namespace:H.Framework.WPF.Infrastructure.Utilities;assembly=H.Framework.WPF.Infrastructure"
     xmlns:local="clr-namespace:H.Framework.WPF.Control.Controls">
     <Style TargetType="{x:Type local:TipBubble}">
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:TipBubble}">
@@ -15,9 +14,16 @@
                         IsOpen="{TemplateBinding IsShow}"
                         Placement="{TemplateBinding Placement}"
                         PlacementTarget="{TemplateBinding PlacementTarget}"
-                        StaysOpen="{TemplateBinding IsAutoHiden}"
-                        PopupAnimation="Scroll">
+                        PopupAnimation="Scroll"
+                        StaysOpen="{TemplateBinding IsAutoHiden}">
                         <Grid Name="PART_Main">
+                            <Grid.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="6"
+                                    Opacity="0.3"
+                                    ShadowDepth="0"
+                                    Color="{TemplateBinding ShadowColor}" />
+                            </Grid.Effect>
                             <!--<Polygon
                             Panel.ZIndex="10"
                             Fill="{TemplateBinding Background}"
@@ -61,30 +67,15 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding Corner}">
-                                <StackPanel
-                                    MinHeight="28"
-                                    Margin="10,0"
-                                    Orientation="Horizontal">
-                                    <Grid Margin="0,0,5,0" Visibility="{TemplateBinding IconVisibility}">
-                                        <Ellipse
-                                            Width="13"
-                                            Height="13"
-                                            Fill="{TemplateBinding BorderBrush}"
-                                            StrokeThickness="0" />
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontSize="10"
-                                            Foreground="White"
-                                            Text="!" />
-                                    </Grid>
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontFamily="{TemplateBinding FontFamily}"
-                                        FontSize="{TemplateBinding FontSize}"
-                                        Foreground="{TemplateBinding BorderBrush}"
-                                        Text="{TemplateBinding Text}" />
-                                </StackPanel>
+                                <ContentPresenter
+                                    x:Name="PART_Content"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    RecognizesAccessKey="True"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </Border>
                         </Grid>
                     </Popup>

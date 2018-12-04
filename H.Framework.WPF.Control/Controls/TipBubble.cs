@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace H.Framework.WPF.Control.Controls
@@ -29,32 +30,6 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(CornerProperty, value);
         }
 
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(TipBubble), new UIPropertyMetadata("消息", null));
-
-        /// <summary>
-        /// 文本
-        /// </summary>
-        [Description("获取或设置文本")]
-        [Category("Defined Properties")]
-        public string Text
-        {
-            get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
-        }
-
-        public static readonly DependencyProperty IconVisibilityProperty = DependencyProperty.Register("IconVisibility", typeof(Visibility), typeof(TipBubble), new UIPropertyMetadata(Visibility.Visible, null));
-
-        /// <summary>
-        /// 文本
-        /// </summary>
-        [Description("获取或设置文本")]
-        [Category("Defined Properties")]
-        public Visibility IconVisibility
-        {
-            get => (Visibility)GetValue(IconVisibilityProperty);
-            set => SetValue(IconVisibilityProperty, value);
-        }
-
         public static readonly DependencyProperty IsShowProperty = DependencyProperty.Register("IsShow", typeof(bool), typeof(TipBubble), new UIPropertyMetadata(false, IsShowPropertyChangedCallback));
 
         /// <summary>
@@ -74,7 +49,8 @@ namespace H.Framework.WPF.Control.Controls
             if ((bool)e.NewValue)
             {
                 if (ctrl.IsAutoHiden)
-                    ctrl._sbArr[0]?.Begin();
+                    if (ctrl._sbArr.Length > 0)
+                        ctrl._sbArr[0]?.Begin();
             }
             else
             {
@@ -118,8 +94,7 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(PlacementTargetProperty, value);
         }
 
-        public static readonly DependencyProperty IsAutoHidenProperty = DependencyProperty.Register("IsAutoHiden", typeof(bool), typeof(TipBubble), new UIPropertyMetadata(false, null
-            ));
+        public static readonly DependencyProperty IsAutoHidenProperty = DependencyProperty.Register("IsAutoHiden", typeof(bool), typeof(TipBubble), new UIPropertyMetadata(false, null));
 
         /// <summary>
         /// 自动隐藏
@@ -130,6 +105,45 @@ namespace H.Framework.WPF.Control.Controls
         {
             get => (bool)GetValue(IsAutoHidenProperty);
             set => SetValue(IsAutoHidenProperty, value);
+        }
+
+        public static readonly DependencyProperty ShadowColorProperty = DependencyProperty.Register("ShadowColor", typeof(Brush), typeof(TipBubble), new UIPropertyMetadata(new SolidColorBrush(Colors.Blue), null));
+
+        /// <summary>
+        /// 阴影颜色
+        /// </summary>
+        [Description("获取或设置阴影颜色")]
+        [Category("Defined Properties")]
+        public Brush ShadowColor
+        {
+            get => (Brush)GetValue(ShadowColorProperty);
+            set => SetValue(ShadowColorProperty, value);
+        }
+
+        public static readonly DependencyProperty ContentProperty = DependencyProperty.Register("Content", typeof(object), typeof(TipBubble), new UIPropertyMetadata(null, null));
+
+        /// <summary>
+        /// 内容
+        /// </summary>
+        [Description("获取或设置内容")]
+        [Category("Defined Properties")]
+        public object Content
+        {
+            get => GetValue(ContentProperty);
+            set => SetValue(ContentProperty, value);
+        }
+
+        public static readonly DependencyProperty ContentTemplateProperty = DependencyProperty.Register("ContentTemplate", typeof(DataTemplate), typeof(TipBubble), new UIPropertyMetadata(null));
+
+        /// <summary>
+        /// 内容模板
+        /// </summary>
+        [Description("获取或设置内容模板")]
+        [Category("Defined Properties")]
+        public DataTemplate ContentTemplate
+        {
+            get => (DataTemplate)GetValue(ContentTemplateProperty);
+            set => SetValue(ContentTemplateProperty, value);
         }
 
         private Grid _main;

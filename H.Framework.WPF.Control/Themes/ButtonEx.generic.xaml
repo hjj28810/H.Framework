@@ -2,6 +2,33 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:H.Framework.WPF.Control.Controls">
+
+    <DataTemplate x:Key="ErrorTipDataTemplate">
+        <StackPanel
+            MinHeight="28"
+            Margin="10,0"
+            Orientation="Horizontal">
+            <Grid Margin="0,0,5,0" Visibility="Visible">
+                <Ellipse
+                    Width="13"
+                    Height="13"
+                    Fill="#FF494A"
+                    StrokeThickness="0" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="10"
+                    Foreground="White"
+                    Text="!" />
+            </Grid>
+            <TextBlock
+                VerticalAlignment="Center"
+                FontFamily="PingFangSC-Regular"
+                FontSize="12"
+                Foreground="#FF494A"
+                Text="{Binding}" />
+        </StackPanel>
+    </DataTemplate>
     <Style TargetType="{x:Type local:ButtonEx}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="LightGray" />
@@ -19,11 +46,13 @@
                             BorderBrush="#FF494A"
                             BorderThickness="1"
                             ClipToBounds="False"
+                            Content="{TemplateBinding ErrorMsg}"
+                            ContentTemplate="{StaticResource ErrorTipDataTemplate}"
                             FontFamily="PingFangSC-Regular"
                             IsAutoHiden="True"
                             Placement="Custom"
                             PlacementTarget="{Binding ElementName=PART_Chrome}"
-                            Text="{TemplateBinding ErrorMsg}" />
+                            ShadowColor="#FF494A" />
                         <Border
                             x:Name="PART_Chrome"
                             Background="{TemplateBinding Background}"
