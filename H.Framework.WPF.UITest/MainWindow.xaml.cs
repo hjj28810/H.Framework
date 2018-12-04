@@ -2,7 +2,6 @@
 using H.Framework.Core.Utilities;
 using H.Framework.WPF.Control.Controls;
 using H.Framework.WPF.Control.Controls.Capture;
-using H.Framework.WPF.Infrastructure.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

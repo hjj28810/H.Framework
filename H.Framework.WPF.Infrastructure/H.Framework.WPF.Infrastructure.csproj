@@ -68,7 +68,6 @@
     <Compile Include="Utilities\PasswordBoxHelper.cs" />
     <Compile Include="Utilities\PopupHelper.cs" />
     <Compile Include="Utilities\ScrollViewerExtensions.cs" />
-    <Compile Include="Utilities\ValidationExtension.cs" />
     <Compile Include="Utilities\WindowExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
