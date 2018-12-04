@@ -9,10 +9,11 @@
     xmlns:local="clr-namespace:H.Framework.WPF.UITest"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainWindow"
-    Width="800"
-    Height="450"
+    Width="820"
+    Height="466"
     Loaded="Window_Loaded"
     TitleBorderThickness="0,0,0,1"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
         <Style x:Key="btnStyle" TargetType="{x:Type extender:ButtonEx}">
@@ -42,6 +43,7 @@
             FilePath="https://dldir1.qq.com/qqfile/qq/TIM2.2.5/20882/TIM2.2.5.exe"
             FileSize="12322222"
             IsDownLoaded="False" />
+
         <extender:UnreadTip
             Grid.Row="1"
             Margin="129,41,0,0"
@@ -96,13 +98,14 @@
         </extender:ExpanderEx>
 
         <extender:ButtonEx
-            Grid.RowSpan="2"
+            Grid.Row="1"
             Width="15"
             Height="15"
-            Margin="23,61,0,0"
+            Margin="177,82,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="r"
+            ErrorMsg="{Binding TestText, UpdateSourceTrigger=PropertyChanged}"
             FontFamily="Marlett"
             Style="{StaticResource btnStyle}" />
 
@@ -122,6 +125,13 @@
             Background="SkyBlue"
             BorderCornerRadius="5"
             BorderThickness="0"
+            Text="{Binding TestText, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             TextWrapping="Wrap" />
+        <extender:TipBubble
+            Name="tipBubble"
+            BorderBrush="Red"
+            BorderThickness="1"
+            PlacementTarget="{Binding ElementName=search}"
+            Text="哈哈哈" />
     </Grid>
 </extender:WindowEx>

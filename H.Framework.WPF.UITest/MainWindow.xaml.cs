@@ -2,17 +2,20 @@
 using H.Framework.Core.Utilities;
 using H.Framework.WPF.Control.Controls;
 using H.Framework.WPF.Control.Controls.Capture;
+using H.Framework.WPF.Infrastructure.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Windows;
+using System.Windows.Media;
 
 namespace H.Framework.WPF.UITest
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : WindowEx, INotifyPropertyChanged
+    public partial class MainWindow : WindowEx, INotifyPropertyChanged, IDataErrorInfo
     {
         private readonly ScreenCapture screenCapture = new ScreenCapture();
 
@@ -25,6 +28,31 @@ namespace H.Framework.WPF.UITest
         private Visibility _SBVisibility = Visibility.Visible;
 
         public Visibility SBVisibility { get => _SBVisibility; set { _SBVisibility = value; OnPropertyChanged("SBVisibility"); } }
+
+        private string _testText;
+
+        [StringLength(10, MinimumLength = 5)]
+        public string TestText
+        {
+            get => _testText;
+            set
+            {
+                _testText = value; OnPropertyChanged("TestText");
+                TestBtnText = _testText;
+            }
+        }
+
+        private string _testBtnText;
+
+        //[Required(ErrorMessage = "sdsadasd")]
+        public string TestBtnText
+        {
+            get => _testBtnText;
+            set
+            {
+                _testBtnText = value; OnPropertyChanged("TestBtnText");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -46,7 +74,9 @@ namespace H.Framework.WPF.UITest
             var list2 = new string[] { "1", "2" };
             list.AddRangeNoRept(list2);
 
-            screenCapture.StartCapture(30);
+            //screenCapture.StartCapture(30);
+            tipBubble.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1"));
+            tipBubble.IsShow = true;
             //swingLoading.ShowUp = swingLoading.ShowUp == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
@@ -73,6 +103,23 @@ namespace H.Framework.WPF.UITest
         public IEnumerable<Node> Get()
         {
             return new List<Node> { new Node { ID = "1", PID = "0" }, new Node { ID = "11", PID = "1" }, new Node { ID = "22", PID = "1" }, new Node { ID = "33", PID = "1" }, new Node { ID = "111", PID = "11" }, new Node { ID = "112", PID = "11" }, new Node { ID = "1111", PID = "111" }, new Node { ID = "222", PID = "22" } };
+        }
+
+        public string Error => null;
+
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    return this.ValidateProperty(columnName);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
         }
     }
 

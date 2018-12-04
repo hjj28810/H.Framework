@@ -30,6 +30,27 @@
             Foreground="Gray" />
     </DataTemplate>
 
+    <!--<ControlTemplate x:Key="ErrorTemplate">
+        <Grid>
+            <local:TipBubble
+                x:Name="PART_ErrorTip"
+                Panel.ZIndex="11"
+                Background="{TemplateBinding ErrorBackground}"
+                BorderBrush="#FF494A"
+                BorderThickness="1"
+                Corner="3"
+                IsShow="{Binding ElementName=customAdorner, Path=AdornedElement.(Validation.HasError)}"
+                Placement="Bottom"
+                PlacementTarget="{Binding ElementName=BorderError}"
+                Text="{Binding ElementName=customAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
+            <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center">
+                <Border
+                    x:Name="BorderError"
+                    Height="5"
+                    Margin="5,0,0,0" />
+            </AdornedElementPlaceholder>
+        </Grid>
+    </ControlTemplate>-->
     <Style TargetType="{x:Type local:TextBoxEx}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
@@ -41,11 +62,22 @@
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:TextBoxEx}">
                     <Grid>
-
+                        <local:TipBubble
+                            x:Name="PART_ErrorTip"
+                            Margin="0,-10,0,0"
+                            Background="{TemplateBinding ErrorBackground}"
+                            BorderBrush="{TemplateBinding ErrorBorderBrush}"
+                            BorderThickness="1"
+                            Corner="{TemplateBinding ErrorCorner}"
+                            IsShow="{TemplateBinding Validation.HasError}"
+                            Placement="Custom"
+                            PlacementTarget="{Binding ElementName=Border}"
+                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(Validation.Errors)[0].ErrorContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                         <Border
                             x:Name="Border"
                             Background="{TemplateBinding Background}"
@@ -107,6 +139,10 @@
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
+                        <!--<Trigger Property="Validation.HasError" Value="True">
+                            <Setter TargetName="PART_ErrorTip" Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(Validation.Errors)[0].ErrorContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <Setter TargetName="PART_ErrorTip" Property="IsShow" Value="{Binding Validation.HasError}" />
+                        </Trigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

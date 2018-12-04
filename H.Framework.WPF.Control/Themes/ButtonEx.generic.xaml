@@ -7,30 +7,46 @@
         <Setter Property="Foreground" Value="LightGray" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <!--<Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ButtonEx}">
-                    <Border
-                        x:Name="PART_Chrome"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{Binding Path=Corner, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                        SnapsToDevicePixels="True">
-                        <ContentPresenter
-                            x:Name="PART_Content"
-                            Margin="{TemplateBinding Padding}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Content="{TemplateBinding Content}"
-                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            RecognizesAccessKey="True"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                    </Border>
+                    <Grid>
+                        <local:TipBubble
+                            x:Name="PART_ErrorTip"
+                            Panel.ZIndex="22"
+                            Background="#FFF1F1"
+                            BorderBrush="#FF494A"
+                            BorderThickness="1"
+                            ClipToBounds="False"
+                            FontFamily="PingFangSC-Regular"
+                            IsAutoHiden="True"
+                            Placement="Custom"
+                            PlacementTarget="{Binding ElementName=PART_Chrome}"
+                            Text="{TemplateBinding ErrorMsg}" />
+                        <Border
+                            x:Name="PART_Chrome"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding Path=Corner, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter
+                                x:Name="PART_Content"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="Black" />
+                            <!--<Setter Property="Foreground" Value="Black" />-->
+                            <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

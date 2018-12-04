@@ -21,5 +21,6 @@
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/Pager.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/RadioButtonEx.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/TextBoxEx.generic.xaml" />
+        <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/TipBubble.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
