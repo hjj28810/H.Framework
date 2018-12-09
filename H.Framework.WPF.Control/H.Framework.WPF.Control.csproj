@@ -73,6 +73,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\ComboBoxEx.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\IndicatorObject.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -160,6 +164,7 @@
     <Compile Include="Controls\Capture\ToolBarControl.xaml.cs">
       <DependentUpon>ToolBarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ComboBoxEx.cs" />
     <Compile Include="Controls\Pager.cs" />
     <Compile Include="Controls\RadioButtonEx.cs" />
     <Compile Include="Controls\SwingLoading.cs" />

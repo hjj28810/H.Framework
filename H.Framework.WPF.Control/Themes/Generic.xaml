@@ -23,5 +23,6 @@
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/RadioButtonEx.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/TextBoxEx.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/TipBubble.generic.xaml" />
+        <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/ComboBoxEx.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

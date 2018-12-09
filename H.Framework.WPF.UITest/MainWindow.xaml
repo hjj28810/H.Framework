@@ -144,5 +144,13 @@
                 <TextBlock Text="dsdss" />
             </extender:TipBubble.Content>
         </extender:TipBubble>
+        <extender:ComboBoxEx
+            Grid.Row="1"
+            Margin="228,139,373.333,194.667"
+            Padding="10,0"
+            VerticalContentAlignment="Center"
+>
+            <Button Content="wewe" />
+        </extender:ComboBoxEx>
     </Grid>
 </extender:WindowEx>
