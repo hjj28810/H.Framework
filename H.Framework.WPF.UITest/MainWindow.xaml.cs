@@ -90,7 +90,7 @@ namespace H.Framework.WPF.UITest
             var r = ste.IsMatchDateTime('/');
             var r1 = ste.MatchsDateTime('/');
             var aaa = Get().BuildLine(aa => aa.ID, bb => bb.PID, m => m.Parent, (c, p) => new Node { ID = c.ID, PID = c.PID, Parent = p }, "222");
-            var l = (new DateTime(2018, 9, 1)).ToLong();
+            var l = (new DateTime(2018, 9, 1)).ToLong(true);
 
             var aaaaa = HashEncryptHepler.MD5Hash("appId=wx329328d6d1af8bd8&customer_weixin=wxid_411rjwe7lvgz22&secret=d16dc6fe103c3fc600fe13903a0ed5d2&timestamp=1537953627&user_id=100100&weixin=HUANGBO19891006", MD5Format.X);
             var Hash = HashEncryptHepler.Encrypt3DES("123456789", "SKFMNGHJVBNDKI=56ELBGKFW");
