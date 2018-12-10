@@ -11,9 +11,6 @@
             Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
     </DataTemplate>
 
-    <!--  ===============================================================================  -->
-    <!--  WatermarkTextBox Template  -->
-    <!--  ===============================================================================  -->
     <ControlTemplate x:Key="WatermarkComboBoxTemplate" TargetType="{x:Type local:ComboBoxEx}">
         <Border
             Grid.ColumnSpan="2"
@@ -235,6 +232,9 @@
                         Margin="{TemplateBinding Padding}"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        FontFamily="{TemplateBinding FontFamily}"
+                        FontSize="{TemplateBinding FontSize}"
+                        FontWeight="{TemplateBinding FontWeight}"
                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}">
                         <TextBox.Style>
                             <Style TargetType="{x:Type TextBox}">
@@ -304,10 +304,6 @@
             </MultiTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-
-    <!--  ===============================================================================  -->
-    <!--  WatermarkTextBox Style  -->
-    <!--  ===============================================================================  -->
 
     <Style x:Key="WatermarkComboBox" TargetType="{x:Type local:ComboBoxEx}">
         <Setter Property="FocusVisualStyle">

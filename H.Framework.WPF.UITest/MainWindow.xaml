@@ -149,7 +149,7 @@
             Margin="228,139,373.333,194.667"
             Padding="10,0"
             VerticalContentAlignment="Center"
->
+            FontWeight="SemiBold">
             <Button Content="wewe" />
         </extender:ComboBoxEx>
     </Grid>
