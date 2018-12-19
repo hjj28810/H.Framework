@@ -1,12 +1,9 @@
 ﻿using H.Framework.Core.Utilities;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,8 +42,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public string FileName
         {
-            get { return (string)GetValue(FileNameProperty); }
-            set { SetValue(FileNameProperty, value); }
+            get => (string)GetValue(FileNameProperty);
+            set => SetValue(FileNameProperty, value);
         }
 
         public static readonly DependencyProperty FileSizeProperty = DependencyProperty.Register("FileSize", typeof(long), typeof(DownloadComponent), new PropertyMetadata((long)0, OnFileSizePropertyChangedCallback));
@@ -58,8 +55,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public long FileSize
         {
-            get { return (long)GetValue(FileSizeProperty); }
-            set { SetValue(FileSizeProperty, value); }
+            get => (long)GetValue(FileSizeProperty);
+            set => SetValue(FileSizeProperty, value);
         }
 
         public static void OnFileSizePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -78,8 +75,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public string FileSizeReadable
         {
-            get { return (string)GetValue(FileSizeReadableProperty); }
-            set { SetValue(FileSizeReadableProperty, value); }
+            get => (string)GetValue(FileSizeReadableProperty);
+            set => SetValue(FileSizeReadableProperty, value);
         }
 
         public static readonly DependencyProperty FilePathProperty = DependencyProperty.Register("FilePath", typeof(string), typeof(DownloadComponent), new PropertyMetadata("", OnFilePathPropertyChangedCallback));
@@ -91,8 +88,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public string FilePath
         {
-            get { return (string)GetValue(FilePathProperty); }
-            set { SetValue(FilePathProperty, value); }
+            get => (string)GetValue(FilePathProperty);
+            set => SetValue(FilePathProperty, value);
         }
 
         public static void OnFilePathPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -105,7 +102,7 @@ namespace H.Framework.WPF.Control.Controls
             }
         }
 
-        public static readonly DependencyProperty IconSourceProperty = DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(DownloadComponent), new PropertyMetadata(new BitmapImage(new Uri("pack://application:,,,/H.Framework.WPF.Control;component/Assets/downFile.png", UriKind.RelativeOrAbsolute)), null));
+        public static readonly DependencyProperty IconSourceProperty = DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(DownloadComponent), new PropertyMetadata(new BitmapImage(new Uri("pack://application:,,,/H.Framework.WPF.Control;component/Resources/Icons/downFile.png", UriKind.RelativeOrAbsolute)), null));
 
         /// <summary>
         /// icon图片
@@ -114,8 +111,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public ImageSource IconSource
         {
-            get { return (ImageSource)GetValue(IconSourceProperty); }
-            set { SetValue(IconSourceProperty, value); }
+            get => (ImageSource)GetValue(IconSourceProperty);
+            set => SetValue(IconSourceProperty, value);
         }
 
         public static readonly DependencyProperty IsShowMenuProperty = DependencyProperty.Register("IsShowMenu", typeof(bool), typeof(DownloadComponent), new PropertyMetadata(true, OnIsShowMenuPropertyChangedCallback));
@@ -127,8 +124,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public bool IsShowMenu
         {
-            get { return (bool)GetValue(IsShowMenuProperty); }
-            set { SetValue(IsShowMenuProperty, value); }
+            get => (bool)GetValue(IsShowMenuProperty);
+            set => SetValue(IsShowMenuProperty, value);
         }
 
         public static readonly DependencyProperty BrushColorProperty = DependencyProperty.Register("BrushColor", typeof(Brush), typeof(DownloadComponent), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(63, 151, 254)), null));
@@ -140,8 +137,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public Brush BrushColor
         {
-            get { return (Brush)GetValue(BrushColorProperty); }
-            set { SetValue(BrushColorProperty, value); }
+            get => (Brush)GetValue(BrushColorProperty);
+            set => SetValue(BrushColorProperty, value);
         }
 
         public static void OnIsShowMenuPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -159,8 +156,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public bool IsDownLoaded
         {
-            get { return (bool)GetValue(IsDownLoadedProperty); }
-            set { SetValue(IsDownLoadedProperty, value); }
+            get => (bool)GetValue(IsDownLoadedProperty);
+            set => SetValue(IsDownLoadedProperty, value);
         }
 
         public static readonly DependencyProperty SavePathProperty = DependencyProperty.Register("SavePath", typeof(string), typeof(DownloadComponent), new PropertyMetadata("", null));
@@ -172,8 +169,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public string SavePath
         {
-            get { return (string)GetValue(SavePathProperty); }
-            set { SetValue(SavePathProperty, value); }
+            get => (string)GetValue(SavePathProperty);
+            set => SetValue(SavePathProperty, value);
         }
 
         public static readonly DependencyProperty FileExtProperty = DependencyProperty.Register("FileExt", typeof(string), typeof(DownloadComponent), new PropertyMetadata("", null));
@@ -185,8 +182,8 @@ namespace H.Framework.WPF.Control.Controls
         [Category("Defined Properties")]
         public string FileExt
         {
-            get { return (string)GetValue(FileExtProperty); }
-            set { SetValue(FileExtProperty, value); }
+            get => (string)GetValue(FileExtProperty);
+            set => SetValue(FileExtProperty, value);
         }
 
         public override void OnApplyTemplate()

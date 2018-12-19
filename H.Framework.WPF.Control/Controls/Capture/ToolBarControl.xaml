@@ -24,7 +24,7 @@
                     <Image
                         Width="17"
                         Height="17"
-                        Source="pack://application:,,,/H.Framework.WPF.Control;component/Assets/save.png" />
+                        Source="pack://application:,,,/H.Framework.WPF.Control;component/Resources/Icons/save.png" />
                 </Button.Content>
             </Button>
             <Button
@@ -38,7 +38,7 @@
                     <Image
                         Width="17"
                         Height="17"
-                        Source="pack://application:,,,/H.Framework.WPF.Control;component/Assets/close.png" />
+                        Source="pack://application:,,,/H.Framework.WPF.Control;component/Resources/Icons/close.png" />
                 </Button.Content>
             </Button>
             <Button
@@ -52,7 +52,7 @@
                     <Image
                         Width="17"
                         Height="17"
-                        Source="pack://application:,,,/H.Framework.WPF.Control;component/Assets/ok.png" />
+                        Source="pack://application:,,,/H.Framework.WPF.Control;component/Resources/Icons/ok.png" />
                 </Button.Content>
             </Button>
         </ToolBarPanel>

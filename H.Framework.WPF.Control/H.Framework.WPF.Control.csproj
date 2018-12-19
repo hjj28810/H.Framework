@@ -57,6 +57,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Styles\BasicStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\BusyChrome.generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -218,12 +222,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\downFile.png" />
+    <Resource Include="Resources\Icons\close.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\close.png" />
-    <Resource Include="Assets\ok.png" />
-    <Resource Include="Assets\save.png" />
+    <Resource Include="Resources\Icons\downFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

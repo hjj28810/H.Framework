@@ -74,14 +74,22 @@
             StaysOpen="True" />-->
 
         <extender:ImageButton
-            Width="16"
-            Height="15"
+            Width="50"
+            Height="50"
             Margin="0,23,238,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Click="ImageButton_Click"
             CoverImageSource="pack://application:,,,/s_emoji.png"
-            ImageSource="pack://application:,,,/i_emoji.png" />
+            ImageSource="pack://application:,,,/i_emoji.png">
+            <extender:UnreadTip
+                Name="unreadTxt"
+                Width="15"
+                Margin="5,5"
+                Panel.ZIndex="11"
+                Background="#FE5d5d"
+                Text="3" />
+        </extender:ImageButton>
         <extender:ExpanderEx
             Grid.Row="1"
             Width="100"
@@ -152,5 +160,26 @@
             FontWeight="SemiBold">
             <Button Content="wewe" />
         </extender:ComboBoxEx>
+        <TextBox
+            Grid.Row="1"
+            Width="100"
+            Height="40"
+            Margin="55,132,658.333,194.667"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Center">
+            <TextBox.Resources>
+                <Style BasedOn="{StaticResource DefaultScrollviewer}" TargetType="ScrollViewer">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+
+        <TextBox
+            Grid.Row="1"
+            Width="100"
+            Height="40"
+            Margin="75,181,638.333,145.667"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Center" />
     </Grid>
 </extender:WindowEx>

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace H.Framework.WPF.Control.Controls
@@ -22,12 +19,13 @@ namespace H.Framework.WPF.Control.Controls
             VisibilityProperty.OverrideMetadata(typeof(UnreadTip), new FrameworkPropertyMetadata(Visibility.Collapsed));
             HeightProperty.OverrideMetadata(typeof(UnreadTip), new FrameworkPropertyMetadata(10.00));
             WidthProperty.OverrideMetadata(typeof(UnreadTip), new FrameworkPropertyMetadata(15.00));
+            BackgroundProperty.OverrideMetadata(typeof(UnreadTip), new FrameworkPropertyMetadata(new SolidColorBrush(Colors.Red)));
         }
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
 
         public static readonly DependencyProperty TextProperty =
@@ -45,8 +43,8 @@ namespace H.Framework.WPF.Control.Controls
 
         public bool IsShowText
         {
-            get { return (bool)GetValue(IsShowTextProperty); }
-            set { SetValue(IsShowTextProperty, value); }
+            get => (bool)GetValue(IsShowTextProperty);
+            set => SetValue(IsShowTextProperty, value);
         }
 
         public static readonly DependencyProperty IsShowTextProperty =
