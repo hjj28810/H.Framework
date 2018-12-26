@@ -23,6 +23,31 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="MainUnreadTipStyle" TargetType="{x:Type extender:UnreadTip}">
+            <Setter Property="ClipToBounds" Value="False" />
+            <Setter Property="Panel.ZIndex" Value="12" />
+            <!--<Setter Property="Margin" Value="0,5" />-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type extender:UnreadTip}">
+                        <Grid>
+                            <Path
+                                Data="M0.5,17.5 L31.0080845,17.5 C34.585882,17.5 37.5,14.5867299 37.5,11.0020796 L37.5,6.99792037 C37.5,3.41059265 34.5925607,0.5 31.0080845,0.5 L6.99191549,0.5 C3.41411796,0.5 0.5,3.41327015 0.5,6.99792037 L0.5,17.5 Z"
+                                Fill="#FE5D5D"
+                                Stretch="Fill"
+                                Stroke="#FFFFFF"
+                                StrokeThickness="1" />
+                            <TextBlock
+                                Foreground="White"
+                                Text="{TemplateBinding Text}"
+                                TextAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -84,11 +109,12 @@
             ImageSource="pack://application:,,,/i_emoji.png">
             <extender:UnreadTip
                 Name="unreadTxt"
-                Width="15"
-                Margin="5,5"
+                Width="28"
+                Height="15"
                 Panel.ZIndex="11"
                 Background="#FE5d5d"
-                Text="3" />
+                Style="{StaticResource MainUnreadTipStyle}"
+                Text="2" />
         </extender:ImageButton>
         <extender:ExpanderEx
             Grid.Row="1"

@@ -104,6 +104,19 @@ namespace H.Framework.Core.Utilities
         /// <returns></returns>
         public static string Encrypt3DES(string text, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
         {
+            return Encrypt3DES(Encoding.UTF8.GetBytes(text), password, cMode, pMode, iv);
+        }
+
+        /// <summary>
+        /// 3DES加密
+        /// </summary>
+        /// <param name="buffer">加密数组</param>
+        /// <param name="password">加密的密码</param>
+        /// <param name="iv">密钥</param>
+        /// <param name="mode">运算模式</param>
+        /// <returns></returns>
+        public static string Encrypt3DES(byte[] buffer, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
+        {
             try
             {
                 using (var des = new TripleDESCryptoServiceProvider
@@ -118,7 +131,6 @@ namespace H.Framework.Core.Utilities
                         des.IV = Encoding.UTF8.GetBytes(iv);
                     }
                     var desEncrypt = des.CreateEncryptor();
-                    var buffer = Encoding.UTF8.GetBytes(text);
                     return Convert.ToBase64String(desEncrypt.TransformFinalBlock(buffer, 0, buffer.Length));
                 }
             }
