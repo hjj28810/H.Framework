@@ -1,0 +1,63 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:H.Framework.WPF.Control.Controls">
+    <LinearGradientBrush x:Key="LGBrush" StartPoint="0,1" EndPoint="0,0">
+        <GradientStop Color="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=AnimationColor.Color}" />
+        <GradientStop Color="#E2E4EC" />
+    </LinearGradientBrush>
+    <Storyboard x:Key="StoryBoard" RepeatBehavior="Forever">
+        <DoubleAnimation
+            BeginTime="00:00:00"
+            Storyboard.TargetName="PART_Path"
+            Storyboard.TargetProperty="(Fill).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
+            From="0"
+            To="1"
+            Duration="00:00:1.5" />
+        <DoubleAnimation
+            BeginTime="00:00:00"
+            Storyboard.TargetName="PART_Path"
+            Storyboard.TargetProperty="(Fill).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
+            From="0"
+            To="1"
+            Duration="00:00:1.5" />
+    </Storyboard>
+    <Style TargetType="{x:Type local:MarketLoading}">
+        <Setter Property="Panel.ZIndex" Value="99" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MarketLoading}">
+                    <Border
+                        x:Name="PART_Border"
+                        Background="{TemplateBinding Background}"
+                        Visibility="{TemplateBinding ShowUp}">
+                        <Grid Width="70" Height="73">
+                            <Path
+                                x:Name="PART_Path"
+                                Data="M67.599901,16.302837 C69.000558,16.349017 70.016,17.267705 70.016,18.952713 70.016,21.185085 70.016,50.484209 70.016,50.484209 70.015909,51.626051 68.694032,52.67795 67.158471,52.676901 L2.9632453,52.678007 C1.4271281,52.676958 0.019528315,51.626108 0.016000329,50.484266 L0.016000329,36.939043 C0.016000496,34.738752 1.5005004,33.587362 3.0590075,34.690474 L11.74066,39.776535 C12.907084,40.519918 14.659946,41.531197 15.635604,40.64954 L25.585863,31.657012 C26.561645,30.775403 28.321702,29.530728 29.497487,30.266614 L38.059629,35.815283 C39.234857,36.550179 41.668306,37.833378 42.624624,36.939043 L63.929124,17.828487 C65.188066,16.758814 66.510499,16.266919 67.599901,16.302837 z M68.157754,5.7220459E-06 C70.221612,-0.0027275085 70.656045,1.0939722 69.006868,2.7398691 L42.897016,28.390629 C42.111116,29.160667 40.950925,29.651814 39.681764,29.75381 38.410425,29.869005 37.143369,29.557598 36.167585,28.930386 L26.543651,22.732888 16.877401,32.488598 C16.105043,33.266041 14.955028,33.772587 13.687339,33.88789 13.503144,33.904253 13.318035,33.913 13.132997,33.913 12.055328,33.913 11.00271,33.627829 10.159409,33.099285 L1.7235883,27.821736 C-0.28481327,26.566184 -0.58093054,24.30194 1.061676,22.766206 2.7030896,21.228435 5.6636256,21.003571 7.671255,22.260089 L12.334745,25.176871 22.041904,15.378346 C22.820367,14.592049 23.985046,14.086523 25.264314,13.977016 26.552842,13.8696 27.827056,14.166682 28.812242,14.798294 L38.488595,21.030506 50.990758,9.04006 47.506757,6.8271618 C45.034601,5.2575197 45.58368,3.5568018 48.727151,3.0485926 L66.846414,0.11812973 C67.33748,0.038721085 67.77556,0.00051307678 68.157754,5.7220459E-06 z"
+                                Fill="{StaticResource LGBrush}"
+                                Stretch="Fill" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=PART_Border, Path=Visibility}" Value="Visible">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Name="beginStory" Storyboard="{StaticResource StoryBoard}" />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=PART_Border, Path=Visibility}" Value="Hidden">
+                            <DataTrigger.EnterActions>
+                                <StopStoryboard BeginStoryboardName="beginStory" />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=PART_Border, Path=Visibility}" Value="Collapsed">
+                            <DataTrigger.EnterActions>
+                                <StopStoryboard BeginStoryboardName="beginStory" />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
