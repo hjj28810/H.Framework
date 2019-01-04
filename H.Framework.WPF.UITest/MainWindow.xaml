@@ -59,6 +59,7 @@
         <extender:MarketLoading
             Grid.RowSpan="2"
             AnimationColor="Red"
+            Background="White"
             ShowUp="Visible" />
         <!--<extender:RectangleLoading Grid.RowSpan="2" ShowUp="Visible" />-->
         <!--<extender:SwingLoading

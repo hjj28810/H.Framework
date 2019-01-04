@@ -89,9 +89,10 @@
                                             </StackPanel>
                                         </Grid>
                                     </Border>
-                                    <local:RectangleLoading
+                                    <local:MarketLoading
                                         Grid.Row="1"
                                         Panel.ZIndex="999"
+                                        AnimationColor="#2178FF"
                                         ShowUp="{TemplateBinding ShowLoading,
                                                                  Converter={StaticResource objConverter},
                                                                  ConverterParameter=true:Visible:Collapsed}" />
