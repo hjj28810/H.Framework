@@ -13,6 +13,7 @@
     Width="820"
     Height="466"
     Loaded="Window_Loaded"
+    ShowLoading="False"
     TitleBorderThickness="0,0,0,1"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -56,11 +57,7 @@
             <RowDefinition Height="352*" />
         </Grid.RowDefinitions>
         <!--<ed:Arc Margin="0,0,630.333,34" />-->
-        <extender:MarketLoading
-            Grid.RowSpan="2"
-            AnimationColor="Red"
-            Background="White"
-            ShowUp="Visible" />
+
         <!--<extender:RectangleLoading Grid.RowSpan="2" ShowUp="Visible" />-->
         <!--<extender:SwingLoading
             Name="swingLoading"
@@ -153,9 +150,12 @@
         <extender:WarnBlock
             Name="warnBlock"
             Grid.Row="1"
+            Height="50"
             Margin="0,64,0,0"
             HorizontalAlignment="Left"
-            VerticalAlignment="Top" />
+            VerticalAlignment="Top"
+            InfoColor="#FFE17F"
+            TextColor="Black" />
         <extender:TextBoxEx
             Name="asdsa"
             Width="120"

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
@@ -25,18 +22,70 @@ namespace H.Framework.WPF.Control.Controls
         {
         }
 
-        //public static readonly DependencyProperty WarnTextProperty = DependencyProperty.Register("WarnText", typeof(string), typeof(WarnBlock), new PropertyMetadata("", null));
+        public static readonly DependencyProperty InfoColorProperty = DependencyProperty.Register("InfoColor", typeof(Brush), typeof(WarnBlock), new PropertyMetadata(new SolidColorBrush(Colors.LawnGreen), null));
 
-        ///// <summary>
-        ///// WarnText
-        ///// </summary>
-        //[Description("获取或设置WarnText")]
-        //[Category("Defined Properties")]
-        //public string WarnText
-        //{
-        //    get { return (string)GetValue(WarnTextProperty); }
-        //    set { SetValue(WarnTextProperty, value); }
-        //}
+        /// <summary>
+        /// InfoColor
+        /// </summary>
+        [Description("获取或设置InfoColor")]
+        [Category("Defined Properties")]
+        public Brush InfoColor
+        {
+            get => (Brush)GetValue(InfoColorProperty);
+            set => SetValue(InfoColorProperty, value);
+        }
+
+        public static readonly DependencyProperty ErrorColorProperty = DependencyProperty.Register("ErrorColor", typeof(Brush), typeof(WarnBlock), new PropertyMetadata(new SolidColorBrush(Colors.Red), null));
+
+        /// <summary>
+        /// ErrorColor
+        /// </summary>
+        [Description("ErrorColor")]
+        [Category("Defined Properties")]
+        public Brush ErrorColor
+        {
+            get => (Brush)GetValue(ErrorColorProperty);
+            set => SetValue(ErrorColorProperty, value);
+        }
+
+        public static readonly DependencyProperty WarnColorProperty = DependencyProperty.Register("WarnColor", typeof(Brush), typeof(WarnBlock), new PropertyMetadata(new SolidColorBrush(Colors.DodgerBlue), null));
+
+        /// <summary>
+        /// WarnColor
+        /// </summary>
+        [Description("WarnColor")]
+        [Category("Defined Properties")]
+        public Brush WarnColor
+        {
+            get => (Brush)GetValue(WarnColorProperty);
+            set => SetValue(WarnColorProperty, value);
+        }
+
+        public static readonly DependencyProperty TextColorProperty = DependencyProperty.Register("TextColor", typeof(Brush), typeof(WarnBlock), new PropertyMetadata(new SolidColorBrush(Colors.White), null));
+
+        /// <summary>
+        /// TextColor
+        /// </summary>
+        [Description("获取或设置TextColor")]
+        [Category("Defined Properties")]
+        public Brush TextColor
+        {
+            get => (Brush)GetValue(TextColorProperty);
+            set => SetValue(TextColorProperty, value);
+        }
+
+        public static readonly DependencyProperty CloseColorProperty = DependencyProperty.Register("CloseColor", typeof(Brush), typeof(WarnBlock), new PropertyMetadata(new SolidColorBrush(Colors.White), null));
+
+        /// <summary>
+        /// CloseColor
+        /// </summary>
+        [Description("获取或设置CloseColor")]
+        [Category("Defined Properties")]
+        public Brush CloseColor
+        {
+            get => (Brush)GetValue(CloseColorProperty);
+            set => SetValue(CloseColorProperty, value);
+        }
 
         //public static readonly DependencyProperty AlertStyleProperty = DependencyProperty.Register("AlertStyle", typeof(AlertStyle), typeof(WarnBlock), new PropertyMetadata(AlertStyle.Error, null));
 
@@ -64,66 +113,75 @@ namespace H.Framework.WPF.Control.Controls
             var border = new Border
             {
                 BorderThickness = new Thickness(0),
-                CornerRadius = new CornerRadius(5),
+                CornerRadius = new CornerRadius(4),
                 Opacity = 0
             };
             var shadow = new DropShadowEffect
             {
                 BlurRadius = 5,
-                ShadowDepth = 0
+                ShadowDepth = 0,
+                Color = Color.FromRgb(136, 136, 136),
+                Opacity = 0.3
             };
             if (style == AlertStyle.Error)
             {
-                border.Background = new SolidColorBrush(Colors.Red);
-                shadow.Color = Colors.Red;
+                border.Background = ErrorColor;
             }
             if (style == AlertStyle.Info)
             {
-                shadow.Color = Colors.LawnGreen;
-                border.Background = new SolidColorBrush(Colors.LawnGreen);
+                border.Background = InfoColor;
             }
             if (style == AlertStyle.Warinng)
             {
-                shadow.Color = Colors.DodgerBlue;
-                border.Background = new SolidColorBrush(Colors.DodgerBlue);
+                border.Background = WarnColor;
             }
 
             border.Effect = shadow;
             var borderGrid = new Grid();
-            borderGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            borderGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(18) });
             borderGrid.RowDefinitions.Add(new RowDefinition());
             var txt1 = new TextBlock
             {
-                Margin = new Thickness(5, 5, 0, 0),
+                Margin = new Thickness(6, 0, 0, 0),
                 FontFamily = new FontFamily("Webdings"),
-                FontSize = 10,
-                Foreground = new SolidColorBrush(Colors.White),
+                FontSize = 11,
+                Foreground = TextColor,
+                VerticalAlignment = VerticalAlignment.Center,
                 Text = "i"
             };
-            Grid.SetRow(txt1, 0);
-
+            var stackPanel = new StackPanel
+            {
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(20, 0, 20, 0),
+                Orientation = Orientation.Horizontal
+            };
+            stackPanel.Children.Add(txt1);
             var txt2 = new TextBlock
             {
-                Margin = new Thickness(0, 5, 5, 0),
+                Margin = new Thickness(6, 0, 0, 0),
                 FontFamily = new FontFamily("Webdings"),
-                HorizontalAlignment = HorizontalAlignment.Right,
-                FontSize = 10,
-                Foreground = new SolidColorBrush(Colors.White),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                FontSize = 12,
+                VerticalAlignment = VerticalAlignment.Center,
+                Cursor = Cursors.Hand,
+                Foreground = CloseColor,
                 Text = "r"
             };
             Grid.SetRow(txt2, 0);
 
             var txtWarn = new TextBlock
             {
-                Margin = new Thickness(5),
-                FontSize = 13,
-                Foreground = new SolidColorBrush(Colors.White),
+                Margin = new Thickness(6, 0, 0, 0),
+                FontSize = 11,
+                Foreground = TextColor,
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 TextWrapping = TextWrapping.Wrap,
+                VerticalAlignment = VerticalAlignment.Center,
                 Text = text,
                 ToolTip = text
             };
-            Grid.SetRow(txtWarn, 1);
+            stackPanel.Children.Add(txtWarn);
+            Grid.SetRow(stackPanel, 1);
 
             var sbArr = CreateAnimation(border);
             txt2.MouseDown += (o, e) => { sbArr[1]?.Begin(); txt2.IsEnabled = false; };
@@ -135,9 +193,9 @@ namespace H.Framework.WPF.Control.Controls
                 sbArr[1] = null;
                 _grid.Children.Remove(border);
             };
-            borderGrid.Children.Add(txt1);
+
             borderGrid.Children.Add(txt2);
-            borderGrid.Children.Add(txtWarn);
+            borderGrid.Children.Add(stackPanel);
             border.Child = borderGrid;
             return border;
         }
@@ -158,7 +216,7 @@ namespace H.Framework.WPF.Control.Controls
             opacityShowAnmiation.BeginTime = new TimeSpan(0, 0, 0, 0, 0);
             opacityShowAnmiation.Duration = new Duration(TimeSpan.FromSeconds(0.8));
             opacityShowAnmiation.From = 0;
-            opacityShowAnmiation.To = 0.6;
+            opacityShowAnmiation.To = 1;
             Storyboard.SetTargetProperty(opacityShowAnmiation, new PropertyPath("Opacity"));
             Storyboard.SetTarget(opacityShowAnmiation, border);
             showStory.Children.Add(opacityShowAnmiation);
@@ -166,7 +224,7 @@ namespace H.Framework.WPF.Control.Controls
             var opacityHideAnmiation = new DoubleAnimation();
             opacityHideAnmiation.BeginTime = new TimeSpan(0, 0, 0, 0, 0);
             opacityHideAnmiation.Duration = new Duration(TimeSpan.FromSeconds(0.8));
-            opacityHideAnmiation.From = 0.6;
+            opacityHideAnmiation.From = 1;
             opacityHideAnmiation.To = 0;
             Storyboard.SetTargetProperty(opacityHideAnmiation, new PropertyPath("Opacity"));
             Storyboard.SetTarget(opacityHideAnmiation, border);

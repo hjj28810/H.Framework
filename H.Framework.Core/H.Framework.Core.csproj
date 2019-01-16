@@ -6,9 +6,9 @@
     <Authors>H</Authors>
     <Product>H.Framework</Product>
     <Description>C#整理了一些基础类库</Description>
-    <Version>2.0.1.9</Version>
-    <FileVersion>2.0.1.9</FileVersion>
-    <AssemblyVersion>2.0.1.9</AssemblyVersion>
+    <Version>2.0.2.1</Version>
+    <FileVersion>2.0.2.1</FileVersion>
+    <AssemblyVersion>2.0.2.1</AssemblyVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 

@@ -1,11 +1,11 @@
-﻿using H.Framework.Core.Log;
+﻿using H.Framework.Core.Attributes;
+using H.Framework.Core.Log;
 using H.Framework.Core.Utilities;
 using H.Framework.WPF.Control.Controls;
 using H.Framework.WPF.Control.Controls.Capture;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Windows;
 
 namespace H.Framework.WPF.UITest
@@ -29,7 +29,7 @@ namespace H.Framework.WPF.UITest
 
         private string _testText;
 
-        [StringLength(10, MinimumLength = 5)]
+        [DataValidation(typeof(TestValidation), "Test", "this")]
         public string TestText
         {
             get => _testText;
@@ -63,7 +63,7 @@ namespace H.Framework.WPF.UITest
         {
             if (SBVisibility == Visibility) SBVisibility = Visibility.Collapsed;
             else SBVisibility = Visibility.Visible;
-            warnBlock.Show("hahahahah", Control.Controls.AlertStyle.Info);
+            warnBlock.Show(SBVisibility.ToString(), Control.Controls.AlertStyle.Info);
             //warmBlock.Show("haaaaaa");
             //warmBlock.Show("ggggggggggggggggggg");
             //warmBlock.Show("ha");
@@ -127,5 +127,12 @@ namespace H.Framework.WPF.UITest
         public IEnumerable<Node> Children { get; set; }
 
         public Node Parent { get; set; }
+    }
+
+    public class TestValidation
+    {
+        public static void Test(string value, MainWindow a)
+        {
+        }
     }
 }
