@@ -15,7 +15,6 @@
     Loaded="Window_Loaded"
     ShowLoading="False"
     TitleBorderThickness="0,0,0,1"
-    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
         <Style x:Key="btnStyle" TargetType="{x:Type extender:ButtonEx}">
@@ -154,8 +153,9 @@
             Margin="0,64,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            InfoColor="#FFE17F"
-            TextColor="Black" />
+            FontSize="15"
+            Foreground="Red"
+            InfoColor="#FFE17F" />
         <extender:TextBoxEx
             Name="asdsa"
             Width="120"
@@ -187,11 +187,13 @@
         </extender:TipBubble>
         <extender:ComboBoxEx
             Grid.Row="1"
-            Margin="228,139,373.333,194.667"
+            Margin="228,139,453.333,194.667"
             Padding="10,0"
             VerticalContentAlignment="Center"
             FontWeight="SemiBold">
-            <Button Content="wewe" />
+            <ComboBoxItem Content="aaaaaaaaaa" />
+            <ComboBoxItem Content="bbbbbbbb" />
+            <ComboBoxItem Content="cccccccc" />
         </extender:ComboBoxEx>
         <TextBox
             Grid.Row="1"

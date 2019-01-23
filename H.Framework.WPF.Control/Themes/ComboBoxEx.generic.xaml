@@ -26,7 +26,6 @@
                 <Popup
                     x:Name="PART_Popup"
                     Grid.ColumnSpan="2"
-                    Margin="1"
                     AllowsTransparency="True"
                     IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                     Placement="Bottom"
@@ -35,15 +34,26 @@
                         x:Name="DropDown"
                         MinWidth="{TemplateBinding ActualWidth}"
                         MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                        ClipToBounds="False"
                         SnapsToDevicePixels="True">
                         <Border
                             x:Name="DropDownBorder"
+                            Margin="3"
                             Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
-                            BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}"
-                            BorderThickness="1">
+                            BorderThickness="0"
+                            ClipToBounds="False"
+                            CornerRadius="5">
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="{TemplateBinding DropBlurRadius}"
+                                    Direction="1"
+                                    Opacity="0.3"
+                                    ShadowDepth="0"
+                                    Color="#8c8c8c" />
+                            </Border.Effect>
                             <ScrollViewer x:Name="DropDownScrollViewer">
                                 <Grid x:Name="grid">
-                                    <Canvas
+                                    <!--<Canvas
                                         x:Name="canvas"
                                         Width="0"
                                         Height="0"
@@ -54,7 +64,7 @@
                                             Width="{Binding ActualWidth, ElementName=DropDownBorder}"
                                             Height="{Binding ActualHeight, ElementName=DropDownBorder}"
                                             Fill="{Binding Background, ElementName=DropDownBorder}" />
-                                    </Canvas>
+                                    </Canvas>-->
                                     <ItemsPresenter
                                         x:Name="ItemsPresenter"
                                         KeyboardNavigation.DirectionalNavigation="Contained"
@@ -283,10 +293,10 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
             </MultiTrigger>
-            <Trigger SourceName="DropDownScrollViewer" Property="CanContentScroll" Value="False">
+            <!--<Trigger SourceName="DropDownScrollViewer" Property="CanContentScroll" Value="False">
                 <Setter TargetName="OpaqueRect" Property="Canvas.Top" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}" />
                 <Setter TargetName="OpaqueRect" Property="Canvas.Left" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}" />
-            </Trigger>
+            </Trigger>-->
             <Trigger Property="IsEditable" Value="True">
                 <Setter Property="IsTabStop" Value="False" />
                 <Setter Property="Padding" Value="2" />

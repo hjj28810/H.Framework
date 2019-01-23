@@ -25,6 +25,7 @@ namespace H.Framework.WPF.Control.Controls
         public WindowEx()
         {
             PreviewMouseMove += OnPreviewMouseMove;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private HwndSource _hwndSource;

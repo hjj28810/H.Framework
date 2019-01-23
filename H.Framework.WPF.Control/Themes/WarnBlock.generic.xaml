@@ -5,8 +5,6 @@
     xmlns:local="clr-namespace:H.Framework.WPF.Control.Controls">
     <converter:ObjectConverter x:Key="objConverter" />
     <Style TargetType="{x:Type local:WarnBlock}">
-        <Setter Property="MaxWidth" Value="320" />
-        <Setter Property="MaxHeight" Value="240" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:WarnBlock}">

@@ -37,6 +37,32 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(BorderCornerRadiusProperty, value);
         }
 
+        public static readonly DependencyProperty DropBlurRadiusProperty = DependencyProperty.Register("DropBlurRadius", typeof(CornerRadius), typeof(ComboBoxEx), new UIPropertyMetadata(new CornerRadius(4, 4, 4, 4)));
+
+        /// <summary>
+        /// 下拉阴影
+        /// </summary>
+        [Description("获取或设置下拉阴影")]
+        [Category("Defined Properties")]
+        public CornerRadius DropBlurRadius
+        {
+            get => (CornerRadius)GetValue(DropBlurRadiusProperty);
+            set => SetValue(DropBlurRadiusProperty, value);
+        }
+
+        public static readonly DependencyProperty DropMinWidthProperty = DependencyProperty.Register("DropMinWidth", typeof(double), typeof(ComboBoxEx), new UIPropertyMetadata(0.0));
+
+        /// <summary>
+        /// 最小宽度
+        /// </summary>
+        [Description("获取或设置下拉最小宽度")]
+        [Category("Defined Properties")]
+        public double DropMinWidth
+        {
+            get => (double)GetValue(DropMinWidthProperty);
+            set => SetValue(DropMinWidthProperty, value);
+        }
+
         #endregion Properties
 
         #region Constructors
@@ -49,6 +75,12 @@ namespace H.Framework.WPF.Control.Controls
         public ComboBoxEx()
         {
         }
+
+        //protected override void OnRender(DrawingContext drawingContext)
+        //{
+        //    base.OnRender(drawingContext);
+        //    DropMinWidth = ActualWidth + 12;
+        //}
 
         #endregion Constructors
     }

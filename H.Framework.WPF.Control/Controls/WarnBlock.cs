@@ -20,6 +20,7 @@ namespace H.Framework.WPF.Control.Controls
 
         public WarnBlock()
         {
+            FontSize = 12;
         }
 
         public static readonly DependencyProperty InfoColorProperty = DependencyProperty.Register("InfoColor", typeof(Brush), typeof(WarnBlock), new PropertyMetadata(new SolidColorBrush(Colors.LawnGreen), null));
@@ -61,20 +62,7 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(WarnColorProperty, value);
         }
 
-        public static readonly DependencyProperty TextColorProperty = DependencyProperty.Register("TextColor", typeof(Brush), typeof(WarnBlock), new PropertyMetadata(new SolidColorBrush(Colors.White), null));
-
-        /// <summary>
-        /// TextColor
-        /// </summary>
-        [Description("获取或设置TextColor")]
-        [Category("Defined Properties")]
-        public Brush TextColor
-        {
-            get => (Brush)GetValue(TextColorProperty);
-            set => SetValue(TextColorProperty, value);
-        }
-
-        public static readonly DependencyProperty CloseColorProperty = DependencyProperty.Register("CloseColor", typeof(Brush), typeof(WarnBlock), new PropertyMetadata(new SolidColorBrush(Colors.White), null));
+        public static readonly DependencyProperty CloseColorProperty = DependencyProperty.Register("CloseColor", typeof(Brush), typeof(WarnBlock), new PropertyMetadata(new SolidColorBrush(Colors.Black), null));
 
         /// <summary>
         /// CloseColor
@@ -144,8 +132,8 @@ namespace H.Framework.WPF.Control.Controls
             {
                 Margin = new Thickness(6, 0, 0, 0),
                 FontFamily = new FontFamily("Webdings"),
-                FontSize = 11,
-                Foreground = TextColor,
+                FontSize = FontSize,
+                Foreground = Foreground,
                 VerticalAlignment = VerticalAlignment.Center,
                 Text = "i"
             };
@@ -172,8 +160,8 @@ namespace H.Framework.WPF.Control.Controls
             var txtWarn = new TextBlock
             {
                 Margin = new Thickness(6, 0, 0, 0),
-                FontSize = 11,
-                Foreground = TextColor,
+                FontSize = FontSize,
+                Foreground = Foreground,
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 TextWrapping = TextWrapping.Wrap,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -202,7 +190,7 @@ namespace H.Framework.WPF.Control.Controls
 
         private Storyboard[] CreateAnimation(Border border)
         {
-            var timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 3, 500) };
+            var timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 5, 500) };
             var showStory = new Storyboard();
             var hideStory = new Storyboard();
             timer.Tick += (time, arg) =>
