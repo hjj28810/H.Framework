@@ -5,14 +5,143 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:H.Framework.WPF.Control.Controls;assembly=H.Framework.WPF.Control"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="800"
-    Height="450"
+    Width="350"
+    Height="350"
+    AllowsTransparency="True"
+    Background="Transparent"
+    HideTitleBar="True"
     ShowLoading="False"
     TitleBarBG="SkyBlue"
     WinButtonFG="White"
-    WinButtonSize="16"
-    WinCornerRadius="8">
+    WinButtonSize="16">
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation
+                        AutoReverse="False"
+                        Storyboard.TargetName="imgBG"
+                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                        From="1.5"
+                        To="1"
+                        Duration="0:0:0.3" />
+                    <!--<DoubleAnimation
+                        AutoReverse="False"
+                        Storyboard.TargetName="imgBG"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.3" />-->
+                    <DoubleAnimation
+                        AutoReverse="False"
+                        Storyboard.TargetName="imgBG"
+                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                        From="1.5"
+                        To="1"
+                        Duration="0:0:0.3" />
+                    <DoubleAnimation
+                        AutoReverse="False"
+                        Storyboard.TargetName="imgFG"
+                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.3" />
+                    <DoubleAnimation
+                        AutoReverse="False"
+                        Storyboard.TargetName="imgFG"
+                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.3" />
+                    <!--<DoubleAnimation
+                        AutoReverse="False"
+                        Storyboard.TargetName="imgFG"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.3" />-->
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid>
+        <Image
+            Name="imgBG"
+            Width="300"
+            Height="300"
+            RenderTransformOrigin=".5,.5"
+            Source="C:\GithubRepo\H.Framework\H.Framework.WPF.UITest\SplashScreenBG.png">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <StackPanel Name="imgFG" RenderTransformOrigin=".5,.5">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Image
+                Width="114"
+                Height="116"
+                Margin="0,70,0,0"
+                Source="C:\GithubRepo\H.Framework\H.Framework.WPF.UITest\SplashScreenFG.png" />
+            <StackPanel
+                Margin="0,15,0,0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    FontSize="21"
+                    FontWeight="SemiBold"
+                    Foreground="White"
+                    Text="期"
+                    TextAlignment="Center" />
+                <TextBlock
+                    Margin="1,0,0,0"
+                    FontSize="21"
+                    FontWeight="SemiBold"
+                    Foreground="White"
+                    Text="货"
+                    TextAlignment="Center" />
+                <TextBlock
+                    Margin="1,0,0,0"
+                    FontSize="21"
+                    FontWeight="SemiBold"
+                    Foreground="White"
+                    Text="狙"
+                    TextAlignment="Center" />
+                <TextBlock
+                    Margin="1,0,0,0"
+                    FontSize="21"
+                    FontWeight="SemiBold"
+                    Foreground="White"
+                    Text="击"
+                    TextAlignment="Center" />
+                <TextBlock
+                    Margin="1,0,0,0"
+                    FontSize="21"
+                    FontWeight="SemiBold"
+                    Foreground="White"
+                    Text="手"
+                    TextAlignment="Center" />
+            </StackPanel>
 
+            <TextBlock
+                Margin="0,10,0,0"
+                FontSize="12"
+                Foreground="White"
+                Text="加载中..."
+                TextAlignment="Center" />
+        </StackPanel>
+    </Grid>
     <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

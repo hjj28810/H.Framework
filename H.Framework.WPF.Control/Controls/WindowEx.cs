@@ -426,6 +426,19 @@ namespace H.Framework.WPF.Control.Controls
             get => (double)GetValue(RectangleRadiusProperty);
             set => SetValue(RectangleRadiusProperty, value);
         }
+
+        public static readonly DependencyProperty HideTitleBarProperty = DependencyProperty.Register("HideTitleBar", typeof(bool), typeof(WindowEx), new UIPropertyMetadata(false, null));
+
+        /// <summary>
+        /// 是否隐藏TitleBar
+        /// </summary>
+        [Description("获取或设置是否隐藏TitleBar")]
+        [Category("Defined Properties")]
+        public bool HideTitleBar
+        {
+            get => (bool)GetValue(HideTitleBarProperty);
+            set => SetValue(HideTitleBarProperty, value);
+        }
     }
 
     public enum ResizeDirection

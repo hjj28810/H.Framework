@@ -13,14 +13,14 @@
 
     <Style TargetType="{x:Type local:WindowEx}">
         <Setter Property="AllowsTransparency" Value="True" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="White" />
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:WindowEx}">
                     <Grid Margin="15">
                         <Rectangle
-                            Fill="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+                            Fill="{TemplateBinding Background}"
                             RadiusX="{TemplateBinding RectangleRadius}"
                             RadiusY="{TemplateBinding RectangleRadius}">
                             <Rectangle.Effect>
@@ -32,7 +32,7 @@
                             </Rectangle.Effect>
                         </Rectangle>
                         <Border
-                            Background="White"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding WinBorderBrush}"
                             BorderThickness="{TemplateBinding WinBorderThickness}"
                             CornerRadius="{TemplateBinding WinCornerRadius}">
@@ -51,7 +51,10 @@
                                         Grid.Row="0"
                                         Background="{TemplateBinding TitleBarBG}"
                                         BorderBrush="{TemplateBinding TitleBorderBrush}"
-                                        BorderThickness="{TemplateBinding TitleBorderThickness}">
+                                        BorderThickness="{TemplateBinding TitleBorderThickness}"
+                                        Visibility="{TemplateBinding HideTitleBar,
+                                                                     Converter={StaticResource objConverter},
+                                                                     ConverterParameter=true:Collapsed:Visible}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
@@ -67,6 +70,7 @@
                                                 <local:ButtonEx
                                                     x:Name="PART_MinimizeButton"
                                                     VerticalAlignment="Center"
+                                                    Panel.ZIndex="888"
                                                     Content="0"
                                                     FontSize="{TemplateBinding WinButtonSize}"
                                                     Foreground="{TemplateBinding WinButtonFG}"
@@ -76,6 +80,7 @@
                                                     x:Name="PART_RestoreButton"
                                                     Margin="5,0,0,0"
                                                     VerticalAlignment="Center"
+                                                    Panel.ZIndex="888"
                                                     Content="1"
                                                     FontSize="{TemplateBinding WinButtonSize}"
                                                     Foreground="{TemplateBinding WinButtonFG}"
@@ -85,6 +90,7 @@
                                                     x:Name="PART_CloseButton"
                                                     Margin="5,0,10,0"
                                                     VerticalAlignment="Center"
+                                                    Panel.ZIndex="888"
                                                     Content="r"
                                                     FontSize="{TemplateBinding WinButtonSize}"
                                                     Foreground="{TemplateBinding WinButtonFG}"
