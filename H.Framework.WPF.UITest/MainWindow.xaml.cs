@@ -6,6 +6,8 @@ using H.Framework.WPF.Control.Controls.Capture;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 
 namespace H.Framework.WPF.UITest
@@ -94,12 +96,12 @@ namespace H.Framework.WPF.UITest
 
             var aaaaa = HashEncryptHepler.MD5Hash("appId=wx329328d6d1af8bd8&customer_weixin=wxid_411rjwe7lvgz22&secret=d16dc6fe103c3fc600fe13903a0ed5d2&timestamp=1537953627&user_id=100100&weixin=HUANGBO19891006", MD5Format.X);
             var Hash = HashEncryptHepler.Encrypt3DES("123456789", "SKFMNGHJVBNDKI=56ELBGKFW");
-            var aHash = HashEncryptHepler.Decrypt3DES("Mk3H0XFcl6gS1rKMAG2woL0fG2ni9AcrcbOE2DVbKRgSs4eWMadeHtPVlBBAQqDwtYXKFo8mBFlyuOkuB/fMEvnwJdNlbsegaAwKf73H6nCdhyUWZOlVtwpY9mzQf/oU", "SKFMNGHJVBNDKI=56ELBGKFW");
+            //var aHash = HashEncryptHepler.Decrypt3DES("JxVJzmZzKlcAybCaXnn5Odjfrtnw5kBu3LOYOsQK0Yg7tepNAeJyQNjfrtnw5kBu3LOYOsQK0YiBxFDnQlo9blYD44J1lr32UpKh1sMF33nufbggphIXmT1AlmRkHN4pPJuVnFfEr1A3TlSnKvy6b4ylyguVd/tLom8xHaOTBbQRi0y1K88cvpKQs/4z7Cb5J0O3PMFYGpENPz6Cth+7oNyAERMhVzFf3QLayjEkZX5bRfc9uSHeUTpEWJoHUk9NibNstXZZ6HXEWXw+l2ERlQeqFLYYzH7vkajkuba6xz74TQonW6217ccPCb29orG9JLm5OBN19P1erlA7W2gmenIM9RwLHMmbBTnFsTeqJxwnx5C28kkdprsv5psuYFEfur1h1Yx38EROrYr3sU4BbFagL2nwLKcCeaxFkOapZ2F7OY+2EEL7TZLcvqikX3qho2KH07j8eDkP6UcpU0WohK/O3LfG3ZbibOZXip9pd4BRauwLaPOw2gU1zrgPh3/Qx1GPAXR2pC6J", "SKFMNGHJVBNDKI=56ELBGKFW");
         }
 
         public IEnumerable<Node> Get()
         {
-            return new List<Node> { new Node { ID = "1", PID = "0" }, new Node { ID = "11", PID = "1" }, new Node { ID = "22", PID = "1" }, new Node { ID = "33", PID = "1" }, new Node { ID = "111", PID = "11" }, new Node { ID = "112", PID = "11" }, new Node { ID = "1111", PID = "111" }, new Node { ID = "222", PID = "22" } };
+            return new List<Node> { new Node { ID = "1", PID = "0" }, new Node { ID = "11", PID = "1" }, new Node { ID = "22", PID = "1" }, new Node { ID = "33", PID = "1" }, new Node { ID = "111", PID = "11" }, new Node { ID = "112", PID = "11" }, new Node { ID = "1111", PID = "111" }, new Node { ID = "222", PID = "22" }, new Node { ID = "2223", PID = "22" }, new Node { ID = "2225", PID = "22" }, new Node { ID = "2212", PID = "22" }, new Node { ID = "5222", PID = "22" } };
         }
 
         public string Error => null;
@@ -116,6 +118,29 @@ namespace H.Framework.WPF.UITest
                 {
                     throw e;
                 }
+            }
+        }
+
+        public List<Node> List => Get().ToList();
+
+        //[Required(ErrorMessage = "sdsadasd")]
+        public int PageSize
+        {
+            get;
+            set;
+        }
+
+        private int _currentPage;
+
+        //[Required(ErrorMessage = "sdsadasd")]
+        public int CurrentPage
+        {
+            get => _currentPage;
+            set
+            {
+                _currentPage = value;
+                OnPropertyChanged("CurrentPage");
+                Trace.WriteLine(_currentPage);
             }
         }
     }

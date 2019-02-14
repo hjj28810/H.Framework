@@ -261,6 +261,7 @@ namespace H.Framework.WPF.Control.Controls
             var value = (CornerRadius)e.NewValue;
             c.SetTitleBarCornerRadius(value);
             c.RectangleRadius = value.TopLeft;
+            c.InnerRadius = new CornerRadius(0, 0, value.BottomRight, value.BottomLeft);
         }
 
         private void SetTitleBarCornerRadius(CornerRadius cr)
@@ -425,6 +426,19 @@ namespace H.Framework.WPF.Control.Controls
         {
             get => (double)GetValue(RectangleRadiusProperty);
             set => SetValue(RectangleRadiusProperty, value);
+        }
+
+        public static readonly DependencyProperty InnerRadiusProperty = DependencyProperty.Register("InnerRadius", typeof(CornerRadius), typeof(WindowEx), new UIPropertyMetadata(new CornerRadius(0, 0, 0, 0), null));
+
+        /// <summary>
+        /// InnerRadius
+        /// </summary>
+        [Description("获取或设置InnerRadius")]
+        [Category("Defined Properties")]
+        public CornerRadius InnerRadius
+        {
+            get => (CornerRadius)GetValue(InnerRadiusProperty);
+            set => SetValue(InnerRadiusProperty, value);
         }
 
         public static readonly DependencyProperty HideTitleBarProperty = DependencyProperty.Register("HideTitleBar", typeof(bool), typeof(WindowEx), new UIPropertyMetadata(false, null));

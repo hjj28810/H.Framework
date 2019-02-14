@@ -129,7 +129,7 @@
                                     Visibility="Collapsed" />
                             </Grid>
                         </Border>
-                        <Border
+                        <!--<Border
                             x:Name="MouseOverVisual"
                             BorderBrush="{StaticResource TextBox_MouseOver}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -140,7 +140,7 @@
                             BorderBrush="{StaticResource TextBox_Focused}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="1"
-                            Opacity="0" />
+                            Opacity="0" />-->
                     </Grid>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -162,12 +162,12 @@
                                 <Setter TargetName="PART_WatermarkHost" Property="Visibility" Value="Visible" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <!--<Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="MouseOverVisual" Property="Opacity" Value="1" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="FocusVisual" Property="Opacity" Value="1" />
-                        </Trigger>
+                        </Trigger>-->
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>

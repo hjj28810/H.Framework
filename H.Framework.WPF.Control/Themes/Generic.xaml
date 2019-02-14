@@ -25,5 +25,6 @@
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/TipBubble.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/ComboBoxEx.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/MarketLoading.generic.xaml" />
+        <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/ClassicPager.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

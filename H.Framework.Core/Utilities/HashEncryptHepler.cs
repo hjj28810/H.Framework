@@ -134,9 +134,9 @@ namespace H.Framework.Core.Utilities
                     return Convert.ToBase64String(desEncrypt.TransformFinalBlock(buffer, 0, buffer.Length));
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return string.Empty;
+                throw e;
             }
         }
 
@@ -167,9 +167,9 @@ namespace H.Framework.Core.Utilities
                     return des.CreateDecryptor().TransformFinalBlock(buffer, 0, buffer.Length);
                 }
             }
-            catch
+            catch (Exception e)
             {
-                throw new Exception();
+                throw e;
             }
         }
     }

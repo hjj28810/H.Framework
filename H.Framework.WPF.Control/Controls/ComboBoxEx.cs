@@ -76,12 +76,6 @@ namespace H.Framework.WPF.Control.Controls
         {
         }
 
-        //protected override void OnRender(DrawingContext drawingContext)
-        //{
-        //    base.OnRender(drawingContext);
-        //    DropMinWidth = ActualWidth + 12;
-        //}
-
         #endregion Constructors
     }
 }

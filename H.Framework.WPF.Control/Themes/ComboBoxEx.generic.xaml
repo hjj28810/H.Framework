@@ -77,6 +77,7 @@
                 <ToggleButton
                     x:Name="toggleButton"
                     Grid.ColumnSpan="2"
+                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                     IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                     <ToggleButton.Style>
                         <Style TargetType="{x:Type ToggleButton}">
@@ -240,6 +241,7 @@
                     <TextBox
                         x:Name="PART_EditableTextBox"
                         Margin="{TemplateBinding Padding}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         FontFamily="{TemplateBinding FontFamily}"
@@ -348,6 +350,7 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Padding" Value="6,3,5,3" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
         <Setter Property="Template" Value="{StaticResource WatermarkComboBoxTemplate}" />
     </Style>

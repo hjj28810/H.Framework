@@ -107,14 +107,15 @@
                                         ShowUp="{TemplateBinding ShowLoading,
                                                                  Converter={StaticResource objConverter},
                                                                  ConverterParameter=true:Visible:Collapsed}" />
-                                    <Grid
+                                    <Border
                                         Grid.Row="1"
-                                        Grid.ColumnSpan="2"
-                                        Background="{TemplateBinding Background}">
+                                        Background="{TemplateBinding Background}"
+                                        BorderThickness="0"
+                                        CornerRadius="{TemplateBinding InnerRadius}">
                                         <AdornerDecorator>
                                             <ContentPresenter />
                                         </AdornerDecorator>
-                                    </Grid>
+                                    </Border>
                                 </Grid>
 
                                 <Grid x:Name="PART_ResizeGrid">
