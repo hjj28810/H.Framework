@@ -106,7 +106,7 @@
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Data="F1M0,0L2.667,2.66665 5.3334,0 5.3334,-1.78168 2.6667,0.88501 0,-1.78168 0,0z"
-                                                    Fill="#FF606060" />
+                                                    Fill="#FF32323C" />
                                             </Border>
                                         </Border>
                                         <ControlTemplate.Triggers>
@@ -203,8 +203,8 @@
                                                     <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
                                                     <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false" />
                                                 </MultiDataTrigger.Conditions>
-                                                <Setter TargetName="templateRoot" Property="Background" Value="#FFF0F0F0" />
-                                                <Setter TargetName="templateRoot" Property="BorderBrush" Value="#FFD9D9D9" />
+                                                <Setter TargetName="templateRoot" Property="Background" Value="Transparent" />
+                                                <Setter TargetName="templateRoot" Property="BorderBrush" Value="Transparent" />
                                             </MultiDataTrigger>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>

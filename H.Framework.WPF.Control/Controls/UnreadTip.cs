@@ -7,11 +7,14 @@ using System.Windows.Shapes;
 
 namespace H.Framework.WPF.Control.Controls
 {
-    [TemplatePart(Name = "mPanel", Type = typeof(Canvas))]
+    [TemplatePart(Name = "mPanel", Type = typeof(Grid))]
     [TemplatePart(Name = "PART_Ellipse", Type = typeof(Ellipse))]
     [TemplatePart(Name = "PART_TextBlock", Type = typeof(TextBlock))]
+    [TemplatePart(Name = "PART_TextBlockLong", Type = typeof(TextBlock))]
     public class UnreadTip : System.Windows.Controls.Control
     {
+        private TextBlock _longBlock, _block;
+
         static UnreadTip()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(UnreadTip), new FrameworkPropertyMetadata(typeof(UnreadTip)));
@@ -19,17 +22,18 @@ namespace H.Framework.WPF.Control.Controls
             VisibilityProperty.OverrideMetadata(typeof(UnreadTip), new FrameworkPropertyMetadata(Visibility.Collapsed));
             HeightProperty.OverrideMetadata(typeof(UnreadTip), new FrameworkPropertyMetadata(10.00));
             WidthProperty.OverrideMetadata(typeof(UnreadTip), new FrameworkPropertyMetadata(15.00));
+            FontSizeProperty.OverrideMetadata(typeof(UnreadTip), new FrameworkPropertyMetadata(8.00));
             BackgroundProperty.OverrideMetadata(typeof(UnreadTip), new FrameworkPropertyMetadata(new SolidColorBrush(Colors.Red)));
         }
 
-        public string Text
+        public string Value
         {
-            get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
+            get => (string)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
         }
 
-        public static readonly DependencyProperty TextProperty =
-          DependencyProperty.Register("Text", typeof(string), typeof(UnreadTip), new PropertyMetadata("0", new PropertyChangedCallback(OnTextPropertyChanged)));
+        public static readonly DependencyProperty ValueProperty =
+          DependencyProperty.Register("Value", typeof(string), typeof(UnreadTip), new PropertyMetadata("0", new PropertyChangedCallback(OnTextPropertyChanged)));
 
         private static void OnTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -38,6 +42,18 @@ namespace H.Framework.WPF.Control.Controls
                 obj.Visibility = Visibility.Collapsed;
             else
                 obj.Visibility = Visibility.Visible;
+            if (obj._longBlock != null && obj._block != null)
+                if (e.NewValue.ToString().Length > 2)
+                {
+                    obj._longBlock.Visibility = Visibility.Visible;
+                    obj._longBlock.FontSize = obj.FontSize - 2;
+                    obj._block.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    obj._longBlock.Visibility = Visibility.Hidden;
+                    obj._block.Visibility = Visibility.Visible;
+                }
             obj.OnTextChanged(e.OldValue, e.NewValue);
         }
 
@@ -65,11 +81,18 @@ namespace H.Framework.WPF.Control.Controls
             }
         }
 
-        protected virtual void OnTextChanged(Object oldValue, Object newValue)
+        protected virtual void OnTextChanged(object oldValue, object newValue)
         {
-            RoutedPropertyChangedEventArgs<Object> arg =
-                new RoutedPropertyChangedEventArgs<Object>(oldValue, newValue, TextChangedEvent);
+            RoutedPropertyChangedEventArgs<object> arg =
+                new RoutedPropertyChangedEventArgs<object>(oldValue, newValue, TextChangedEvent);
             this.RaiseEvent(arg);
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            _longBlock = GetTemplateChild("PART_TextBlockLong") as TextBlock;
+            _block = GetTemplateChild("PART_TextBlock") as TextBlock;
         }
     }
 }

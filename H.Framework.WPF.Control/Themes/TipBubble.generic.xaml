@@ -16,7 +16,7 @@
                         PlacementTarget="{TemplateBinding PlacementTarget}"
                         PopupAnimation="Scroll"
                         StaysOpen="{TemplateBinding IsAutoHiden}">
-                        <Grid Name="PART_Main">
+                        <Grid Name="PART_Main" Margin="6">
                             <Grid.Effect>
                                 <DropShadowEffect
                                     BlurRadius="6"
@@ -24,61 +24,107 @@
                                     ShadowDepth="0"
                                     Color="{TemplateBinding ShadowColor}" />
                             </Grid.Effect>
-                            <!--<Polygon
-                            Panel.ZIndex="10"
-                            Fill="{TemplateBinding Background}"
-                            Points="4,0 10,5.5 16,0"
-                            Stroke="{TemplateBinding BorderBrush}"
-                            StrokeThickness="{TemplateBinding BorderThickness}">
-                            <Polygon.RenderTransform>
-                                <TransformGroup>
-                                    <RotateTransform Angle="180" CenterX="15" CenterY="3.25" />
-                                </TransformGroup>
-                            </Polygon.RenderTransform>
-                        </Polygon>-->
-                            <Polygon
-                                Margin="13,0,0,0"
-                                Fill="{TemplateBinding BorderBrush}"
-                                Points="6.5 5.68434189e-14 0 6 1.5 6 6.5 1.36000061 11.5 6 13 6" />
-                            <Polygon
-                                Margin="13,0,0,0"
-                                Fill="{TemplateBinding Background}"
-                                Points="6.5 1.3500061 1.5 6 11.5 6" />
-                            <Line
-                                Margin="0,6.1,0,0"
-                                Panel.ZIndex="20"
-                                ClipToBounds="True"
-                                Stroke="{TemplateBinding Background}"
-                                StrokeThickness="3"
-                                X1="14.3"
-                                X2="24.8" />
-                            <!--<Border
-                            Width="10.5"
-                            Margin="15,6.2,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Panel.ZIndex="20"
-                            BorderBrush="{TemplateBinding Background}"
-                            BorderThickness="0,1.4,0,0" />-->
-                            <Border
-                                Margin="0,6.2,0,0"
-                                Panel.ZIndex="9"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding Corner}">
-                                <ContentPresenter
-                                    x:Name="PART_Content"
-                                    Margin="{TemplateBinding Padding}"
-                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Content="{TemplateBinding Content}"
-                                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                                    RecognizesAccessKey="True"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                            </Border>
+                            <StackPanel Orientation="Horizontal">
+                                <Grid
+                                    Name="PART_LeftTriangle"
+                                    Margin="0,10,-1,0"
+                                    VerticalAlignment="Top"
+                                    Panel.ZIndex="20"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    Visibility="Hidden">
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform />
+                                            <SkewTransform />
+                                            <RotateTransform Angle="180" />
+                                            <TranslateTransform />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                    <Polygon Fill="{TemplateBinding Background}" Points="1.43369403e-12 1.73 5.36537758 7.49923077 3.83693077e-13 13.2684615" />
+                                    <Polygon Fill="{TemplateBinding BorderBrush}" Points="3.992362e-13 2.66453526e-15 6.92307692 7.5 3.992362e-13 15 3.992362e-13 13.2692308 5.36537758 7.5 3.992362e-13 1.73076923" />
+                                </Grid>
+                                <StackPanel Orientation="Vertical">
+                                    <Grid
+                                        Name="PART_TopTriangle"
+                                        Margin="13,0,0,-1"
+                                        Panel.ZIndex="20">
+                                        <Polygon Fill="{TemplateBinding BorderBrush}" Points="7.5 5.68434189e-14 0 6.92307692 1.73076923 6.92307692 7.5 1.56923147 13.2692308 6.92307692 15 6.92307692" />
+                                        <Polygon Fill="{TemplateBinding Background}" Points="7.5 1.55769935 1.73076923 6.92307692 13.2692308 6.92307692" />
+                                    </Grid>
+                                    <Border
+                                        Panel.ZIndex="9"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{TemplateBinding Corner}">
+                                        <ContentPresenter
+                                            x:Name="PART_Content"
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            Content="{TemplateBinding Content}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            RecognizesAccessKey="True"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    </Border>
+                                    <Grid
+                                        Name="PART_BottomTriangle"
+                                        Margin="13,-1,0,0"
+                                        HorizontalAlignment="Left"
+                                        Panel.ZIndex="20"
+                                        RenderTransformOrigin="0.5,0.5"
+                                        Visibility="Hidden">
+                                        <Grid.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform />
+                                                <SkewTransform />
+                                                <RotateTransform Angle="180" />
+                                                <TranslateTransform />
+                                            </TransformGroup>
+                                        </Grid.RenderTransform>
+                                        <Polygon Fill="{TemplateBinding BorderBrush}" Points="7.5 5.68434189e-14 0 6.92307692 1.73076923 6.92307692 7.5 1.56923147 13.2692308 6.92307692 15 6.92307692" />
+                                        <Polygon Fill="{TemplateBinding Background}" Points="7.5 1.55769935 1.73076923 6.92307692 13.2692308 6.92307692" />
+                                    </Grid>
+                                </StackPanel>
+                                <Grid
+                                    Name="PART_RightTriangle"
+                                    Margin="-1,10,0,0"
+                                    Panel.ZIndex="20"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    Visibility="Hidden">
+
+                                    <Polygon Fill="{TemplateBinding Background}" Points="1.43369403e-12 1.73 5.36537758 7.49923077 3.83693077e-13 13.2684615" />
+                                    <Polygon Fill="{TemplateBinding BorderBrush}" Points="3.992362e-13 2.66453526e-15 6.92307692 7.5 3.992362e-13 15 3.992362e-13 13.2692308 5.36537758 7.5 3.992362e-13 1.73076923" />
+                                </Grid>
+                            </StackPanel>
                         </Grid>
                     </Popup>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Placement" Value="Top">
+                            <Setter TargetName="PART_BottomTriangle" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_TopTriangle" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_LeftTriangle" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_RightTriangle" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                        <Trigger Property="Placement" Value="Bottom">
+                            <Setter TargetName="PART_BottomTriangle" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_TopTriangle" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_LeftTriangle" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_RightTriangle" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                        <Trigger Property="Placement" Value="Left">
+                            <Setter TargetName="PART_BottomTriangle" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_TopTriangle" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_LeftTriangle" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_RightTriangle" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="Placement" Value="Right">
+                            <Setter TargetName="PART_BottomTriangle" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_TopTriangle" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_LeftTriangle" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_RightTriangle" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

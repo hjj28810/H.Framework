@@ -9,6 +9,10 @@ using System.Windows.Media.Animation;
 namespace H.Framework.WPF.Control.Controls
 {
     [TemplatePart(Name = "PART_Main", Type = typeof(Grid))]
+    [TemplatePart(Name = "PART_BottomTriangle", Type = typeof(Grid))]
+    [TemplatePart(Name = "PART_TopTriangle", Type = typeof(Grid))]
+    [TemplatePart(Name = "PART_LeftTriangle", Type = typeof(Grid))]
+    [TemplatePart(Name = "PART_RightTriangle", Type = typeof(Grid))]
     [TemplatePart(Name = "PART_Popup", Type = typeof(Popup))]
     public class TipBubble : System.Windows.Controls.Control
     {
@@ -73,12 +77,24 @@ namespace H.Framework.WPF.Control.Controls
         public static void PlacementPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var ctrl = (TipBubble)d;
-            if ((PlacementMode)e.NewValue == PlacementMode.Custom)
-            {
-            }
-            else
-            {
-            }
+            //if (ctrl._topTriangle != null && ctrl._bottomTriangle != null)
+            //    switch ((PlacementMode)e.NewValue)
+            //    {
+            //        case PlacementMode.Bottom:
+            //            ctrl._topTriangle.Visibility = Visibility.Visible;
+            //            ctrl._bottomTriangle.Visibility = Visibility.Hidden;
+            //            break;
+
+            //        case PlacementMode.Top:
+            //            ctrl._topTriangle.Visibility = Visibility.Hidden;
+            //            ctrl._bottomTriangle.Visibility = Visibility.Visible;
+            //            break;
+
+            //        default:
+            //            ctrl._topTriangle.Visibility = Visibility.Visible;
+            //            ctrl._bottomTriangle.Visibility = Visibility.Hidden;
+            //            break;
+            //    }
         }
 
         public static readonly DependencyProperty PlacementTargetProperty = DependencyProperty.Register("PlacementTarget", typeof(UIElement), typeof(TipBubble), new UIPropertyMetadata(null, null));
@@ -146,7 +162,9 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(ContentTemplateProperty, value);
         }
 
-        private Grid _main;
+        //private StackPanel _main;
+        private Grid _main, _bottomTriangle, _topTriangle, _leftTriangle, _rightTriangle;
+
         private Storyboard[] _sbArr;
         private Popup _popup;
 
@@ -154,6 +172,10 @@ namespace H.Framework.WPF.Control.Controls
         {
             base.OnApplyTemplate();
             _main = GetTemplateChild("PART_Main") as Grid;
+            _bottomTriangle = GetTemplateChild("PART_BottomTriangle") as Grid;
+            _topTriangle = GetTemplateChild("PART_TopTriangle") as Grid;
+            _leftTriangle = GetTemplateChild("PART_LeftTriangle") as Grid;
+            _rightTriangle = GetTemplateChild("PART_RightTriangle") as Grid;
             _popup = GetTemplateChild("PART_Popup") as Popup;
             _popup.CustomPopupPlacementCallback += CustomPopupPlacementChanged;
             if (IsAutoHiden)

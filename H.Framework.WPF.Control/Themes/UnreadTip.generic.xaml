@@ -8,21 +8,32 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:UnreadTip}">
-                    <Canvas x:Name="mPanel">
+                    <Grid x:Name="mPanel">
                         <Ellipse
                             Name="PART_Ellipse"
                             Width="{TemplateBinding Width}"
                             Height="{TemplateBinding Height}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
                             Fill="{TemplateBinding Background}" />
                         <TextBlock
                             Name="PART_TextBlock"
-                            Margin="0.6,0,0,0"
-                            FontSize="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="{TemplateBinding FontSize}"
                             Foreground="White"
-                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             TextAlignment="Center"
                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsShowText, Converter={StaticResource objConverter}, ConverterParameter=true:Visible:Collapsed}" />
-                    </Canvas>
+                        <TextBlock
+                            Name="PART_TextBlockLong"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="White"
+                            Text="99+"
+                            TextAlignment="Center"
+                            Visibility="Hidden" />
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -30,18 +41,25 @@
                                 <Condition Binding="{Binding ElementName=PART_TextBlock, Path=Visibility}" Value="Visible" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter TargetName="PART_Ellipse" Property="Width" Value="12" />
-                                <Setter TargetName="PART_TextBlock" Property="Margin" Value="3.5,0,0,0" />
+                                <Setter TargetName="PART_TextBlockLong" Property="Visibility" Value="Hidden" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding ElementName=PART_TextBlock, Path=Text.Length}" Value="2" />
-                                <Condition Binding="{Binding ElementName=PART_TextBlock, Path=Visibility}" Value="Visible" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter TargetName="PART_Ellipse" Property="Width" Value="12" />
-                                <Setter TargetName="PART_TextBlock" Property="Margin" Value="1.2,0,0,0" />
+                                <Setter TargetName="PART_TextBlock" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="PART_TextBlockLong" Property="Visibility" Value="Hidden" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=PART_TextBlock, Path=Text.Length}" Value="3" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="PART_TextBlockLong" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="PART_TextBlock" Property="Visibility" Value="Hidden" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                     </ControlTemplate.Triggers>
