@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H.Framework.Core", "H.Frame
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H.Framework.NETCore.IoC", "H.Framework.NETCore.IoC\H.Framework.NETCore.IoC.csproj", "{75A11811-258F-4A55-BADC-DC345B7D7EFD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H.Framework.Data.ORM", "H.Framework.Data.ORM\H.Framework.Data.ORM.csproj", "{F4950974-3BF1-4830-B1C8-F08EA93E25C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H.Framework.Data.ORM", "H.Framework.Data.ORM\H.Framework.Data.ORM.csproj", "{39D2A01F-E4C7-46D8-9051-318F7AD489C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,10 +46,10 @@ Global
 		{75A11811-258F-4A55-BADC-DC345B7D7EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75A11811-258F-4A55-BADC-DC345B7D7EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75A11811-258F-4A55-BADC-DC345B7D7EFD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4950974-3BF1-4830-B1C8-F08EA93E25C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4950974-3BF1-4830-B1C8-F08EA93E25C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4950974-3BF1-4830-B1C8-F08EA93E25C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4950974-3BF1-4830-B1C8-F08EA93E25C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39D2A01F-E4C7-46D8-9051-318F7AD489C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39D2A01F-E4C7-46D8-9051-318F7AD489C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39D2A01F-E4C7-46D8-9051-318F7AD489C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39D2A01F-E4C7-46D8-9051-318F7AD489C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
