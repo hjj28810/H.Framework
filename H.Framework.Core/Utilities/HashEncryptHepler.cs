@@ -97,25 +97,12 @@ namespace H.Framework.Core.Utilities
         /// <summary>
         /// 3DES加密
         /// </summary>
-        /// <param name="text">加密字符</param>
-        /// <param name="password">加密的密码</param>
-        /// <param name="iv">密钥</param>
-        /// <param name="mode">运算模式</param>
-        /// <returns></returns>
-        public static string Encrypt3DES(string text, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
-        {
-            return Encrypt3DES(Encoding.UTF8.GetBytes(text), password, cMode, pMode, iv);
-        }
-
-        /// <summary>
-        /// 3DES加密
-        /// </summary>
         /// <param name="buffer">加密数组</param>
         /// <param name="password">加密的密码</param>
         /// <param name="iv">密钥</param>
         /// <param name="mode">运算模式</param>
-        /// <returns></returns>
-        public static string Encrypt3DES(byte[] buffer, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
+        /// <returns>Base64字符串</returns>
+        public static byte[] Encrypt3DES(byte[] buffer, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
         {
             try
             {
@@ -131,7 +118,7 @@ namespace H.Framework.Core.Utilities
                         des.IV = Encoding.UTF8.GetBytes(iv);
                     }
                     var desEncrypt = des.CreateEncryptor();
-                    return Convert.ToBase64String(desEncrypt.TransformFinalBlock(buffer, 0, buffer.Length));
+                    return desEncrypt.TransformFinalBlock(buffer, 0, buffer.Length);
                 }
             }
             catch (Exception e)
@@ -141,14 +128,27 @@ namespace H.Framework.Core.Utilities
         }
 
         /// <summary>
+        /// 3DES加密成Base64
+        /// </summary>
+        /// <param name="buffer">加密数组</param>
+        /// <param name="password">加密的密码</param>
+        /// <param name="iv">密钥</param>
+        /// <param name="mode">运算模式</param>
+        /// <returns>Base64字符串</returns>
+        public static string Encrypt3DESToBase64(byte[] buffer, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
+        {
+            return Convert.ToBase64String(Encrypt3DES(buffer, password, cMode, pMode, iv));
+        }
+
+        /// <summary>
         /// 3DES解密
         /// </summary>
-        /// <param name="text">加密的字符串</param>
+        /// <param name="buffer">加密的数组</param>
         /// <param name="password">密钥</param>
         /// <param name="iv">解密矢量：只有在CBC解密模式下才适用</param>
         /// <param name="cMode">运算模式</param>
-        /// <returns>解密的字符串</returns>
-        public static byte[] Decrypt3DES(string text, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
+        /// <returns></returns>
+        public static byte[] Decrypt3DES(byte[] buffer, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
         {
             try
             {
@@ -163,7 +163,6 @@ namespace H.Framework.Core.Utilities
                     {
                         des.IV = Encoding.UTF8.GetBytes(iv);
                     }
-                    var buffer = Convert.FromBase64String(text);
                     return des.CreateDecryptor().TransformFinalBlock(buffer, 0, buffer.Length);
                 }
             }
@@ -171,6 +170,19 @@ namespace H.Framework.Core.Utilities
             {
                 throw e;
             }
+        }
+
+        /// <summary>
+        /// 3DES解密Base64字符串
+        /// </summary>
+        /// <param name="text">加密的Base64字符串</param>
+        /// <param name="password">密钥</param>
+        /// <param name="iv">解密矢量：只有在CBC解密模式下才适用</param>
+        /// <param name="cMode">运算模式</param>
+        /// <returns>解密的字符串</returns>
+        public static byte[] Decrypt3DES(string text, string password, CipherMode cMode = CipherMode.ECB, PaddingMode pMode = PaddingMode.Zeros, string iv = "")
+        {
+            return Decrypt3DES(Convert.FromBase64String(text), password, cMode, pMode, iv);
         }
     }
 
