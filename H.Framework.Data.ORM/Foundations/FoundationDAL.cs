@@ -29,9 +29,9 @@ namespace H.Framework.Data.ORM.Foundations
 
         private readonly string modelName = typeof(TModel).Name;
 
-        public void Add(IEnumerable<TModel> list)
+        public string Add(IEnumerable<TModel> list)
         {
-            if (list == null || !list.Any()) return;
+            if (list == null || !list.Any()) return "";
             //var builder = new StringBuilder("begin "); //oracle
             var builder = new StringBuilder();
             foreach (var model in list)
@@ -39,8 +39,10 @@ namespace H.Framework.Data.ORM.Foundations
                 var arr = MySQLUtility.ExecuteParm(model, "add");
                 builder.Append(CreateSql(SqlType.Add, modelName, arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2.Remove(arr.Item2.Length - 1)));
             }
+            var lastArr = MySQLUtility.ExecuteLastIDParm(list.Last());
+            builder.Append(CreateSql(SqlType.LastID, modelName, "", CreateSql(lastArr.Item1)));
             //builder.Append(" end;"); //oracle
-            ExecuteReader(CommandType.Text, builder.ToString().ToLower(), null);
+            return ExecuteReader(CommandType.Text, builder.ToString().ToLower(), null);
         }
 
         public void Update(IEnumerable<TModel> list, string include = "")
@@ -58,17 +60,17 @@ namespace H.Framework.Data.ORM.Foundations
 
         public void Delete(TModel model)
         {
-            ExecuteReader(CommandType.Text, CreateSql(SqlType.Delete, modelName), new MySqlParameter(":id", model.ID));
+            ExecuteReader(CommandType.Text, CreateSql(SqlType.Delete, modelName).ToLower(), new MySqlParameter("@id", model.ID));
         }
 
         public void DeleteLogic(TModel model)
         {
-            ExecuteReader(CommandType.Text, CreateSql(SqlType.DeleteLogic, modelName), new MySqlParameter(":id", model.ID));
+            ExecuteReader(CommandType.Text, CreateSql(SqlType.DeleteLogic, modelName).ToLower(), new MySqlParameter("@id", model.ID));
         }
 
-        protected void ExecuteReader(CommandType commandType, string sqlText, params MySqlParameter[] param)
+        protected string ExecuteReader(CommandType commandType, string sqlText, params MySqlParameter[] param)
         {
-            Fabricate.ExecuteReader(commandType, sqlText, param);
+            return Fabricate.ExecuteReader(commandType, sqlText, param);
         }
 
         public IEnumerable<T> ExecuteQuerySQL<T>(string sqlText) where T : new()
@@ -112,11 +114,11 @@ namespace H.Framework.Data.ORM.Foundations
                     break;
 
                 case SqlType.Delete:
-                    sqlStr = "delete from " + tableName + " where id = :id;commit;";
+                    sqlStr = "delete from " + tableName + " where id = @id;commit;";
                     break;
 
                 case SqlType.DeleteLogic:
-                    sqlStr = "update " + tableName + " set IsDeteted = 1 where id = :id";
+                    sqlStr = "update " + tableName + " set IsDeteted = 1 where id = @id";
                     break;
 
                 case SqlType.Update:
@@ -146,8 +148,22 @@ namespace H.Framework.Data.ORM.Foundations
                 case SqlType.CountDetail:
                     sqlStr = "select sum(ct) as DataCount from (select count(a.id) as ct from " + tableName + " where 1 = 1" + columnParm + ") a";
                     break;
+
+                case SqlType.LastID:
+                    sqlStr = "select LAST_INSERT_ID() from " + tableName + " where 1 = 1" + columnParm + ";";
+                    break;
             }
             return sqlStr;
+        }
+
+        protected string CreateSql(List<MySqlParameter> list)
+        {
+            string sql = "";
+            list.ForEach(x =>
+            {
+                sql += " and " + x.ParameterName + "='" + x.Value + "'";
+            });
+            return sql;
         }
 
         private string ReplaceName(string name)
@@ -165,7 +181,8 @@ namespace H.Framework.Data.ORM.Foundations
         Get,
         GetPage_MySQL,
         Count_MySQL,
-        CountDetail
+        CountDetail,
+        LastID
         //Count,
         //GetPage_Oracle,
     }

@@ -20,23 +20,28 @@ namespace H.Framework.Data.ORM.Foundations
             DAL = Activator.CreateInstance<TDAL>();
         }
 
-        public virtual void Add(List<TViewModel> list)
+        public virtual string Add(List<TViewModel> list)
         {
-            Add(list, Selector);
+            return Add(list, Selector);
         }
 
-        public virtual void Add(TViewModel model)
+        public virtual string Add(TViewModel model)
         {
-            Add(new List<TViewModel> { model }, Selector);
+            return Add(new List<TViewModel> { model }, Selector);
         }
 
-        protected void Add(List<TViewModel> list, Func<TViewModel, TModel> selector)
+        protected string Add(List<TViewModel> list, Func<TViewModel, TModel> selector)
         {
-            if (list == null) return;
-            DAL.Add(list.MapAllTo(selector));
+            if (list == null) return "";
+            return DAL.Add(list.MapAllTo(selector));
         }
 
         public virtual void Delete(TViewModel model)
+        {
+            DAL.Delete(new TModel { ID = model.ID });
+        }
+
+        public virtual void DeleteLogic(TViewModel model)
         {
             DAL.DeleteLogic(new TModel { ID = model.ID });
         }

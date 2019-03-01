@@ -7,11 +7,13 @@ namespace H.Framework.Data.ORM.Foundations
 {
     public interface IFoundationBLL<TViewModel> where TViewModel : IFoundationViewModel, new()
     {
-        void Add(List<TViewModel> list);
+        string Add(List<TViewModel> list);
 
-        void Add(TViewModel model);
+        string Add(TViewModel model);
 
         void Delete(TViewModel model);
+
+        void DeleteLogic(TViewModel model);
 
         void Update(List<TViewModel> list, string include = "");
 

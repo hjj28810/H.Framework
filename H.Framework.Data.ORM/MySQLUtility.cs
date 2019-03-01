@@ -18,6 +18,28 @@ namespace H.Framework.Data.ORM
             _locker = new object();
         }
 
+        public static Tuple<List<MySqlParameter>, string> ExecuteLastIDParm<TModel>(TModel model) where TModel : IFoundationModel, new()
+        {
+            lock (_locker)
+            {
+                var properties = typeof(TModel).GetProperties();
+                var parms = new List<MySqlParameter>();
+                string tableName = typeof(TModel).Name;
+                foreach (var prop in properties)
+                {
+                    if (prop.IsDefined(typeof(LastIDConditionAttribute)))
+                    {
+                        var propValue = prop.GetValue(model);
+                        if (propValue != null)
+                        {
+                            parms.Add(new MySqlParameter(prop.Name, propValue));
+                        }
+                    }
+                }
+                return new Tuple<List<MySqlParameter>, string>(parms, tableName);
+            }
+        }
+
         public static Tuple<string, string, List<MySqlParameter>, string> ExecuteParm<TModel>(TModel model, string type = "", string include = "", OrderByEntity orderBy = null) where TModel : IFoundationModel, new()
         {
             lock (_locker)

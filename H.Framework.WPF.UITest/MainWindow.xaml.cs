@@ -1,6 +1,8 @@
 ﻿using H.Framework.Core.Attributes;
 using H.Framework.Core.Log;
 using H.Framework.Core.Utilities;
+using H.Framework.Data.ORM.Attributes;
+using H.Framework.Data.ORM.Foundations;
 using H.Framework.WPF.Control.Controls;
 using H.Framework.WPF.Control.Controls.Capture;
 using System;
@@ -23,6 +25,7 @@ namespace H.Framework.WPF.UITest
         {
             InitializeComponent();
             DataContext = this;
+            TestSql.Test();
         }
 
         private Visibility _SBVisibility = Visibility.Visible;
@@ -158,6 +161,38 @@ namespace H.Framework.WPF.UITest
     {
         public static void Test(string value, MainWindow a)
         {
+        }
+    }
+
+    public class TestSql
+    {
+        public static void Test()
+        {
+            FoundationDAL.ConnectedString = "Server=192.168.50.162;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
+            var a = new MenuDAL();
+            //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
+            a.Delete(new Menu { ID = "3" });
+        }
+
+        public abstract class BaseDAL<TModel> : FoundationDAL<TModel> where TModel : IFoundationModel, new()
+        {
+            public BaseDAL()
+            { }
+        }
+
+        public class MenuDAL : BaseDAL<Menu>
+        {
+        }
+
+        public class Menu : IFoundationModel
+        {
+            public string ID { get; set; }
+
+            public string Code { get; set; }
+            public string Name { get; set; }
+
+            [LastIDCondition]
+            public string UserID { get; set; }
         }
     }
 }

@@ -205,10 +205,11 @@ namespace H.Framework.Data.ORM
             }
         }
 
-        public void ExecuteReader(CommandType commandType, string sqlText, params MySqlParameter[] param)
+        public string ExecuteReader(CommandType commandType, string sqlText, params MySqlParameter[] param)
         {
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
+            string result = "";
             using (var conn = new MySqlConnection(ConnectStr))
             {
                 conn.Open();
@@ -225,7 +226,12 @@ namespace H.Framework.Data.ORM
                                 foreach (var parm in param)
                                     cmd.Parameters.Add(parm);
                             using (reader = cmd.ExecuteReader())
-                            { }
+                            {
+                                while (reader.Read())
+                                {
+                                    result = reader[0].ToString();
+                                }
+                            }
                             tran.Commit();
                         }
                         catch (Exception e)
@@ -238,6 +244,7 @@ namespace H.Framework.Data.ORM
                     }
                 }
             }
+            return result;
         }
     }
 

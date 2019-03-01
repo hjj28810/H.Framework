@@ -18,7 +18,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         void Update(IEnumerable<TModel> list, string include = "");
 
-        void Add(IEnumerable<TModel> list);
+        string Add(IEnumerable<TModel> list);
 
         IEnumerable<T> ExecuteQuerySQL<T>(string sqlText) where T : new();
 
