@@ -48,13 +48,14 @@ namespace H.Framework.Data.ORM.Foundations
         public void Update(IEnumerable<TModel> list, string include = "")
         {
             if (list == null || !list.Any()) return;
-            var builder = new StringBuilder("begin ");
+            //var builder = new StringBuilder("begin ");//oracle
+            var builder = new StringBuilder();
             foreach (var model in list)
             {
                 var arr = MySQLUtility.ExecuteParm(model, "update", include);
                 builder.Append(CreateSql(SqlType.Update, modelName, arr.Item1.Substring(0, arr.Item1.Length - 1), arr.Item2));
             }
-            builder.Append(" end;");
+            //builder.Append(" end;");//oracle
             ExecuteReader(CommandType.Text, builder.ToString(), null);
         }
 
@@ -122,7 +123,7 @@ namespace H.Framework.Data.ORM.Foundations
                     break;
 
                 case SqlType.Update:
-                    sqlStr = "update " + tableName + " a set " + columnName + " where " + columnParm + ";";
+                    sqlStr = "update " + tableName.ToLower() + " a set " + columnName.ToLower() + " where " + columnParm.ToLower() + ";";
                     break;
 
                 case SqlType.Get:
@@ -153,7 +154,7 @@ namespace H.Framework.Data.ORM.Foundations
                     sqlStr = "select LAST_INSERT_ID() from " + tableName + " where 1 = 1" + columnParm + ";";
                     break;
             }
-            return sqlStr;
+            return sqlStr.ToLower();
         }
 
         protected string CreateSql(List<MySqlParameter> list)

@@ -30,6 +30,16 @@ namespace H.Framework.Data.ORM.Foundations
             return Add(new List<TViewModel> { model }, Selector);
         }
 
+        public virtual async Task<string> AddAsync(List<TViewModel> list)
+        {
+            return await Task.Run(() => Add(list, Selector));
+        }
+
+        public virtual async Task<string> AddAsync(TViewModel model)
+        {
+            return await Task.Run(() => Add(new List<TViewModel> { model }, Selector));
+        }
+
         protected string Add(List<TViewModel> list, Func<TViewModel, TModel> selector)
         {
             if (list == null) return "";
