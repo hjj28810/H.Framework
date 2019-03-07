@@ -261,13 +261,13 @@
             <extender:ClassicPager
                 Name="cPager"
                 Grid.Row="1"
-                Width="505"
+                Width="571"
                 Margin="99,308,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 BtnMouseOverColor="#2178FF"
                 CurrentPage="{Binding CurrentPage, Mode=OneWayToSource}"
-                DataCount="{Binding List.Count}"
+                DataCount="{Binding ListCount}"
                 Foreground="Red"
                 PageSize="{Binding PageSize, Mode=OneWayToSource}" />
         </Grid>

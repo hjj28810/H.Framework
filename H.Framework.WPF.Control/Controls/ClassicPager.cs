@@ -12,6 +12,7 @@ namespace H.Framework.WPF.Control.Controls
     [TemplatePart(Name = "PART_FirstPageBtn", Type = typeof(RadioButtonEx))]
     [TemplatePart(Name = "PART_LastPageBtn", Type = typeof(RadioButtonEx))]
     [TemplatePart(Name = "PART_NextBtn", Type = typeof(RadioButtonEx))]
+    [TemplatePart(Name = "PART_PageNumberTxt", Type = typeof(TextBoxEx))]
     public class ClassicPager : System.Windows.Controls.Control
     {
         static ClassicPager()
@@ -51,6 +52,7 @@ namespace H.Framework.WPF.Control.Controls
         }
 
         private ButtonEx _nextBtn, _previousBtn, _firstPageBtn, _lastPageBtn, _goToBtn;
+        private TextBoxEx _pageNumberTxt;
         private decimal _maxPageNubmer;
 
         private void CreateControl()
@@ -60,7 +62,7 @@ namespace H.Framework.WPF.Control.Controls
             _lastPageBtn = (ButtonEx)GetTemplateChild("PART_LastPageBtn");
             _nextBtn = (ButtonEx)GetTemplateChild("PART_NextBtn");
             _goToBtn = (ButtonEx)GetTemplateChild("PART_GoToBtn");
-
+            _pageNumberTxt = (TextBoxEx)GetTemplateChild("PART_PageNumberTxt");
             _firstPageBtn.Click += BTNClick;
             _lastPageBtn.Click += BTNClick;
             _previousBtn.Click += BTNClick;
@@ -82,12 +84,13 @@ namespace H.Framework.WPF.Control.Controls
                     break;
 
                 case "PART_FirstPageBtn":
-
-                    CurrentPage = 1;
+                    if (CurrentPage != 1)
+                        CurrentPage = 1;
                     break;
 
                 case "PART_LastPageBtn":
-                    CurrentPage = (int)_maxPageNubmer;
+                    if (CurrentPage != (int)_maxPageNubmer)
+                        CurrentPage = (int)_maxPageNubmer;
                     break;
 
                 case "PART_NextBtn":
@@ -96,7 +99,7 @@ namespace H.Framework.WPF.Control.Controls
                     break;
 
                 case "PART_GoToBtn":
-                    if (PageNumber <= _maxPageNubmer && PageNumber > 0)
+                    if (PageNumber <= _maxPageNubmer && PageNumber > 0 && CurrentPage != PageNumber)
                         CurrentPage = PageNumber;
                     break;
             }
@@ -152,6 +155,7 @@ namespace H.Framework.WPF.Control.Controls
         {
             var c = d as ClassicPager;
             c.OnPageIndexChanged(e.OldValue, e.NewValue);
+            c._pageNumberTxt.Text = e.NewValue.ToString();
         }
 
         public static readonly DependencyProperty BtnMouseOverColorProperty = DependencyProperty.Register("BtnMouseOverColor", typeof(Brush), typeof(ClassicPager), new PropertyMetadata(new SolidColorBrush(Colors.CadetBlue), null));

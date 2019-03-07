@@ -126,6 +126,12 @@ namespace H.Framework.WPF.UITest
 
         public List<Node> List => Get().ToList();
 
+        public int ListCount
+        {
+            get;
+            set;
+        } = 15;
+
         //[Required(ErrorMessage = "sdsadasd")]
         public int PageSize
         {
@@ -142,7 +148,7 @@ namespace H.Framework.WPF.UITest
             set
             {
                 _currentPage = value;
-                OnPropertyChanged("CurrentPage");
+                //OnPropertyChanged("CurrentPage");
                 Trace.WriteLine(_currentPage);
             }
         }

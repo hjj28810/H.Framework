@@ -8,6 +8,7 @@
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Height" Value="22" />
         <Setter Property="MinHeight" Value="22" />
+        <Setter Property="MinWidth" Value="570" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ClassicPager}">
@@ -64,11 +65,12 @@
                             Margin="15,0"
                             Content="下一页" />
                         <local:ButtonEx x:Name="PART_LastPageBtn" Content="末页" />
+                        <TextBlock Margin="15,0,0,0" Text="当前第" />
                         <local:TextBoxEx
                             x:Name="PART_PageNumberTxt"
                             Width="45"
                             Height="{TemplateBinding Height}"
-                            Margin="15,0"
+                            Margin="10,0"
                             VerticalAlignment="Center"
                             VerticalContentAlignment="Center"
                             BorderBrush="#9BA0AA"
@@ -77,6 +79,7 @@
                             FontSize="{TemplateBinding FontSize}"
                             Foreground="{TemplateBinding Foreground}"
                             Text="{Binding PageNumber, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Margin="0,0,15,0" Text="页" />
                         <local:ButtonEx x:Name="PART_GoToBtn" Content="跳转" />
                     </StackPanel>
                 </ControlTemplate>
