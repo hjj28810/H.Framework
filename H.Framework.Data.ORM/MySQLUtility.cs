@@ -194,7 +194,7 @@ namespace H.Framework.Data.ORM
                         mapList.Add(new TableMap { Alias = "a", TableName = typeof(TModel).Name, ColumnName = prop.Name });
                     }
                 }
-                return new Tuple<string, List<MySqlParameter>, string>(columnName.ToLower(), parms, tableName.ToLower());
+                return new Tuple<string, List<MySqlParameter>, string>(columnName, parms, tableName.ToLower());
             }
         }
 

@@ -42,7 +42,7 @@ namespace H.Framework.Data.ORM.Foundations
             var lastArr = MySQLUtility.ExecuteLastIDParm(list.Last());
             builder.Append(CreateSql(SqlType.LastID, modelName, "", CreateSql(lastArr.Item1)));
             //builder.Append(" end;"); //oracle
-            return ExecuteReader(CommandType.Text, builder.ToString().ToLower(), null);
+            return ExecuteReader(CommandType.Text, builder.ToString(), null);
         }
 
         public void Update(IEnumerable<TModel> list, string include = "")
@@ -111,23 +111,23 @@ namespace H.Framework.Data.ORM.Foundations
             switch (type)
             {
                 case SqlType.Add:
-                    sqlStr = "insert into " + tableName + "(" + columnName + ")" + " values (" + columnParm + ");";
+                    sqlStr = "insert into " + tableName.ToLower() + "(" + columnName + ")" + " values (" + columnParm + ");";
                     break;
 
                 case SqlType.Delete:
-                    sqlStr = "delete from " + tableName + " where id = @id;commit;";
+                    sqlStr = "delete from " + tableName.ToLower() + " where id = @id;commit;";
                     break;
 
                 case SqlType.DeleteLogic:
-                    sqlStr = "update " + tableName + " set IsDeteted = 1 where id = @id";
+                    sqlStr = "update " + tableName.ToLower() + " set IsDeteted = 1 where id = @id";
                     break;
 
                 case SqlType.Update:
-                    sqlStr = "update " + tableName.ToLower() + " a set " + columnName.ToLower() + " where " + columnParm.ToLower() + ";";
+                    sqlStr = "update " + tableName.ToLower() + " a set " + columnName + " where " + columnParm + ";";
                     break;
 
                 case SqlType.Get:
-                    sqlStr = "select " + columnName.ReplaceKeyword() + " from " + tableName + " where 1 = 1" + columnParm + orderbyStr;
+                    sqlStr = "select " + columnName.ReplaceKeyword() + " from " + tableName.ToLower() + " where 1 = 1" + columnParm + orderbyStr;
                     break;
 
                 //case SqlType.GetPage_Oracle:
@@ -135,7 +135,7 @@ namespace H.Framework.Data.ORM.Foundations
                 //    break;
 
                 case SqlType.GetPage_MySQL:
-                    sqlStr = "select rn," + ReplaceName(columnName).ReplaceKeyword() + " FROM (select if(@tid = a.id, @rownum := @rownum, @rownum := @rownum + 1) rn, @tid := a.id," + columnName + " from " + tableName + " join (SELECT @rownum := 0, @tid := NULL) rntemp where 1 = 1" + columnParm + orderbyStr + ") a where rn > " + (pageNum * pageSize).ToString() + " and rn <= " + ((pageNum + 1) * pageSize).ToString();
+                    sqlStr = "select rn," + ReplaceName(columnName).ReplaceKeyword() + " FROM (select if(@tid = a.id, @rownum := @rownum, @rownum := @rownum + 1) rn, @tid := a.id," + columnName + " from " + tableName.ToLower() + " join (SELECT @rownum := 0, @tid := NULL) rntemp where 1 = 1" + columnParm + orderbyStr + ") a where rn > " + (pageNum * pageSize).ToString() + " and rn <= " + ((pageNum + 1) * pageSize).ToString();
                     break;
 
                 //case SqlType.Count:
@@ -143,18 +143,18 @@ namespace H.Framework.Data.ORM.Foundations
                 //    break;
 
                 case SqlType.Count_MySQL:
-                    sqlStr = "select count(id) as DataCount from (select a.id from " + tableName + " where 1 = 1" + columnParm + " group by a.id) a";
+                    sqlStr = "select count(id) as DataCount from (select a.id from " + tableName.ToLower() + " where 1 = 1" + columnParm + " group by a.id) a";
                     break;
 
                 case SqlType.CountDetail:
-                    sqlStr = "select sum(ct) as DataCount from (select count(a.id) as ct from " + tableName + " where 1 = 1" + columnParm + ") a";
+                    sqlStr = "select sum(ct) as DataCount from (select count(a.id) as ct from " + tableName.ToLower() + " where 1 = 1" + columnParm + ") a";
                     break;
 
                 case SqlType.LastID:
-                    sqlStr = "select LAST_INSERT_ID() from " + tableName + " where 1 = 1" + columnParm + ";";
+                    sqlStr = "select LAST_INSERT_ID() from " + tableName.ToLower() + " where 1 = 1" + columnParm + ";";
                     break;
             }
-            return sqlStr.ToLower();
+            return sqlStr;
         }
 
         protected string CreateSql(List<MySqlParameter> list)
