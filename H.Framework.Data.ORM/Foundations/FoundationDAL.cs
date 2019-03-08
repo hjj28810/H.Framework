@@ -74,9 +74,9 @@ namespace H.Framework.Data.ORM.Foundations
             return Fabricate.ExecuteReader(commandType, sqlText, param);
         }
 
-        public IEnumerable<T> ExecuteQuerySQL<T>(string sqlText) where T : new()
+        public IEnumerable<T> ExecuteQuerySQL<T>(string sqlText, params MySqlParameter[] param) where T : new()
         {
-            return Fabricate.GetTable(CommandType.Text, sqlText, null).ToList<T>();
+            return Fabricate.GetTable(CommandType.Text, sqlText, param).ToList<T>();
         }
 
         public int Count(Expression<Func<TModel, bool>> whereSelector)

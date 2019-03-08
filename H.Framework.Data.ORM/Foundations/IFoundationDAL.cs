@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -20,7 +21,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         string Add(IEnumerable<TModel> list);
 
-        IEnumerable<T> ExecuteQuerySQL<T>(string sqlText) where T : new();
+        IEnumerable<T> ExecuteQuerySQL<T>(string sqlText, params MySqlParameter[] param) where T : new();
 
         int Count(Expression<Func<TModel, bool>> whereSelector);
     }
