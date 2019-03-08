@@ -112,7 +112,6 @@ namespace H.Framework.Data.ORM
             lock (_locker)
             {
                 var properties = typeof(TModel).GetProperties();
-                var parms = new List<MySqlParameter>();
                 string columnName = "", tableName = typeof(TModel).Name + " a ";
                 int i = 0;
                 var hasPrimaryProp = properties.Any(x => x.IsDefined(typeof(PrimaryKeyIDAttribute)));
@@ -194,7 +193,7 @@ namespace H.Framework.Data.ORM
                         mapList.Add(new TableMap { Alias = "a", TableName = typeof(TModel).Name, ColumnName = prop.Name });
                     }
                 }
-                return new Tuple<string, List<MySqlParameter>, string>(columnName, parms, tableName.ToLower());
+                return new Tuple<string, List<MySqlParameter>, string>(columnName, new List<MySqlParameter>(), tableName.ToLower());
             }
         }
 

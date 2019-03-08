@@ -585,10 +585,10 @@ namespace H.Framework.Data.ORM.Foundations
             {
                 return ChildVisitMember(node);
             }
+            if (memberFM != null && memberFM.ReflectedType == node.Expression.Type)
+                return Expression.MakeMemberAccess(_parms[1], memberFM);
             if (member != null)
                 return Expression.MakeMemberAccess(_parms[0], member);
-            if (memberFM != null)
-                return Expression.MakeMemberAccess(_parms[1], memberFM);
             return base.VisitMember(node);
         }
     }
@@ -612,12 +612,12 @@ namespace H.Framework.Data.ORM.Foundations
             {
                 return ChildVisitMember(node);
             }
+            if (memberFM1 != null && memberFM1.ReflectedType == node.Expression.Type)
+                return Expression.MakeMemberAccess(_parms[2], memberFM1);
+            if (memberFM != null && memberFM.ReflectedType == node.Expression.Type)
+                return Expression.MakeMemberAccess(_parms[1], memberFM);
             if (member != null)
                 return Expression.MakeMemberAccess(_parms[0], member);
-            if (memberFM != null)
-                return Expression.MakeMemberAccess(_parms[1], memberFM);
-            if (memberFM1 != null)
-                return Expression.MakeMemberAccess(_parms[2], memberFM1);
             return base.VisitMember(node);
         }
     }
@@ -642,14 +642,14 @@ namespace H.Framework.Data.ORM.Foundations
             {
                 return ChildVisitMember(node);
             }
+            if (memberFM2 != null && memberFM2.ReflectedType == node.Expression.Type)
+                return Expression.MakeMemberAccess(_parms[3], memberFM2);
+            if (memberFM1 != null && memberFM1.ReflectedType == node.Expression.Type)
+                return Expression.MakeMemberAccess(_parms[2], memberFM1);
+            if (memberFM != null && memberFM.ReflectedType == node.Expression.Type)
+                return Expression.MakeMemberAccess(_parms[1], memberFM);
             if (member != null)
                 return Expression.MakeMemberAccess(_parms[0], member);
-            if (memberFM != null)
-                return Expression.MakeMemberAccess(_parms[1], memberFM);
-            if (memberFM1 != null)
-                return Expression.MakeMemberAccess(_parms[2], memberFM1);
-            if (memberFM2 != null)
-                return Expression.MakeMemberAccess(_parms[3], memberFM1);
             return base.VisitMember(node);
         }
     }

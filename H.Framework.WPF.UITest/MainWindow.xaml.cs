@@ -1,6 +1,8 @@
 ﻿using H.Framework.Core.Attributes;
 using H.Framework.Core.Log;
+using H.Framework.Core.Mapping;
 using H.Framework.Core.Utilities;
+using H.Framework.Data.ORM;
 using H.Framework.Data.ORM.Attributes;
 using H.Framework.Data.ORM.Foundations;
 using H.Framework.WPF.Control.Controls;
@@ -175,19 +177,29 @@ namespace H.Framework.WPF.UITest
         public static void Test()
         {
             FoundationDAL.ConnectedString = "Server=192.168.50.162;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
-            var a = new MenuDAL();
+            //var aa = new NotificationDAL();
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
-            a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
-        }
-
-        public abstract class BaseDAL<TModel> : FoundationDAL<TModel> where TModel : IFoundationModel, new()
-        {
-            public BaseDAL()
-            { }
+            //a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
+            //var bb = aa.GetList((a, a0) => a.UserID.Contains("','999") && a0.UserID == "999", 20, 0, "ListNotificationMark", null);
+            var aa = new NotificationBLL();
+            aa.Get();
         }
 
         public class MenuDAL : BaseDAL<Menu>
         {
+        }
+
+        public class NotificationDAL : BaseDAL<Notification, NotificationMark>
+        {
+        }
+
+        public class NotificationBLL : BaseBLL<NotificationDTO, Notification, NotificationMark, NotificationDAL>
+        {
+            public void Get()
+            {
+                var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => x.UserID.Contains("','999") && y.UserID == "999");
+                var a = GetList(query, 20, 0, "NotificationMarks", new OrderByEntity { KeyWord = "CreateAt", IsAsc = false });
+            }
         }
 
         public class Menu : IFoundationModel
@@ -198,6 +210,57 @@ namespace H.Framework.WPF.UITest
             public string Name { get; set; }
 
             [LastIDCondition]
+            public string UserID { get; set; }
+        }
+
+        public class NotificationMark : IFoundationModel
+        {
+            public string ID { get; set; }
+
+            public bool IsRead { get; set; }
+
+            [ForeignKeyID("notification")]
+            public string NotificationID { get; set; }
+
+            public string UserID { get; set; }
+        }
+
+        public class Notification : IFoundationModel
+        {
+            public string UserID { get; set; }
+            public string ID { get; set; }
+            public string Title { get; set; }
+
+            public string Content { get; set; }
+
+            public string CreateAt { get; set; }
+
+            [DetailList]
+            public List<NotificationMark> NotificationMarks { get; set; }
+        }
+
+        public class NotificationDTO : IFoundationViewModel
+        {
+            public string UserID { get; set; }
+            public string ID { get; set; }
+            public string Title { get; set; }
+
+            public string Content { get; set; }
+
+            public string CreateAt { get; set; }
+
+            [MappingIgnore]
+            public IEnumerable<NotificationMarkDTO> NotificationMarks { get; set; }
+        }
+
+        public class NotificationMarkDTO : IFoundationViewModel
+        {
+            public string ID { get; set; }
+
+            public bool IsRead { get; set; }
+
+            public string NotificationID { get; set; }
+
             public string UserID { get; set; }
         }
     }
