@@ -198,7 +198,7 @@ namespace H.Framework.WPF.UITest
             public void Get()
             {
                 var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => x.UserID.Contains("','999") && y.UserID == "999");
-                var a = GetList(query, 20, 0, "NotificationMarks", new OrderByEntity { KeyWord = "CreateAt", IsAsc = false });
+                var a = GetList(query, 10, 0, "NotificationMarks", new OrderByEntity { KeyWord = "CreatedAt", IsAsc = false });
             }
         }
 
@@ -233,7 +233,7 @@ namespace H.Framework.WPF.UITest
 
             public string Content { get; set; }
 
-            public string CreateAt { get; set; }
+            public string CreatedAt { get; set; }
 
             [DetailList]
             public List<NotificationMark> NotificationMarks { get; set; }
@@ -247,7 +247,7 @@ namespace H.Framework.WPF.UITest
 
             public string Content { get; set; }
 
-            public string CreateAt { get; set; }
+            public string CreatedAt { get; set; }
 
             [MappingIgnore]
             public IEnumerable<NotificationMarkDTO> NotificationMarks { get; set; }

@@ -134,10 +134,12 @@ namespace H.Framework.Data.ORM.Foundations
                 //    sqlStr = "select " + ReplaceName(columnName) + " FROM (select " + ReplaceName(columnName) + ", ROWNUM rn FROM(select " + columnName + " from " + tableName + " where 1 = 1" + columnParm + orderbyStr + ") a WHERE ROWNUM <= " + (pageSize * (pageNum + 1)).ToString() + ") WHERE rn >= " + (pageSize * pageNum + 1).ToString();
                 //    break;
 
+                //case SqlType.GetPage_MySQL:
+                //    sqlStr = "select rn," + ReplaceName(columnName).ReplaceKeyword() + " FROM (select if(@tid = a.id, @rownum := @rownum, @rownum := @rownum + 1) rn, @tid := a.id," + columnName + " from " + tableName.ToLower() + " join (SELECT @rownum := 0, @tid := NULL) rntemp where 1 = 1" + columnParm + orderbyStr + ") a where rn > " + (pageNum * pageSize).ToString() + " and rn <= " + ((pageNum + 1) * pageSize).ToString();
+                //    break;
                 case SqlType.GetPage_MySQL:
-                    sqlStr = "select rn," + ReplaceName(columnName).ReplaceKeyword() + " FROM (select if(@tid = a.id, @rownum := @rownum, @rownum := @rownum + 1) rn, @tid := a.id," + columnName + " from " + tableName.ToLower() + " join (SELECT @rownum := 0, @tid := NULL) rntemp where 1 = 1" + columnParm + orderbyStr + ") a where rn > " + (pageNum * pageSize).ToString() + " and rn <= " + ((pageNum + 1) * pageSize).ToString();
+                    sqlStr = "select " + columnName + " from " + tableName.ToLower() + "join (select a.id from " + tableName.ToLower() + "where 1 = 1" + columnParm + orderbyStr + " limit " + (pageNum * pageSize).ToString() + ", " + pageSize.ToString() + ") b on a.id = b.id" + orderbyStr;
                     break;
-
                 //case SqlType.Count:
                 //    sqlStr = "select sum(ct) as DataCount from (select count(id) as ct from (select a.id from " + tableName + " where 1 = 1" + columnParm + " group by a.id))";
                 //    break;

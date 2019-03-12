@@ -16,6 +16,10 @@ namespace H.Framework.NETCore.IoC.Autofac
 {
     public class IoCManager : IIoCManager
     {
+        private IoCManager()
+        {
+        }
+
         private IContainer _container;
 
         public static IoCManager Instance { get; } = new IoCManager();
