@@ -46,14 +46,14 @@ namespace H.Framework.Data.ORM.Foundations
             return DAL.Add(list.MapAllTo(selector));
         }
 
-        public virtual void Delete(TViewModel model)
+        public virtual void Delete(string id)
         {
-            DAL.Delete(new TModel { ID = model.ID });
+            DAL.Delete(new TModel { ID = id });
         }
 
-        public virtual void DeleteLogic(TViewModel model)
+        public virtual void DeleteLogic(string id)
         {
-            DAL.DeleteLogic(new TModel { ID = model.ID });
+            DAL.DeleteLogic(new TModel { ID = id });
         }
 
         public virtual void Update(List<TViewModel> list, string include = "")

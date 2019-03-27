@@ -15,9 +15,9 @@ namespace H.Framework.Data.ORM.Foundations
 
         Task<string> AddAsync(TViewModel model);
 
-        void Delete(TViewModel model);
+        void Delete(string id);
 
-        void DeleteLogic(TViewModel model);
+        void DeleteLogic(string id);
 
         void Update(List<TViewModel> list, string include = "");
 
