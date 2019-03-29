@@ -68,6 +68,9 @@ namespace H.Framework.WPF.UITest
 
         private void ImageButton_Click(object sender, RoutedEventArgs e)
         {
+            var a = TimeHelper.CurrentServerTime;
+            TimeHelper.ServerInitTime = DateTime.Parse("2019-03-29 17:45:00");
+
             if (SBVisibility == Visibility) SBVisibility = Visibility.Collapsed;
             else SBVisibility = Visibility.Visible;
             warnBlock.Show(SBVisibility.ToString(), Control.Controls.AlertStyle.Info);
@@ -86,6 +89,7 @@ namespace H.Framework.WPF.UITest
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            TimeHelper.ServerInitTime = DateTime.Parse("2019-03-29 16:02:00");
             SBVisibility = Visibility.Collapsed;
             var a = "asdasd.pdf".IsMatchFileExt(".pdf");
             LogHelper.Register(new Log4NetLogger("Error"), "Error");
