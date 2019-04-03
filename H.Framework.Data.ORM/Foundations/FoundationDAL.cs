@@ -59,9 +59,21 @@ namespace H.Framework.Data.ORM.Foundations
             ExecuteReader(CommandType.Text, builder.ToString(), null);
         }
 
-        public void Delete(TModel model)
+        public void Delete(string id)
         {
-            ExecuteReader(CommandType.Text, CreateSql(SqlType.Delete, modelName).ToLower(), new MySqlParameter("@id", model.ID));
+            ExecuteReader(CommandType.Text, CreateSql(SqlType.Delete, modelName).ToLower(), new MySqlParameter("@id", id));
+        }
+
+        public void Delete(List<string> ids)
+        {
+            var sqlStr = "";
+            var paramList = new List<MySqlParameter>();
+            ids.ForEach((x) =>
+            {
+                sqlStr += CreateSql(SqlType.Delete, modelName, "", "", null, 20, 1, x).ToLower();
+                paramList.Add(new MySqlParameter("@id" + x, x));
+            });
+            ExecuteReader(CommandType.Text, sqlStr, paramList.ToArray());
         }
 
         public void DeleteLogic(TModel model)
@@ -102,7 +114,7 @@ namespace H.Framework.Data.ORM.Foundations
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPage_MySQL, arr.Item4, arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2, orderBy, pageSize, pageNum), arr.Item5, include, arr.Item3.ToArray());
         }
 
-        protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", OrderByEntity orderBy = null, int pageSize = 20, int pageNum = 1)
+        protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", OrderByEntity orderBy = null, int pageSize = 20, int pageNum = 1, string paramID = "")
         {
             string orderbyStr = "";
             if (orderBy != null)
@@ -115,7 +127,7 @@ namespace H.Framework.Data.ORM.Foundations
                     break;
 
                 case SqlType.Delete:
-                    sqlStr = "delete from " + tableName.ToLower() + " where id = @id;commit;";
+                    sqlStr = "delete from " + tableName.ToLower() + " where id = @id" + paramID + ";commit;";
                     break;
 
                 case SqlType.DeleteLogic:

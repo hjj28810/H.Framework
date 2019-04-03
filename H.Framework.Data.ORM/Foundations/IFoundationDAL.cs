@@ -13,7 +13,9 @@ namespace H.Framework.Data.ORM.Foundations
 
         TModel Get(Expression<Func<TModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null);
 
-        void Delete(TModel model);
+        void Delete(string id);
+
+        void Delete(List<string> ids);
 
         void DeleteLogic(TModel model);
 

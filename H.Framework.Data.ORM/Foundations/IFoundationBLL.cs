@@ -17,6 +17,8 @@ namespace H.Framework.Data.ORM.Foundations
 
         void Delete(string id);
 
+        void Delete(List<string> ids);
+
         void DeleteLogic(string id);
 
         void Update(List<TViewModel> list, string include = "");

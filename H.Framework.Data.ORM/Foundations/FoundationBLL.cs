@@ -48,7 +48,12 @@ namespace H.Framework.Data.ORM.Foundations
 
         public virtual void Delete(string id)
         {
-            DAL.Delete(new TModel { ID = id });
+            DAL.Delete(id);
+        }
+
+        public virtual void Delete(List<string> ids)
+        {
+            DAL.Delete(ids);
         }
 
         public virtual void DeleteLogic(string id)

@@ -185,8 +185,8 @@ namespace H.Framework.WPF.UITest
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
             //a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
             //var bb = aa.GetList((a, a0) => a.UserID.Contains("','999") && a0.UserID == "999", 20, 0, "ListNotificationMark", null);
-            var aa = new NotificationBLL();
-            aa.Get();
+            var aa = new MenuDAL();
+            aa.Delete(new List<string> { "1", "2" });
         }
 
         public class MenuDAL : BaseDAL<Menu>
