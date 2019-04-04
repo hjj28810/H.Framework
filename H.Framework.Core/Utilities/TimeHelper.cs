@@ -40,7 +40,7 @@ namespace H.Framework.Core.Utilities
             return (DateTime.UtcNow.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
         }
 
-        public static long CurrentSeconds(DateTime time)
+        public static long UTCSeconds(DateTime time)
         {
             return (time.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
         }
