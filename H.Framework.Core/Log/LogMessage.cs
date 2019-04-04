@@ -7,7 +7,7 @@ namespace H.Framework.Core.Log
     {
         public LogMessage()
         {
-            TimeStamp = DateTime.Now.ToString("O");
+            TimeStamp = DateTimeOffset.Now.ToString("O");
         }
 
         public string Title { get; set; }

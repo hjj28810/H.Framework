@@ -1,5 +1,4 @@
-﻿using H.Framework.Core.Utilities;
-using H.Framework.WPF.Control.Utilities.Capture;
+﻿using H.Framework.WPF.Control.Utilities.Capture;
 using System;
 using System.Drawing;
 using System.Windows;
@@ -292,7 +291,7 @@ namespace H.Framework.WPF.Control.Controls.Capture
                 saveDlg.InitialDirectory = mydocPath/* + "\\"*/;
                 saveDlg.Filter = "JPEG|*.jpg|PNG|*.png|Bitmap|*.bmp";
                 saveDlg.FilterIndex = 2;
-                saveDlg.FileName = "capture_" + DateTime.Now.ToLong().ToString();
+                saveDlg.FileName = "capture_" + DateTimeOffset.Now.ToFileTime().ToString();
                 if (saveDlg.ShowDialog().Value)
                 {
                     switch (saveDlg.FilterIndex)

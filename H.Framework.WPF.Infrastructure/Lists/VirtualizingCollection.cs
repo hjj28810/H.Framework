@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace H.Framework.WPF.Infrastructure.Lists
 {
@@ -103,10 +99,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
                 }
                 return _count;
             }
-            protected set
-            {
-                _count = value;
-            }
+            protected set => _count = value;
         }
 
         #endregion Count
@@ -147,13 +140,13 @@ namespace H.Framework.WPF.Infrastructure.Lists
                 // return requested item
                 return _pages[pageIndex][pageOffset];
             }
-            set { throw new NotSupportedException(); }
+            set => throw new NotSupportedException();
         }
 
         object IList.this[int index]
         {
-            get { return this[index]; }
-            set { throw new NotSupportedException(); }
+            get => this[index];
+            set => throw new NotSupportedException();
         }
 
         #endregion Indexer
@@ -375,10 +368,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// <returns>
         /// An object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.
         /// </returns>
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         /// <summary>
         /// Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread safe).
@@ -386,10 +376,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// <value></value>
         /// <returns>Always false.
         /// </returns>
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
@@ -397,10 +384,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// <value></value>
         /// <returns>Always true.
         /// </returns>
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
+        public bool IsReadOnly => true;
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="T:System.Collections.IList"/> has a fixed size.
@@ -408,10 +392,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         /// <value></value>
         /// <returns>Always false.
         /// </returns>
-        public bool IsFixedSize
-        {
-            get { return false; }
-        }
+        public bool IsFixedSize => false;
 
         #endregion Misc
 
@@ -420,7 +401,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         #region Paging
 
         private readonly Dictionary<int, IList<T>> _pages = new Dictionary<int, IList<T>>();
-        private readonly Dictionary<int, DateTime> _pageTouchTimes = new Dictionary<int, DateTime>();
+        private readonly Dictionary<int, DateTimeOffset> _pageTouchTimes = new Dictionary<int, DateTimeOffset>();
 
         /// <summary>
         /// Cleans up any stale pages that have not been accessed in the period dictated by PageTimeout.
@@ -431,7 +412,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
             foreach (int key in keys)
             {
                 // page 0 is a special case, since WPF ItemsControl access the first item frequently
-                if (key != 0 && (DateTime.Now - _pageTouchTimes[key]).TotalMilliseconds > PageTimeout)
+                if (key != 0 && (DateTimeOffset.Now - _pageTouchTimes[key]).TotalMilliseconds > PageTimeout)
                 {
                     _pages.Remove(key);
                     _pageTouchTimes.Remove(key);
@@ -462,13 +443,13 @@ namespace H.Framework.WPF.Infrastructure.Lists
             if (!_pages.ContainsKey(pageIndex))
             {
                 _pages.Add(pageIndex, null);
-                _pageTouchTimes.Add(pageIndex, DateTime.Now);
+                _pageTouchTimes.Add(pageIndex, DateTimeOffset.Now);
                 Trace.WriteLine("Added page: " + pageIndex);
                 LoadPage(pageIndex);
             }
             else
             {
-                _pageTouchTimes[pageIndex] = DateTime.Now;
+                _pageTouchTimes[pageIndex] = DateTimeOffset.Now;
             }
         }
 
