@@ -34,5 +34,15 @@ namespace H.Framework.Core.Utilities
         /// 服务器当前时间
         /// </summary>
         public static DateTime CurrentServerTime => ServerInitTime.AddMilliseconds(_watch.ElapsedMilliseconds);
+
+        public static long UTCSeconds()
+        {
+            return (DateTime.UtcNow.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
+        }
+
+        public static long CurrentSeconds(DateTime time)
+        {
+            return (time.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
+        }
     }
 }
