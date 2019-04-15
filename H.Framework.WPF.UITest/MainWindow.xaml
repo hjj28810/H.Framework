@@ -243,20 +243,19 @@
                 <ComboBoxItem Content="bbbbbbbb" />
                 <ComboBoxItem Content="cccccccc" />
             </extender:ComboBoxEx>
-            <TextBox
+            <extender:TextBoxEx
                 Name="sss"
                 Grid.Row="1"
-                Width="100"
-                Height="40"
-                Margin="55,132,658.333,194.667"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center">
+                Height="79"
+                Margin="55,174,619.333,197.667"
+                VerticalContentAlignment="Top" VerticalAlignment="Top"
+                Text="2222">
                 <TextBox.Resources>
                     <Style BasedOn="{StaticResource DefaultScrollviewer}" TargetType="ScrollViewer">
                         <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>
                 </TextBox.Resources>
-            </TextBox>
+            </extender:TextBoxEx>
 
             <extender:ClassicPager
                 Name="cPager"
