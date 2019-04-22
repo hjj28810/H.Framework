@@ -43,6 +43,17 @@ namespace H.Framework.Core.Log
         /// <param name="input"></param>
         /// <param name="logType"></param>
         /// <param name="innnerException"></param>
+        public static void WriteLogFile<T>(T input, LogType logType, Exception innnerException = null)
+        {
+            GetLogger(Enum.GetName(typeof(LogType), logType)).Info(input, innnerException);
+        }
+
+        /// <summary>
+        /// 写入日志文件
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="logType"></param>
+        /// <param name="innnerException"></param>
         public static void WriteLogFile(string input, LogType logType, Exception innnerException = null)
         {
             WriteLogFile(new LogMessage<object> { Title = input }, logType, innnerException);
@@ -54,6 +65,17 @@ namespace H.Framework.Core.Log
         }
 
         public static void WriteLogFileAsync<T>(LogMessage<T> input, LogType logType, Exception innnerException = null)
+        {
+            lock (_locker)
+            {
+                Task.Run(() =>
+                {
+                    WriteLogFile(input, logType, innnerException);
+                });
+            }
+        }
+
+        public static void WriteLogFileAsync<T>(T input, LogType logType, Exception innnerException = null)
         {
             lock (_locker)
             {
