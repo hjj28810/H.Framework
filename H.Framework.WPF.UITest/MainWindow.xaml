@@ -269,6 +269,7 @@
                 DataCount="{Binding ListCount}"
                 Foreground="Red"
                 PageSize="{Binding PageSize, Mode=OneWayToSource}" />
+            <DatePicker HorizontalAlignment="Left" Margin="314,208,0,0" Grid.Row="1" VerticalAlignment="Top" Width="142" />
         </Grid>
     </Border>
 </extender:WindowEx>

@@ -6,15 +6,15 @@
     <Authors>H</Authors>
     <Product>H.Framework</Product>
     <Description>C#整理了一些基础类库</Description>
-    <Version>2.0.2.5</Version>
-    <FileVersion>2.0.2.5</FileVersion>
-    <AssemblyVersion>2.0.2.5</AssemblyVersion>
+    <Version>2.0.2.6</Version>
+    <FileVersion>2.0.2.6</FileVersion>
+    <AssemblyVersion>2.0.2.6</AssemblyVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
 

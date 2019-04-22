@@ -27,6 +27,7 @@ namespace H.Framework.Core.Log
         Error,
         Business,
         System,
-        Other
+        Other,
+        Aliyun
     }
 }
