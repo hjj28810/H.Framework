@@ -48,20 +48,20 @@ namespace H.Framework.Core.Log
             GetLogger(Enum.GetName(typeof(LogType), logType)).Info(input, innnerException);
         }
 
-        /// <summary>
-        /// 写入日志文件
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="logType"></param>
-        /// <param name="innnerException"></param>
-        public static void WriteLogFile(string input, LogType logType, Exception innnerException = null)
-        {
-            WriteLogFile(new LogMessage<object> { Title = input }, logType, innnerException);
-        }
+        ///// <summary>
+        ///// 写入日志文件
+        ///// </summary>
+        ///// <param name="input"></param>
+        ///// <param name="logType"></param>
+        ///// <param name="innnerException"></param>
+        //public static void WriteLogFile(string input, LogType logType, Exception innnerException = null)
+        //{
+        //    WriteLogFile(input, logType, innnerException);
+        //}
 
-        public static void WriteLogFile(string input, object data, LogType logType, Exception innnerException = null)
+        public static void WriteLogFile(string title, object data, LogType logType, Exception innnerException = null)
         {
-            WriteLogFile(new LogMessage<object> { Title = input, Data = data }, logType, innnerException);
+            WriteLogFile(new LogMessage<object> { Title = title, Data = data }, logType, innnerException);
         }
 
         public static void WriteLogFileAsync<T>(LogMessage<T> input, LogType logType, Exception innnerException = null)

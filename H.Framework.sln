@@ -20,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H.Framework.NETCore.IoC", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H.Framework.Data.ORM", "H.Framework.Data.ORM\H.Framework.Data.ORM.csproj", "{39D2A01F-E4C7-46D8-9051-318F7AD489C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H.Framework.Aliyun.MNS", "H.Framework.Aliyun.MNS\H.Framework.Aliyun.MNS.csproj", "{4C2B71E1-9FC7-43D2-8947-A2371DC16300}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H.Framework.Aliyun.MNS", "H.Framework.Aliyun.MNS\H.Framework.Aliyun.MNS.csproj", "{4C2B71E1-9FC7-43D2-8947-A2371DC16300}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H.Framework.Aliyun.Log", "H.Framework.Aliyun.Log\H.Framework.Aliyun.Log.csproj", "{B02518F5-C1E4-4DF9-AE6E-3678E6096FB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{4C2B71E1-9FC7-43D2-8947-A2371DC16300}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C2B71E1-9FC7-43D2-8947-A2371DC16300}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C2B71E1-9FC7-43D2-8947-A2371DC16300}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B02518F5-C1E4-4DF9-AE6E-3678E6096FB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B02518F5-C1E4-4DF9-AE6E-3678E6096FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B02518F5-C1E4-4DF9-AE6E-3678E6096FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B02518F5-C1E4-4DF9-AE6E-3678E6096FB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
