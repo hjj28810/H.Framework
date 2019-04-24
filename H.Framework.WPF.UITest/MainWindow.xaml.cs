@@ -97,6 +97,12 @@ namespace H.Framework.WPF.UITest
             LogHelper.Register(new Log4NetLogger("System"), "System");
             LogHelper.WriteLogFile(new LogMessage<string> { Title = "消息处理XAML", Data = "adsasd" }, LogType.System);
 
+            List<IDictionary<string, string>> ll = new List<IDictionary<string, string>>();
+            IDictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("ID", "2");
+            dict.Add("PID", "22");
+            ll.Add(dict);
+            var lll = ll.ToEnumerable<Node>();
             var ste = "asdasd > 2019/2/28 18:22:33 && asdasd < 2017/12/01 12:23:43";
             var r = ste.IsMatchDateTime('/');
             var r1 = ste.MatchsDateTime('/');

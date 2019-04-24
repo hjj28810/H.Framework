@@ -862,5 +862,32 @@ namespace H.Framework.Core.Utilities
             }
             return result;
         }
+
+        public static T ToObj<T>(this IDictionary<string, string> dict) where T : class, new()
+        {
+            var props = typeof(T).GetProperties();
+            var newItem = new T();
+            foreach (var item in dict)
+            {
+                foreach (var p in props)
+                {
+                    if (p.Name == item.Key)
+                    {
+                        p.SetValue(newItem, item.Value);
+                    }
+                }
+            }
+            return newItem;
+        }
+
+        public static IEnumerable<T> ToEnumerable<T>(this IList<IDictionary<string, string>> dicts) where T : class, new()
+        {
+            var list = new List<T>();
+            foreach (var item in dicts)
+            {
+                list.Add(item.ToObj<T>());
+            }
+            return list;
+        }
     }
 }
