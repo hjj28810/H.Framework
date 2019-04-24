@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using H.Framework.Core.Mapping;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -873,7 +874,7 @@ namespace H.Framework.Core.Utilities
                 {
                     if (p.Name == item.Key)
                     {
-                        p.SetValue(newItem, item.Value);
+                        p.SetValue(newItem, MapperExtension.ConvertValue(item.Value, p.PropertyType));
                     }
                 }
             }

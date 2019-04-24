@@ -18,7 +18,7 @@ namespace H.Framework.Core.Mapping
             locker = new object();
             mappingExpressions = new Dictionary<Tuple<Type, Type>, object>();
             ConvertMethod = typeof(MapperExtension).GetMethod("ConvertValue",
-                BindingFlags.Static | BindingFlags.NonPublic);
+                BindingFlags.Static | BindingFlags.Public);
         }
 
         private static string GetMappingName(Type sourceType, PropertyInfo prop)
@@ -36,7 +36,7 @@ namespace H.Framework.Core.Mapping
             return prop.Name;
         }
 
-        private static object ConvertValue(object value, Type type)
+        public static object ConvertValue(object value, Type type)
         {
             if (value == null)
                 return type.IsValueType ? Activator.CreateInstance(type) : null;

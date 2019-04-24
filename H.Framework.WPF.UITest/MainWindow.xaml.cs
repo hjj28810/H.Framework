@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using static H.Framework.WPF.UITest.TestSql;
 
 namespace H.Framework.WPF.UITest
 {
@@ -100,9 +101,11 @@ namespace H.Framework.WPF.UITest
             List<IDictionary<string, string>> ll = new List<IDictionary<string, string>>();
             IDictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("ID", "2");
-            dict.Add("PID", "22");
+            dict.Add("IsRead", "true");
+            dict.Add("NotificationID", "3");
             ll.Add(dict);
-            var lll = ll.ToEnumerable<Node>();
+            var lll = ll.ToEnumerable<NotificationMarkDTO>();
+            var a21 = lll.MapAllTo(x => new NotificationDTO());
             var ste = "asdasd > 2019/2/28 18:22:33 && asdasd < 2017/12/01 12:23:43";
             var r = ste.IsMatchDateTime('/');
             var r1 = ste.MatchsDateTime('/');
@@ -269,7 +272,7 @@ namespace H.Framework.WPF.UITest
 
             public bool IsRead { get; set; }
 
-            public string NotificationID { get; set; }
+            public int NotificationID { get; set; }
 
             public string UserID { get; set; }
         }
