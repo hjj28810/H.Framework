@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace H.Framework.WPF.Infrastructure.Utilities
 {
-    internal class ListBoxExtender : DependencyObject
+    public class ListBoxExtender : DependencyObject
     {
         #region Properties
 
@@ -33,6 +29,22 @@ namespace H.Framework.WPF.Infrastructure.Utilities
         public static void SetAutoScrollToCurrentItem(DependencyObject obj, bool value)
         {
             obj.SetValue(AutoScrollToCurrentItemProperty, value);
+        }
+
+        public static readonly DependencyProperty IsSelectedInitProperty =
+          DependencyProperty.RegisterAttached("IsSelectedInit",
+              typeof(bool),
+              typeof(ListBoxExtender),
+              new FrameworkPropertyMetadata(false, OnIsSelectedInitPropertyChanged));
+
+        public static bool GetIsSelectedInit(DependencyObject d)
+        {
+            return (bool)d.GetValue(IsSelectedInitProperty);
+        }
+
+        public static void SetIsSelectedInit(DependencyObject d, bool value)
+        {
+            d.SetValue(IsSelectedInitProperty, value);
         }
 
         #endregion Properties
@@ -70,6 +82,29 @@ namespace H.Framework.WPF.Infrastructure.Utilities
         {
             if (listBox != null && listBox.Items != null && listBox.Items.Count > index && index >= 0)
                 listBox.ScrollIntoView(listBox.Items[index]);
+        }
+
+        private static void SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var box = sender as ListBox;
+            if (box.SelectedItem != null)
+            {
+                box.SelectedIndex = -1;
+            }
+        }
+
+        private static void OnIsSelectedInitPropertyChanged(
+            DependencyObject d,
+            DependencyPropertyChangedEventArgs e)
+        {
+            if (!(d is ListBox box))
+                return;
+
+            if (GetIsSelectedInit(d))
+            {
+                box.SelectionChanged -= SelectionChanged;
+                box.SelectionChanged += SelectionChanged;
+            }
         }
 
         #endregion Events

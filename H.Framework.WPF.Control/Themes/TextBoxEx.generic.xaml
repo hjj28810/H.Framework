@@ -92,7 +92,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:TextBoxEx}">
-                    <Grid>
+                    <Grid FocusVisualStyle="{TemplateBinding FocusVisualStyle}">
                         <local:TipBubble
                             x:Name="PART_ErrorTip"
                             Margin="0,-10,0,0"
@@ -112,11 +112,13 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding BorderCornerRadius}">
-                            <Grid>
+                            CornerRadius="{TemplateBinding BorderCornerRadius}"
+                            FocusVisualStyle="{TemplateBinding FocusVisualStyle}">
+                            <Grid FocusVisualStyle="{TemplateBinding FocusVisualStyle}">
                                 <ScrollViewer
                                     x:Name="PART_ContentHost"
                                     VerticalAlignment="Center"
+                                    FocusVisualStyle="{TemplateBinding FocusVisualStyle}"
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 <ContentPresenter
                                     x:Name="PART_WatermarkHost"
@@ -125,6 +127,7 @@
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                     Content="{TemplateBinding Watermark}"
                                     ContentTemplate="{Binding WatermarkTemplate, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultWatermarkTemplate}}"
+                                    FocusVisualStyle="{TemplateBinding FocusVisualStyle}"
                                     IsHitTestVisible="False"
                                     Visibility="Collapsed" />
                             </Grid>

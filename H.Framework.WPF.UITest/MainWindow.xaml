@@ -248,7 +248,8 @@
                 Grid.Row="1"
                 Height="79"
                 Margin="55,174,619.333,197.667"
-                VerticalContentAlignment="Top" VerticalAlignment="Top"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Top"
                 Text="2222">
                 <TextBox.Resources>
                     <Style BasedOn="{StaticResource DefaultScrollviewer}" TargetType="ScrollViewer">
@@ -269,7 +270,12 @@
                 DataCount="{Binding ListCount}"
                 Foreground="Red"
                 PageSize="{Binding PageSize, Mode=OneWayToSource}" />
-            <DatePicker HorizontalAlignment="Left" Margin="314,208,0,0" Grid.Row="1" VerticalAlignment="Top" Width="142" />
+            <DatePicker
+                Grid.Row="1"
+                Width="142"
+                Margin="314,208,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top" />
         </Grid>
     </Border>
 </extender:WindowEx>
