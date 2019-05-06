@@ -1,6 +1,4 @@
 ﻿using H.Framework.Core.Mapping;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -98,17 +96,6 @@ namespace H.Framework.Core.Utilities
             return path;
         }
 
-        public static T Readjson<T>(this string json)
-        {
-            using (var file = File.OpenText(json))
-            {
-                using (var reader = new JsonTextReader(file))
-                {
-                    return JToken.ReadFrom(reader).ToString().ToJsonObj<T>();
-                }
-            }
-        }
-
         public static bool NotNullAny<T>(this IEnumerable<T> source)
         {
             return source != null && source.Any();
@@ -158,38 +145,6 @@ namespace H.Framework.Core.Utilities
                 return (long)result.TotalMilliseconds;
             else
                 return (long)result.TotalSeconds;
-        }
-
-        /// <summary>
-        /// Json序列化
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static string ToJson(this object source)
-        {
-            return JsonConvert.SerializeObject(source);
-        }
-
-        /// <summary>
-        /// Json反序列化
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static T ToJsonObj<T>(this string source)
-        {
-            return JsonConvert.DeserializeObject<T>(source);
-        }
-
-        /// <summary>
-        /// Json反序列化
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static T JsonToJsonObj<T>(this object source)
-        {
-            return source.ToString().ToJsonObj<T>();
         }
 
         /// <summary>
