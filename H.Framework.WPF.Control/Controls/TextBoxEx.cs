@@ -133,12 +133,18 @@ namespace H.Framework.WPF.Control.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            var tip = GetTemplateChild("PART_ErrorTip") as TipBubble;
-            if (tip != null)
+            if (GetTemplateChild("PART_ErrorTip") is TipBubble tip)
             {
                 tip.CustomPopupPlacementChanged -= CustomPopupPlacementChanged;
                 tip.CustomPopupPlacementChanged += CustomPopupPlacementChanged;
             }
+            TextChanged -= TextBoxEx_TextChanged;
+            TextChanged += TextBoxEx_TextChanged;
+        }
+
+        private void TextBoxEx_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            (sender as TextBoxEx).ScrollToEnd();
         }
 
         private CustomPopupPlacement[] CustomPopupPlacementChanged(Size popupSize, Size targetSize, Point offset)

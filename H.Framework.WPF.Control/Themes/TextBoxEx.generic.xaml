@@ -83,9 +83,10 @@
         <Setter Property="BorderBrush" Value="{StaticResource TextBoxBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="3" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="AllowDrop" Value="true" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
+        <Setter Property="ScrollViewer.PanningMode" Value="Both" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
@@ -117,7 +118,8 @@
                             <Grid FocusVisualStyle="{TemplateBinding FocusVisualStyle}">
                                 <ScrollViewer
                                     x:Name="PART_ContentHost"
-                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                     FocusVisualStyle="{TemplateBinding FocusVisualStyle}"
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 <ContentPresenter

@@ -52,7 +52,7 @@ namespace H.Framework.Core.Utilities
         /// <returns></returns>
         public static T JsonToJsonObj<T>(this object source)
         {
-            return source.ToString().ToJsonObj<T>();
+            return source.ToJson().ToJsonObj<T>();
         }
 
         private static bool IsJsonStart(ref string json)
