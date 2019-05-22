@@ -15,7 +15,8 @@
     WinButtonFG="White"
     WinButtonSize="16">
     <Window.Triggers>
-        <EventTrigger RoutedEvent="Loaded">
+        <EventTrigger>
+            <EventTrigger.RoutedEvent>Loaded</EventTrigger.RoutedEvent>
             <BeginStoryboard>
                 <Storyboard>
                     <DoubleAnimation

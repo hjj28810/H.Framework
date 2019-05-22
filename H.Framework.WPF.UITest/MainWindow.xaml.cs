@@ -1,5 +1,4 @@
 ﻿using H.Framework.Core.Attributes;
-using H.Framework.Core.Log;
 using H.Framework.Core.Mapping;
 using H.Framework.Core.Utilities;
 using H.Framework.Data.ORM;
@@ -13,7 +12,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using static H.Framework.WPF.UITest.TestSql;
 
 namespace H.Framework.WPF.UITest
 {
@@ -90,29 +88,29 @@ namespace H.Framework.WPF.UITest
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            TimeHelper.ServerInitTime = DateTime.Parse("2019-03-29 16:02:00");
-            SBVisibility = Visibility.Collapsed;
-            var a = "asdasd.pdf".IsMatchFileExt(".pdf");
-            LogHelper.Register(new Log4NetLogger("Error"), "Error");
-            LogHelper.Register(new Log4NetLogger("Business"), "Business");
-            LogHelper.Register(new Log4NetLogger("System"), "System");
-            LogHelper.WriteLogFile(new LogMessage<string> { Title = "消息处理XAML", Data = "adsasd" }, LogType.System);
+            //TimeHelper.ServerInitTime = DateTime.Parse("2019-03-29 16:02:00");
+            //SBVisibility = Visibility.Collapsed;
+            //var a = "asdasd.pdf".IsMatchFileExt(".pdf");
+            //LogHelper.Register(new Log4NetLogger("Error"), "Error");
+            //LogHelper.Register(new Log4NetLogger("Business"), "Business");
+            //LogHelper.Register(new Log4NetLogger("System"), "System");
+            //LogHelper.WriteLogFile(new LogMessage<string> { Title = "消息处理XAML", Data = "adsasd" }, LogType.System);
 
-            List<IDictionary<string, string>> ll = new List<IDictionary<string, string>>();
-            IDictionary<string, string> dict = new Dictionary<string, string>();
-            dict.Add("ID", "2");
-            dict.Add("IsRead", "true");
-            dict.Add("NotificationID", "3");
-            ll.Add(dict);
-            var lll = ll.ToEnumerable<NotificationMarkDTO>();
-            var a21 = lll.MapAllTo(x => new NotificationDTO());
-            var ste = "asdasd > 2019/2/28 18:22:33 && asdasd < 2017/12/01 12:23:43";
-            var r = ste.IsMatchDateTime('/');
-            var r1 = ste.MatchsDateTime('/');
-            var aaa = Get().BuildLine(aa => aa.ID, bb => bb.PID, m => m.Parent, (c, p) => new Node { ID = c.ID, PID = c.PID, Parent = p }, "222");
-            var l = (new DateTime(2018, 9, 1)).ToLong(true);
+            //List<IDictionary<string, string>> ll = new List<IDictionary<string, string>>();
+            //IDictionary<string, string> dict = new Dictionary<string, string>();
+            //dict.Add("ID", "2");
+            //dict.Add("IsRead", "true");
+            //dict.Add("NotificationID", "3");
+            //ll.Add(dict);
+            //var lll = ll.ToEnumerable<NotificationMarkDTO>();
+            //var a21 = lll.MapAllTo(x => new NotificationDTO());
+            //var ste = "asdasd > 2019/2/28 18:22:33 && asdasd < 2017/12/01 12:23:43";
+            //var r = ste.IsMatchDateTime('/');
+            //var r1 = ste.MatchsDateTime('/');
+            //var aaa = Get().BuildLine(aa => aa.ID, bb => bb.PID, m => m.Parent, (c, p) => new Node { ID = c.ID, PID = c.PID, Parent = p }, "222");
+            //var l = (new DateTime(2018, 9, 1)).ToLong(true);
 
-            var aaaaa = HashEncryptHepler.MD5Hash("appId=wx329328d6d1af8bd8&customer_weixin=wxid_411rjwe7lvgz22&secret=d16dc6fe103c3fc600fe13903a0ed5d2&timestamp=1537953627&user_id=100100&weixin=HUANGBO19891006", MD5Format.X);
+            //var aaaaa = HashEncryptHepler.MD5Hash("appId=wx329328d6d1af8bd8&customer_weixin=wxid_411rjwe7lvgz22&secret=d16dc6fe103c3fc600fe13903a0ed5d2&timestamp=1537953627&user_id=100100&weixin=HUANGBO19891006", MD5Format.X);
             //var Hash = HashEncryptHepler.Encrypt3DES("123456789", "SKFMNGHJVBNDKI=56ELBGKFW");
             //var aHash = HashEncryptHepler.Decrypt3DES("JxVJzmZzKlcAybCaXnn5Odjfrtnw5kBu3LOYOsQK0Yg7tepNAeJyQNjfrtnw5kBu3LOYOsQK0YiBxFDnQlo9blYD44J1lr32UpKh1sMF33nufbggphIXmT1AlmRkHN4pPJuVnFfEr1A3TlSnKvy6b4ylyguVd/tLom8xHaOTBbQRi0y1K88cvpKQs/4z7Cb5J0O3PMFYGpENPz6Cth+7oNyAERMhVzFf3QLayjEkZX5bRfc9uSHeUTpEWJoHUk9NibNstXZZ6HXEWXw+l2ERlQeqFLYYzH7vkajkuba6xz74TQonW6217ccPCb29orG9JLm5OBN19P1erlA7W2gmenIM9RwLHMmbBTnFsTeqJxwnx5C28kkdprsv5psuYFEfur1h1Yx38EROrYr3sU4BbFagL2nwLKcCeaxFkOapZ2F7OY+2EEL7TZLcvqikX3qho2KH07j8eDkP6UcpU0WohK/O3LfG3ZbibOZXip9pd4BRauwLaPOw2gU1zrgPh3/Qx1GPAXR2pC6J", "SKFMNGHJVBNDKI=56ELBGKFW");
         }
@@ -194,12 +192,88 @@ namespace H.Framework.WPF.UITest
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
             //a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
             //var bb = aa.GetList((a, a0) => a.UserID.Contains("','999") && a0.UserID == "999", 20, 0, "ListNotificationMark", null);
-            var aa = new MenuDAL();
-            aa.Delete(new List<string> { "1", "2" });
+            //var aa = new MenuDAL();
+            //aa.Delete(new List<string> { "1", "2" });
+            var aa = new FuturesCompanyBLL();
+            var a = aa.GetList(x => 1 == 1, "FuturesCompanyCounters");
+        }
+
+        public class FuturesCompanyBLL : BaseBLL<FuturesCompanyDTO, FuturesCompany, FuturesCompanyCounter, FuturesCompanyDAL>
+        {
+        }
+
+        public class FuturesCompanyCounterDTO : IFoundationViewModel
+        {
+            public string ID { get; set; }
+            public bool IsAuthorityValid { get; set; }
+            public bool IsGateValid { get; set; }
+            public string AuthCode { set; get; }
+            public string GateAuthCode { get; set; }
+            public bool IsMain { get; set; }
+            public string Counter { get; set; }
+        }
+
+        public class FuturesCompanyDTO : IFoundationViewModel, ICustomMap<FuturesCompany>
+        {
+            public string Logo { get; set; }
+            public string CreatedAt { get; set; }
+            public string Name { get; set; }
+            public string Description { set; get; }
+            public string Phone { get; set; }
+            public bool IsActive { get; set; }
+            public string BrokerID { get; set; }
+
+            public IEnumerable<FuturesCompanyCounterDTO> FuturesCompanyCounters { get; set; }
+            public string ID { get; set; }
+
+            public void MapFrom(FuturesCompany source)
+            {
+                FuturesCompanyCounters = source?.FuturesCompanyCounters?.MapAllTo(x => new FuturesCompanyCounterDTO());
+            }
         }
 
         public class MenuDAL : BaseDAL<Menu>
         {
+        }
+
+        public class FuturesCompanyDAL : BaseDAL<FuturesCompany, FuturesCompanyCounter>
+        {
+        }
+
+        public class FuturesCompanyCounter : IFoundationModel
+        {
+            [ForeignKeyID("futurescompany")]
+            public string FuturesCompanyID { get; set; }
+
+            public bool IsAuthorityValid { get; set; }
+            public bool IsGateValid { get; set; }
+            public string AuthCode { set; get; }
+            public string GateAuthCode { get; set; }
+            public bool IsMain { get; set; }
+            public string Counter { get; set; }
+            public string ID { get; set; }
+        }
+
+        public class FuturesCompany : IFoundationModel
+        {
+            public string Name { get; set; }
+
+            public string CreatedAt { get; set; }
+
+            public string Logo { get; set; }
+
+            public string Phone { get; set; }
+
+            public string Description { set; get; }
+
+            public bool IsActive { get; set; }
+
+            public string BrokerID { get; set; }
+
+            [DetailList()]
+            public List<FuturesCompanyCounter> FuturesCompanyCounters { get; set; }
+
+            public string ID { get; set; }
         }
 
         public class NotificationDAL : BaseDAL<Notification, NotificationMark>

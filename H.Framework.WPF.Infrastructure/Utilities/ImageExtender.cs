@@ -55,32 +55,38 @@ namespace H.Framework.WPF.Infrastructure.Utilities
 
         public static void WeakSourceUriChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            var image = (Image)sender;
-            var myBitmapImage = new BitmapImage();
-            myBitmapImage.BeginInit();
-            var uri = e.NewValue.ToString();
-            MemoryStream ms = null;
-            var isFile = File.Exists(uri);
-            if (isFile)
+            try
             {
-                ms = new MemoryStream(File.ReadAllBytes(uri));
-                myBitmapImage.StreamSource = ms;
+                var image = (Image)sender;
+                var myBitmapImage = new BitmapImage();
+                myBitmapImage.BeginInit();
+                var uri = e.NewValue.ToString();
+                MemoryStream ms = null;
+                var isFile = File.Exists(uri);
+                if (isFile)
+                {
+                    ms = new MemoryStream(File.ReadAllBytes(uri));
+                    myBitmapImage.StreamSource = ms;
+                }
+                else
+                    myBitmapImage.UriSource = new Uri(uri, UriKind.RelativeOrAbsolute);
+                //myBitmapImage.DecodePixelWidth = 550;
+                //myBitmapImage.DecodePixelHeight = 550;
+                myBitmapImage.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
+                myBitmapImage.CacheOption = BitmapCacheOption.OnLoad;//图像缓存到内存中，不会占用文件，没有被引用时会被自动回收。
+                myBitmapImage.EndInit();
+                if (isFile)
+                {
+                    myBitmapImage.Freeze();
+                    ms?.Close();
+                    ms?.Dispose();
+                }
+                image.Source = myBitmapImage;
+                image.Height = (myBitmapImage.Height / 3) < 10 ? 100 : myBitmapImage.Height / 3;
+                image.Width = (myBitmapImage.Width / 3) < 10 ? 100 : myBitmapImage.Width / 3;
             }
-            else
-                myBitmapImage.UriSource = new Uri(uri, UriKind.RelativeOrAbsolute);
-            //myBitmapImage.DecodePixelWidth = 550;
-            //myBitmapImage.DecodePixelHeight = 550;
-            myBitmapImage.CacheOption = BitmapCacheOption.OnLoad;//图像缓存到内存中，不会占用文件，没有被引用时会被自动回收。
-            myBitmapImage.EndInit();
-            if (isFile)
-            {
-                myBitmapImage.Freeze();
-                ms?.Close();
-                ms?.Dispose();
-            }
-            image.Source = myBitmapImage;
-            image.Height = (myBitmapImage.Height / 3) < 10 ? 100 : myBitmapImage.Height / 3;
-            image.Width = (myBitmapImage.Width / 3) < 10 ? 100 : myBitmapImage.Width / 3;
+            catch
+            { }
         }
     }
 }

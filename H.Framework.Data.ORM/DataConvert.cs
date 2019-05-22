@@ -97,7 +97,7 @@ namespace H.Framework.Data.ORM
             var primaryKeyProperty = allProperties.FirstOrDefault(x => x.IsDefined(typeof(PrimaryKeyIDAttribute)));
             foreach (DataRow dr in dt.Rows)
             {
-                T hasItem = default(T);
+                T hasItem = default;
                 if (primaryKeyProperty != null)
                 {
                     foreach (var item in ts)

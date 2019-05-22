@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace H.Framework.WPF.Control.Controls
 {
-    public class ButtonEx : ButtonBase
+    public class ButtonEx : Button
     {
         static ButtonEx()
         {

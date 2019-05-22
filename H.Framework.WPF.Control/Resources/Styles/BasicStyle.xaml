@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:H.Framework.WPF.Control.Resources.Styles">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--  滚动条样式  -->
     <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -70,7 +69,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="DefaultScrollbar" TargetType="{x:Type ScrollBar}">
+    <Style x:Key="DefaultScrollBar" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
         <Setter Property="Background" Value="Transparent" />
@@ -144,7 +143,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="DefaultScrollviewer" TargetType="{x:Type ScrollViewer}">
+    <Style x:Key="DefaultScrollViewer" TargetType="{x:Type ScrollViewer}">
         <Setter Property="BorderBrush" Value="LightGray" />
         <Setter Property="BorderThickness" Value="0" />
         <!--<Setter Property="VerticalAlignment" Value="Center" />-->
@@ -165,7 +164,7 @@
                                 HorizontalAlignment="Right"
                                 Maximum="{TemplateBinding ScrollableHeight}"
                                 Orientation="Vertical"
-                                Style="{StaticResource DefaultScrollbar}"
+                                Style="{StaticResource DefaultScrollBar}"
                                 ViewportSize="{TemplateBinding ViewportHeight}"
                                 Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                 Value="{TemplateBinding VerticalOffset}" />
@@ -174,7 +173,7 @@
                                 VerticalAlignment="Bottom"
                                 Maximum="{TemplateBinding ScrollableWidth}"
                                 Orientation="Horizontal"
-                                Style="{StaticResource DefaultScrollbar}"
+                                Style="{StaticResource DefaultScrollBar}"
                                 ViewportSize="{TemplateBinding ViewportWidth}"
                                 Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
                                 Value="{TemplateBinding HorizontalOffset}" />
@@ -260,8 +259,8 @@
     </Style>
 
     <!--  默认ScrollBar  -->
-    <Style BasedOn="{StaticResource DefaultScrollbar}" TargetType="ScrollBar" />
+    <Style BasedOn="{StaticResource DefaultScrollBar}" TargetType="ScrollBar" />
 
     <!--  默认ScrollView  -->
-    <Style BasedOn="{StaticResource DefaultScrollviewer}" TargetType="ScrollViewer" />
+    <Style BasedOn="{StaticResource DefaultScrollViewer}" TargetType="ScrollViewer" />
 </ResourceDictionary>

@@ -83,7 +83,7 @@ namespace H.Framework.Data.ORM.Foundations
             if (item != null)
                 return item.MapTo(RetrieveSelector);
             else
-                return default(TViewModel);
+                return default;
         }
 
         public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null)

@@ -138,8 +138,7 @@ namespace H.Framework.Data.ORM
                 {
                     cmd.CommandType = commandType;
                     if (param != null)
-                        foreach (var parm in param)
-                            cmd.Parameters.Add(parm);
+                        cmd.Parameters.AddRange(param);
                     using (var reader = cmd.ExecuteReader())
                         return FillList<T>(reader);
                 }
@@ -170,7 +169,8 @@ namespace H.Framework.Data.ORM
 
                 var adapter = new MySqlDataAdapter(sqlText, conn);
                 adapter.SelectCommand.CommandType = CommandType.Text;
-                adapter.SelectCommand.Parameters.AddRange(param);
+                if (param != null)
+                    adapter.SelectCommand.Parameters.AddRange(param);
                 var ds = new DataTable();
                 adapter.Fill(ds);
                 return ds;
@@ -197,8 +197,7 @@ namespace H.Framework.Data.ORM
                 {
                     cmd.CommandType = commandType;
                     if (param != null)
-                        foreach (var parm in param)
-                            cmd.Parameters.Add(parm);
+                        cmd.Parameters.AddRange(param);
                     using (var reader = cmd.ExecuteReader())
                         return Fill<T>(reader);
                 }
@@ -223,8 +222,7 @@ namespace H.Framework.Data.ORM
                             cmd.Transaction = tran;
                             cmd.CommandType = commandType;
                             if (param != null)
-                                foreach (var parm in param)
-                                    cmd.Parameters.Add(parm);
+                                cmd.Parameters.AddRange(param);
                             using (reader = cmd.ExecuteReader())
                             {
                                 while (reader.Read())
