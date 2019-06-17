@@ -6,25 +6,19 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:BusyCircle}">
-                    <Border
+                    <Canvas
+                        x:Name="PART_Panel"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="Transparent">
-                        <Canvas
-                            x:Name="PART_Panel"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            RenderTransformOrigin="0.5,0.5"
-                            ToolTip="Loading...."
-                            Visibility="{TemplateBinding Visibility}">
-                            <Canvas.RenderTransform>
-                                <RotateTransform x:Name="spinnerRotate" Angle="0" />
-                            </Canvas.RenderTransform>
-                        </Canvas>
-                    </Border>
+                        VerticalAlignment="Center" Width="{TemplateBinding Diameter}" Height="{TemplateBinding Diameter}"
+                        RenderTransformOrigin="0.5,0.5"
+                        ToolTip="Loading....">
+                        <Canvas.RenderTransform>
+                            <RotateTransform x:Name="spinnerRotate" Angle="0" />
+                        </Canvas.RenderTransform>
+                    </Canvas>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=PART_Panel, Path=Visibility}" Value="Visible">
-                            <DataTrigger.EnterActions>
+                        <Trigger Property="Visibility" Value="Visible">
+                            <Trigger.EnterActions>
                                 <BeginStoryboard x:Name="enterStory">
                                     <Storyboard>
                                         <DoubleAnimation
@@ -36,18 +30,18 @@
                                             Duration="0:0:0.8" />
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding ElementName=PART_Panel, Path=Visibility}" Value="Collapsed">
-                            <DataTrigger.EnterActions>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                        <Trigger Property="Visibility" Value="Collapsed">
+                            <Trigger.EnterActions>
                                 <StopStoryboard BeginStoryboardName="enterStory" />
-                            </DataTrigger.EnterActions>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding ElementName=PART_Panel, Path=Visibility}" Value="Hidden">
-                            <DataTrigger.EnterActions>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                        <Trigger Property="Visibility" Value="Hidden">
+                            <Trigger.EnterActions>
                                 <StopStoryboard BeginStoryboardName="enterStory" />
-                            </DataTrigger.EnterActions>
-                        </DataTrigger>
+                            </Trigger.EnterActions>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

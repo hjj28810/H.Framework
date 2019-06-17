@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
     xmlns:extenal="clr-namespace:H.Framework.WPF.Control.Adorners;assembly=H.Framework.WPF.Control"
+    xmlns:extenalConvert="clr-namespace:H.Framework.WPF.Infrastructure.Converters;assembly=H.Framework.WPF.Infrastructure"
     xmlns:extenalHelper="clr-namespace:H.Framework.WPF.Infrastructure.Utilities;assembly=H.Framework.WPF.Infrastructure"
     xmlns:extender="clr-namespace:H.Framework.WPF.Control.Controls;assembly=H.Framework.WPF.Control"
     xmlns:local="clr-namespace:H.Framework.WPF.UITest"
@@ -18,6 +19,7 @@
     WinCornerRadius="10"
     mc:Ignorable="d">
     <Window.Resources>
+        <extenalConvert:ObjectConverter x:Key="objConverter" />
         <!--  年、月按钮样式  -->
         <Style x:Key="CalendarButtonStyle" TargetType="{x:Type CalendarButton}">
             <Setter Property="Background" Value="Transparent" />
@@ -379,15 +381,17 @@
         </Style>
         <Style x:Key="DatePickerToggle" TargetType="{x:Type ToggleButton}">
             <Setter Property="Width" Value="20" />
-            <Setter Property="Height" Value="21" />
+            <Setter Property="Height" Value="20" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Image
-                            Name="img"
-                            VerticalAlignment="Center"
-                            Source="C:\GithubRepo\H.Framework\H.Framework.WPF.UITest\datePicker.png" />
+                        <Canvas Name="img" Background="White">
+                            <Path
+                                Data="M12.844008,8.9964638 C13.042044,8.9964638 13.240079,9.0530453 13.353242,9.1662083 13.579568,9.3925343 13.579568,9.9583502 13.353242,10.184676 L8.8267193,14.711199 C8.6003933,14.824362 8.4872303,14.937525 8.2609034,14.937525 8.1477404,14.937525 7.9214144,14.711199 7.8082514,14.598036 L5.6581531,12.447937 C5.4318271,12.221611 5.4318271,11.655796 5.6581531,11.429469 5.8844795,11.203143 6.4502945,11.203143 6.676621,11.429469 L8.3740664,13.126916 12.334774,9.1662083 C12.447937,9.0530453 12.645972,8.9964638 12.844008,8.9964638 z M1.4711198,7.5819254 L1.4711198,14.145383 C1.4711199,14.711199 1.810609,15.390177 2.1500983,15.729666 2.6027506,16.182318 3.0554028,16.408644 3.7343812,16.408644 L14.371709,16.408644 C15.50334,16.408644 16.521807,15.50334 16.521807,14.258546 16.521807,14.258546 16.521807,7.5819254 16.408644,7.5819254 z M6.2239685,2.9422398 L6.2239685,3.9607072 C6.2239685,4.4133596 5.7713165,4.7528486 5.4318271,4.7528486 4.9791746,4.7528486 4.6396856,4.3001966 4.6396856,3.9607072 L4.6396856,3.1685658 3.847544,3.1685658 C2.6027506,3.1685658 1.5842829,4.0738702 1.5842828,5.3186641 L1.5842828,5.9976425 16.521807,5.9976425 16.63497,5.0923381 C16.63497,3.9607072 15.729666,2.9422398 14.484872,2.9422398 L13.692731,2.9422398 13.692731,3.8475442 C13.692731,4.3001966 13.240079,4.6396856 12.900589,4.6396856 12.447937,4.6396856 12.108448,4.1870332 12.108448,3.8475442 L12.108448,2.9422398 9.9583502,2.9422398 9.9583502,3.8475442 C9.9583502,4.3001966 9.5056973,4.6396856 9.1662083,4.6396856 8.7135563,4.6396856 8.3740664,4.1870332 8.3740664,3.8475442 L8.3740664,2.9422398 z M12.787426,0 C13.126916,0 13.579568,0.33948919 13.579568,0.7921415 L13.579568,1.3579569 14.371709,1.3579569 C16.408644,1.3579568 17.992928,3.1685658 17.992928,5.3186641 L17.992928,14.371709 C17.992928,16.408644 16.295481,18.106091 14.258546,18.106091 L3.7343812,18.106091 C2.7159136,18.106091 1.697446,17.653439 1.0184674,16.974461 0.33948921,16.182318 1.8197568E-08,15.277014 0,14.258546 L0,5.3186641 C1.8197568E-08,3.281729 1.697446,1.5842829 3.7343812,1.5842828 L4.5265227,1.5842828 4.5265227,0.7921415 C4.5265227,0.33948919 4.9791746,0.11316306 5.3186641,0.11316296 5.7713165,0.11316306 6.1108055,0.45265225 6.1108055,0.7921415 L6.1108055,1.5842828 8.2609034,1.5842828 8.2609034,0.7921415 C8.2609034,0.33948919 8.7135563,0.11316306 9.0530453,0.11316296 9.5056973,0.11316306 9.8451863,0.45265225 9.8451863,0.7921415 L9.8451863,1.5842828 11.995285,1.5842828 11.995285,0.7921415 C11.995285,0.33948919 12.447937,0 12.787426,0 z"
+                                Stretch="Fill"
+                                Stroke="Blue" />
+                        </Canvas>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="img" Property="Opacity" Value="0.6" />
@@ -505,24 +509,24 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Border
-        Background="White"
-        BorderThickness="0"
-        CornerRadius="0,0,10,10">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="67*" />
-                <RowDefinition Height="352*" />
-            </Grid.RowDefinitions>
-            <!--<ed:Arc Margin="0,0,630.333,34" />-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="67*" />
+            <RowDefinition Height="352*" />
+        </Grid.RowDefinitions>
+        <!--<ed:Arc Margin="0,0,630.333,34" />-->
 
-            <!--<extender:RectangleLoading Grid.RowSpan="2" ShowUp="Visible" />-->
-            <!--<extender:SwingLoading
+        <!--<extender:RectangleLoading Grid.RowSpan="2" ShowUp="Visible" />-->
+        <!--<extender:SwingLoading
             Name="swingLoading"
             Grid.Row="1"
-            ShowUp="Hidden" />
-        <extender:BusyCircle Grid.RowSpan="2" Visibility="Hidden" />-->
-            <extender:DownloadComponent
+            ShowUp="Hidden" />-->
+        <extender:BusyCircle
+                Panel.ZIndex="99"
+                BrushColor="Red"
+                Diameter="12"
+                Visibility="{Binding SBShow, Converter={StaticResource objConverter}, ConverterParameter=false:Collapsed:Visible}" />
+        <extender:DownloadComponent
                 Grid.RowSpan="2"
                 Margin="266,23,0,0"
                 HorizontalAlignment="Left"
@@ -531,7 +535,7 @@
                 FileSize="12322222"
                 IsDownLoaded="False" />
 
-            <extender:UnreadTip
+        <extender:UnreadTip
                 Grid.Row="1"
                 Width="20"
                 Height="19"
@@ -540,7 +544,7 @@
                 VerticalAlignment="Top"
                 FontSize="12"
                 Value="{Binding Text, ElementName=sss}" />
-            <extender:SearchBox
+        <extender:SearchBox
                 Name="search"
                 Width="130"
                 Height="22"
@@ -552,17 +556,18 @@
                 Foreground="White"
                 Visibility="{Binding SBVisibility, Mode=TwoWay}"
                 Watermark="搜索" />
-            <!--<Popup
-            Width="150"
-            Height="200"
-            Panel.ZIndex="90"
-            extenalHelper:PopupHelper.PopupPlacementTarget="{Binding ElementName=search}"
-            IsOpen="True"
-            Placement="Bottom"
-            PlacementTarget="{Binding ElementName=search}"
-            StaysOpen="True" />-->
+        <Popup
+                Name="pp"
+                Width="150"
+                Height="200"
+                Panel.ZIndex="90"
+                extenalHelper:PopupHelper.PopupPlacementTarget="{Binding ElementName=search}"
+                IsOpen="{Binding PpOpen}"
+                Placement="Bottom"
+                PlacementTarget="{Binding ElementName=search}"
+                StaysOpen="False" />
 
-            <extender:ImageButton
+        <extender:ImageButton
                 Width="50"
                 Height="50"
                 Margin="0,23,238,0"
@@ -571,7 +576,7 @@
                 Click="ImageButton_Click"
                 CoverImageSource="pack://application:,,,/s_emoji.png"
                 ImageSource="pack://application:,,,/i_emoji.png">
-                <extender:UnreadTip
+            <extender:UnreadTip
                     Name="unreadTxt"
                     Width="28"
                     Height="15"
@@ -579,8 +584,8 @@
                     Background="#FE5d5d"
                     Style="{StaticResource MainUnreadTipStyle}"
                     Value="2" />
-            </extender:ImageButton>
-            <extender:ExpanderEx
+        </extender:ImageButton>
+        <extender:ExpanderEx
                 Grid.Row="1"
                 Width="100"
                 Height="14"
@@ -590,12 +595,12 @@
                 Header="ExpanderEx"
                 IsExpanded="False">
 
-                <Grid Background="#FFE5E5E5">
-                    <TextBlock Text="aaaaa" />
-                </Grid>
-            </extender:ExpanderEx>
+            <Grid Background="#FFE5E5E5">
+                <TextBlock Text="aaaaa" />
+            </Grid>
+        </extender:ExpanderEx>
 
-            <extender:ButtonEx
+        <extender:ButtonEx
                 Grid.Row="1"
                 Width="15"
                 Height="15"
@@ -607,7 +612,7 @@
                 FontFamily="Marlett"
                 Style="{StaticResource btnStyle}" />
 
-            <extender:WarnBlock
+        <extender:WarnBlock
                 Name="warnBlock"
                 Grid.Row="1"
                 Height="50"
@@ -617,7 +622,7 @@
                 FontSize="15"
                 Foreground="Red"
                 InfoColor="#FFE17F" />
-            <extender:TextBoxEx
+        <extender:TextBoxEx
                 Name="asdsa"
                 Width="120"
                 Height="35"
@@ -631,7 +636,7 @@
                 Text="{Binding TestText, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 TextWrapping="Wrap" />
 
-            <extender:TipBubble
+        <extender:TipBubble
                 Name="tipBubble"
                 Padding="8"
                 Background="#257AFF"
@@ -645,7 +650,7 @@
                 Placement="Top"
                 PlacementTarget="{Binding ElementName=asdsa}"
                 ShadowColor="#A3A3A3" />
-            <extender:ComboBoxEx
+        <extender:ComboBoxEx
                 Grid.Row="1"
                 Height="28"
                 Margin="228,139,453.333,0"
@@ -657,11 +662,11 @@
                 Foreground="Red"
                 IsEnabled="False"
                 ItemContainerStyle="{StaticResource ComboBoxItemStyle}">
-                <ComboBoxItem Content="aaaaaaaaaa" />
-                <ComboBoxItem Content="bbbbbbbb" />
-                <ComboBoxItem Content="cccccccc" />
-            </extender:ComboBoxEx>
-            <extender:TextBoxEx
+            <ComboBoxItem Content="aaaaaaaaaa" />
+            <ComboBoxItem Content="bbbbbbbb" />
+            <ComboBoxItem Content="cccccccc" />
+        </extender:ComboBoxEx>
+        <extender:TextBoxEx
                 Name="sss"
                 Grid.Row="1"
                 Height="100"
@@ -669,16 +674,18 @@
                 VerticalAlignment="Top"
                 VerticalContentAlignment="Top"
                 AcceptsReturn="True"
+                Text="{Binding TestText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                TextChanged="Sss_TextChanged"
                 TextWrapping="WrapWithOverflow"
                 VerticalScrollBarVisibility="Auto">
-                <!--<TextBox.Resources>
+            <!--<TextBox.Resources>
                     <Style BasedOn="{StaticResource DefaultScrollviewer}" TargetType="ScrollViewer">
                         <Setter Property="VerticalAlignment" Value="Top" />
                     </Style>
                 </TextBox.Resources>-->
-            </extender:TextBoxEx>
+        </extender:TextBoxEx>
 
-            <extender:ClassicPager
+        <extender:ClassicPager
                 Name="cPager"
                 Grid.Row="1"
                 Width="571"
@@ -690,19 +697,18 @@
                 DataCount="{Binding ListCount}"
                 Foreground="Red"
                 PageSize="{Binding PageSize, Mode=OneWayToSource}" />
-            <DatePicker
+        <DatePicker
                 Grid.Row="1"
                 Margin="474,262,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Style="{StaticResource DefaultDatePicker}" />
-            <Calendar
+        <Calendar
                 Grid.Row="1"
                 Height="167"
                 Margin="500,67,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Style="{StaticResource DefaultCalendar}" />
-        </Grid>
-    </Border>
+    </Grid>
 </extender:WindowEx>

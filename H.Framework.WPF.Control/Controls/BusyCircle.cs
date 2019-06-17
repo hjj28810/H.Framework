@@ -14,13 +14,25 @@ namespace H.Framework.WPF.Control.Controls
     [TemplatePart(Name = "PART_Panel", Type = typeof(Canvas))]
     public class BusyCircle : System.Windows.Controls.Control
     {
-        private Canvas PART_Panel;
+        private Canvas _partPanel;
 
         static BusyCircle()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(BusyCircle), new FrameworkPropertyMetadata(typeof(BusyCircle)));
             ClipToBoundsProperty.OverrideMetadata(typeof(BusyCircle), new FrameworkPropertyMetadata(false));
-            VisibilityProperty.OverrideMetadata(typeof(BusyCircle), new FrameworkPropertyMetadata(Visibility.Collapsed));
+        }
+
+        public static readonly DependencyProperty BrushColorProperty = DependencyProperty.Register("BrushColor", typeof(Brush), typeof(BusyCircle), new PropertyMetadata(new SolidColorBrush(Colors.GreenYellow), null));
+
+        /// <summary>
+        /// 整体颜色
+        /// </summary>
+        [Description("获取或设置整体颜色")]
+        [Category("Defined Properties")]
+        public Brush BrushColor
+        {
+            get => (Brush)GetValue(BrushColorProperty);
+            set => SetValue(BrushColorProperty, value);
         }
 
         public static readonly DependencyProperty DiameterProperty = DependencyProperty.Register("Diameter", typeof(double), typeof(BusyCircle), new PropertyMetadata(20.0, null));
@@ -54,9 +66,7 @@ namespace H.Framework.WPF.Control.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            PART_Panel = (Canvas)GetTemplateChild("PART_Panel");
-            PART_Panel.Height = Diameter;
-            PART_Panel.Width = Diameter;
+            _partPanel = (Canvas)GetTemplateChild("PART_Panel");
         }
 
         private void BusyCircle_Unloaded(object sender, RoutedEventArgs e)
@@ -64,20 +74,22 @@ namespace H.Framework.WPF.Control.Controls
             Stop();
         }
 
+        private const double _offset = Math.PI;
+        private const double _step = Math.PI * 2 / 10.0;
+
         private void BusyCircle_Loaded(object sender, RoutedEventArgs e)
         {
-            const double offset = Math.PI;
-            const double step = Math.PI * 2 / 10.0;
-
             for (double i = 0; i < 9; i++)
             {
-                var ellipse = new Ellipse();
-                ellipse.Width = Diameter / 5;
-                ellipse.Height = Diameter / 5;
-                ellipse.Fill = new SolidColorBrush(Colors.GreenYellow);
-                ellipse.Opacity = 1 - (i / 10);
-                PART_Panel?.Children.Add(ellipse);
-                SetPosition(ellipse, offset, i, step);
+                var ellipse = new Ellipse
+                {
+                    Width = Diameter / 5,
+                    Height = Diameter / 5,
+                    Fill = BrushColor,
+                    Opacity = 1 - (i / 10)
+                };
+                SetPosition(ellipse, _offset, i, _step);
+                _partPanel?.Children.Add(ellipse);
             }
         }
 
@@ -91,7 +103,7 @@ namespace H.Framework.WPF.Control.Controls
             //Mouse.OverrideCursor = Cursors.Arrow;
         }
 
-        private void SetPosition(Ellipse ellipse, double offset,
+        private void SetPosition(DependencyObject ellipse, double offset,
             double posOffSet, double step)
         {
             var value = Diameter * 5 / 12;

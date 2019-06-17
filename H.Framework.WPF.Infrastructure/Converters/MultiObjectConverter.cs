@@ -27,8 +27,8 @@ namespace H.Framework.WPF.Infrastructure.Converters
             if (values.Length != compareValues.Length)  //比较源数据和比较参数个数是否一致
                 return ConvertValue(param[3], param[4]);
             var trueCount = 0; //满足条件的结果数量
-            var currentValue = string.Empty;
-            IList<string> currentParamArray = null;
+            string currentValue;
+            IList<string> currentParamArray;
             for (var i = 0; i < values.Length; i++)
             {
                 currentValue = values[i] != null ? values[i].ToString().ToLower() : string.Empty;
@@ -43,8 +43,6 @@ namespace H.Framework.WPF.Infrastructure.Converters
                     trueCount += compareValues[i].Equals(currentValue) ? 1 : 0;  //满足条件，结果+1
                 }
             }
-            currentParamArray = null;
-            currentValue = string.Empty;
             var compareResult = param[1].Equals("&") ?
                 trueCount == values.Length :
                 trueCount > 0;   //判断比较结果

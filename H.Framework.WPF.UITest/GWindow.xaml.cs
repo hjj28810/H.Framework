@@ -21,6 +21,28 @@ namespace H.Framework.WPF.UITest
             txt1.Text = nonce;
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
+            var a = HAHA();
+            var b = HA();
+        }
+
+        AA HA()
+        {
+            return new AA { aa ="aaa"};
+        }
+
+        AA HAHA()
+        {
+            return new BB { aa ="aaa",bb = "bbb"};
+        }
+
+        class AA
+        {
+            public string aa { get; set; }
+        }
+
+        class BB:AA
+        {
+            public string bb { get; set; }
         }
     }
 }

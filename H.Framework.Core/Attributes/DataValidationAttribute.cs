@@ -25,8 +25,8 @@ namespace H.Framework.Core.Attributes
             if (ArgProperty == "this")
                 arg = validationContext.ObjectInstance;
             else
-                arg = validationContext.ObjectInstance.GetType().GetProperty(ArgProperty).GetValue(validationContext.ObjectInstance);
-            return (ValidationResult)ValidatorType.GetMethod(Method).Invoke(null, new object[] { value, arg });
+                arg = validationContext.ObjectInstance.GetType().GetProperty(ArgProperty)?.GetValue(validationContext.ObjectInstance);
+            return (ValidationResult)ValidatorType.GetMethod(Method)?.Invoke(null, new object[] { value, arg });
         }
     }
 }

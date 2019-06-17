@@ -29,8 +29,7 @@ namespace H.Framework.WPF.Control.Controls
 
         public DownloadComponent()
         {
-            _fileHelper = new FileHelper();
-            _fileHelper.DownLoadStatusCallBackHandle = DownLoadStatusCallBack;
+            _fileHelper = new FileHelper { DownLoadStatusCallBackHandle = DownLoadStatusCallBack };
         }
 
         public static readonly DependencyProperty FileNameProperty = DependencyProperty.Register("FileName", typeof(string), typeof(DownloadComponent), new PropertyMetadata("", null));

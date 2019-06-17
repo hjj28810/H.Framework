@@ -15,6 +15,7 @@ namespace H.Framework.WPF.Control.Controls
     [TemplatePart(Name = "PART_RestoreButton", Type = typeof(ButtonEx))]
     [TemplatePart(Name = "PART_CloseButton", Type = typeof(ButtonEx))]
     [TemplatePart(Name = "PART_ResizeGrid", Type = typeof(Grid))]
+    [TemplatePart(Name = "PART_MainGrid", Type = typeof(Grid))]
     public class WindowEx : Window
     {
         static WindowEx()
@@ -40,6 +41,9 @@ namespace H.Framework.WPF.Control.Controls
         private ButtonEx _minimizeButton;
         private ButtonEx _restoreButton;
         private ButtonEx _closeButton;
+        private Rect _rcNormal;
+        private Grid _resizeGrid;
+        private Grid _mainGrid;
 
         private void InitializeControl()
         {
@@ -54,19 +58,25 @@ namespace H.Framework.WPF.Control.Controls
             _closeButton.Click += CloseButton_Click;
             SetTitleBarCornerRadius(WinCornerRadius);
 
-            var resizeGrid = GetTemplateChild("PART_ResizeGrid") as Grid;
-            if (resizeGrid != null && ResizeMode != ResizeMode.NoResize)
+            _resizeGrid = GetTemplateChild("PART_ResizeGrid") as Grid;
+            _mainGrid = GetTemplateChild("PART_MainGrid") as Grid;
+            if (_resizeGrid != null && ResizeMode != ResizeMode.NoResize)
             {
-                foreach (var element in resizeGrid.Children)
+                foreach (var element in _resizeGrid.Children)
                 {
-                    var resizeRectangle = element as Rectangle;
-                    if (resizeRectangle != null)
+                    if (element is Rectangle resizeRectangle)
                     {
                         resizeRectangle.PreviewMouseDown += ResizeRectangle_PreviewMouseDown;
+                        resizeRectangle.PreviewMouseUp += ResizeRectangle_PreviewMouseUp;
                         resizeRectangle.MouseMove += ResizeRectangle_MouseMove;
                     }
                 }
             }
+        }
+
+        private void ResizeRectangle_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _rcNormal = new Rect(Left, Top, Width, Height);//保存下当前位置与大小
         }
 
         private void MoveableRect_MouseDown(object sender, MouseButtonEventArgs e)
@@ -77,9 +87,7 @@ namespace H.Framework.WPF.Control.Controls
 
         private void ResizeRectangle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var rectangle = sender as Rectangle;
-
-            if (rectangle != null)
+            if (sender is Rectangle rectangle)
             {
                 switch (rectangle.Name)
                 {
@@ -122,18 +130,13 @@ namespace H.Framework.WPF.Control.Controls
                         Cursor = Cursors.SizeNWSE;
                         ResizeWindow(ResizeDirection.BottomRight);
                         break;
-
-                    default:
-                        break;
                 }
             }
         }
 
         private void ResizeRectangle_MouseMove(object sender, MouseEventArgs e)
         {
-            Rectangle rectangle = sender as Rectangle;
-
-            if (rectangle != null)
+            if (sender is Rectangle rectangle)
             {
                 switch (rectangle.Name)
                 {
@@ -168,9 +171,6 @@ namespace H.Framework.WPF.Control.Controls
                     case "BottomRight":
                         Cursor = Cursors.SizeNWSE;
                         break;
-
-                    default:
-                        break;
                 }
             }
         }
@@ -178,8 +178,55 @@ namespace H.Framework.WPF.Control.Controls
         protected override void OnInitialized(EventArgs e)
         {
             SourceInitialized += MainWindow_SourceInitialized;
-
+            SizeChanged += WindowEx_SizeChanged;
             base.OnInitialized(e);
+        }
+
+        private void WindowEx_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (ActualHeight > SystemParameters.WorkArea.Height || ActualWidth > SystemParameters.WorkArea.Width)
+            {
+                WindowState = WindowState.Normal;
+                WinState = 2;
+            }
+            //else
+            //{
+            //    ToNormal();
+            //}
+        }
+
+        private void ToMax()
+        {
+            if (_restoreButton != null)
+                _restoreButton.Content = "2";
+            if (_resizeGrid != null)
+                _resizeGrid.Visibility = Visibility.Collapsed;
+            if (_mainGrid != null)
+                _mainGrid.Margin = new Thickness(0);
+            _rcNormal = new Rect(Left, Top, Width, Height);//保存下当前位置与大小
+            Left = 0;//设置位置
+            Top = 0;
+            var rc = SystemParameters.WorkArea;//获取工作区大小
+            Width = rc.Width;
+            Height = rc.Height;
+        }
+
+        private void ToNormal()
+        {
+            if (_restoreButton != null)
+                _restoreButton.Content = "1";
+            if (_resizeGrid != null)
+                _resizeGrid.Visibility = Visibility.Visible;
+            if (_mainGrid != null)
+                _mainGrid.Margin = new Thickness(10);
+
+            Left = _rcNormal.Left;
+            Top = _rcNormal.Top;
+            //if (_rcNormal.Width != 0 && _rcNormal.Height != 0)
+            //{
+            Width = _rcNormal.Width;
+            Height = _rcNormal.Height;
+            //}
         }
 
         private void MainWindow_SourceInitialized(object sender, EventArgs e)
@@ -190,11 +237,22 @@ namespace H.Framework.WPF.Control.Controls
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+            WinState = 1;
         }
 
         private void RestoreButton_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
+            var btn = sender as ButtonEx;
+            if (btn.Content.ToString() == "1")
+            {
+                //WindowState = WindowState.Maximized;
+                WinState = 2;
+            }
+            else
+            {
+                // = WindowState.Normal;
+                WinState = 0;
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -240,6 +298,29 @@ namespace H.Framework.WPF.Control.Controls
         {
             get => GetValue(TitleBarContentProperty);
             set => SetValue(TitleBarContentProperty, value);
+        }
+
+        public static readonly DependencyProperty WinStateProperty = DependencyProperty.Register("WinState", typeof(int), typeof(WindowEx), new UIPropertyMetadata(0, OnWinStatePropertyChanged));
+
+        /// <summary>
+        /// 窗体状态
+        /// </summary>
+        [Description("获取或设置窗体状态")]
+        [Category("Defined Properties")]
+        public int WinState
+        {
+            get => (int)GetValue(WinStateProperty);
+            set => SetValue(WinStateProperty, value);
+        }
+
+        public static void OnWinStatePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var c = (WindowEx)sender;
+            var value = (int)e.NewValue;
+            if (value == 2)
+                c.ToMax();
+            if (value == 0)
+                c.ToNormal();
         }
 
         public static readonly DependencyProperty WinCornerRadiusProperty = DependencyProperty.Register("WinCornerRadius", typeof(CornerRadius), typeof(WindowEx), new UIPropertyMetadata(new CornerRadius(0, 0, 0, 0), OnWinCornerRadiusPropertyChanged));

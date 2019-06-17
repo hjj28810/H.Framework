@@ -144,7 +144,7 @@ namespace H.Framework.WPF.Control.Controls
 
         private void TextBoxEx_TextChanged(object sender, TextChangedEventArgs e)
         {
-            (sender as TextBoxEx).ScrollToEnd();
+            (sender as TextBoxEx)?.ScrollToEnd();
         }
 
         private CustomPopupPlacement[] CustomPopupPlacementChanged(Size popupSize, Size targetSize, Point offset)

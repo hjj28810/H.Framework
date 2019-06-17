@@ -39,7 +39,7 @@ namespace H.Framework.WPF.Infrastructure.Utilities
 
         #endregion Window Flashing API Stuff
 
-        public static void FlashWindow(this Window win, UInt32 count = UInt32.MaxValue, UInt32 interval = 100)
+        public static void FlashWindow(this Window win, uint count = uint.MaxValue, uint interval = 100)
         {
             //Don't flash if the window is active
             if (win.IsActive) return;

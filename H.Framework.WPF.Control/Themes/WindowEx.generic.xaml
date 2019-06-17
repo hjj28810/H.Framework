@@ -18,7 +18,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:WindowEx}">
-                    <Grid Margin="15">
+                    <Grid Name="PART_MainGrid" Margin="10">
                         <Rectangle
                             Fill="{TemplateBinding Background}"
                             RadiusX="{TemplateBinding RectangleRadius}"
@@ -183,11 +183,11 @@
                             </Grid>
                         </Border>
                     </Grid>
-                    <ControlTemplate.Triggers>
+                    <!--<ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="PART_RestoreButton" Property="Content" Value="2" />
                         </Trigger>
-                    </ControlTemplate.Triggers>
+                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

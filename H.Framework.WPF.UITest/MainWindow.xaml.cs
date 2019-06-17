@@ -29,20 +29,28 @@ namespace H.Framework.WPF.UITest
             TestSql.Test();
         }
 
-        private Visibility _SBVisibility = Visibility.Visible;
+        private Visibility _SBVisibility = Visibility.Collapsed;
 
         public Visibility SBVisibility { get => _SBVisibility; set { _SBVisibility = value; OnPropertyChanged("SBVisibility"); } }
 
-        private string _testText;
+        private bool _SBShow;
 
-        [DataValidation(typeof(TestValidation), "Test", "this")]
-        public string TestText
+        public bool SBShow
+        {
+            get => _SBShow;
+            set { _SBShow = value; OnPropertyChanged("SBShow"); }
+        }
+
+        private int? _testText;
+
+        //[DataValidation(typeof(TestValidation), "Test", "this")]
+        public int? TestText
         {
             get => _testText;
             set
             {
-                _testText = value; OnPropertyChanged("TestText");
-                TestBtnText = _testText;
+                _testText = value;
+                OnPropertyChanged("TestText");
             }
         }
 
@@ -54,7 +62,22 @@ namespace H.Framework.WPF.UITest
             get => _testBtnText;
             set
             {
-                _testBtnText = value; OnPropertyChanged("TestBtnText");
+                _testBtnText = value;
+                OnPropertyChanged("TestBtnText");
+            }
+        }
+
+        private bool _ppOpen;
+
+        //[Required(ErrorMessage = "sdsadasd")]
+        public bool PpOpen
+        {
+            get => _ppOpen;
+            set
+            {
+                _ppOpen = value;
+                OnPropertyChanged("PpOpen");
+                Trace.WriteLine(_ppOpen.ToString());
             }
         }
 
@@ -69,9 +92,16 @@ namespace H.Framework.WPF.UITest
         {
             var a = TimeHelper.CurrentServerTime;
             TimeHelper.ServerInitTime = DateTime.Parse("2019-03-29 17:45:00");
-
-            if (SBVisibility == Visibility) SBVisibility = Visibility.Collapsed;
-            else SBVisibility = Visibility.Visible;
+            PpOpen = !PpOpen;
+            if (SBVisibility == Visibility.Visible)
+                SBVisibility = Visibility.Collapsed;
+            else
+                SBVisibility = Visibility.Visible;
+            SBShow = !SBShow;
+            //if (busyC.Visibility == Visibility)
+            //    busyC.Visibility = Visibility.Collapsed;
+            //else
+            //    busyC.Visibility = Visibility.Visible;
             warnBlock.Show(SBVisibility.ToString(), Control.Controls.AlertStyle.Info);
             //warmBlock.Show("haaaaaa");
             //warmBlock.Show("ggggggggggggggggggg");
@@ -165,6 +195,10 @@ namespace H.Framework.WPF.UITest
                 Trace.WriteLine(_currentPage);
             }
         }
+
+        private void Sss_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+        }
     }
 
     public class Node
@@ -187,15 +221,15 @@ namespace H.Framework.WPF.UITest
     {
         public static void Test()
         {
-            FoundationDAL.ConnectedString = "Server=192.168.50.162;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
+            FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
             //var aa = new NotificationDAL();
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
             //a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
             //var bb = aa.GetList((a, a0) => a.UserID.Contains("','999") && a0.UserID == "999", 20, 0, "ListNotificationMark", null);
             //var aa = new MenuDAL();
             //aa.Delete(new List<string> { "1", "2" });
-            var aa = new FuturesCompanyBLL();
-            var a = aa.GetList(x => 1 == 1, "FuturesCompanyCounters");
+            //var aa = new FuturesCompanyBLL();
+            //var a = aa.GetList(x => 1 == 1, "FuturesCompanyCounters");
         }
 
         public class FuturesCompanyBLL : BaseBLL<FuturesCompanyDTO, FuturesCompany, FuturesCompanyCounter, FuturesCompanyDAL>
