@@ -140,6 +140,14 @@ namespace H.Framework.WPF.Control.Controls
             }
             TextChanged -= TextBoxEx_TextChanged;
             TextChanged += TextBoxEx_TextChanged;
+            GotFocus -= TextBoxEx_GotFocus;
+            GotFocus += TextBoxEx_GotFocus;
+        }
+
+        private void TextBoxEx_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var t = sender as TextBoxEx;
+            t.SelectionStart = t.Text.Length;
         }
 
         private void TextBoxEx_TextChanged(object sender, TextChangedEventArgs e)
