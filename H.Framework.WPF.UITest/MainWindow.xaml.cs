@@ -91,7 +91,7 @@ namespace H.Framework.WPF.UITest
         private void ImageButton_Click(object sender, RoutedEventArgs e)
         {
             var a = TimeHelper.CurrentServerTime;
-            TimeHelper.ServerInitTime = DateTime.Parse("2019-03-29 17:45:00");
+            var aaaa = DateTime.Parse("2019.06.08");
             PpOpen = !PpOpen;
             if (SBVisibility == Visibility.Visible)
                 SBVisibility = Visibility.Collapsed;

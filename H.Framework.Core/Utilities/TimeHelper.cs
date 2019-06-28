@@ -7,7 +7,7 @@ namespace H.Framework.Core.Utilities
     {
         static TimeHelper()
         {
-            _watch = new Stopwatch();
+            Watch = new Stopwatch();
         }
 
         /// <summary>
@@ -19,28 +19,28 @@ namespace H.Framework.Core.Utilities
             set
             {
                 _serverInitTime = value;
-                _watch.Restart();
+                Watch.Restart();
             }
         }
 
         /// <summary>
         /// 本地Stopwatch
         /// </summary>
-        public static Stopwatch _watch;
+        public static Stopwatch Watch { get; }
 
         private static DateTime _serverInitTime;
 
         /// <summary>
         /// 服务器当前时间
         /// </summary>
-        public static DateTime CurrentServerTime => ServerInitTime.AddMilliseconds(_watch.ElapsedMilliseconds);
+        public static DateTime CurrentServerTime => ServerInitTime.AddMilliseconds(Watch.ElapsedMilliseconds);
 
-        public static long UTCSeconds()
+        public static long UtcSeconds()
         {
-            return UTCSeconds(DateTime.UtcNow);
+            return UtcSeconds(DateTime.UtcNow);
         }
 
-        public static long UTCSeconds(DateTime time)
+        public static long UtcSeconds(DateTime time)
         {
             return (time.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
         }

@@ -1,106 +1,178 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Threading;
 using System.Windows.Threading;
 
 namespace H.Framework.WPF.Infrastructure.Lists
 {
-    [DebuggerDisplay("Count = {Count}")]
-    [ComVisible(false)]
     public class ThreadSafeObservableCollection<T> : ObservableCollection<T>
     {
-        private readonly Dispatcher dispatcher;
+        private readonly ReaderWriterLockSlim _lockSlim = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
 
-        public ThreadSafeObservableCollection()
-            : this(Enumerable.Empty<T>())
+        public override event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-        }
+            //base.OnCollectionChanged(e);
 
-        public ThreadSafeObservableCollection(Dispatcher dispatcher)
-            : this(Enumerable.Empty<T>(), dispatcher)
-        {
-        }
+            NotifyCollectionChangedEventHandler notifyCollectionChangedEventHandler = CollectionChanged;
 
-        public ThreadSafeObservableCollection(IEnumerable collection)
-            : this(collection, Dispatcher.CurrentDispatcher)
-        {
-        }
-
-        public ThreadSafeObservableCollection(IEnumerable collection, Dispatcher dispatcher)
-        {
-            this.dispatcher = dispatcher;
-
-            foreach (T item in collection)
+            if (notifyCollectionChangedEventHandler != null)
             {
-                this.Add(item);
+                var list = notifyCollectionChangedEventHandler.GetInvocationList();
+                foreach (var @delegate in list)
+                {
+                    var handler = (NotifyCollectionChangedEventHandler)@delegate;
+                    if (handler.Target is DispatcherObject dispatcherObject)
+                    {
+                        var dispatcher = dispatcherObject.Dispatcher;
+                        if (dispatcher != null && !dispatcher.CheckAccess())
+                        {
+                            dispatcher.BeginInvoke((Action)(() => handler.Invoke(this,
+                                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset))),
+                                DispatcherPriority.DataBind);
+
+                            continue;
+                        }
+                    }
+
+                    handler.Invoke(this, e);
+                }
             }
         }
 
         protected override void SetItem(int index, T item)
         {
-            this.ExecuteOrInvoke(() => this.SetItemBase(index, item));
+            _lockSlim.EnterWriteLock();
+
+            try
+            {
+                base.SetItem(index, item);
+            }
+            finally
+            {
+                _lockSlim.ExitWriteLock();
+            }
         }
 
-        protected override void MoveItem(int oldIndex, int newIndex)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            this.ExecuteOrInvoke(() => this.MoveItemBase(oldIndex, newIndex));
-        }
+            _lockSlim.EnterUpgradeableReadLock();
 
-        protected override void ClearItems()
-        {
-            this.ExecuteOrInvoke(this.ClearItemsBase);
+            try
+            {
+                _lockSlim.EnterWriteLock();
+
+                try
+                {
+                    base.OnPropertyChanged(e);
+                }
+                finally
+                {
+                    _lockSlim.ExitWriteLock();
+                }
+            }
+            finally
+            {
+                _lockSlim.ExitUpgradeableReadLock();
+            }
         }
 
         protected override void InsertItem(int index, T item)
         {
-            this.ExecuteOrInvoke(() => this.InsertItemBase(index, item));
+            _lockSlim.EnterWriteLock();
+
+            try
+            {
+                base.InsertItem(index, item);
+            }
+            finally
+            {
+                _lockSlim.ExitWriteLock();
+            }
         }
 
         protected override void RemoveItem(int index)
         {
-            this.ExecuteOrInvoke(() => this.RemoveItemBase(index));
-        }
+            _lockSlim.EnterWriteLock();
 
-        private void RemoveItemBase(int index)
-        {
-            base.RemoveItem(index);
-        }
-
-        private void InsertItemBase(int index, T item)
-        {
-            base.InsertItem(index, item);
-        }
-
-        private void ClearItemsBase()
-        {
-            base.ClearItems();
-        }
-
-        private void MoveItemBase(int oldIndex, int newIndex)
-        {
-            base.MoveItem(oldIndex, newIndex);
-        }
-
-        private void SetItemBase(int index, T item)
-        {
-            base.SetItem(index, item);
-        }
-
-        private void ExecuteOrInvoke(Action action)
-        {
-            if (this.dispatcher.CheckAccess())
+            try
             {
-                action();
+                base.RemoveItem(index);
             }
-            else
+            finally
             {
-                this.dispatcher.Invoke(action);
+                _lockSlim.ExitWriteLock();
+            }
+        }
+
+        protected override void MoveItem(int oldIndex, int newIndex)
+        {
+            _lockSlim.EnterWriteLock();
+
+            try
+            {
+                base.MoveItem(oldIndex, newIndex);
+            }
+            finally
+            {
+                _lockSlim.ExitWriteLock();
+            }
+        }
+
+        protected override void ClearItems()
+        {
+            _lockSlim.EnterWriteLock();
+
+            try
+            {
+                base.ClearItems();
+            }
+            finally
+            {
+                _lockSlim.ExitWriteLock();
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!_lockSlim.IsWriteLockHeld)
+            {
+                _lockSlim.EnterReadLock();
+            }
+
+            try
+            {
+                return base.Equals(obj);
+            }
+            finally
+            {
+                if (!_lockSlim.IsWriteLockHeld)
+                {
+                    _lockSlim.ExitReadLock();
+                }
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            if (!_lockSlim.IsWriteLockHeld)
+            {
+                _lockSlim.EnterReadLock();
+            }
+
+            try
+            {
+                return base.GetHashCode();
+            }
+            finally
+            {
+                if (!_lockSlim.IsWriteLockHeld)
+                {
+                    _lockSlim.ExitReadLock();
+                }
             }
         }
     }
