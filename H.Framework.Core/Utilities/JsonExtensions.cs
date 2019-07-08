@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System.IO;
 
 namespace H.Framework.Core.Utilities
@@ -28,9 +29,25 @@ namespace H.Framework.Core.Utilities
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string ToJson(this object source)
+        public static string ToJson(this object source, bool isFilterNull = false, CaseType caseType = CaseType.Default)
         {
-            return JsonConvert.SerializeObject(source);
+            var jssetting = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented
+            };
+            switch (caseType)
+            {
+                case CaseType.Lower:
+                    jssetting.ContractResolver = new LowerCaseContractResolver();
+                    break;
+
+                case CaseType.LowerCamel:
+                    jssetting.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    break;
+            }
+            if (isFilterNull)
+                jssetting.NullValueHandling = NullValueHandling.Ignore;
+            return JsonConvert.SerializeObject(source, jssetting);
         }
 
         /// <summary>
@@ -50,9 +67,31 @@ namespace H.Framework.Core.Utilities
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
+        public static object ToJsonObj(this string source)
+        {
+            return JsonConvert.DeserializeObject(source);
+        }
+
+        /// <summary>
+        /// Json反序列化
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static T JsonToJsonObj<T>(this object source)
         {
             return source.ToJson().ToJsonObj<T>();
+        }
+
+        /// <summary>
+        /// Json反序列化
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static object JsonToJsonObj(this object source)
+        {
+            return source.ToJson().ToJsonObj();
         }
 
         private static bool IsJsonStart(ref string json)
@@ -506,5 +545,20 @@ namespace H.Framework.Core.Utilities
             }
             return false;
         }
+    }
+
+    public class LowerCaseContractResolver : DefaultContractResolver
+    {
+        protected override string ResolvePropertyName(string propertyName)
+        {
+            return propertyName.ToLower();
+        }
+    }
+
+    public enum CaseType
+    {
+        Default,
+        Lower,
+        LowerCamel
     }
 }

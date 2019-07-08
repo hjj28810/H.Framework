@@ -6,6 +6,7 @@ using H.Framework.Data.ORM.Attributes;
 using H.Framework.Data.ORM.Foundations;
 using H.Framework.WPF.Control.Controls;
 using H.Framework.WPF.Control.Controls.Capture;
+using H.Framework.WPF.Infrastructure.Lists;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +27,8 @@ namespace H.Framework.WPF.UITest
         {
             InitializeComponent();
             DataContext = this;
+            ListNode = new ThreadSafeObservableCollection<Node>();
+            ListNode.CollectionChanged += ListNode_CollectionChanged;
             TestSql.Test();
         }
 
@@ -51,6 +54,19 @@ namespace H.Framework.WPF.UITest
             {
                 _testText = value;
                 OnPropertyChanged("TestText");
+            }
+        }
+
+        private ThreadSafeObservableCollection<Node> _listNode;
+
+        //[DataValidation(typeof(TestValidation), "Test", "this")]
+        public ThreadSafeObservableCollection<Node> ListNode
+        {
+            get => _listNode;
+            set
+            {
+                _listNode = value;
+                OnPropertyChanged("ListNode");
             }
         }
 
@@ -90,6 +106,7 @@ namespace H.Framework.WPF.UITest
 
         private void ImageButton_Click(object sender, RoutedEventArgs e)
         {
+            ListNode = new ThreadSafeObservableCollection<Node> { new Node { ID = "11" }, new Node { ID = "22" } };
             var a = TimeHelper.CurrentServerTime;
             var aaaa = DateTime.Parse("2019.06.08");
             PpOpen = !PpOpen;
@@ -110,10 +127,15 @@ namespace H.Framework.WPF.UITest
             var list = new List<string>();
             var list2 = new string[] { "1", "2" };
             list.AddRangeNoRept(list2);
-
+            var g = new GWindow();
+            g.Show();
             //screenCapture.StartCapture(30);
 
             //swingLoading.ShowUp = swingLoading.ShowUp == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void ListNode_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

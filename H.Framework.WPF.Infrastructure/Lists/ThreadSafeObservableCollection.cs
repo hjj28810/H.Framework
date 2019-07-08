@@ -17,7 +17,7 @@ namespace H.Framework.WPF.Infrastructure.Lists
         {
             //base.OnCollectionChanged(e);
 
-            NotifyCollectionChangedEventHandler notifyCollectionChangedEventHandler = CollectionChanged;
+            var notifyCollectionChangedEventHandler = CollectionChanged;
 
             if (notifyCollectionChangedEventHandler != null)
             {
