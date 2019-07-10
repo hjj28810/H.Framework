@@ -126,7 +126,7 @@ namespace H.Framework.Data.ORM.Foundations
             return Get(whereSelector.Expr, include, orderBy);
         }
 
-        public virtual Task<TViewModel> GetSync(WhereQueryable<TViewModel> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public virtual Task<TViewModel> GetAsync(WhereQueryable<TViewModel> whereSelector, string include = "", OrderByEntity orderBy = null)
         {
             return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
         }

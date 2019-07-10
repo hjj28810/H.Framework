@@ -48,6 +48,22 @@ namespace H.Framework.UMeng.Push.Bases
         /// </summary>
         public string Type { get; private set; }
 
+        /// <summary>
+        /// 必填 消息发送类型,其值可以为:
+        /// <example>
+        ///unicast-单播
+        ///listcast-列播(要求不超过500个device_token)
+        ///filecast-文件播
+        ///(多个device_token可通过文件形式批量发送）
+        ///broadcast-广播
+        ///groupcast-组播
+        ///(按照filter条件筛选特定用户群, 具体请参照filter参数)
+        ///customizedcast(通过开发者自有的alias进行推送),
+        ///包括以下两种case:
+        ///- alias: 对单个或者多个alias进行推送
+        ///- file_id: 将alias存放到文件后，根据file_id来推送
+        ///</example>
+        /// </summary>
         [JsonIgnore]
         public PushType PushType
         {
