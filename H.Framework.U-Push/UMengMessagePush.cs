@@ -68,7 +68,8 @@ namespace H.Framework.UMeng.Push
         /// <returns></returns>
         public ReturnJsonClass SendMessage<T>(PostUMengJson<T> paramsJsonObj) where T : class, new()
         {
-            var resultResponse = _requestClient.Execute(CreateHttpRequest(paramsJsonObj));
+            var req = CreateHttpRequest(paramsJsonObj);
+            var resultResponse = _requestClient.Execute(req);
             return resultResponse.Content.ToJsonObj<ReturnJsonClass>();
         }
 
