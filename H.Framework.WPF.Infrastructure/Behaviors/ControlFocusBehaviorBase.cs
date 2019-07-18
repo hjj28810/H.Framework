@@ -13,7 +13,7 @@ namespace H.Framework.WPF.Infrastructure.Behaviors
         private static void IsFocusedPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             if (!(dependencyObject is Control p)) return;
-            if ((e.NewValue is bool ? (bool)e.NewValue : false))
+            if ((bool)e.NewValue)
             {
                 p.Focus();
             }
@@ -21,7 +21,7 @@ namespace H.Framework.WPF.Infrastructure.Behaviors
 
         public static bool GetIsFocused(DependencyObject p)
         {
-            return p.GetValue(IsFocusedProperty) is bool ? (bool)p.GetValue(IsFocusedProperty) : false;
+            return (bool)p.GetValue(IsFocusedProperty);
         }
 
         public static void SetIsFocused(DependencyObject p, bool value)
