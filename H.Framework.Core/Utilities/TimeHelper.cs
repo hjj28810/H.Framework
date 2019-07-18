@@ -37,12 +37,36 @@ namespace H.Framework.Core.Utilities
 
         public static long UtcSeconds()
         {
-            return UtcSeconds(DateTime.UtcNow);
+            return DateTime.UtcNow.ToLong();
         }
 
-        public static long UtcSeconds(DateTime time)
+        //public static long UtcSeconds(this DateTime time)
+        //{
+        //    return (time.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
+        //}
+        
+        public static DateTime ToDateTime(this long d, bool isMillisecond = false)
         {
-            return (time.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
+            var start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var resultTime = isMillisecond ? start.AddMilliseconds(d) : start.AddSeconds(d);
+            return resultTime.AddHours(8);
         }
+
+        public static long ToLong(this DateTime dt, bool isMillisecond = false)
+        {
+            //var dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            //var toNow = dt.Subtract(dtStart);
+            //var timeStamp = toNow.Ticks;
+            //var len = isMillisecond ? 4 : 7;
+            //timeStamp = long.Parse(timeStamp.ToString().Substring(0, timeStamp.ToString().Length - len));
+            //return timeStamp;
+            var jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var result = dt.AddHours(-8) - jan1st1970;
+            if (isMillisecond)
+                return (long)result.TotalMilliseconds;
+            else
+                return (long)result.TotalSeconds;
+        }
+
     }
 }

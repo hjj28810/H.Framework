@@ -28,7 +28,7 @@ namespace H.Framework.UMeng.Push.Bases
         ///
         /// 必填 时间戳，10位或者13位均可，时间戳有效期为10分钟
         /// </summary>
-        public string Timestamp => TimeHelper.UtcSeconds(DateTime.Now).ToString();
+        public string Timestamp => DateTime.Now.ToLong().ToString();
 
         /// <summary>
         /// 必填 消息发送类型,其值可以为:

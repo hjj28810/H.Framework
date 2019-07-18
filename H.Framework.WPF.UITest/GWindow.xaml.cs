@@ -20,15 +20,15 @@ namespace H.Framework.WPF.UITest
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var nonce = Utility.ObjectID;
-            var curTime = TimeHelper.UtcSeconds(DateTime.Now).ToString();
+            var curTime = DateTime.Now.ToLong().ToString();
             txt1.Text = nonce;
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
-            PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
-            //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
-            //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
-            //var a = HAHA();
-            //var b = HA();
+            //PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
+           //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
+           //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
+           //var a = HAHA();
+           //var b = HA();
         }
 
         /// <summary>
