@@ -25,10 +25,10 @@ namespace H.Framework.WPF.UITest
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
             //PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
-           //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
-           //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
-           //var a = HAHA();
-           //var b = HA();
+            //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
+            //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
+            //var a = HAHA();
+            //var b = HA();
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace H.Framework.WPF.UITest
         public static void PushAndroidMsg(PushType pushType, bool isProduc, dynamic tagjsonobj, string starttime, string title, string content, string description, string alias)
         {
             var push = new UMengMessagePush("5d11d03e0cafb212c6000171", "fjyzd0evg971fyviuczkgzpoqjawnxyl");//可以配置到web.config中
-            var postJson = new PostUMengJson<AndroidPayload>
+            var postJson = new PostUMengJsonAndroid<AndroidPayload>
             {
                 PushType = pushType,
                 ProductionMode = isProduc

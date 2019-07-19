@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -119,7 +120,6 @@ namespace H.Framework.Core.Utilities
         {
             return exts.Contains(Path.GetExtension(filePath));
         }
-
 
         /// <summary>
         /// 文件大小转换方法
@@ -818,6 +818,24 @@ namespace H.Framework.Core.Utilities
                 list.Add(item.ToObj<T>());
             }
             return list;
+        }
+
+        public static string GetDescription(this object value)
+        {
+            var fi = value.GetType().GetField(value.ToString());
+            var attributes =
+                   (DescriptionAttribute[])fi.GetCustomAttributes(
+                   typeof(DescriptionAttribute), false);
+            return (attributes.Length > 0) ? attributes[0].Description : value.ToString();
+        }
+
+        public static string GetCategory(this object value)
+        {
+            var fi = value.GetType().GetField(value.ToString());
+            var attributes =
+                   (CategoryAttribute[])fi.GetCustomAttributes(
+                   typeof(CategoryAttribute), false);
+            return (attributes.Length > 0) ? attributes[0].Category : value.ToString();
         }
     }
 }

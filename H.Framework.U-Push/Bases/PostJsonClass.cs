@@ -141,6 +141,21 @@ namespace H.Framework.UMeng.Push.Bases
         //public string Thirdparty_Id { get; set; }
     }
 
+    public class PostUMengJsonAndroid<T> : PostUMengJson<T> where T : class, new()
+    {
+        public string Mipush { get; private set; }
+
+        public bool Mi_Push
+        {
+            set
+            {
+                Mipush = value.ToString().ToLower();
+            }
+        }
+
+        public string Mi_Activity { get; set; }
+    }
+
     public class IOSPayload
     {
         public IOSPayload()
