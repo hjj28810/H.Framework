@@ -171,13 +171,13 @@ namespace H.Framework.Data.ORM.Foundations
         //    return DAL.ExecuteQuerySQL(sqlText).MapAllTo(RetrieveSelector).ToList();
         //}
 
-        protected Func<TModel, TViewModel> RetrieveSelector
+        public virtual Func<TModel, TViewModel> RetrieveSelector
         {
             get;
             set;
         } = item => new TViewModel();
 
-        protected Func<TViewModel, TModel> Selector
+        public virtual Func<TViewModel, TModel> Selector
         {
             get;
             set;
