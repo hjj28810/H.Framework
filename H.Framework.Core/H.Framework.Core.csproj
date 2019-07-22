@@ -6,9 +6,9 @@
     <Authors>H</Authors>
     <Product>H.Framework</Product>
     <Description>C#整理的一些基础类库</Description>
-    <Version>2.0.3.3</Version>
-    <FileVersion>2.0.3.3</FileVersion>
-    <AssemblyVersion>2.0.3.3</AssemblyVersion>
+    <Version>2.0.3.4</Version>
+    <FileVersion>2.0.3.4</FileVersion>
+    <AssemblyVersion>2.0.3.4</AssemblyVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
@@ -17,5 +17,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
-
 </Project>
