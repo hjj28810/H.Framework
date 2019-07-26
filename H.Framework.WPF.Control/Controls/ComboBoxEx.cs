@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace H.Framework.WPF.Control.Controls
 {
@@ -61,6 +62,19 @@ namespace H.Framework.WPF.Control.Controls
         {
             get => (double)GetValue(DropMinWidthProperty);
             set => SetValue(DropMinWidthProperty, value);
+        }
+
+        public static readonly DependencyProperty DropArrowColorProperty = DependencyProperty.Register("DropArrowColor", typeof(Brush), typeof(ComboBoxEx), new UIPropertyMetadata(new SolidColorBrush(Colors.Black), null));
+
+        /// <summary>
+        /// 下拉箭头颜色
+        /// </summary>
+        [Description("获取或设置下拉箭头颜色")]
+        [Category("Defined Properties")]
+        public Brush DropArrowColor
+        {
+            get => (Brush)GetValue(DropArrowColorProperty);
+            set => SetValue(DropArrowColorProperty, value);
         }
 
         #endregion Properties
