@@ -229,7 +229,7 @@
                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                     Content="{TemplateBinding SelectionBoxItem}"
                     ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
-                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                    ContentTemplate="{TemplateBinding SelectionItemTemplate}"
                     ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                     IsHitTestVisible="False"
                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />

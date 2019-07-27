@@ -288,7 +288,7 @@
             <Setter Property="FontSize" Value="22" />
         </Style>
         <Style x:Key="ComboBoxItemStyle" TargetType="ComboBoxItem">
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
             <Setter Property="BorderThickness" Value="0" />
@@ -508,6 +508,55 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <DataTemplate x:Key="CMBItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="66" />
+                    <ColumnDefinition Width="24" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    FontWeight="Regular"
+                    Text="{Binding Type}"
+                    TextAlignment="Left" />
+                <Ellipse
+                    Grid.Column="1"
+                    Width="12"
+                    Height="12"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Fill="Orange" />
+                <TextBlock
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="8"
+                    Foreground="White"
+                    Text="!" />
+                <TextBlock
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Text="{Binding Value}" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="CMBSelectedItemTemplate">
+            <Grid>
+
+                <TextBlock
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    FontWeight="Regular"
+                    Text="{Binding Type}"
+                    TextAlignment="Left" />
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -653,19 +702,19 @@
         <extender:ComboBoxEx
             Grid.Row="1"
             Height="28"
-            Margin="228,139,453.333,0"
+            Margin="225,132,433,0"
             Padding="10,0"
             VerticalAlignment="Top"
             VerticalContentAlignment="Center"
             Background="White"
+            BorderThickness="1"
             DropArrowColor="#32323C"
             FontWeight="Light"
             Foreground="Red"
-            ItemContainerStyle="{StaticResource ComboBoxItemStyle}">
-            <ComboBoxItem Content="aaaaaaaaaa" />
-            <ComboBoxItem Content="bbbbbbbb" />
-            <ComboBoxItem Content="cccccccc" />
-        </extender:ComboBoxEx>
+            ItemContainerStyle="{StaticResource ComboBoxItemStyle}"
+            ItemTemplate="{StaticResource CMBItemTemplate}"
+            ItemsSource="{Binding ListType}"
+            SelectionItemTemplate="{StaticResource CMBSelectedItemTemplate}" />
         <extender:TextBoxEx
             Name="sss"
             Grid.Row="1"

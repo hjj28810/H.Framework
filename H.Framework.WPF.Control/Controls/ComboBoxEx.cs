@@ -77,6 +77,19 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(DropArrowColorProperty, value);
         }
 
+        public static readonly DependencyProperty SelectionItemTemplateProperty = DependencyProperty.Register("SelectionItemTemplate", typeof(DataTemplate), typeof(ComboBoxEx), new UIPropertyMetadata(null, null));
+
+        /// <summary>
+        /// SelectionItemTemplate
+        /// </summary>
+        [Description("获取或设置SelectionItemTemplate")]
+        [Category("Defined Properties")]
+        public DataTemplate SelectionItemTemplate
+        {
+            get => (DataTemplate)GetValue(SelectionItemTemplateProperty);
+            set => SetValue(SelectionItemTemplateProperty, value);
+        }
+
         #endregion Properties
 
         #region Constructors
@@ -88,6 +101,7 @@ namespace H.Framework.WPF.Control.Controls
 
         public ComboBoxEx()
         {
+            SelectionItemTemplate = SelectionBoxItemTemplate;
         }
 
         #endregion Constructors

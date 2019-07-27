@@ -32,6 +32,11 @@ namespace H.Framework.WPF.UITest
             TestSql.Test();
         }
 
+        public List<KeyValueModel> ListType { get; } = new List<KeyValueModel> {
+                new KeyValueModel{ Key="today",Value="仅当前交易日有效",Type="当日"},
+                new KeyValueModel{ Key="forever",Value="一直有效，直至触发或无持仓",Type="永久"},
+        };
+
         private Visibility _SBVisibility = Visibility.Collapsed;
 
         public Visibility SBVisibility { get => _SBVisibility; set { _SBVisibility = value; OnPropertyChanged("SBVisibility"); } }
@@ -221,6 +226,15 @@ namespace H.Framework.WPF.UITest
         private void Sss_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
         }
+    }
+
+    public class KeyValueModel
+    {
+        public string Key { get; set; }
+
+        public string Value { get; set; }
+
+        public string Type { get; set; }
     }
 
     public class Node
