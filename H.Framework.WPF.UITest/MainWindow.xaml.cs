@@ -35,7 +35,7 @@ namespace H.Framework.WPF.UITest
 
         public List<KeyValueModel> ListType { get; } = new List<KeyValueModel> {
                 new KeyValueModel{ Key="today",Value="仅当前交易日有效",Type="当日"},
-                new KeyValueModel{ Key="forever",Value="一直有效，直至触发或无持仓asdasdasda",Type="永久"},
+                new KeyValueModel{ Key="forever",Value="一直有效，直至触发或无持仓vvv",Type="永久"},
         };
 
         private Visibility _SBVisibility = Visibility.Collapsed;

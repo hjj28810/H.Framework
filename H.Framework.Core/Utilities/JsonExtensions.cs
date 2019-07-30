@@ -32,6 +32,7 @@ namespace H.Framework.Core.Utilities
         /// <returns></returns>
         public static void WriteJson(this object obj, string path)
         {
+            File.SetAttributes(path, FileAttributes.Normal);
             File.WriteAllText(path, obj.ToJson());
         }
 
