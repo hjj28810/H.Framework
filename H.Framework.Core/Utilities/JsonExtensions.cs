@@ -13,7 +13,7 @@ namespace H.Framework.Core.Utilities
         /// <typeparam name="T"></typeparam>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static T Readjson<T>(this string json)
+        public static T ReadJson<T>(this string json)
         {
             using (var file = File.OpenText(json))
             {
@@ -22,6 +22,17 @@ namespace H.Framework.Core.Utilities
                     return JToken.ReadFrom(reader).ToString().ToJsonObj<T>();
                 }
             }
+        }
+
+        /// <summary>
+        /// 保存对象转json文档
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static void WriteJson(this object obj, string path)
+        {
+            File.WriteAllText(path, obj.ToJson());
         }
 
         /// <summary>
