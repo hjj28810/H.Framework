@@ -101,7 +101,7 @@ namespace H.Framework.WPF.Control.Controls
 
         public ComboBoxEx()
         {
-            SelectionItemTemplate = SelectionBoxItemTemplate;
+            //SelectionItemTemplate = SelectionBoxItemTemplate;
         }
 
         #endregion Constructors
