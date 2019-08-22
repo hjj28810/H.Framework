@@ -148,22 +148,29 @@ namespace H.Framework.Core.Utilities
         /// <returns></returns>
         public static byte[] DecryptAES(byte[] buffer, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CFB, PaddingMode padding = PaddingMode.PKCS7)
         {
-            using (var rijndaelCipher = new RijndaelManaged
+            try
             {
-                Mode = mode,
-                Padding = padding,
-                KeySize = keySize
-            })
+                using (var rijndaelCipher = new RijndaelManaged
+                {
+                    Mode = mode,
+                    Padding = padding,
+                    KeySize = keySize
+                })
+                {
+                    var pwdBytes = Encoding.UTF8.GetBytes(password);
+                    var keyBytes = new byte[32];
+                    var len = pwdBytes.Length;
+                    if (len > keyBytes.Length) len = keyBytes.Length;
+                    Array.Copy(pwdBytes, keyBytes, len);
+                    rijndaelCipher.Key = keyBytes;
+                    rijndaelCipher.IV = Encoding.UTF8.GetBytes(iv);
+                    var transform = rijndaelCipher.CreateDecryptor();
+                    return transform.TransformFinalBlock(buffer, 0, buffer.Length);
+                }
+            }
+            catch (Exception e)
             {
-                var pwdBytes = Encoding.UTF8.GetBytes(password);
-                var keyBytes = new byte[32];
-                var len = pwdBytes.Length;
-                if (len > keyBytes.Length) len = keyBytes.Length;
-                Array.Copy(pwdBytes, keyBytes, len);
-                rijndaelCipher.Key = keyBytes;
-                rijndaelCipher.IV = Encoding.UTF8.GetBytes(iv);
-                var transform = rijndaelCipher.CreateDecryptor();
-                return transform.TransformFinalBlock(buffer, 0, buffer.Length);
+                throw e;
             }
         }
 
