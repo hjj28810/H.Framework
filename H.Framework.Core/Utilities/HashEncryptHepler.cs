@@ -94,6 +94,31 @@ namespace H.Framework.Core.Utilities
                 var plainText = Encoding.UTF8.GetBytes(text);
                 return transform.TransformFinalBlock(plainText, 0, plainText.Length);
             }
+
+            //using (var aes = new AesCryptoServiceProvider
+            //{
+            //    Mode = mode,
+            //    Padding = padding
+            //})
+            //{
+            //    var pwdBytes = Encoding.UTF8.GetBytes(password);
+            //    var keyBytes = new byte[32];
+            //    var len = pwdBytes.Length;
+            //    if (len > keyBytes.Length) len = keyBytes.Length;
+            //    Array.Copy(pwdBytes, keyBytes, len);
+            //    aes.Key = keyBytes;
+            //    aes.IV = Encoding.UTF8.GetBytes(iv);
+            //    var enc = aes.CreateEncryptor(aes.Key, aes.IV);
+            //    using (MemoryStream ms = new MemoryStream())
+            //    {
+            //        using (CryptoStream cs = new CryptoStream(ms, enc, CryptoStreamMode.Write))
+            //        {
+            //            var bts = Encoding.UTF8.GetBytes(text);
+            //            cs.Write(bts, 0, bts.Length);
+            //        }
+            //        return ms.ToArray();
+            //    }
+            //}
         }
 
         /// <summary>
