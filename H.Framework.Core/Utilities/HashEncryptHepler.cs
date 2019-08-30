@@ -74,7 +74,7 @@ namespace H.Framework.Core.Utilities
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <returns></returns>
-        public static byte[] EncryptAES(string text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CFB, PaddingMode padding = PaddingMode.PKCS7)
+        public static byte[] EncryptAES(string text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
         {
             using (var rijndaelCipher = new RijndaelManaged
             {
@@ -131,7 +131,7 @@ namespace H.Framework.Core.Utilities
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <returns></returns>
-        public static string EncryptAESToBase64(string text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CFB, PaddingMode padding = PaddingMode.PKCS7)
+        public static string EncryptAESToBase64(string text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
         {
             return Convert.ToBase64String(EncryptAES(text, password, iv, keySize, mode, padding));
         }
@@ -146,7 +146,7 @@ namespace H.Framework.Core.Utilities
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <returns></returns>
-        public static byte[] DecryptAES(byte[] buffer, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CFB, PaddingMode padding = PaddingMode.PKCS7)
+        public static byte[] DecryptAES(byte[] buffer, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
         {
             try
             {
@@ -184,7 +184,7 @@ namespace H.Framework.Core.Utilities
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <returns></returns>
-        public static byte[] DecryptAES(string base64text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CFB, PaddingMode padding = PaddingMode.PKCS7)
+        public static byte[] DecryptAES(string base64text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
         {
             return DecryptAES(Convert.FromBase64String(base64text), password, iv, keySize, mode, padding);
         }
@@ -199,7 +199,7 @@ namespace H.Framework.Core.Utilities
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <returns></returns>
-        public static string DecryptAESToString(byte[] buffer, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CFB, PaddingMode padding = PaddingMode.PKCS7)
+        public static string DecryptAESToString(byte[] buffer, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
         {
             return Encoding.UTF8.GetString(DecryptAES(buffer, password, iv, keySize, mode, padding));
         }
@@ -214,7 +214,7 @@ namespace H.Framework.Core.Utilities
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <returns></returns>
-        public static string DecryptAESToString(string base64text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CFB, PaddingMode padding = PaddingMode.PKCS7)
+        public static string DecryptAESToString(string base64text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
         {
             return Encoding.UTF8.GetString(DecryptAES(Convert.FromBase64String(base64text), password, iv, keySize, mode, padding));
         }

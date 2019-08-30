@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace H.Framework.Core.Attributes
@@ -21,12 +22,10 @@ namespace H.Framework.Core.Attributes
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            object arg = null;
-            if (ArgProperty == "this")
-                arg = validationContext.ObjectInstance;
-            else
-                arg = validationContext.ObjectInstance.GetType().GetProperty(ArgProperty)?.GetValue(validationContext.ObjectInstance);
-            return (ValidationResult)ValidatorType.GetMethod(Method)?.Invoke(null, new object[] { value, arg });
+            var param = new List<object> { value };
+            if (!string.IsNullOrWhiteSpace(ArgProperty))
+                param.Add(ArgProperty == "this" ? validationContext.ObjectInstance : validationContext.ObjectInstance.GetType().GetProperty(ArgProperty)?.GetValue(validationContext.ObjectInstance));
+            return (ValidationResult)ValidatorType.GetMethod(Method)?.Invoke(null, param.ToArray());
         }
     }
 }

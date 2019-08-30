@@ -17,6 +17,18 @@ namespace H.Framework.Core.Utilities
             if (!string.IsNullOrWhiteSpace(@str) && !string.IsNullOrEmpty(@search))
                 count = Regex.Matches(str, @search).Count;
             return count;
+        } 
+        
+        /// <summary>
+        /// 校验手机号码是否符合标准。
+        /// </summary>
+        /// <param name="mobile"></param>
+        /// <returns></returns>
+        public static bool ValidateMobile(this string mobile)
+        {
+            if (string.IsNullOrEmpty(mobile))
+                return false;
+            return Regex.IsMatch(mobile, @"^(13|14|15|16|18|19|17)\d{9}$");
         }
 
         private static string DatePattern(char separator)
