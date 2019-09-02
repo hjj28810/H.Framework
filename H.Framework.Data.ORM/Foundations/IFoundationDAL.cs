@@ -7,11 +7,11 @@ namespace H.Framework.Data.ORM.Foundations
 {
     public interface IFoundationDAL<TModel> where TModel : IFoundationModel, new()
     {
-        IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", OrderByEntity orderBy = null);
+        IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null);
+        IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        TModel Get(Expression<Func<TModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null);
+        TModel Get(Expression<Func<TModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
         void Delete(string id);
 

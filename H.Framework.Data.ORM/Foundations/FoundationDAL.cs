@@ -1,5 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+﻿using H.Framework.Core.Utilities;
+using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -97,28 +99,34 @@ namespace H.Framework.Data.ORM.Foundations
             return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(SqlType.Count_MySQL, arr.Item4, arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2)).Rows[0][0]);
         }
 
-        public TModel Get(Expression<Func<TModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public TModel Get(Expression<Func<TModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return GetList(whereSelector, include, orderBy).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             var arr = MySQLUtility.ExecuteParm(whereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, arr.Item4, arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2, orderBy), arr.Item5, include, arr.Item3.ToArray());
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", OrderByEntity orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             var arr = MySQLUtility.ExecuteParm(whereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPage_MySQL, arr.Item4, arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2, orderBy, pageSize, pageNum), arr.Item5, include, arr.Item3.ToArray());
         }
 
-        protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", OrderByEntity orderBy = null, int pageSize = 20, int pageNum = 1, string paramID = "")
+        protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 1, string paramID = "")
         {
             string orderbyStr = "";
-            if (orderBy != null)
-                orderbyStr = " order by " + orderBy.KeyWord + (orderBy.IsAsc ? " asc" : " desc");
+            if (orderBy.NotNullAny())
+            {
+                foreach (var item in orderBy)
+                {
+                    orderbyStr += item.KeyWord + (item.IsAsc ? " asc" : " desc") + ",";
+                }
+                orderbyStr = " order by " + orderbyStr.TrimEnd(',');
+            }
             var sqlStr = "";
             switch (type)
             {

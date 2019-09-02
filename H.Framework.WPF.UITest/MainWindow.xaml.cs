@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace H.Framework.WPF.UITest
 {
@@ -358,7 +359,7 @@ namespace H.Framework.WPF.UITest
             public void Get()
             {
                 var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => x.UserID.Contains("','999") && y.UserID == "999");
-                var a = GetList(query, 10, 0, "NotificationMarks", new OrderByEntity { KeyWord = "CreatedAt", IsAsc = false });
+                var a = GetList(query, 10, 0, "NotificationMarks", new List<OrderByEntity> { new OrderByEntity { KeyWord = "CreatedAt", IsAsc = false } });
             }
         }
 

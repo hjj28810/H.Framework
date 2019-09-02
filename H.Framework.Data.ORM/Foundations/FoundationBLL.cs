@@ -77,7 +77,7 @@ namespace H.Framework.Data.ORM.Foundations
             DAL.Update(list.MapAllTo(selector), include);
         }
 
-        public virtual TViewModel Get(Expression<Func<TViewModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public virtual TViewModel Get(Expression<Func<TViewModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(whereSelector), include, orderBy);
             if (item != null)
@@ -86,27 +86,27 @@ namespace H.Framework.Data.ORM.Foundations
                 return default;
         }
 
-        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return Task.Run(() => Get(whereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return Task.Run(() => DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList());
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", OrderByEntity orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", OrderByEntity orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
         }
@@ -121,32 +121,32 @@ namespace H.Framework.Data.ORM.Foundations
             return Task.Run(() => Count(whereSelector));
         }
 
-        public virtual TViewModel Get(WhereQueryable<TViewModel> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public virtual TViewModel Get(WhereQueryable<TViewModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return Get(whereSelector.Expr, include, orderBy);
         }
 
-        public virtual Task<TViewModel> GetAsync(WhereQueryable<TViewModel> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public virtual Task<TViewModel> GetAsync(WhereQueryable<TViewModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(WhereQueryable<TViewModel> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public virtual List<TViewModel> GetList(WhereQueryable<TViewModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return GetList(whereSelector.Expr, include, orderBy);
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> whereSelector, string include = "", OrderByEntity orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return GetListAsync(whereSelector.Expr, include, orderBy);
         }
 
-        public virtual List<TViewModel> GetList(WhereQueryable<TViewModel> whereSelector, int pageSize, int pageNum, string include = "", OrderByEntity orderBy = null)
+        public virtual List<TViewModel> GetList(WhereQueryable<TViewModel> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> whereSelector, int pageSize, int pageNum, string include = "", OrderByEntity orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             return GetListAsync(whereSelector.Expr, pageSize, pageNum, include, orderBy);
         }

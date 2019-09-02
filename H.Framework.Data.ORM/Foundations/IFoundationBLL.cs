@@ -25,17 +25,17 @@ namespace H.Framework.Data.ORM.Foundations
 
         void Update(TViewModel model, string include = "");
 
-        TViewModel Get(Expression<Func<TViewModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null);
+        TViewModel Get(Expression<Func<TViewModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null);
+        Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        List<TViewModel> GetList(Expression<Func<TViewModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null);
+        List<TViewModel> GetList(Expression<Func<TViewModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> whereSelector, string include = "", OrderByEntity orderBy = null);
+        Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        List<TViewModel> GetList(Expression<Func<TViewModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", OrderByEntity orderBy = null);
+        List<TViewModel> GetList(Expression<Func<TViewModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", OrderByEntity orderBy = null);
+        Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
         //List<TViewModel> ExecuteQuerySQL(string sqlText);
 
@@ -43,15 +43,15 @@ namespace H.Framework.Data.ORM.Foundations
 
         Task<int> CountAsync(Expression<Func<TViewModel, bool>> whereSelector);
 
-        TViewModel Get(WhereQueryable<TViewModel> whereSelector, string include = "", OrderByEntity orderBy = null);
+        TViewModel Get(WhereQueryable<TViewModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        List<TViewModel> GetList(WhereQueryable<TViewModel> whereSelector, string include = "", OrderByEntity orderBy = null);
+        List<TViewModel> GetList(WhereQueryable<TViewModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> whereSelector, string include = "", OrderByEntity orderBy = null);
+        Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        List<TViewModel> GetList(WhereQueryable<TViewModel> whereSelector, int pageSize, int pageNum, string include = "", OrderByEntity orderBy = null);
+        List<TViewModel> GetList(WhereQueryable<TViewModel> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
-        Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> whereSelector, int pageSize, int pageNum, string include = "", OrderByEntity orderBy = null);
+        Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 
         int Count(WhereQueryable<TViewModel> whereSelector);
 
