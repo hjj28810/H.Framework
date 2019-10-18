@@ -8,24 +8,26 @@ namespace H.Framework.NETCore.IoC.Autofac
     {
         IContainer Container { get; }
 
-        bool IsRegistered(Type serviceType, ILifetimeScope scope = null);
+        bool IsRegistered(Type serviceType);
 
-        object Resolve(Type type, ILifetimeScope scope = null);
+        object Resolve(Type type);
 
-        T Resolve<T>(string key = "", ILifetimeScope scope = null) where T : class;
+        T Resolve<T>(string key = "") where T : class;
 
         T Resolve<T>(params Parameter[] parameters) where T : class;
 
-        T[] ResolveAll<T>(string key = "", ILifetimeScope scope = null);
+        T[] ResolveAll<T>(string key = "");
 
-        object ResolveOptional(Type serviceType, ILifetimeScope scope = null);
+        object ResolveOptional(Type serviceType);
 
-        object ResolveUnregistered(Type type, ILifetimeScope scope = null);
+        object ResolveUnregistered(Type type);
 
-        T ResolveUnregistered<T>(ILifetimeScope scope = null) where T : class;
+        T ResolveUnregistered<T>() where T : class;
 
-        ILifetimeScope Scope();
+        void InitScope();
 
-        bool TryResolve(Type serviceType, ILifetimeScope scope, out object instance);
+        ILifetimeScope Scope { get; set; }
+
+        bool TryResolve(Type serviceType, out object instance);
     }
 }

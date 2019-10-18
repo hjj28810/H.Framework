@@ -55,34 +55,34 @@ namespace H.Framework.Data.ORM
                         var propValue = prop.GetValue(model);
                         if (!prop.IsDefined(typeof(ForeignAttribute)) && !prop.IsDefined(typeof(DetailListAttribute)))
                         {
-                            if (propValue != null)
+                            if (propValue == null) continue;
+                            if (prop.PropertyType == typeof(DateTime) && Convert.ToDateTime(propValue) == DateTime.MinValue)
+                                continue;
+                            if (type == "add")
                             {
-                                if (type == "add")
-                                {
-                                    columnName += prop.Name + ",";
+                                columnName += prop.Name + ",";
+                                //if (prop.PropertyType == typeof(DateTime)) //oracle
+                                //    columnParm += "to_date('" + propValue + "','yyyy-mm-dd hh24:mi:ss'),";
+                                //else
+                                if (prop.PropertyType == typeof(bool))
+                                    columnParm += Convert.ToInt32(propValue) + ",";
+                                else
+                                    columnParm += "'" + propValue + "',";
+                            }
+                            else
+                            {
+                                if (prop.Name != "ID")
                                     //if (prop.PropertyType == typeof(DateTime)) //oracle
-                                    //    columnParm += "to_date('" + propValue + "','yyyy-mm-dd hh24:mi:ss'),";
+                                    //    columnName += "a." + prop.Name + " = to_date('" + propValue + "','yyyy-mm-dd hh24:mi:ss'),";
                                     //else
                                     if (prop.PropertyType == typeof(bool))
-                                        columnParm += Convert.ToInt32(propValue) + ",";
+                                        columnName += "a." + prop.Name + " = " + Convert.ToInt32(propValue) + ",";
                                     else
-                                        columnParm += "'" + propValue + "',";
-                                }
-                                else
-                                {
-                                    if (prop.Name != "ID")
-                                        //if (prop.PropertyType == typeof(DateTime)) //oracle
-                                        //    columnName += "a." + prop.Name + " = to_date('" + propValue + "','yyyy-mm-dd hh24:mi:ss'),";
-                                        //else
-                                        if (prop.PropertyType == typeof(bool))
-                                            columnName += "a." + prop.Name + " = " + Convert.ToInt32(propValue) + ",";
-                                        else
-                                            columnName += "a." + prop.Name + " = '" + propValue + "',";
-                                    columnParm = "a.id = '" + properties.First(item => item.Name == "ID").GetValue(model) + "'";
-                                }
-
-                                parms.Add(new MySqlParameter(prop.Name, propValue));
+                                        columnName += "a." + prop.Name + " = '" + propValue + "',";
+                                columnParm = "a.id = '" + properties.First(item => item.Name == "ID").GetValue(model) + "'";
                             }
+
+                            parms.Add(new MySqlParameter(prop.Name, propValue));
                         }
                     }
                 }

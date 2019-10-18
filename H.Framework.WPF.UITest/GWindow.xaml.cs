@@ -1,9 +1,12 @@
-﻿using H.Framework.Core.Utilities;
+﻿using Grpc.Core;
+using H.Framework.Core.Utilities;
 using H.Framework.UMeng.Push;
 using H.Framework.UMeng.Push.Bases;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Windows;
+using System.Windows.Controls;
+using Zeus.RPC.Protocol;
 
 namespace H.Framework.WPF.UITest
 {
@@ -24,6 +27,10 @@ namespace H.Framework.WPF.UITest
             txt1.Text = nonce;
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
+            //var a = MsgServiceClient.GetUsers();
+            //var b = MsgServiceClient.Send();
+            //var c = MsgServiceClient.AddUserLog();
+            var d = MsgServiceClient.GetUser();
             //PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
             //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
             //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
@@ -133,24 +140,73 @@ namespace H.Framework.WPF.UITest
         {
         }
 
-        private AA HA()
+        //private AA HA()
+        //{
+        //    return new AA { aa = "aaa" };
+        //}
+
+        //private AA HAHA()
+        //{
+        //    return new BB { aa = "aaa", bb = "bbb" };
+        //}
+
+        //private class AA
+        //{
+        //    public string aa { get; set; }
+        //}
+
+        //private class BB : AA
+        //{
+        //    public string bb { get; set; }
+        //}
+    }
+
+    public static class MsgServiceClient
+    {
+        private static Channel _channel;
+        private static UserRpcService.UserRpcServiceClient _client;
+        private static NotificationRpcService.NotificationRpcServiceClient _client2;
+        private static UserLogRpcService.UserLogRpcServiceClient _client3;
+        private static FuturesCompanyRpcService.FuturesCompanyRpcServiceClient _client4;
+
+        static MsgServiceClient()
         {
-            return new AA { aa = "aaa" };
+            //_channel = new Channel("127.0.0.1:40001", ChannelCredentials.Insecure);
+            _channel = new Channel("192.168.99.109:40001", ChannelCredentials.Insecure);
+            _client = new UserRpcService.UserRpcServiceClient(_channel);
+            _client2 = new NotificationRpcService.NotificationRpcServiceClient(_channel);
+            _client3 = new UserLogRpcService.UserLogRpcServiceClient(_channel);
+            _client4 = new FuturesCompanyRpcService.FuturesCompanyRpcServiceClient(_channel);
         }
 
-        private AA HAHA()
+        public static UsersResp GetUsers()
         {
-            return new BB { aa = "aaa", bb = "bbb" };
+            var req = new UsersReq();
+            req.UserIDs.Add(12);
+            req.UserIDs.Add(50);
+            return _client.GetUsers(req);
         }
 
-        private class AA
+        public static UserResp GetUser()
         {
-            public string aa { get; set; }
+            var req = new UserReq();
+            req.Nickname = "Yan";
+            return _client.GetUser(req);
         }
 
-        private class BB : AA
+        public static NotificationResp Send()
         {
-            public string bb { get; set; }
+            return _client2.Send(new NotificationReq { Username = "13321952950", AliasType = "zeus_user", Type = "ZEUS", IsStock = true, Title = "RPC测试", Content = "RPC测试", Creator = "Rpc" });
+        }
+
+        public static UserLogResp AddUserLog()
+        {
+            return _client3.AddUserLog(new UserLogReq { Username = "13321952950", Action = TradeAction.AccountBalance, Platform = Platform.Pc });
+        }
+
+        public static FuturesCompanysResp Get()
+        {
+            return _client4.Get(new FuturesCompanysReq { Platform = "PC" });
         }
     }
 }

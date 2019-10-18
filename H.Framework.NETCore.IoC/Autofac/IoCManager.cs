@@ -24,16 +24,18 @@ namespace H.Framework.NETCore.IoC.Autofac
 
         public static IoCManager Instance { get; } = new IoCManager();
 
+        public ContainerBuilder CBuilder { get; private set; }
+
         /// <summary>
         /// Ioc容器初始化
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public IServiceProvider Initialize(IServiceCollection services, IConfiguration configuration)
+        public IServiceProvider InitializeProvider(IServiceCollection services, IConfiguration configuration)
         {
-            var builder = new ContainerBuilder();
+            CBuilder = new ContainerBuilder();
 
-            builder.RegisterInstance(Instance).As<IIoCManager>().SingleInstance();
+            CBuilder.RegisterInstance(Instance).As<IIoCManager>().SingleInstance();
             //所有程序集 和程序集下类型
             var deps = DependencyContext.Default;
             var libs = deps.CompileLibraries.Where(lib => !lib.Serviceable && lib.Type != "package");//排除所有的系统程序集、Nuget下载包
@@ -59,7 +61,7 @@ namespace H.Framework.NETCore.IoC.Autofac
             listRegistrarInstances = listRegistrarInstances.OrderBy(t => t.Order).ToList();
             foreach (var dependencyRegistrar in listRegistrarInstances)
             {
-                dependencyRegistrar.Register(builder, listAllType);
+                dependencyRegistrar.Register(CBuilder, listAllType);
             }
 
             ////注册ITransientDependency实现类
@@ -98,9 +100,10 @@ namespace H.Framework.NETCore.IoC.Autofac
             //    }
             //}
             var module = new ConfigurationModule(configuration);
-            builder.RegisterModule(module);
-            builder.Populate(services);
-            _container = builder.Build();
+            CBuilder.RegisterModule(module);
+            CBuilder.Populate(services);
+            _container = CBuilder.Build();
+            InitScope();
             return new AutofacServiceProvider(_container);
         }
 
@@ -116,18 +119,13 @@ namespace H.Framework.NETCore.IoC.Autofac
         /// <param name="key">key</param>
         /// <param name="scope">Scope; pass null to automatically resolve the current scope</param>
         /// <returns>Resolved service</returns>
-        public virtual T Resolve<T>(string key = "", ILifetimeScope scope = null) where T : class
+        public virtual T Resolve<T>(string key = "") where T : class
         {
-            if (scope == null)
-            {
-                //no scope specified
-                scope = Scope();
-            }
             if (string.IsNullOrEmpty(key))
             {
-                return scope.Resolve<T>();
+                return Scope.Resolve<T>();
             }
-            return scope.ResolveKeyed<T>(key);
+            return Scope.ResolveKeyed<T>(key);
         }
 
         /// <summary>
@@ -139,8 +137,7 @@ namespace H.Framework.NETCore.IoC.Autofac
         /// <returns>Resolved service</returns>
         public virtual T Resolve<T>(params Parameter[] parameters) where T : class
         {
-            var scope = Scope();
-            return scope.Resolve<T>(parameters);
+            return Scope.Resolve<T>(parameters);
         }
 
         /// <summary>
@@ -149,14 +146,9 @@ namespace H.Framework.NETCore.IoC.Autofac
         /// <param name="type">Type</param>
         /// <param name="scope">Scope; pass null to automatically resolve the current scope</param>
         /// <returns>Resolved service</returns>
-        public virtual object Resolve(Type type, ILifetimeScope scope = null)
+        public virtual object Resolve(Type type)
         {
-            if (scope == null)
-            {
-                //no scope specified
-                scope = Scope();
-            }
-            return scope.Resolve(type);
+            return Scope.Resolve(type);
         }
 
         /// <summary>
@@ -166,18 +158,13 @@ namespace H.Framework.NETCore.IoC.Autofac
         /// <param name="key">key</param>
         /// <param name="scope">Scope; pass null to automatically resolve the current scope</param>
         /// <returns>Resolved services</returns>
-        public virtual T[] ResolveAll<T>(string key = "", ILifetimeScope scope = null)
+        public virtual T[] ResolveAll<T>(string key = "")
         {
-            if (scope == null)
-            {
-                //no scope specified
-                scope = Scope();
-            }
             if (string.IsNullOrEmpty(key))
             {
-                return scope.Resolve<IEnumerable<T>>().ToArray();
+                return Scope.Resolve<IEnumerable<T>>().ToArray();
             }
-            return scope.ResolveKeyed<IEnumerable<T>>(key).ToArray();
+            return Scope.ResolveKeyed<IEnumerable<T>>(key).ToArray();
         }
 
         /// <summary>
@@ -186,9 +173,9 @@ namespace H.Framework.NETCore.IoC.Autofac
         /// <typeparam name="T">Type</typeparam>
         /// <param name="scope">Scope; pass null to automatically resolve the current scope</param>
         /// <returns>Resolved service</returns>
-        public virtual T ResolveUnregistered<T>(ILifetimeScope scope = null) where T : class
+        public virtual T ResolveUnregistered<T>() where T : class
         {
-            return ResolveUnregistered(typeof(T), scope) as T;
+            return ResolveUnregistered(typeof(T)) as T;
         }
 
         /// <summary>
@@ -197,13 +184,8 @@ namespace H.Framework.NETCore.IoC.Autofac
         /// <param name="type">Type</param>
         /// <param name="scope">Scope; pass null to automatically resolve the current scope</param>
         /// <returns>Resolved service</returns>
-        public virtual object ResolveUnregistered(Type type, ILifetimeScope scope = null)
+        public virtual object ResolveUnregistered(Type type)
         {
-            if (scope == null)
-            {
-                //no scope specified
-                scope = Scope();
-            }
             var constructors = type.GetConstructors();
             foreach (var constructor in constructors)
             {
@@ -213,7 +195,7 @@ namespace H.Framework.NETCore.IoC.Autofac
                     var parameterInstances = new List<object>();
                     foreach (var parameter in parameters)
                     {
-                        var service = Resolve(parameter.ParameterType, scope);
+                        var service = Resolve(parameter.ParameterType);
                         if (service == null) throw new Exception("Unknown dependency");
                         parameterInstances.Add(service);
                     }
@@ -233,14 +215,9 @@ namespace H.Framework.NETCore.IoC.Autofac
         /// <param name="scope">Scope; pass null to automatically resolve the current scope</param>
         /// <param name="instance">Resolved service</param>
         /// <returns>Value indicating whether service has been successfully resolved</returns>
-        public virtual bool TryResolve(Type serviceType, ILifetimeScope scope, out object instance)
+        public virtual bool TryResolve(Type serviceType, out object instance)
         {
-            if (scope == null)
-            {
-                //no scope specified
-                scope = Scope();
-            }
-            return scope.TryResolve(serviceType, out instance);
+            return Scope.TryResolve(serviceType, out instance);
         }
 
         /// <summary>
@@ -249,14 +226,9 @@ namespace H.Framework.NETCore.IoC.Autofac
         /// <param name="serviceType">Type</param>
         /// <param name="scope">Scope; pass null to automatically resolve the current scope</param>
         /// <returns>Result</returns>
-        public virtual bool IsRegistered(Type serviceType, ILifetimeScope scope = null)
+        public virtual bool IsRegistered(Type serviceType)
         {
-            if (scope == null)
-            {
-                //no scope specified
-                scope = Scope();
-            }
-            return scope.IsRegistered(serviceType);
+            return Scope.IsRegistered(serviceType);
         }
 
         /// <summary>
@@ -265,26 +237,21 @@ namespace H.Framework.NETCore.IoC.Autofac
         /// <param name="serviceType">Type</param>
         /// <param name="scope">Scope; pass null to automatically resolve the current scope</param>
         /// <returns>Resolved service</returns>
-        public virtual object ResolveOptional(Type serviceType, ILifetimeScope scope = null)
+        public virtual object ResolveOptional(Type serviceType)
         {
-            if (scope == null)
-            {
-                //no scope specified
-                scope = Scope();
-            }
-            return scope.ResolveOptional(serviceType);
+            return Scope.ResolveOptional(serviceType);
         }
 
         /// <summary>
         /// Get current scope
         /// </summary>
         /// <returns>Scope</returns>
-        public virtual ILifetimeScope Scope()
+        public virtual void InitScope()
         {
             try
             {
                 //when such lifetime scope is returned, you should be sure that it'll be disposed once used (e.g. in schedule tasks)
-                return Container.BeginLifetimeScope();
+                Scope = Container?.BeginLifetimeScope();
             }
             catch (Exception)
             {
@@ -293,8 +260,10 @@ namespace H.Framework.NETCore.IoC.Autofac
                 //but note that usually it should never happen
 
                 //when such lifetime scope is returned, you should be sure that it'll be disposed once used (e.g. in schedule tasks)
-                return Container.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag);
+                Scope = Container?.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag);
             }
         }
+
+        public ILifetimeScope Scope { get; set; }
     }
 }
