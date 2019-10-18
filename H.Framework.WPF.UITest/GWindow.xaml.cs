@@ -23,7 +23,7 @@ namespace H.Framework.WPF.UITest
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var nonce = Utility.ObjectID;
-            var curTime = DateTime.Now.ToLong().ToString();
+            var curTime = DateTime.Now.ToString("yyyyMMddHHmmss");
             txt1.Text = nonce;
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();

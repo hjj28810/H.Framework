@@ -66,6 +66,8 @@ namespace H.Framework.Data.ORM
                                 //else
                                 if (prop.PropertyType == typeof(bool))
                                     columnParm += Convert.ToInt32(propValue) + ",";
+                                else if (prop.PropertyType == typeof(DateTime))
+                                    columnParm += "'" + Convert.ToDateTime(propValue).ToString("yyyyMMddHHmmss") + "',";
                                 else
                                     columnParm += "'" + propValue + "',";
                             }
@@ -77,6 +79,8 @@ namespace H.Framework.Data.ORM
                                     //else
                                     if (prop.PropertyType == typeof(bool))
                                         columnName += "a." + prop.Name + " = " + Convert.ToInt32(propValue) + ",";
+                                    else if (prop.PropertyType == typeof(DateTime))
+                                        columnName += "a." + prop.Name + " = '" + Convert.ToDateTime(propValue).ToString("yyyyMMddHHmmss") + "',";
                                     else
                                         columnName += "a." + prop.Name + " = '" + propValue + "',";
                                 columnParm = "a.id = '" + properties.First(item => item.Name == "ID").GetValue(model) + "'";
