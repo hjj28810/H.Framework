@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace H.Framework.Core.Utilities
@@ -17,8 +18,8 @@ namespace H.Framework.Core.Utilities
             if (!string.IsNullOrWhiteSpace(@str) && !string.IsNullOrEmpty(@search))
                 count = Regex.Matches(str, @search).Count;
             return count;
-        } 
-        
+        }
+
         /// <summary>
         /// 校验手机号码是否符合标准。
         /// </summary>
@@ -76,7 +77,7 @@ namespace H.Framework.Core.Utilities
                 //        strList.Add(temp); //获取结果   strList中为匹配的值
                 //    }
                 //}
-                if (!string.IsNullOrEmpty(collection[i].Value))
+                if (!string.IsNullOrEmpty(collection[i].Value) && !strList.Any(x => x == collection[i].Value))
                 {
                     strList.Add(collection[i].Value); //获取结果   strList中为匹配的值
                 }

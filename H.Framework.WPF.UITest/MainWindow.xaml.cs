@@ -261,7 +261,7 @@ namespace H.Framework.WPF.UITest
     {
         public static void Test()
         {
-            FoundationDAL.ConnectedString = "Server=192.168.99.109;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
+            FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
             //var aa = new NotificationDAL();
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
             //a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
@@ -271,7 +271,13 @@ namespace H.Framework.WPF.UITest
             //var aa = new FuturesCompanyBLL();
             //var a = aa.GetList(x => 1 == 1, "FuturesCompanyCounters");
             var aa = new UserBLL();
-            aa.GetUsersWithLog(new UserStatusReq { CreatedAtFrom = DateTime.Now.AddDays(-1), CreatedAtTo = DateTime.Now });
+            aa.GetUsersWithLog(new UserStatusReq
+            {
+                CreatedAtFrom = DateTime.Now.AddDays(-3),
+                CreatedAtTo = DateTime.Now,
+                LastLoginAtFrom = DateTime.Now.AddDays(-3),
+                LastLoginAtTo = DateTime.Now
+            });
         }
 
         public class FuturesCompanyBLL : BaseBLL<FuturesCompanyDTO, FuturesCompany, FuturesCompanyCounter, FuturesCompanyDAL>
@@ -527,7 +533,6 @@ namespace H.Framework.WPF.UITest
             public string PhotoExt { get; set; }
 
             public bool IsRegistered { get; set; }
-
             public UserStatusDTO UserStatus { get; set; }
 
             public void MapFrom(User source)
@@ -568,7 +573,7 @@ namespace H.Framework.WPF.UITest
                     query = query.WhereAnd((x, y) => x.CreatedAt > req.CreatedAtFrom.Value && x.CreatedAt < req.CreatedAtTo.Value);
                 if (req.LastLoginAtFrom.HasValue && req.LastLoginAtTo.HasValue)
                     query = query.WhereAnd((x, y) => y.LastLoginAt > req.LastLoginAtFrom.Value && y.LastLoginAt < req.LastLoginAtTo.Value);
-                var list = GetListAsync(query, 0, 20, "UserStatuss");
+                var list = GetList(query, 20, 0, "UserStatuss");
             }
         }
     }
