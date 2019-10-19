@@ -9,7 +9,7 @@ namespace H.Framework.Data.ORM
 
         public static StringBuilder ReplaceSQLKW(this StringBuilder builder)
         {
-            return builder.Equal().And().Or().DateTimeFormate().RemoveQuotes();
+            return builder.Equal().And().Or().DateTimeFormat().RemoveQuotes();
         }
 
         public static string ReplaceSQLKW(this string str)
@@ -40,7 +40,7 @@ namespace H.Framework.Data.ORM
             return builder.Replace("\"", "'");
         }
 
-        public static StringBuilder DateTimeFormate(this StringBuilder builder)
+        public static StringBuilder DateTimeFormat(this StringBuilder builder)
         {
             var datelist = builder.ToString().MatchsDateTime('/');
             foreach (var item in datelist)

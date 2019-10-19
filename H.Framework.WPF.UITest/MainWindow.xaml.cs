@@ -170,7 +170,7 @@ namespace H.Framework.WPF.UITest
             //var l = (new DateTime(2018, 9, 1)).ToLong(true);
 
             //var aaaaa = HashEncryptHepler.MD5Hash("appId=wx329328d6d1af8bd8&customer_weixin=wxid_411rjwe7lvgz22&secret=d16dc6fe103c3fc600fe13903a0ed5d2&timestamp=1537953627&user_id=100100&weixin=HUANGBO19891006", MD5Format.X);
-            var Hash = HashEncryptHepler.EncryptAESToBase64("1|1566467834", "_accessToken", "1111111111111111", 128, System.Security.Cryptography.CipherMode.CFB);
+            //var Hash = HashEncryptHepler.EncryptAESToBase64("1|1566467834", "_accessToken", "1111111111111111", 128, System.Security.Cryptography.CipherMode.CFB);
 
             //var str = HashEncryptHepler.DecryptAESToString(Hash, "_accessToken", "1111111111111111");
             //var aHash = HashEncryptHepler.Decrypt3DES("JxVJzmZzKlcAybCaXnn5Odjfrtnw5kBu3LOYOsQK0Yg7tepNAeJyQNjfrtnw5kBu3LOYOsQK0YiBxFDnQlo9blYD44J1lr32UpKh1sMF33nufbggphIXmT1AlmRkHN4pPJuVnFfEr1A3TlSnKvy6b4ylyguVd/tLom8xHaOTBbQRi0y1K88cvpKQs/4z7Cb5J0O3PMFYGpENPz6Cth+7oNyAERMhVzFf3QLayjEkZX5bRfc9uSHeUTpEWJoHUk9NibNstXZZ6HXEWXw+l2ERlQeqFLYYzH7vkajkuba6xz74TQonW6217ccPCb29orG9JLm5OBN19P1erlA7W2gmenIM9RwLHMmbBTnFsTeqJxwnx5C28kkdprsv5psuYFEfur1h1Yx38EROrYr3sU4BbFagL2nwLKcCeaxFkOapZ2F7OY+2EEL7TZLcvqikX3qho2KH07j8eDkP6UcpU0WohK/O3LfG3ZbibOZXip9pd4BRauwLaPOw2gU1zrgPh3/Qx1GPAXR2pC6J", "SKFMNGHJVBNDKI=56ELBGKFW");
@@ -261,7 +261,7 @@ namespace H.Framework.WPF.UITest
     {
         public static void Test()
         {
-            FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
+            FoundationDAL.ConnectedString = "Server=192.168.99.109;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
             //var aa = new NotificationDAL();
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
             //a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
@@ -270,6 +270,8 @@ namespace H.Framework.WPF.UITest
             //aa.Delete(new List<string> { "1", "2" });
             //var aa = new FuturesCompanyBLL();
             //var a = aa.GetList(x => 1 == 1, "FuturesCompanyCounters");
+            var aa = new UserBLL();
+            aa.GetUsersWithLog(new UserStatusReq { CreatedAtFrom = DateTime.Now.AddDays(-1), CreatedAtTo = DateTime.Now });
         }
 
         public class FuturesCompanyBLL : BaseBLL<FuturesCompanyDTO, FuturesCompany, FuturesCompanyCounter, FuturesCompanyDAL>
@@ -423,6 +425,151 @@ namespace H.Framework.WPF.UITest
             public int NotificationID { get; set; }
 
             public string UserID { get; set; }
+        }
+
+        public class User : IFoundationModel
+        {
+            public string ID { get; set; }
+            public string Username { get; set; }
+
+            public string Nickname { get; set; }
+            public string Password { get; set; }
+            public string Photo { get; set; }
+
+            public string Description { get; set; }
+            public string UpdatedAt { get; set; }
+            public DateTime CreatedAt { get; set; }
+            public int Level { get; set; }
+
+            public string NicknameExt { get; set; }
+            public string PhotoExt { get; set; }
+
+            [DetailList()]
+            public List<UserStatus> UserStatuss { get; set; }
+        }
+
+        public class UserStatus : IFoundationModel
+        {
+            public string ID { get; set; }
+
+            [ForeignKeyID("user")]
+            public string UserID { get; set; }
+
+            public string LastLoginIP { get; set; }
+
+            public int LastLoginPlatform { get; set; }
+
+            public DateTime LastLoginAt { get; set; }
+        }
+
+        public class UserStatusDTO : IFoundationViewModel
+        {
+            public string ID { get; set; }
+
+            public string UserID { get; set; }
+
+            public string LastLoginIP { get; set; }
+
+            public int LastLoginPlatform { get; set; }
+
+            public DateTime LastLoginAt
+            {
+                get; set;
+            }
+
+            //private string _lastLoginAt;
+
+            //public string LastLoginAt
+            //{
+            //    get
+            //    {
+            //        if (DateTime.TryParse(_lastLoginAt, out DateTime lastLoginDate))
+            //            return lastLoginDate.ToString("yyyy-MM-dd HH:mm:ss");
+            //        return _lastLoginAt;
+            //    }
+            //    set { _lastLoginAt = value; }
+            //}
+        }
+
+        public class UserDTO : IFoundationViewModel, ICustomMap<User>
+        {
+            public string ID { get; set; }
+            public string Username { get; set; }
+            public string Password { get; set; }
+            public string Photo { get; set; }
+            public string Token { get; set; }
+            public string Nickname { get; set; }
+            public bool IsSetPassword { get; set; }
+            public string UpdatedAt { get; set; }
+
+            //private string _createdAt;
+
+            //public string CreatedAt
+            //{
+            //    get
+            //    {
+            //        if (DateTime.TryParse(_createdAt, out DateTime createdDate))
+            //            return createdDate.ToString("yyyy-MM-dd HH:mm:ss");
+            //        return _createdAt;
+            //    }
+            //    set { _createdAt = value; }
+            //}
+
+            public DateTime CreatedAt
+            {
+                get; set;
+            }
+
+            public string Description { get; set; }
+            public int Level { get; set; }
+
+            public string NicknameExt { get; set; }
+            public string PhotoExt { get; set; }
+
+            public bool IsRegistered { get; set; }
+
+            public UserStatusDTO UserStatus { get; set; }
+
+            public void MapFrom(User source)
+            {
+                UserStatus = source.UserStatuss?.First()?.MapTo(x => new UserStatusDTO());
+            }
+        }
+
+        public class UserDAL : BaseDAL<User, UserStatus>
+        {
+        }
+
+        public class UserStatusReq
+        {
+            public DateTime? CreatedAtFrom { get; set; }
+
+            public DateTime? CreatedAtTo { get; set; }
+
+            public DateTime? LastLoginAtFrom { get; set; }
+
+            public DateTime? LastLoginAtTo { get; set; }
+
+            public string Username { get; set; }
+
+            public int? Platform { get; set; }
+        }
+
+        public class UserBLL : BaseBLL<UserDTO, User, UserStatus, UserDAL>
+        {
+            public void GetUsersWithLog(UserStatusReq req)
+            {
+                var query = new WhereQueryable<UserDTO, UserStatus>((x, y) => 1 == 1);
+                if (!string.IsNullOrWhiteSpace(req.Username))
+                    query = query.WhereAnd((x, y) => x.Username == req.Username);
+                if (req.Platform.HasValue)
+                    query = query.WhereAnd((x, y) => y.LastLoginPlatform == req.Platform.Value);
+                if (req.CreatedAtFrom.HasValue && req.CreatedAtTo.HasValue)
+                    query = query.WhereAnd((x, y) => x.CreatedAt > req.CreatedAtFrom.Value && x.CreatedAt < req.CreatedAtTo.Value);
+                if (req.LastLoginAtFrom.HasValue && req.LastLoginAtTo.HasValue)
+                    query = query.WhereAnd((x, y) => y.LastLoginAt > req.LastLoginAtFrom.Value && y.LastLoginAt < req.LastLoginAtTo.Value);
+                var list = GetListAsync(query, 0, 20, "UserStatuss");
+            }
         }
     }
 }
