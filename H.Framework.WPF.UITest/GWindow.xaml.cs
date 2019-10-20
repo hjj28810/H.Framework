@@ -28,7 +28,7 @@ namespace H.Framework.WPF.UITest
             txt1.Text = nonce;
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
-            var a = Regex.Matches("asdasd10/19/2019 11:00:00 PM", @"(0\d|1[0-2])\/([0-2]\d|3[01])\/[12]\d{3}\s+([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\s+((a|p)m|(A|P)M)");
+            var a = Regex.Matches("asdasd1/9/2019 3:9:9 PM", RegexExtensions.DateTimePattern());
             //var a = MsgServiceClient.GetUsers();
             //var b = MsgServiceClient.Send();
             //var c = MsgServiceClient.AddUserLog();
