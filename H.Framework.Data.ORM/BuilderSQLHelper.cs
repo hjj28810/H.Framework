@@ -1,4 +1,5 @@
 ﻿using H.Framework.Core.Utilities;
+using System;
 using System.Text;
 
 namespace H.Framework.Data.ORM
@@ -9,7 +10,7 @@ namespace H.Framework.Data.ORM
 
         public static StringBuilder ReplaceSQLKW(this StringBuilder builder)
         {
-            return builder.Equal().And().Or().DateTimeFormat().RemoveQuotes();
+            return builder.Equal().And().Or().DateTimeFormat().DateTimeFormatSP().RemoveQuotes();
         }
 
         public static string ReplaceSQLKW(this string str)
@@ -54,6 +55,14 @@ namespace H.Framework.Data.ORM
             var datelist3 = builder.ToString().MatchsDateTime('-');
             foreach (var item in datelist3)
                 builder = builder.Replace(item, "'" + item + "'");
+            return builder;
+        }
+
+        public static StringBuilder DateTimeFormatSP(this StringBuilder builder)
+        {
+            var datelist = builder.ToString().MatchsDateTime();
+            foreach (var item in datelist)
+                builder = builder.Replace(item, "'" + DateTime.Parse(item).ToString("yyyy-MM-dd HH:mm:ss") + "'");
             return builder;
         }
 
