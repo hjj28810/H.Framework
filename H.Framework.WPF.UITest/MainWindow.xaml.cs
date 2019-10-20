@@ -273,10 +273,7 @@ namespace H.Framework.WPF.UITest
             var aa = new UserBLL();
             aa.GetUsersWithLog(new UserStatusReq
             {
-                CreatedAtFrom = DateTime.Now.AddDays(-3),
-                CreatedAtTo = DateTime.Now,
-                LastLoginAtFrom = DateTime.Now.AddDays(-3),
-                LastLoginAtTo = DateTime.Now
+                Username = "10/19/2019 11:00:00 PM"
             });
         }
 

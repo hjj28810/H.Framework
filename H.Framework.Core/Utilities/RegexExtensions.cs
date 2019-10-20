@@ -47,9 +47,10 @@ namespace H.Framework.Core.Utilities
         {
             return @DatePattern(separator) + " " + @TimePattern();
         }
+
         private static string DateTimePattern()
         {
-            return @"^(0\d|1[0-2])\/([0-2]\d|3[01])\/[12]\d{3}\s+([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\s+((a|p)m|(A|P)M)$";
+            return @"(0\d|1[0-2])\/([0-2]\d|3[01])\/[12]\d{3}\s+([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\s+((a|p)m|(A|P)M)";
         }
 
         public static bool IsMatchDate(this string str, char separator = '-')
