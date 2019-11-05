@@ -2,6 +2,7 @@
 using H.Framework.Core.Utilities;
 using H.Framework.UMeng.Push;
 using H.Framework.UMeng.Push.Bases;
+using H.Framework.WPF.Control.Controls.ExtendedWindows;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Text.RegularExpressions;
@@ -14,7 +15,7 @@ namespace H.Framework.WPF.UITest
     /// <summary>
     /// GWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class GWindow : Window
+    public partial class GWindow : ExtendedWindow
     {
         public GWindow()
         {
@@ -29,7 +30,7 @@ namespace H.Framework.WPF.UITest
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
             //var a = Regex.Matches("asdasd1/9/2019 3:9:9 PM", RegexExtensions.DateTimePattern());
-//            var a = MsgServiceClient.GetUsers();
+            //            var a = MsgServiceClient.GetUsers();
             //var b = MsgServiceClient.Send();
             //var c = MsgServiceClient.AddUserLog();
             var d = MsgServiceClient.GetUser();

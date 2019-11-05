@@ -15,6 +15,11 @@
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="Background" Value="White" />
         <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="{Binding ActualHeight, ElementName=PART_MoveableBorder}" />
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:WindowEx}">
@@ -31,6 +36,7 @@
                                     Color="#8c8c8c" />
                             </Rectangle.Effect>
                         </Rectangle>
+
                         <Border
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding WinBorderBrush}"

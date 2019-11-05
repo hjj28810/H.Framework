@@ -34,6 +34,9 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.3\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -54,6 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\Capture\ToolBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\WindowFunctionBar.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -82,6 +89,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ComboBoxEx.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ExtendedWindow.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,6 +189,11 @@
     </Compile>
     <Compile Include="Controls\ClassicPager.cs" />
     <Compile Include="Controls\ComboBoxEx.cs" />
+    <Compile Include="Controls\ExtendedWindows\ExtendedWindow.cs" />
+    <Compile Include="Controls\ExtendedWindows\FunctionBar.cs" />
+    <Compile Include="Controls\ExtendedWindows\WindowParameters.cs" />
+    <Compile Include="Controls\ExtendedWindows\WindowService.cs" />
+    <Compile Include="Controls\ExtendedWindows\WindowService.WindowCommandHelper.cs" />
     <Compile Include="Controls\MarketLoading.cs" />
     <Compile Include="Controls\Pager.cs" />
     <Compile Include="Controls\RadioButtonEx.cs" />

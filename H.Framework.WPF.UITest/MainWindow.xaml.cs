@@ -28,10 +28,10 @@ namespace H.Framework.WPF.UITest
         {
             InitializeComponent();
             DataContext = this;
-            ListNode = new ThreadSafeObservableCollection<Node>();
-            ListNode.CollectionChanged += ListNode_CollectionChanged;
-            TestSql.Test();
-            ListType.WriteJson("appSettings.json");
+            //ListNode = new ThreadSafeObservableCollection<Node>();
+            //ListNode.CollectionChanged += ListNode_CollectionChanged;
+            //TestSql.Test();
+            //ListType.WriteJson("appSettings.json");
         }
 
         public List<KeyValueModel> ListType { get; } = new List<KeyValueModel> {
@@ -229,6 +229,30 @@ namespace H.Framework.WPF.UITest
 
         private void Sss_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+            IsShowTip = true;
+        }
+
+        private bool _isShowTip;
+
+        //[Required(ErrorMessage = "sdsadasd")]
+        public bool IsShowTip
+        {
+            get => _isShowTip;
+            set
+            {
+                _isShowTip = value;
+                OnPropertyChanged("IsShowTip");
+            }
+        }
+
+        private void ButtonEx_Click(object sender, RoutedEventArgs e)
+        {
+            IsShowTip = false;
         }
     }
 

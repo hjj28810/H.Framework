@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\ControlFocusBehaviorBase.cs" />
+    <Compile Include="Converters\EmptyObjectToVisibilityConverter.cs" />
     <Compile Include="Converters\MultiObjectConverter.cs" />
     <Compile Include="Converters\ObjectConverter.cs" />
     <Compile Include="Converters\SimpleMathConverter.cs" />

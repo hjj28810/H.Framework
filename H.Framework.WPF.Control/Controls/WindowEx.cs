@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace H.Framework.WPF.Control.Controls
 {
@@ -18,6 +20,16 @@ namespace H.Framework.WPF.Control.Controls
     [TemplatePart(Name = "PART_MainGrid", Type = typeof(Grid))]
     public class WindowEx : Window
     {
+        private HwndSource _hwndSource;
+
+        private Border _titleBar;
+        private ButtonEx _minimizeButton;
+        private ButtonEx _restoreButton;
+        private ButtonEx _closeButton;
+        private Rect _rcNormal;
+        private Grid _resizeGrid;
+        private Grid _mainGrid;
+
         static WindowEx()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowEx), new FrameworkPropertyMetadata(typeof(WindowEx)));
@@ -29,26 +41,17 @@ namespace H.Framework.WPF.Control.Controls
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
-        private HwndSource _hwndSource;
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             InitializeControl();
         }
 
-        private Border _titleBar;
-        private ButtonEx _minimizeButton;
-        private ButtonEx _restoreButton;
-        private ButtonEx _closeButton;
-        private Rect _rcNormal;
-        private Grid _resizeGrid;
-        private Grid _mainGrid;
-
         private void InitializeControl()
         {
             _titleBar = GetTemplateChild("PART_MoveableBorder") as Border;
             _titleBar.MouseDown += MoveableRect_MouseDown;
+            _titleBar.MouseMove += MoveableRect_MouseMove;
 
             _minimizeButton = GetTemplateChild("PART_MinimizeButton") as ButtonEx;
             _restoreButton = GetTemplateChild("PART_RestoreButton") as ButtonEx;
@@ -74,6 +77,17 @@ namespace H.Framework.WPF.Control.Controls
             }
         }
 
+        private void MoveableRect_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                GetCursorPos(out POINT p);
+                Trace.WriteLine(p.X);
+                Trace.WriteLine(p.Y);
+                Trace.WriteLine(WinState);
+            }
+        }
+
         private void ResizeRectangle_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             _rcNormal = new Rect(Left, Top, Width, Height);//保存下当前位置与大小
@@ -81,8 +95,29 @@ namespace H.Framework.WPF.Control.Controls
 
         private void MoveableRect_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.ClickCount % 2 == 0)
+            {
+                if (WinState == 0)
+                    WinState = 2;
+                else
+                    WinState = 0;
+            }
             if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
+        }
+
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+
+            public POINT(int x, int y)
+            {
+                X = x;
+                Y = y;
+            }
         }
 
         private void ResizeRectangle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -203,6 +238,7 @@ namespace H.Framework.WPF.Control.Controls
                 _resizeGrid.Visibility = Visibility.Collapsed;
             if (_mainGrid != null)
                 _mainGrid.Margin = new Thickness(0);
+
             _rcNormal = new Rect(Left, Top, Width, Height);//保存下当前位置与大小
             Left = 0;//设置位置
             Top = 0;
@@ -262,12 +298,15 @@ namespace H.Framework.WPF.Control.Controls
 
         protected void OnPreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (Mouse.LeftButton != MouseButtonState.Pressed)
+            if (e.LeftButton != MouseButtonState.Pressed)
                 Cursor = Cursors.Arrow;
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, UInt32 msg, IntPtr wParam, IntPtr lParam);
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        public static extern bool GetCursorPos(out POINT lpPoint);
 
         private void ResizeWindow(ResizeDirection direction)
         {
