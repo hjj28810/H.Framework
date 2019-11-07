@@ -50,15 +50,18 @@ namespace H.Framework.WPF.Control.Controls
         private void InitializeControl()
         {
             _titleBar = GetTemplateChild("PART_MoveableBorder") as Border;
-            _titleBar.MouseDown += MoveableRect_MouseDown;
-            _titleBar.MouseMove += MoveableRect_MouseMove;
+            if (_titleBar != null)
+                _titleBar.MouseDown += MoveableRect_MouseDown;
 
             _minimizeButton = GetTemplateChild("PART_MinimizeButton") as ButtonEx;
             _restoreButton = GetTemplateChild("PART_RestoreButton") as ButtonEx;
             _closeButton = GetTemplateChild("PART_CloseButton") as ButtonEx;
-            _minimizeButton.Click += MinimizeButton_Click;
-            _restoreButton.Click += RestoreButton_Click;
-            _closeButton.Click += CloseButton_Click;
+            if (_minimizeButton != null)
+                _minimizeButton.Click += MinimizeButton_Click;
+            if (_restoreButton != null)
+                _restoreButton.Click += RestoreButton_Click;
+            if (_closeButton != null)
+                _closeButton.Click += CloseButton_Click;
             SetTitleBarCornerRadius(WinCornerRadius);
 
             _resizeGrid = GetTemplateChild("PART_ResizeGrid") as Grid;
@@ -77,16 +80,16 @@ namespace H.Framework.WPF.Control.Controls
             }
         }
 
-        private void MoveableRect_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                GetCursorPos(out POINT p);
-                Trace.WriteLine(p.X);
-                Trace.WriteLine(p.Y);
-                Trace.WriteLine(WinState);
-            }
-        }
+        //private void MoveableRect_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    //if (Mouse.LeftButton == MouseButtonState.Pressed)
+        //    //{
+        //    GetCursorPos(out POINT p);
+        //    Trace.WriteLine(p.X);
+        //    Trace.WriteLine(p.Y);
+        //    Trace.WriteLine(WinState);
+        //    //}
+        //}
 
         private void ResizeRectangle_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -108,17 +111,17 @@ namespace H.Framework.WPF.Control.Controls
             }
         }
 
-        public struct POINT
-        {
-            public int X;
-            public int Y;
+        //public struct POINT
+        //{
+        //    public int X;
+        //    public int Y;
 
-            public POINT(int x, int y)
-            {
-                X = x;
-                Y = y;
-            }
-        }
+        //    public POINT(int x, int y)
+        //    {
+        //        X = x;
+        //        Y = y;
+        //    }
+        //}
 
         private void ResizeRectangle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -305,8 +308,8 @@ namespace H.Framework.WPF.Control.Controls
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-        [DllImport("user32.dll")]
-        public static extern bool GetCursorPos(out POINT lpPoint);
+        //[DllImport("user32.dll")]
+        //public static extern bool GetCursorPos(out POINT lpPoint);
 
         private void ResizeWindow(ResizeDirection direction)
         {
@@ -380,7 +383,7 @@ namespace H.Framework.WPF.Control.Controls
             var c = (WindowEx)sender;
             var value = (CornerRadius)e.NewValue;
             c.SetTitleBarCornerRadius(value);
-            c.RectangleRadius = value.TopLeft;
+            //c.RectangleRadius = value.TopLeft;
             c.InnerRadius = new CornerRadius(0, 0, value.BottomRight, value.BottomLeft);
         }
 
@@ -535,18 +538,18 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(WinButtonFGProperty, value);
         }
 
-        public static readonly DependencyProperty RectangleRadiusProperty = DependencyProperty.Register("RectangleRadius", typeof(double), typeof(WindowEx), new UIPropertyMetadata(0.0, null));
+        //public static readonly DependencyProperty RectangleRadiusProperty = DependencyProperty.Register("RectangleRadius", typeof(double), typeof(WindowEx), new UIPropertyMetadata(0.0, null));
 
-        /// <summary>
-        /// RectangleRadius
-        /// </summary>
-        [Description("获取或设置RectangleRadius")]
-        [Category("Defined Properties")]
-        public double RectangleRadius
-        {
-            get => (double)GetValue(RectangleRadiusProperty);
-            set => SetValue(RectangleRadiusProperty, value);
-        }
+        ///// <summary>
+        ///// RectangleRadius
+        ///// </summary>
+        //[Description("获取或设置RectangleRadius")]
+        //[Category("Defined Properties")]
+        //public double RectangleRadius
+        //{
+        //    get => (double)GetValue(RectangleRadiusProperty);
+        //    set => SetValue(RectangleRadiusProperty, value);
+        //}
 
         public static readonly DependencyProperty InnerRadiusProperty = DependencyProperty.Register("InnerRadius", typeof(CornerRadius), typeof(WindowEx), new UIPropertyMetadata(new CornerRadius(0, 0, 0, 0), null));
 

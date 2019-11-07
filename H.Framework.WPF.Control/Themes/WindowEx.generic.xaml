@@ -23,8 +23,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:WindowEx}">
-                    <Grid Name="PART_MainGrid" Margin="10">
-                        <Rectangle
+                    <Grid Name="PART_MainGrid">
+                        <!--<Rectangle
                             Fill="{TemplateBinding Background}"
                             RadiusX="{TemplateBinding RectangleRadius}"
                             RadiusY="{TemplateBinding RectangleRadius}">
@@ -35,23 +35,27 @@
                                     ShadowDepth="0"
                                     Color="#8c8c8c" />
                             </Rectangle.Effect>
-                        </Rectangle>
+                        </Rectangle>-->
 
                         <Border
+                            Margin="5"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding WinBorderBrush}"
                             BorderThickness="{TemplateBinding WinBorderThickness}"
                             CornerRadius="{TemplateBinding WinCornerRadius}">
-                            <!--<Border.Effect>
-                            <DropShadowEffect ShadowDepth="2" />
-                        </Border.Effect>-->
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="8"
+                                    Opacity="0.3"
+                                    ShadowDepth="0"
+                                    Color="#8c8c8c" />
+                            </Border.Effect>
                             <Grid>
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-
                                     <Border
                                         x:Name="PART_MoveableBorder"
                                         Grid.Row="0"

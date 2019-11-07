@@ -8,10 +8,9 @@
     xmlns:local="clr-namespace:H.Framework.WPF.UITest"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="GWindow"
-    Width="609.48"
-    Height="319.138"
+    Width="609"
+    Height="310"
     BorderThickness="0"
-    SizeToContent="Height"
     UseLayoutRounding="True"
     mc:Ignorable="d">
     <extenderWin:ExtendedWindow.FunctionBar>
