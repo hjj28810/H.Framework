@@ -28,6 +28,7 @@ namespace H.Framework.WPF.UITest
         {
             InitializeComponent();
             DataContext = this;
+            var a = "zpp9KHoo/T3XUgQdFfqN+Z01SF66TwnbMzQvMoMP6lqyzJt5fVkJEk1hykMbqlbn".AnalyseToken();
             //ListNode = new ThreadSafeObservableCollection<Node>();
             //ListNode.CollectionChanged += ListNode_CollectionChanged;
             //TestSql.Test();
@@ -253,6 +254,10 @@ namespace H.Framework.WPF.UITest
         private void ButtonEx_Click(object sender, RoutedEventArgs e)
         {
             IsShowTip = false;
+        }
+
+        private void WindowEx_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
         }
     }
 
@@ -595,6 +600,24 @@ namespace H.Framework.WPF.UITest
                 if (req.LastLoginAtFrom.HasValue && req.LastLoginAtTo.HasValue)
                     query = query.WhereAnd((x, y) => y.LastLoginAt > req.LastLoginAtFrom.Value && y.LastLoginAt < req.LastLoginAtTo.Value);
                 var list = GetList(query, 20, 0, "UserStatuss");
+            }
+        }
+    }
+
+    public static class Exten
+    {
+        private const string _tokenPW = "_accessToken";
+        private const string _tokenIV = "AqIm%czX6M20mi8w";
+
+        public static string AnalyseToken(this string original)
+        {
+            try
+            {
+                return HashEncryptHepler.DecryptAESToString(original, _tokenPW, _tokenIV);
+            }
+            catch
+            {
+                return string.Empty;
             }
         }
     }
