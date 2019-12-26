@@ -89,8 +89,9 @@ namespace H.Framework.WPF.Control.Controls
                     break;
 
                 case "PART_LastPageBtn":
-                    if (CurrentPage != (int)_maxPageNubmer)
-                        CurrentPage = (int)_maxPageNubmer;
+                    var max = (int)_maxPageNubmer;
+                    if (CurrentPage != max && max != 0)
+                        CurrentPage = max;
                     break;
 
                 case "PART_NextBtn":

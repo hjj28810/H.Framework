@@ -205,7 +205,7 @@ namespace H.Framework.WPF.UITest
         {
             get;
             set;
-        } = 15;
+        } = 0;
 
         //[Required(ErrorMessage = "sdsadasd")]
         public int PageSize
