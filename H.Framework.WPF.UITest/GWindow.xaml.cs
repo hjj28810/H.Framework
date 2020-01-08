@@ -30,6 +30,9 @@ namespace H.Framework.WPF.UITest
             txt1.Text = nonce;
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
+
+            var 啊 = HashEncryptHepler.EncryptAESToBase64("abcd1234qqqaaazzz222wwwssxx333", "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j", "AqIm%czX6M20mi8w");
+            var 啊1 = HashEncryptHepler.DecryptAESToString(啊, "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j", "AqIm%czX6M20mi8w");
             Trace.WriteLine(int.Parse("001231").ToString());
             //var a = Regex.Matches("asdasd1/9/2019 3:9:9 PM", RegexExtensions.DateTimePattern());
             //            var a = MsgServiceClient.GetUsers();
