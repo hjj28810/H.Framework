@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 
-namespace H.Framework.WPF.Infrastructure.Lists
+namespace H.Framework.Core.List
 {
     /// <summary>
     /// Specialized list implementation that provides data virtualization. The collection is divided up into pages,

@@ -28,7 +28,7 @@ namespace H.Framework.WPF.UITest
         {
             InitializeComponent();
             DataContext = this;
-            var a = "k7KzNC0Cil2gK69qGedQ1tDiHG9NLK86X0Pyh4T0OZrIanR2fATXYmszfpdy3G+i".AnalyseToken();
+            var a = "mfwbQ2zUOSlLW4tjkv0Nwb3Db/0T517ZQ36DeIodbpJKWSYbzXb8WtrNrcTkgPZz".AnalyseToken();
             //ListNode = new ThreadSafeObservableCollection<Node>();
             //ListNode.CollectionChanged += ListNode_CollectionChanged;
             //TestSql.Test();
@@ -205,7 +205,7 @@ namespace H.Framework.WPF.UITest
         {
             get;
             set;
-        } = 0;
+        } = 120;
 
         //[Required(ErrorMessage = "sdsadasd")]
         public int PageSize
@@ -214,7 +214,7 @@ namespace H.Framework.WPF.UITest
             set;
         }
 
-        private int _currentPage;
+        private int _currentPage = 1;
 
         //[Required(ErrorMessage = "sdsadasd")]
         public int CurrentPage
@@ -223,7 +223,7 @@ namespace H.Framework.WPF.UITest
             set
             {
                 _currentPage = value;
-                //OnPropertyChanged("CurrentPage");
+                OnPropertyChanged("CurrentPage");
                 Trace.WriteLine(_currentPage);
             }
         }
@@ -236,6 +236,7 @@ namespace H.Framework.WPF.UITest
         {
             WindowState = WindowState.Minimized;
             IsShowTip = true;
+            CurrentPage = 1;
         }
 
         private bool _isShowTip;
@@ -606,7 +607,7 @@ namespace H.Framework.WPF.UITest
 
     public static class Exten
     {
-        private const string _tokenPW = "_accessToken";
+        private const string _tokenPW = "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j";
         private const string _tokenIV = "AqIm%czX6M20mi8w";
 
         public static string AnalyseToken(this string original)

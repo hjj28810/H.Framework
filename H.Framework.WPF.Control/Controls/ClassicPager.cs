@@ -35,7 +35,7 @@ namespace H.Framework.WPF.Control.Controls
             {
                 _selectedPageSize = value;
                 PageSize = _selectedPageSize.Value;
-                _maxPageNubmer = Math.Ceiling(DataCount / (decimal)PageSize);
+                MaxPageNubmer = (int)Math.Ceiling(DataCount / (decimal)PageSize);
             }
         }
 
@@ -53,7 +53,6 @@ namespace H.Framework.WPF.Control.Controls
 
         private ButtonEx _nextBtn, _previousBtn, _firstPageBtn, _lastPageBtn, _goToBtn;
         private TextBoxEx _pageNumberTxt;
-        private decimal _maxPageNubmer;
 
         private void CreateControl()
         {
@@ -89,21 +88,34 @@ namespace H.Framework.WPF.Control.Controls
                     break;
 
                 case "PART_LastPageBtn":
-                    var max = (int)_maxPageNubmer;
+                    var max = MaxPageNubmer;
                     if (CurrentPage != max && max != 0)
                         CurrentPage = max;
                     break;
 
                 case "PART_NextBtn":
-                    if (CurrentPage < _maxPageNubmer)
+                    if (CurrentPage < MaxPageNubmer)
                         CurrentPage++;
                     break;
 
                 case "PART_GoToBtn":
-                    if (PageNumber <= _maxPageNubmer && PageNumber > 0 && CurrentPage != PageNumber)
+                    if (PageNumber <= MaxPageNubmer && PageNumber > 0 && CurrentPage != PageNumber)
                         CurrentPage = PageNumber;
                     break;
             }
+        }
+
+        public static readonly DependencyProperty MaxPageNubmerProperty = DependencyProperty.Register("MaxPageNubmer", typeof(int), typeof(ClassicPager), new PropertyMetadata(0, null));
+
+        /// <summary>
+        /// 总页数
+        /// </summary>
+        [Description("获取或设置总页数")]
+        [Category("Defined Properties")]
+        public int MaxPageNubmer
+        {
+            get => (int)GetValue(MaxPageNubmerProperty);
+            set => SetValue(MaxPageNubmerProperty, value);
         }
 
         public static readonly DependencyProperty DataCountProperty = DependencyProperty.Register("DataCount", typeof(int), typeof(ClassicPager), new PropertyMetadata(0, OnDataCountPropertyChangedCallback));
@@ -123,7 +135,7 @@ namespace H.Framework.WPF.Control.Controls
         {
             var c = d as ClassicPager;
             var newCount = (int)e.NewValue;
-            c._maxPageNubmer = Math.Ceiling(newCount / (decimal)c.PageSize);
+            c.MaxPageNubmer = (int)Math.Ceiling(newCount / (decimal)c.PageSize);
         }
 
         public static readonly DependencyProperty PageSizeProperty = DependencyProperty.Register("PageSize", typeof(int), typeof(ClassicPager), new FrameworkPropertyMetadata(10, FrameworkPropertyMetadataOptions.None, null, null, false, UpdateSourceTrigger.PropertyChanged));

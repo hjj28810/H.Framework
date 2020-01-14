@@ -739,12 +739,11 @@
         <extender:ClassicPager
             Name="cPager"
             Grid.Row="1"
-            Width="571"
             Margin="99,308,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             BtnMouseOverColor="#2178FF"
-            CurrentPage="{Binding CurrentPage, Mode=OneWayToSource}"
+            CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
             DataCount="{Binding ListCount}"
             Foreground="Red"
             PageSize="{Binding PageSize, Mode=OneWayToSource}" />

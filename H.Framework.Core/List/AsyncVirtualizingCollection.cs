@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace H.Framework.WPF.Infrastructure.Lists
+namespace H.Framework.Core.List
 {
     /// <summary>
     /// Derived VirtualizatingCollection, performing loading asychronously.

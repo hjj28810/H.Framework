@@ -59,11 +59,7 @@
     <Compile Include="Converters\MultiObjectConverter.cs" />
     <Compile Include="Converters\ObjectConverter.cs" />
     <Compile Include="Converters\SimpleMathConverter.cs" />
-    <Compile Include="Lists\AsyncVirtualizingCollection.cs" />
-    <Compile Include="Lists\IItemsProvider.cs" />
     <Compile Include="Lists\ThreadSafeObservableCollection.cs" />
-    <Compile Include="Lists\VirtualizingCollection.cs" />
-    <Compile Include="Lists\VirtualizingObservableCollection.cs" />
     <Compile Include="Mvvm\BasicEntity.cs" />
     <Compile Include="Mvvm\BasicViewModel.cs" />
     <Compile Include="Mvvm\Command\CommandManager.cs" />

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace H.Framework.WPF.Infrastructure.Lists
+namespace H.Framework.Core.List
 {
     public class VirtualizingObservableCollection<T> : ObservableCollection<T>, IList<T>, IList
     {

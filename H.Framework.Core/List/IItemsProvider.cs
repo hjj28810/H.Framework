@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace H.Framework.WPF.Infrastructure.Lists
+namespace H.Framework.Core.List
 {
     public interface IItemsProvider<T>
     {
