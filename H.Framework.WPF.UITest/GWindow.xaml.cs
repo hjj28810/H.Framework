@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using H.Framework.Core.Mapping;
 using H.Framework.Core.Utilities;
 using H.Framework.UMeng.Push;
 using H.Framework.UMeng.Push.Bases;
@@ -31,14 +32,14 @@ namespace H.Framework.WPF.UITest
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
 
-            var 啊 = HashEncryptHepler.EncryptAESToBase64("abcd1234qqqaaazzz222wwwssxx333", "_accessToken", "AqIm%czX6M20mi8w");
-            var 啊1 = HashEncryptHepler.DecryptAESToString(啊, "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j", "AqIm%czX6M20mi8w");
-            Trace.WriteLine(int.Parse("001231").ToString());
+            //var 啊 = HashEncryptHepler.EncryptAESToBase64("abcd1234qqqaaazzz222wwwssxx333", "_accessToken", "AqIm%czX6M20mi8w");
+            //var 啊1 = HashEncryptHepler.DecryptAESToString(啊, "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j", "AqIm%czX6M20mi8w");
+            //Trace.WriteLine(int.Parse("001231").ToString());
             //var a = Regex.Matches("asdasd1/9/2019 3:9:9 PM", RegexExtensions.DateTimePattern());
             //            var a = MsgServiceClient.GetUsers();
             //var b = MsgServiceClient.Send();
             //var c = MsgServiceClient.AddUserLog();
-            //var d = MsgServiceClient.GetUser();
+            var d = MsgServiceClient.GetUser();
             //PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
             //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
             //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
@@ -179,8 +180,8 @@ namespace H.Framework.WPF.UITest
 
         static MsgServiceClient()
         {
-            //_channel = new Channel("127.0.0.1:40001", ChannelCredentials.Insecure);
-            _channel = new Channel("192.168.99.109:40001", ChannelCredentials.Insecure);
+            _channel = new Channel("127.0.0.1:40001", ChannelCredentials.Insecure);
+            //_channel = new Channel("192.168.99.109:40001", ChannelCredentials.Insecure);
             _client = new UserRpcService.UserRpcServiceClient(_channel);
             _client2 = new NotificationRpcService.NotificationRpcServiceClient(_channel);
             _client3 = new UserLogRpcService.UserLogRpcServiceClient(_channel);
@@ -201,6 +202,14 @@ namespace H.Framework.WPF.UITest
             return _client.GetUser(req);
         }
 
+        public static UserResp UpdateUser()
+        {
+            var req = new UserLevelReq();
+            req.Username = "13321952950";
+            req.UserLevel = UserLevel.Vip;
+            return _client.UpdateUserLevel(req);
+        }
+
         public static NotificationResp Send()
         {
             return _client2.Send(new NotificationReq { Username = "13321952950", AliasType = "zeus_user", Type = "ZEUS", IsStock = true, Title = "RPC测试", Content = "RPC测试", Creator = "Rpc" });
@@ -215,5 +224,10 @@ namespace H.Framework.WPF.UITest
         {
             return _client4.Get(new FuturesCompanysReq { Platform = "PC" });
         }
+    }
+
+    public class User
+    {
+        public int Level { get; set; }
     }
 }

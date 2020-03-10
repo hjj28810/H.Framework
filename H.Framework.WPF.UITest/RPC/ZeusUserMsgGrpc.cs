@@ -16,6 +16,7 @@ namespace Zeus.RPC.Protocol {
     static readonly grpc::Marshaller<global::Zeus.RPC.Protocol.UsersResp> __Marshaller_Zeus_RPC_Protocol_UsersResp = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Zeus.RPC.Protocol.UsersResp.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Zeus.RPC.Protocol.UserReq> __Marshaller_Zeus_RPC_Protocol_UserReq = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Zeus.RPC.Protocol.UserReq.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Zeus.RPC.Protocol.UserResp> __Marshaller_Zeus_RPC_Protocol_UserResp = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Zeus.RPC.Protocol.UserResp.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Zeus.RPC.Protocol.UserLevelReq> __Marshaller_Zeus_RPC_Protocol_UserLevelReq = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Zeus.RPC.Protocol.UserLevelReq.Parser.ParseFrom);
 
     static readonly grpc::Method<global::Zeus.RPC.Protocol.UsersReq, global::Zeus.RPC.Protocol.UsersResp> __Method_GetUsers = new grpc::Method<global::Zeus.RPC.Protocol.UsersReq, global::Zeus.RPC.Protocol.UsersResp>(
         grpc::MethodType.Unary,
@@ -29,6 +30,13 @@ namespace Zeus.RPC.Protocol {
         __ServiceName,
         "GetUser",
         __Marshaller_Zeus_RPC_Protocol_UserReq,
+        __Marshaller_Zeus_RPC_Protocol_UserResp);
+
+    static readonly grpc::Method<global::Zeus.RPC.Protocol.UserLevelReq, global::Zeus.RPC.Protocol.UserResp> __Method_UpdateUserLevel = new grpc::Method<global::Zeus.RPC.Protocol.UserLevelReq, global::Zeus.RPC.Protocol.UserResp>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "UpdateUserLevel",
+        __Marshaller_Zeus_RPC_Protocol_UserLevelReq,
         __Marshaller_Zeus_RPC_Protocol_UserResp);
 
     /// <summary>Service descriptor</summary>
@@ -47,6 +55,11 @@ namespace Zeus.RPC.Protocol {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::Zeus.RPC.Protocol.UserResp> GetUser(global::Zeus.RPC.Protocol.UserReq request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::Zeus.RPC.Protocol.UserResp> UpdateUserLevel(global::Zeus.RPC.Protocol.UserLevelReq request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -108,6 +121,22 @@ namespace Zeus.RPC.Protocol {
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetUser, null, options, request);
       }
+      public virtual global::Zeus.RPC.Protocol.UserResp UpdateUserLevel(global::Zeus.RPC.Protocol.UserLevelReq request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return UpdateUserLevel(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::Zeus.RPC.Protocol.UserResp UpdateUserLevel(global::Zeus.RPC.Protocol.UserLevelReq request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_UpdateUserLevel, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Zeus.RPC.Protocol.UserResp> UpdateUserLevelAsync(global::Zeus.RPC.Protocol.UserLevelReq request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return UpdateUserLevelAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Zeus.RPC.Protocol.UserResp> UpdateUserLevelAsync(global::Zeus.RPC.Protocol.UserLevelReq request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_UpdateUserLevel, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override UserRpcServiceClient NewInstance(ClientBaseConfiguration configuration)
       {
@@ -121,7 +150,8 @@ namespace Zeus.RPC.Protocol {
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_GetUsers, serviceImpl.GetUsers)
-          .AddMethod(__Method_GetUser, serviceImpl.GetUser).Build();
+          .AddMethod(__Method_GetUser, serviceImpl.GetUser)
+          .AddMethod(__Method_UpdateUserLevel, serviceImpl.UpdateUserLevel).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -132,6 +162,7 @@ namespace Zeus.RPC.Protocol {
     {
       serviceBinder.AddMethod(__Method_GetUsers, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Zeus.RPC.Protocol.UsersReq, global::Zeus.RPC.Protocol.UsersResp>(serviceImpl.GetUsers));
       serviceBinder.AddMethod(__Method_GetUser, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Zeus.RPC.Protocol.UserReq, global::Zeus.RPC.Protocol.UserResp>(serviceImpl.GetUser));
+      serviceBinder.AddMethod(__Method_UpdateUserLevel, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Zeus.RPC.Protocol.UserLevelReq, global::Zeus.RPC.Protocol.UserResp>(serviceImpl.UpdateUserLevel));
     }
 
   }

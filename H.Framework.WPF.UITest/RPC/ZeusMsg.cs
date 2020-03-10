@@ -29,19 +29,20 @@ namespace Zeus.RPC.Protocol {
             "b25zZUNvZGUSCwoDbXNnGAIgASgJEhMKC3NlcnZlcl90aW1lGAMgASgDKjQK",
             "DFJlc3BvbnNlQ29kZRILCgdpbnZhbGlkEAASDAoHc3VjY2VzcxDIARIJCgRm",
             "YWlsEPQDKjQKCFBsYXRmb3JtEgYKAnBjEAASBwoDaW9zEAESCwoHYW5kcm9p",
-            "ZBACEgoKBnNlcnZlchADKp4DCgtUcmFkZUFjdGlvbhIJCgVsb2dpbhAAEgoK",
-            "BmxvZ291dBABEhAKDGJhbmtfYmFsYW5jZRACEhMKD2FjY291bnRfYmFsYW5j",
-            "ZRADEhMKD2JhbmtfdG9fZnV0dXJlcxAEEhMKD2Z1dHVyZXNfdG9fYmFuaxAF",
-            "EhIKDmNyZWF0ZV9wb3N0aW9uEAYSEQoNY2xvc2VfcG9zdGlvbhAHEhgKFGNs",
-            "b3NlX3RvZGF5ZV9wb3N0aW9uEAgSEAoMY2FuY2VsX29yZGVyEAkSDAoIYmFj",
-            "a2hhbmQQChIZChVjcmVhdGVfc3RvcHByb2ZpdGxvc3MQCxIZChVkZWxldGVf",
-            "c3RvcHByb2ZpdGxvc3MQDBIZChV1cGRhdGVfc3RvcHByb2ZpdGxvc3MQDRIa",
-            "ChZ0cmlnZ2VyX3N0b3Bwcm9maXRsb3NzEA4SEgoOY3JlYXRlX3dhcm5pbmcQ",
-            "DxISCg5kZWxldGVfd2FybmluZxAQEhIKDnVwZGF0ZV93YXJuaW5nEBESEwoP",
-            "dHJpZ2dlcl93YXJuaW5nEBISCAoEZGVhbBATYgZwcm90bzM="));
+            "ZBACEgoKBnNlcnZlchADKiAKCVVzZXJMZXZlbBIKCgZub3JtYWwQABIHCgN2",
+            "aXAQASqeAwoLVHJhZGVBY3Rpb24SCQoFbG9naW4QABIKCgZsb2dvdXQQARIQ",
+            "CgxiYW5rX2JhbGFuY2UQAhITCg9hY2NvdW50X2JhbGFuY2UQAxITCg9iYW5r",
+            "X3RvX2Z1dHVyZXMQBBITCg9mdXR1cmVzX3RvX2JhbmsQBRISCg5jcmVhdGVf",
+            "cG9zdGlvbhAGEhEKDWNsb3NlX3Bvc3Rpb24QBxIYChRjbG9zZV90b2RheWVf",
+            "cG9zdGlvbhAIEhAKDGNhbmNlbF9vcmRlchAJEgwKCGJhY2toYW5kEAoSGQoV",
+            "Y3JlYXRlX3N0b3Bwcm9maXRsb3NzEAsSGQoVZGVsZXRlX3N0b3Bwcm9maXRs",
+            "b3NzEAwSGQoVdXBkYXRlX3N0b3Bwcm9maXRsb3NzEA0SGgoWdHJpZ2dlcl9z",
+            "dG9wcHJvZml0bG9zcxAOEhIKDmNyZWF0ZV93YXJuaW5nEA8SEgoOZGVsZXRl",
+            "X3dhcm5pbmcQEBISCg51cGRhdGVfd2FybmluZxAREhMKD3RyaWdnZXJfd2Fy",
+            "bmluZxASEggKBGRlYWwQE2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Zeus.RPC.Protocol.ResponseCode), typeof(global::Zeus.RPC.Protocol.Platform), typeof(global::Zeus.RPC.Protocol.TradeAction), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Zeus.RPC.Protocol.ResponseCode), typeof(global::Zeus.RPC.Protocol.Platform), typeof(global::Zeus.RPC.Protocol.UserLevel), typeof(global::Zeus.RPC.Protocol.TradeAction), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.BaseResponse), global::Zeus.RPC.Protocol.BaseResponse.Parser, new[]{ "Code", "Msg", "ServerTime" }, null, null, null)
           }));
     }
@@ -60,6 +61,11 @@ namespace Zeus.RPC.Protocol {
     [pbr::OriginalName("ios")] Ios = 1,
     [pbr::OriginalName("android")] Android = 2,
     [pbr::OriginalName("server")] Server = 3,
+  }
+
+  public enum UserLevel {
+    [pbr::OriginalName("normal")] Normal = 0,
+    [pbr::OriginalName("vip")] Vip = 1,
   }
 
   public enum TradeAction {
