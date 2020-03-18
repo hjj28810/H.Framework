@@ -14,6 +14,7 @@
     Width="820"
     Height="566"
     Loaded="Window_Loaded"
+    LoadingBG="Red"
     PreviewMouseUp="WindowEx_PreviewMouseUp"
     ShowLoading="False"
     TitleBorderThickness="0,0,0,1"
@@ -683,6 +684,8 @@
             Background="SkyBlue"
             BorderCornerRadius="5"
             BorderThickness="0"
+            ErrorBackground="blue"
+            ErrorText="sdasdad"
             Text="{Binding TestText, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             TextWrapping="Wrap" />
 
@@ -708,9 +711,10 @@
             Padding="10,0"
             VerticalAlignment="Top"
             VerticalContentAlignment="Center"
-            Background="White"
+            Background="red"
             BorderThickness="1"
             DropArrowColor="#32323C"
+            DropBG="Aqua"
             FontWeight="Light"
             Foreground="Red"
             ItemContainerStyle="{StaticResource ComboBoxItemStyle}"

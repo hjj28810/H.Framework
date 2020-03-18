@@ -538,6 +538,19 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(WinButtonFGProperty, value);
         }
 
+        public static readonly DependencyProperty LoadingBGProperty = DependencyProperty.Register("LoadingBG", typeof(Brush), typeof(WindowEx), new UIPropertyMetadata(new SolidColorBrush(Colors.White), null));
+
+        /// <summary>
+        /// Loading背景色
+        /// </summary>
+        [Description("获取或设置Loading背景色")]
+        [Category("Defined Properties")]
+        public Brush LoadingBG
+        {
+            get => (Brush)GetValue(LoadingBGProperty);
+            set => SetValue(LoadingBGProperty, value);
+        }
+
         //public static readonly DependencyProperty RectangleRadiusProperty = DependencyProperty.Register("RectangleRadius", typeof(double), typeof(WindowEx), new UIPropertyMetadata(0.0, null));
 
         ///// <summary>

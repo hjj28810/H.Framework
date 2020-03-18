@@ -113,7 +113,7 @@
                                         Grid.Row="1"
                                         Panel.ZIndex="999"
                                         AnimationColor="#2178FF"
-                                        Background="White"
+                                        Background="{TemplateBinding LoadingBG}"
                                         ShowUp="{TemplateBinding ShowLoading,
                                                                  Converter={StaticResource objConverter},
                                                                  ConverterParameter=true:Visible:Collapsed}" />

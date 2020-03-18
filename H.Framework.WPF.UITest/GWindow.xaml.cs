@@ -37,9 +37,9 @@ namespace H.Framework.WPF.UITest
             //Trace.WriteLine(int.Parse("001231").ToString());
             //var a = Regex.Matches("asdasd1/9/2019 3:9:9 PM", RegexExtensions.DateTimePattern());
             //            var a = MsgServiceClient.GetUsers();
-            //var b = MsgServiceClient.Send();
+            //var b = MsgServiceClient.UpdateUser();
             //var c = MsgServiceClient.AddUserLog();
-            var d = MsgServiceClient.GetUser();
+            //var d = MsgServiceClient.GetUser();
             //PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
             //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
             //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
@@ -212,7 +212,7 @@ namespace H.Framework.WPF.UITest
 
         public static NotificationResp Send()
         {
-            return _client2.Send(new NotificationReq { Username = "13321952950", AliasType = "zeus_user", Type = "ZEUS", IsStock = true, Title = "RPC测试", Content = "RPC测试", Creator = "Rpc" });
+            return _client2.SendAll(new NotificationAllReq { Type = "ZEUS", IsStock = false, IsNotify = false, Title = "RPC测试", Content = "RPC测试", Creator = "Rpc" });
         }
 
         public static UserLogResp AddUserLog()

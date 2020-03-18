@@ -40,7 +40,7 @@
                             x:Name="DropDownBorder"
                             Margin="6"
                             Padding="0,5"
-                            Background="White"
+                            Background="{Binding DropBG, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                             BorderThickness="0"
                             ClipToBounds="False"
                             CornerRadius="5">
@@ -243,6 +243,7 @@
                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        CaretBrush="Red"
                         FontFamily="{TemplateBinding FontFamily}"
                         FontSize="{TemplateBinding FontSize}"
                         FontWeight="{TemplateBinding FontWeight}"

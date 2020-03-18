@@ -19,7 +19,7 @@
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                         <Style TargetType="{x:Type local:ButtonEx}">
-                            <Setter Property="Background" Value="#F6F6FA" />
+                            <Setter Property="Background" Value="{Binding ButtonBG, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                             <Setter Property="Width" Value="48" />
                             <Setter Property="Height" Value="{Binding Height, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                             <Setter Property="Corner" Value="5" />
@@ -44,11 +44,12 @@
                             Margin="10,0"
                             VerticalAlignment="Center"
                             VerticalContentAlignment="Center"
-                            Background="White"
+                            Background="{TemplateBinding ComboBoxBG}"
                             BorderBrush="#9BA0AA"
                             BorderCornerRadius="5"
                             BorderThickness="1"
                             DisplayMemberPath="Key"
+                            DropBG="{TemplateBinding ComboBoxDropBG}"
                             FontSize="{TemplateBinding FontSize}"
                             Foreground="{TemplateBinding Foreground}"
                             ItemsSource="{Binding ListPageSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"

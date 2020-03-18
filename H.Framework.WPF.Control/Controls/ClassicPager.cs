@@ -197,5 +197,44 @@ namespace H.Framework.WPF.Control.Controls
         {
             RaiseEvent(new RoutedPropertyChangedEventArgs<object>(oldValue, newValue, PageIndexChangedEvent));
         }
+
+        public static readonly DependencyProperty ButtonBGProperty = DependencyProperty.Register("ButtonBG", typeof(Brush), typeof(ClassicPager), new UIPropertyMetadata(new SolidColorBrush(Colors.White), null));
+
+        /// <summary>
+        /// 按钮背景色
+        /// </summary>
+        [Description("获取或设置按钮背景色")]
+        [Category("Defined Properties")]
+        public Brush ButtonBG
+        {
+            get => (Brush)GetValue(ButtonBGProperty);
+            set => SetValue(ButtonBGProperty, value);
+        }
+
+        public static readonly DependencyProperty ComboBoxBGProperty = DependencyProperty.Register("ComboBoxBG", typeof(Brush), typeof(ClassicPager), new UIPropertyMetadata(new SolidColorBrush(Colors.White), null));
+
+        /// <summary>
+        /// 下拉背景色
+        /// </summary>
+        [Description("获取或设置下拉背景色")]
+        [Category("Defined Properties")]
+        public Brush ComboBoxBG
+        {
+            get => (Brush)GetValue(ComboBoxBGProperty);
+            set => SetValue(ComboBoxBGProperty, value);
+        }
+
+        public static readonly DependencyProperty ComboBoxDropBGProperty = DependencyProperty.Register("ComboBoxDropBG", typeof(Brush), typeof(ClassicPager), new UIPropertyMetadata(new SolidColorBrush(Colors.White), null));
+
+        /// <summary>
+        /// 下拉背景色
+        /// </summary>
+        [Description("获取或设置下拉背景色")]
+        [Category("Defined Properties")]
+        public Brush ComboBoxDropBG
+        {
+            get => (Brush)GetValue(ComboBoxDropBGProperty);
+            set => SetValue(ComboBoxDropBGProperty, value);
+        }
     }
 }

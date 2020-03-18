@@ -93,6 +93,11 @@ namespace H.Framework.Data.ORM.Foundations
             return Fabricate.GetTable(CommandType.Text, sqlText, param).ToList<T>();
         }
 
+        public int ExecuteNonQuerySQL(string sqlText, params MySqlParameter[] param)
+        {
+            return Fabricate.ExecuteNonQuery(CommandType.Text, sqlText, param);
+        }
+
         public int Count(Expression<Func<TModel, bool>> whereSelector)
         {
             var arr = MySQLUtility.ExecuteParm(whereSelector, "");

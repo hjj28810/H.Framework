@@ -25,29 +25,29 @@ namespace Zeus.RPC.Protocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChN6ZXVzX3VzZXJfbXNnLnByb3RvEhFaZXVzLlJQQy5Qcm90b2NvbBoOemV1",
-            "c19tc2cucHJvdG8ilAEKB1VzZXJEVE8SDwoHdXNlcl9pZBgBIAEoBRIQCgh1",
+            "c19tc2cucHJvdG8irgEKB1VzZXJEVE8SDwoHdXNlcl9pZBgBIAEoBRIQCgh1",
             "c2VybmFtZRgCIAEoCRIQCghuaWNrbmFtZRgDIAEoCRINCgVwaG90bxgEIAEo",
             "CRITCgtkZXNjcmlwdGlvbhgFIAEoCRIwCgp1c2VyX2xldmVsGAYgASgOMhwu",
-            "WmV1cy5SUEMuUHJvdG9jb2wuVXNlckxldmVsIlEKB1VzZXJSZXESEAoIdXNl",
-            "cm5hbWUYASABKAkSEAoIbmlja25hbWUYAiABKAkSDQoFcGhvdG8YAyABKAkS",
-            "EwoLZGVzY3JpcHRpb24YBCABKAkiUgoMVXNlckxldmVsUmVxEhAKCHVzZXJu",
-            "YW1lGAEgASgJEjAKCnVzZXJfbGV2ZWwYAiABKA4yHC5aZXVzLlJQQy5Qcm90",
-            "b2NvbC5Vc2VyTGV2ZWwiYwoIVXNlclJlc3ASLQoEcmVzcBgBIAEoCzIfLlpl",
-            "dXMuUlBDLlByb3RvY29sLkJhc2VSZXNwb25zZRIoCgR1c2VyGAIgASgLMhou",
-            "WmV1cy5SUEMuUHJvdG9jb2wuVXNlckRUTyIbCghVc2Vyc1JlcRIPCgd1c2Vy",
-            "SURzGAEgAygFImUKCVVzZXJzUmVzcBItCgRyZXNwGAEgASgLMh8uWmV1cy5S",
-            "UEMuUHJvdG9jb2wuQmFzZVJlc3BvbnNlEikKBXVzZXJzGAIgAygLMhouWmV1",
-            "cy5SUEMuUHJvdG9jb2wuVXNlckRUTzLyAQoOVXNlclJwY1NlcnZpY2USRwoI",
-            "R2V0VXNlcnMSGy5aZXVzLlJQQy5Qcm90b2NvbC5Vc2Vyc1JlcRocLlpldXMu",
-            "UlBDLlByb3RvY29sLlVzZXJzUmVzcCIAEkQKB0dldFVzZXISGi5aZXVzLlJQ",
-            "Qy5Qcm90b2NvbC5Vc2VyUmVxGhsuWmV1cy5SUEMuUHJvdG9jb2wuVXNlclJl",
-            "c3AiABJRCg9VcGRhdGVVc2VyTGV2ZWwSHy5aZXVzLlJQQy5Qcm90b2NvbC5V",
-            "c2VyTGV2ZWxSZXEaGy5aZXVzLlJQQy5Qcm90b2NvbC5Vc2VyUmVzcCIAYgZw",
-            "cm90bzM="));
+            "WmV1cy5SUEMuUHJvdG9jb2wuVXNlckxldmVsEhgKEGxldmVsX3VwZGF0ZWRf",
+            "YXQYByABKAkiUQoHVXNlclJlcRIQCgh1c2VybmFtZRgBIAEoCRIQCghuaWNr",
+            "bmFtZRgCIAEoCRINCgVwaG90bxgDIAEoCRITCgtkZXNjcmlwdGlvbhgEIAEo",
+            "CSJSCgxVc2VyTGV2ZWxSZXESEAoIdXNlcm5hbWUYASABKAkSMAoKdXNlcl9s",
+            "ZXZlbBgCIAEoDjIcLlpldXMuUlBDLlByb3RvY29sLlVzZXJMZXZlbCJjCghV",
+            "c2VyUmVzcBItCgRyZXNwGAEgASgLMh8uWmV1cy5SUEMuUHJvdG9jb2wuQmFz",
+            "ZVJlc3BvbnNlEigKBHVzZXIYAiABKAsyGi5aZXVzLlJQQy5Qcm90b2NvbC5V",
+            "c2VyRFRPIhsKCFVzZXJzUmVxEg8KB3VzZXJJRHMYASADKAUiZQoJVXNlcnNS",
+            "ZXNwEi0KBHJlc3AYASABKAsyHy5aZXVzLlJQQy5Qcm90b2NvbC5CYXNlUmVz",
+            "cG9uc2USKQoFdXNlcnMYAiADKAsyGi5aZXVzLlJQQy5Qcm90b2NvbC5Vc2Vy",
+            "RFRPMvIBCg5Vc2VyUnBjU2VydmljZRJHCghHZXRVc2VycxIbLlpldXMuUlBD",
+            "LlByb3RvY29sLlVzZXJzUmVxGhwuWmV1cy5SUEMuUHJvdG9jb2wuVXNlcnNS",
+            "ZXNwIgASRAoHR2V0VXNlchIaLlpldXMuUlBDLlByb3RvY29sLlVzZXJSZXEa",
+            "Gy5aZXVzLlJQQy5Qcm90b2NvbC5Vc2VyUmVzcCIAElEKD1VwZGF0ZVVzZXJM",
+            "ZXZlbBIfLlpldXMuUlBDLlByb3RvY29sLlVzZXJMZXZlbFJlcRobLlpldXMu",
+            "UlBDLlByb3RvY29sLlVzZXJSZXNwIgBiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Zeus.RPC.Protocol.ZeusMsgReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UserDTO), global::Zeus.RPC.Protocol.UserDTO.Parser, new[]{ "UserId", "Username", "Nickname", "Photo", "Description", "UserLevel" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UserDTO), global::Zeus.RPC.Protocol.UserDTO.Parser, new[]{ "UserId", "Username", "Nickname", "Photo", "Description", "UserLevel", "LevelUpdatedAt" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UserReq), global::Zeus.RPC.Protocol.UserReq.Parser, new[]{ "Username", "Nickname", "Photo", "Description" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UserLevelReq), global::Zeus.RPC.Protocol.UserLevelReq.Parser, new[]{ "Username", "UserLevel" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UserResp), global::Zeus.RPC.Protocol.UserResp.Parser, new[]{ "Resp", "User" }, null, null, null),
@@ -93,6 +93,7 @@ namespace Zeus.RPC.Protocol {
       photo_ = other.photo_;
       description_ = other.description_;
       userLevel_ = other.userLevel_;
+      levelUpdatedAt_ = other.levelUpdatedAt_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -185,6 +186,20 @@ namespace Zeus.RPC.Protocol {
       }
     }
 
+    /// <summary>Field number for the "level_updated_at" field.</summary>
+    public const int LevelUpdatedAtFieldNumber = 7;
+    private string levelUpdatedAt_ = "";
+    /// <summary>
+    /// 级别更新时间
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string LevelUpdatedAt {
+      get { return levelUpdatedAt_; }
+      set {
+        levelUpdatedAt_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as UserDTO);
@@ -204,6 +219,7 @@ namespace Zeus.RPC.Protocol {
       if (Photo != other.Photo) return false;
       if (Description != other.Description) return false;
       if (UserLevel != other.UserLevel) return false;
+      if (LevelUpdatedAt != other.LevelUpdatedAt) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -216,6 +232,7 @@ namespace Zeus.RPC.Protocol {
       if (Photo.Length != 0) hash ^= Photo.GetHashCode();
       if (Description.Length != 0) hash ^= Description.GetHashCode();
       if (UserLevel != 0) hash ^= UserLevel.GetHashCode();
+      if (LevelUpdatedAt.Length != 0) hash ^= LevelUpdatedAt.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -253,6 +270,10 @@ namespace Zeus.RPC.Protocol {
         output.WriteRawTag(48);
         output.WriteEnum((int) UserLevel);
       }
+      if (LevelUpdatedAt.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(LevelUpdatedAt);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -278,6 +299,9 @@ namespace Zeus.RPC.Protocol {
       }
       if (UserLevel != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) UserLevel);
+      }
+      if (LevelUpdatedAt.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(LevelUpdatedAt);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -307,6 +331,9 @@ namespace Zeus.RPC.Protocol {
       }
       if (other.UserLevel != 0) {
         UserLevel = other.UserLevel;
+      }
+      if (other.LevelUpdatedAt.Length != 0) {
+        LevelUpdatedAt = other.LevelUpdatedAt;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -341,6 +368,10 @@ namespace Zeus.RPC.Protocol {
           }
           case 48: {
             UserLevel = (global::Zeus.RPC.Protocol.UserLevel) input.ReadEnum();
+            break;
+          }
+          case 58: {
+            LevelUpdatedAt = input.ReadString();
             break;
           }
         }

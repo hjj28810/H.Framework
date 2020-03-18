@@ -90,6 +90,19 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(SelectionItemTemplateProperty, value);
         }
 
+        public static readonly DependencyProperty DropBGProperty = DependencyProperty.Register("DropBG", typeof(Brush), typeof(ComboBoxEx), new UIPropertyMetadata(new SolidColorBrush(Colors.White), null));
+
+        /// <summary>
+        /// 下拉背景色
+        /// </summary>
+        [Description("获取或设置下拉背景色")]
+        [Category("Defined Properties")]
+        public Brush DropBG
+        {
+            get => (Brush)GetValue(DropBGProperty);
+            set => SetValue(DropBGProperty, value);
+        }
+
         #endregion Properties
 
         #region Constructors

@@ -204,6 +204,34 @@ namespace H.Framework.Data.ORM
             }
         }
 
+        public int ExecuteNonQuery(CommandType commandType, string sqlText, params MySqlParameter[] param)
+        {
+            Trace.WriteLine(ConnectStr);
+            Trace.WriteLine(sqlText);
+            var result = 0;
+            using (var conn = new MySqlConnection(ConnectStr))
+            {
+                conn.Open();
+                using (var cmd = new MySqlCommand(sqlText, conn))
+                {
+                    try
+                    {
+                        cmd.CommandType = commandType;
+                        if (param != null)
+                            cmd.Parameters.AddRange(param);
+                        result = cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine("错误sql:" + sqlText);
+                        Trace.WriteLine("错误信息:" + e.Message);
+                        throw e;
+                    }
+                }
+            }
+            return result;
+        }
+
         public string ExecuteReader(CommandType commandType, string sqlText, params MySqlParameter[] param)
         {
             Trace.WriteLine(ConnectStr);

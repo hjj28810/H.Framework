@@ -77,10 +77,9 @@ namespace H.Framework.WPF.Infrastructure.Utilities
                 myBitmapImage.EndInit();
                 if (isFile)
                 {
-                    myBitmapImage.Freeze();
-                    ms?.Close();
                     ms?.Dispose();
                 }
+                myBitmapImage.Freeze();
                 image.Source = myBitmapImage;
                 image.Height = (myBitmapImage.Height / 3) < 10 ? 100 : myBitmapImage.Height / 3;
                 image.Width = (myBitmapImage.Width / 3) < 10 ? 100 : myBitmapImage.Width / 3;
