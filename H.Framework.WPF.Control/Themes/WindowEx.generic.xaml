@@ -48,7 +48,7 @@
                                     BlurRadius="8"
                                     Opacity="0.3"
                                     ShadowDepth="0"
-                                    Color="#8c8c8c" />
+                                    Color="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=WinShadowColor.Color}" />
                             </Border.Effect>
                             <Grid>
                                 <Grid>

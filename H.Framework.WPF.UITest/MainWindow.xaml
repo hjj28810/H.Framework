@@ -19,6 +19,7 @@
     ShowLoading="False"
     TitleBorderThickness="0,0,0,1"
     WinCornerRadius="10"
+    WinShadowColor="Yellow"
     mc:Ignorable="d">
     <Window.Resources>
         <extenalConvert:ObjectConverter x:Key="objConverter" />

@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -588,6 +589,19 @@ namespace H.Framework.WPF.Control.Controls
         {
             get => (bool)GetValue(HideTitleBarProperty);
             set => SetValue(HideTitleBarProperty, value);
+        }
+
+        public static readonly DependencyProperty WinShadowColorProperty = DependencyProperty.Register("WinShadowColor", typeof(Brush), typeof(WindowEx), new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(140, 140, 140)), null));
+
+        /// <summary>
+        /// 窗体阴影颜色
+        /// </summary>
+        [Description("获取或设置是否隐藏WinShadowColor")]
+        [Category("Defined Properties")]
+        public Brush WinShadowColor
+        {
+            get => (Brush)GetValue(WinShadowColorProperty);
+            set => SetValue(WinShadowColorProperty, value);
         }
     }
 
