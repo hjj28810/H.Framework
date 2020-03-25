@@ -21,9 +21,19 @@ namespace H.Framework.Data.ORM.Foundations
 
         void DeleteLogic(string id);
 
+        Task<int> DeleteAsync(string id);
+
+        Task<int> DeleteAsync(List<string> ids);
+
+        Task<int> DeleteLogicAsync(string id);
+
         void Update(List<TViewModel> list, string include = "");
 
         void Update(TViewModel model, string include = "");
+
+        Task<int> UpdateAsync(List<TViewModel> list, string include = "");
+
+        Task<int> UpdateAsync(TViewModel model, string include = "");
 
         TViewModel Get(Expression<Func<TViewModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null);
 

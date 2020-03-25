@@ -61,6 +61,33 @@ namespace H.Framework.Data.ORM.Foundations
             DAL.DeleteLogic(new TModel { ID = id });
         }
 
+        public async virtual Task<int> DeleteAsync(string id)
+        {
+            return await Task.Run(() =>
+            {
+                Delete(id);
+                return 0;
+            });
+        }
+
+        public async virtual Task<int> DeleteAsync(List<string> ids)
+        {
+            return await Task.Run(() =>
+            {
+                Delete(ids);
+                return 0;
+            });
+        }
+
+        public async virtual Task<int> DeleteLogicAsync(string id)
+        {
+            return await Task.Run(() =>
+            {
+                DeleteLogic(id);
+                return 0;
+            });
+        }
+
         public virtual void Update(List<TViewModel> list, string include = "")
         {
             Update(list, Selector, include);
@@ -69,6 +96,22 @@ namespace H.Framework.Data.ORM.Foundations
         public virtual void Update(TViewModel model, string include = "")
         {
             Update(new List<TViewModel> { model }, Selector, include);
+        }
+
+        public async virtual Task<int> UpdateAsync(List<TViewModel> list, string include = "")
+        {
+            return await Task.Run(() =>
+            {
+                Update(list, include); return 0;
+            });
+        }
+
+        public async virtual Task<int> UpdateAsync(TViewModel model, string include = "")
+        {
+            return await Task.Run(() =>
+            {
+                Update(new List<TViewModel> { model }, include); return 0;
+            });
         }
 
         protected void Update(List<TViewModel> list, Func<TViewModel, TModel> selector, string include = "")
