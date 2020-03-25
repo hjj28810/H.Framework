@@ -110,7 +110,7 @@ namespace H.Framework.Data.ORM.Foundations
         {
             return await Task.Run(() =>
             {
-                Update(new List<TViewModel> { model }, include); return 0;
+                Update(model, include); return 0;
             });
         }
 
