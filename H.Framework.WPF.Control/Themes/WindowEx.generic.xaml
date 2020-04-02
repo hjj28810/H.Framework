@@ -38,7 +38,9 @@
                         </Rectangle>-->
 
                         <Border
-                            Margin="5"
+                            Margin="{TemplateBinding WinState,
+                                                     Converter={StaticResource objConverter},
+                                                     ConverterParameter=2:0:5}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding WinBorderBrush}"
                             BorderThickness="{TemplateBinding WinBorderThickness}"
