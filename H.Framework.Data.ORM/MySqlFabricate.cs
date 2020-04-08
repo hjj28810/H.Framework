@@ -166,14 +166,15 @@ namespace H.Framework.Data.ORM
                 //    new MySqlDataAdapter(cmd).Fill(set);
                 //    return set;
                 //}
-
-                var adapter = new MySqlDataAdapter(sqlText, conn);
-                adapter.SelectCommand.CommandType = CommandType.Text;
-                if (param != null)
-                    adapter.SelectCommand.Parameters.AddRange(param);
-                var ds = new DataTable();
-                adapter.Fill(ds);
-                return ds;
+                using (var adapter = new MySqlDataAdapter(sqlText, conn))
+                {
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    if (param != null)
+                        adapter.SelectCommand.Parameters.AddRange(param);
+                    var ds = new DataTable();
+                    adapter.Fill(ds);
+                    return ds;
+                }
             }
         }
 
