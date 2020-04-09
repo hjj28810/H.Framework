@@ -236,5 +236,18 @@ namespace H.Framework.WPF.Control.Controls
             get => (Brush)GetValue(ComboBoxDropBGProperty);
             set => SetValue(ComboBoxDropBGProperty, value);
         }
+
+        public static readonly DependencyProperty ComboBoxDropShadowProperty = DependencyProperty.Register("ComboBoxDropShadow", typeof(Brush), typeof(ClassicPager), new UIPropertyMetadata(new SolidColorBrush(Colors.White), null));
+
+        /// <summary>
+        /// 下拉阴影色
+        /// </summary>
+        [Description("获取或设置下拉阴影色")]
+        [Category("Defined Properties")]
+        public Brush ComboBoxDropShadow
+        {
+            get => (Brush)GetValue(ComboBoxDropShadowProperty);
+            set => SetValue(ComboBoxDropShadowProperty, value);
+        }
     }
 }

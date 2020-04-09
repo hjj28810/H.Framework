@@ -50,6 +50,7 @@
                             BorderThickness="1"
                             DisplayMemberPath="Key"
                             DropBG="{TemplateBinding ComboBoxDropBG}"
+                            DropShadow="{TemplateBinding ComboBoxDropShadow}"
                             FontSize="{TemplateBinding FontSize}"
                             Foreground="{TemplateBinding Foreground}"
                             ItemsSource="{Binding ListPageSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"

@@ -103,6 +103,19 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(DropBGProperty, value);
         }
 
+        public static readonly DependencyProperty DropShadowProperty = DependencyProperty.Register("DropShadow", typeof(Brush), typeof(ComboBoxEx), new UIPropertyMetadata(new SolidColorBrush(Colors.White), null));
+
+        /// <summary>
+        /// 下拉阴影色
+        /// </summary>
+        [Description("获取或设置下拉阴影色")]
+        [Category("Defined Properties")]
+        public Brush DropShadow
+        {
+            get => (Brush)GetValue(DropShadowProperty);
+            set => SetValue(DropShadowProperty, value);
+        }
+
         #endregion Properties
 
         #region Constructors
