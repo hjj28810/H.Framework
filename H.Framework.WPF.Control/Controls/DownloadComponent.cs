@@ -204,7 +204,21 @@ namespace H.Framework.WPF.Control.Controls
                     ContextMenu = GetOpenMenu();
             }
             else
+            {
+                if (ContextMenu?.Items?.Count > 0)
+                {
+                    foreach (var item in ContextMenu.Items)
+                    {
+                        if (item is MenuItem)
+                        {
+                            var menuItem = item as MenuItem;
+                            menuItem.Click -= MenuSaveItem_Click;
+                        }
+                    }
+                }
+                ContextMenu?.Items?.Clear();
                 ContextMenu = null;
+            }
         }
 
         private ContextMenu GetSaveMenu()
@@ -221,6 +235,7 @@ namespace H.Framework.WPF.Control.Controls
         {
             var menuItem = new MenuItem();
             menuItem.Header = "打开";
+            menuItem.Click -= MenuOpenItem_Click;
             menuItem.Click += MenuOpenItem_Click;
             var context = new ContextMenu();
             context.Items.Add(menuItem);

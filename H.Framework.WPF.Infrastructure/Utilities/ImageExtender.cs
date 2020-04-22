@@ -60,7 +60,7 @@ namespace H.Framework.WPF.Infrastructure.Utilities
                 var image = (Image)sender;
                 var myBitmapImage = new BitmapImage();
                 myBitmapImage.BeginInit();
-                var uri = e.NewValue.ToString();
+                var uri = e.NewValue?.ToString();
                 MemoryStream ms = null;
                 var isFile = File.Exists(uri);
                 if (isFile)

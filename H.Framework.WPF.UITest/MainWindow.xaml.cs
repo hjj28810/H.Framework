@@ -28,7 +28,7 @@ namespace H.Framework.WPF.UITest
         {
             InitializeComponent();
             DataContext = this;
-            var a = "mfwbQ2zUOSlLW4tjkv0Nwb3Db/0T517ZQ36DeIodbpJKWSYbzXb8WtrNrcTkgPZz".AnalyseToken();
+            var a = "PuQLnpgUo3wdi7AZ2TmoOW/metEIEb8llmHAkz/pPQHnCF3BCBZ4ZTsgxrUdX7AE".AnalyseToken();
             //ListNode = new ThreadSafeObservableCollection<Node>();
             //ListNode.CollectionChanged += ListNode_CollectionChanged;
             //TestSql.Test();

@@ -81,7 +81,7 @@ namespace H.Framework.WPF.Control.Controls
         {
             if (string.IsNullOrEmpty(rtf))
             {
-                throw new ArgumentNullException();
+                return;
             }
             TextRange textRange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
             using (MemoryStream rtfMemoryStream = new MemoryStream())
