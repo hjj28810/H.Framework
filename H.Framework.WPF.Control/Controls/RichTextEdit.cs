@@ -60,7 +60,7 @@ namespace H.Framework.WPF.Control.Controls
             if (e.NewValue == null)
                 return;
             var rtbx = d as RichTextEdit;
-            LoadRTF(e.NewValue.ToString(), rtbx);
+            LoadRTF(e.NewValue?.ToString(), rtbx);
             rtbx.Width = CalcMessageWidth(rtbx, rtbx.TextMaxWidth);
         }
 
