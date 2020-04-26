@@ -28,10 +28,10 @@ namespace H.Framework.WPF.UITest
         {
             InitializeComponent();
             DataContext = this;
-            var a = "PuQLnpgUo3wdi7AZ2TmoOW/metEIEb8llmHAkz/pPQHnCF3BCBZ4ZTsgxrUdX7AE".AnalyseToken();
+            var a = "cM067Ca06ivfYFjcJyUwHQjyhNydLioNn5tLbr7ac3uRTH0z/iP2wSdkICSxEgw3".AnalyseToken();
             //ListNode = new ThreadSafeObservableCollection<Node>();
             //ListNode.CollectionChanged += ListNode_CollectionChanged;
-            //TestSql.Test();
+            TestSql.Test();
             //ListType.WriteJson("appSettings.json");
         }
 
@@ -292,7 +292,9 @@ namespace H.Framework.WPF.UITest
         public static void Test()
         {
             FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
-            //var aa = new NotificationDAL();
+            var aa = new NotificationBLL();
+            aa.Get();
+
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
             //a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
             //var bb = aa.GetList((a, a0) => a.UserID.Contains("','999") && a0.UserID == "999", 20, 0, "ListNotificationMark", null);
@@ -300,11 +302,11 @@ namespace H.Framework.WPF.UITest
             //aa.Delete(new List<string> { "1", "2" });
             //var aa = new FuturesCompanyBLL();
             //var a = aa.GetList(x => 1 == 1, "FuturesCompanyCounters");
-            var aa = new UserBLL();
-            aa.GetUsersWithLog(new UserStatusReq
-            {
-                Username = "10/19/2019 11:00:00 PM"
-            });
+            //var aa = new UserBLL();
+            //aa.GetUsersWithLog(new UserStatusReq
+            //{
+            //    Username = "10/19/2019 11:00:00 PM"
+            //});
         }
 
         public class FuturesCompanyBLL : BaseBLL<FuturesCompanyDTO, FuturesCompany, FuturesCompanyCounter, FuturesCompanyDAL>
@@ -393,7 +395,7 @@ namespace H.Framework.WPF.UITest
         {
             public void Get()
             {
-                var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => x.UserID.Contains("','999") && y.UserID == "999");
+                var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => x.UserID.Contains("','13321952950") && y.UserID == "13321952950");
                 var a = GetList(query, 10, 0, "NotificationMarks", new List<OrderByEntity> { new OrderByEntity { KeyWord = "CreatedAt", IsAsc = false } });
             }
         }
