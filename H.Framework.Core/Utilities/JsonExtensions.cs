@@ -41,11 +41,11 @@ namespace H.Framework.Core.Utilities
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string ToJson(this object source, bool isFilterNull = false, CaseType caseType = CaseType.Default)
+        public static string ToJson(this object source, bool isFilterNull = false, CaseType caseType = CaseType.Default, Formatting formatting = Formatting.Indented)
         {
             var jssetting = new JsonSerializerSettings
             {
-                Formatting = Formatting.Indented
+                Formatting = formatting
             };
             switch (caseType)
             {

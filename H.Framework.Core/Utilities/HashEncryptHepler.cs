@@ -336,6 +336,20 @@ namespace H.Framework.Core.Utilities
         {
             return Encoding.UTF8.GetString(Decrypt3DES(Convert.FromBase64String(base64text), password, cMode, pMode, iv));
         }
+
+        /// <summary>
+        /// HMACSHA1加密(base64)
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string HMACSHA1Base64(string text, string key)
+        {
+            using (var hmac = new HMACSHA1(Encoding.UTF8.GetBytes(key)))
+            {
+                return Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(text)));
+            }
+        }
     }
 
     public enum MD5Format
