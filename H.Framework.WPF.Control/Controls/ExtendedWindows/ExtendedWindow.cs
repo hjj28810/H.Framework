@@ -26,7 +26,7 @@ namespace H.Framework.WPF.Control.Controls.ExtendedWindows
 
         private readonly IntPtr _trueValue = new IntPtr(1);
 
-        public ExtendedWindow()
+        static ExtendedWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ExtendedWindow), new FrameworkPropertyMetadata(typeof(ExtendedWindow)));
         }

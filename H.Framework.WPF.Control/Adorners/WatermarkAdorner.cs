@@ -34,7 +34,7 @@ namespace H.Framework.WPF.Control.Adorners
                 adornedTextBox.FontFamily.GetTypefaces().FirstOrDefault(),
                 fontSize,
                 //adornedTextBox.FontSize,
-                GetForeground(adornedTextBox));
+                GetForeground(adornedTextBox), VisualTreeHelper.GetDpi(this).PixelsPerDip);
                 fmt.SetFontStyle(GetFontStyle(adornedTextBox));
 
                 var topOffset = GetTopOffset(adornedTextBox);

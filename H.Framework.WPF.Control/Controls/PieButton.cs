@@ -760,7 +760,7 @@ namespace H.Framework.WPF.Control.Controls
             {
                 return null;
             }
-            FormattedText formattedText = new FormattedText(text, CultureInfo.CurrentCulture, flowDirection, new Typeface("思源黑体 CN Bold"), fontSize, new SolidColorBrush(color));
+            FormattedText formattedText = new FormattedText(text, CultureInfo.CurrentCulture, flowDirection, new Typeface("思源黑体 CN Bold"), fontSize, new SolidColorBrush(color), VisualTreeHelper.GetDpi(this).PixelsPerDip);
             formattedText.SetFontWeight(FontWeights.Bold);
             formattedText.TextAlignment = TextAlignment.Center;
             return formattedText;

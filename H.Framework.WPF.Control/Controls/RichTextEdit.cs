@@ -101,20 +101,21 @@ namespace H.Framework.WPF.Control.Controls
         {
             var range = new TextRange(t.Document.ContentStart, t.Document.ContentEnd);
             var text = range.Text;
-            var formatText = GetFormattedText(t.Document);
+            var formatText = GetFormattedText(t);
             int count = SubstringCount(string.IsNullOrWhiteSpace(t.Text) ? t.RTFText : t.Text, "pict") / 2;
             return Math.Min(formatText.WidthIncludingTrailingWhitespace + 10 + count * 25, w);
         }
 
-        public static FormattedText GetFormattedText(FlowDocument doc)
+        public static FormattedText GetFormattedText(RichTextEdit rich)
         {
+            var doc = rich.Document;
             var output = new FormattedText(
                 GetText(doc),
                 System.Globalization.CultureInfo.CurrentCulture,
                 doc.FlowDirection,
                 new Typeface(doc.FontFamily, doc.FontStyle, doc.FontWeight, doc.FontStretch),
                 doc.FontSize,
-                doc.Foreground);
+                doc.Foreground, VisualTreeHelper.GetDpi(rich).PixelsPerDip);
 
             int offset = 0;
 

@@ -20,7 +20,7 @@ namespace H.Framework.WPF.Control.Controls.ExtendedWindows
 
     public class WindowFunctionBar : FunctionBar
     {
-        public WindowFunctionBar()
+        static WindowFunctionBar()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowFunctionBar), new FrameworkPropertyMetadata(typeof(WindowFunctionBar)));
         }
