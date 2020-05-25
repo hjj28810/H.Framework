@@ -28,7 +28,7 @@ namespace H.Framework.WPF.UITest
         {
             InitializeComponent();
             DataContext = this;
-            var a = "cM067Ca06ivfYFjcJyUwHQjyhNydLioNn5tLbr7ac3uRTH0z/iP2wSdkICSxEgw3".AnalyseToken();
+            //var a = "cM067Ca06ivfYFjcJyUwHQjyhNydLioNn5tLbr7ac3uRTH0z/iP2wSdkICSxEgw3".AnalyseToken();
             //ListNode = new ThreadSafeObservableCollection<Node>();
             //ListNode.CollectionChanged += ListNode_CollectionChanged;
             TestSql.Test();
@@ -260,6 +260,22 @@ namespace H.Framework.WPF.UITest
         private void WindowEx_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
         }
+
+        private void sss_Drop(object sender, DragEventArgs e)
+        {
+        }
+
+        private void sss_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effects = DragDropEffects.Link;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
     }
 
     public class KeyValueModel
@@ -293,8 +309,8 @@ namespace H.Framework.WPF.UITest
         {
             FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
             var aa = new NotificationBLL();
-            aa.Get();
-
+            var bb = aa.GetUnreads();
+            aa.Add();
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
             //a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
             //var bb = aa.GetList((a, a0) => a.UserID.Contains("','999") && a0.UserID == "999", 20, 0, "ListNotificationMark", null);
@@ -389,14 +405,28 @@ namespace H.Framework.WPF.UITest
 
         public class NotificationDAL : BaseDAL<Notification, NotificationMark>
         {
+            public Dictionary<string, IEnumerable<Notification>> GetUnreads()
+            {
+                return ExecuteQueryMutiSQL<Notification>(@"select count(*) as UnreadCount from notification a left join notificationmark b on a.id = b.NotificationID where a.NotificationTypeID = 1 and b.IsRead = 0 and b.isdeleted = 0 and b.userid = '12605911';select count(*) as UnreadCount from notification a left join notificationmark b on a.id = b.NotificationID where a.NotificationTypeID = 2 and b.IsRead = 0 and b.isdeleted = 0 and b.userid = '12605911';select count(*) as UnreadCount from notification a left join notificationmark b on a.id = b.NotificationID where a.NotificationTypeID = 3 and b.IsRead = 0 and b.isdeleted = 0 and b.userid = '12605911';select count(*) as UnreadCount from notification a left join notificationmark b on a.id = b.NotificationID where a.NotificationTypeID = 4 and b.IsRead = 0 and b.isdeleted = 0 and b.userid = '12605911';", new string[] { "1", "2", "3", "4" });
+            }
         }
 
         public class NotificationBLL : BaseBLL<NotificationDTO, Notification, NotificationMark, NotificationDAL>
         {
             public void Get()
             {
-                var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => x.UserID.Contains("','13321952950") && y.UserID == "13321952950");
+                var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => y.UserID == "13321952950");
                 var a = GetList(query, 10, 0, "NotificationMarks", new List<OrderByEntity> { new OrderByEntity { KeyWord = "CreatedAt", IsAsc = false } });
+            }
+
+            public Dictionary<string, IEnumerable<Notification>> GetUnreads()
+            {
+                return DAL.GetUnreads();
+            }
+
+            public async void Add()
+            {
+                var a = await AddAsync(new NotificationDTO { Title = "ccccccc", Content = "asdasdasdadsa" });
             }
         }
 
@@ -425,6 +455,9 @@ namespace H.Framework.WPF.UITest
 
         public class Notification : IFoundationModel
         {
+            [DataFieldIgnore]
+            public int UnreadCount { get; set; }
+
             public string UserID { get; set; }
             public string ID { get; set; }
             public string Title { get; set; }
@@ -439,7 +472,6 @@ namespace H.Framework.WPF.UITest
 
         public class NotificationDTO : IFoundationViewModel
         {
-            public string UserID { get; set; }
             public string ID { get; set; }
             public string Title { get; set; }
 

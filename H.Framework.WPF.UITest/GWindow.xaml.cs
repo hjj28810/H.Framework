@@ -147,9 +147,8 @@ namespace H.Framework.WPF.UITest
 
         private static void CallBack(ReturnJsonClass result)
         {
-        }
+        }            //private AA HA()
 
-        //private AA HA()
         //{
         //    return new AA { aa = "aaa" };
         //}

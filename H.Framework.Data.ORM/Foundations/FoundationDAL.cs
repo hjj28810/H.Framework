@@ -93,6 +93,11 @@ namespace H.Framework.Data.ORM.Foundations
             return Fabricate.GetTable(CommandType.Text, sqlText, param).ToList<T>();
         }
 
+        public Dictionary<string, IEnumerable<T>> ExecuteQueryMutiSQL<T>(string sqlText, string[] keys, params MySqlParameter[] param) where T : new()
+        {
+            return Fabricate.GetSet(CommandType.Text, sqlText, param).ToDictList<T>(keys);
+        }
+
         public int ExecuteNonQuerySQL(string sqlText, params MySqlParameter[] param)
         {
             return Fabricate.ExecuteNonQuery(CommandType.Text, sqlText, param);

@@ -25,6 +25,8 @@ namespace H.Framework.Data.ORM.Foundations
 
         IEnumerable<T> ExecuteQuerySQL<T>(string sqlText, params MySqlParameter[] param) where T : new();
 
+        Dictionary<string, IEnumerable<T>> ExecuteQueryMutiSQL<T>(string sqlText, string[] keys, params MySqlParameter[] param) where T : new();
+
         int Count(Expression<Func<TModel, bool>> whereSelector);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using H.Framework.Data.ORM.Attributes;
 using H.Framework.Data.ORM.Foundations;
+using Renci.SshNet.Security;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -85,12 +86,28 @@ namespace H.Framework.Data.ORM
             return ts;
         }
 
+        public static Dictionary<string, IEnumerable<T>> ToDictList<T>(this DataSet ds, string[] keys) where T : new()
+        {
+            var dict = new Dictionary<string, IEnumerable<T>>();
+            foreach (var key in keys)
+                dict.Add(key, ds.Tables[Array.IndexOf(keys, key)].ToList<T>());
+            return dict;
+        }
+
+        public static Dictionary<string, List<T>> ToDictList<T>(this DataSet ds, string[] keys, List<TableMap> listMap = null, string include = "") where T : IFoundationModel, new()
+        {
+            var dict = new Dictionary<string, List<T>>();
+            foreach (var key in keys)
+                dict.Add(key, ds.Tables[Array.IndexOf(keys, key)].ToList<T>(listMap, include));
+            return dict;
+        }
+
         /// <summary>
         /// 将DataTable转换成Entity列表
         /// </summary>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public static List<T> ToList<T>(this DataTable dt, List<TableMap> list = null, string include = "") where T : IFoundationModel, new()
+        public static List<T> ToList<T>(this DataTable dt, List<TableMap> listMap = null, string include = "") where T : IFoundationModel, new()
         {
             var ts = new List<T>();
             var allProperties = typeof(T).GetProperties();
@@ -119,7 +136,7 @@ namespace H.Framework.Data.ORM
                     foreach (var pi in propertites)
                     {
                         if (pi.IsDefined(typeof(DataFieldIgnoreAttribute))) continue;
-                        if (pi.IsDefined(typeof(ForeignAttribute)) && list != null && include.Contains(pi.Name))
+                        if (pi.IsDefined(typeof(ForeignAttribute)) && listMap != null && include.Contains(pi.Name))
                         {
                             var foreignProps = pi.PropertyType.GetProperties();
                             var foreignT = Activator.CreateInstance(pi.PropertyType);
@@ -127,7 +144,7 @@ namespace H.Framework.Data.ORM
                             {
                                 if (foreignProp.IsDefined(typeof(DataFieldIgnoreAttribute))) continue;
                                 if (foreignProp.IsDefined(typeof(DetailListAttribute))) continue;
-                                var mapItem = list?.FirstOrDefault(item => item.ForeignPropName?.ToLower() == pi.Name.ToLower() && item.ColumnName == foreignProp.Name);
+                                var mapItem = listMap?.FirstOrDefault(item => item.ForeignPropName?.ToLower() == pi.Name.ToLower() && item.ColumnName == foreignProp.Name);
                                 if (dt.Columns.Contains(mapItem?.AliasColumn))
                                 {
                                     try
@@ -174,7 +191,7 @@ namespace H.Framework.Data.ORM
 
                 foreach (var pi in detailListPropertys)
                 {
-                    if (list != null && include.Contains(pi.Name))
+                    if (listMap != null && include.Contains(pi.Name))
                     {
                         var childType = pi.PropertyType.GetGenericArguments()[0];
                         var childProps = childType.GetProperties();
@@ -190,7 +207,7 @@ namespace H.Framework.Data.ORM
                             if (childProp.IsDefined(typeof(DataFieldIgnoreAttribute))) continue;
                             if (childProp.IsDefined(typeof(DetailListAttribute))) continue;
                             if (childProp.IsDefined(typeof(ForeignAttribute))) continue;
-                            var mapItem = list?.First(item => item.TableName == childType.Name && item.ColumnName == childProp.Name);
+                            var mapItem = listMap?.First(item => item.TableName == childType.Name && item.ColumnName == childProp.Name);
                             try
                             {
                                 if (dr.IsNull(mapItem?.AliasColumn)) continue;

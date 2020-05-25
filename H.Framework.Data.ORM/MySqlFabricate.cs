@@ -156,22 +156,30 @@ namespace H.Framework.Data.ORM
             Trace.WriteLine(sqlText);
             using (var conn = new MySqlConnection(ConnectStr))
             {
-                //using (var cmd = new MySqlCommand(sqlText, conn))
-                //{
-                //    cmd.CommandType = commandType;
-                //    if (param != null)
-                //        foreach (var parm in param)
-                //            cmd.Parameters.Add(parm);
-                //    var set = new DataTable();
-                //    new MySqlDataAdapter(cmd).Fill(set);
-                //    return set;
-                //}
                 using (var adapter = new MySqlDataAdapter(sqlText, conn))
                 {
-                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    adapter.SelectCommand.CommandType = commandType;
                     if (param != null)
                         adapter.SelectCommand.Parameters.AddRange(param);
                     var ds = new DataTable();
+                    adapter.Fill(ds);
+                    return ds;
+                }
+            }
+        }
+
+        public DataSet GetSet(CommandType commandType, string sqlText, params MySqlParameter[] param)
+        {
+            Trace.WriteLine(ConnectStr);
+            Trace.WriteLine(sqlText);
+            using (var conn = new MySqlConnection(ConnectStr))
+            {
+                using (var adapter = new MySqlDataAdapter(sqlText, conn))
+                {
+                    adapter.SelectCommand.CommandType = commandType;
+                    if (param != null)
+                        adapter.SelectCommand.Parameters.AddRange(param);
+                    var ds = new DataSet();
                     adapter.Fill(ds);
                     return ds;
                 }
