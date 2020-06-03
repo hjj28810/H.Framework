@@ -640,14 +640,15 @@
         <extender:ExpanderEx
             Grid.Row="1"
             Width="100"
-            Height="14"
-            Margin="502,25,0,0"
+            Margin="369,16,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Header="ExpanderEx"
-            HeaderHeight="20"
             IsExpanded="False">
-
+            <extender:ExpanderEx.Header>
+                <Grid Height="40" VerticalAlignment="Center">
+                    <TextBlock FontSize="20" Text="aaaaa" />
+                </Grid>
+            </extender:ExpanderEx.Header>
             <Grid Background="#FFE5E5E5">
                 <TextBlock Text="aaaaa" />
             </Grid>
