@@ -645,6 +645,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Header="ExpanderEx"
+            HeaderHeight="20"
             IsExpanded="False">
 
             <Grid Background="#FFE5E5E5">
@@ -785,5 +786,6 @@
             VerticalAlignment="Top"
             Click="ButtonEx_Click"
             Content="ButtonEx" />
+        <!--<cef:ChromiumWebBrowser Address="https://www.baidu.com" Background="Transparent" />-->
     </Grid>
 </extender:WindowEx>

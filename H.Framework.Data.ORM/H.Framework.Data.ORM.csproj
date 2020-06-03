@@ -9,6 +9,7 @@
     <Company>H</Company>
     <Authors>Alvin Huang</Authors>
     <Product>H.Framework</Product>
+    <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
