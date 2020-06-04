@@ -44,7 +44,7 @@ namespace H.Framework.Core.Utilities
                 }
         }
 
-        public static string MD5Hash(string str, MD5Format md5Format = MD5Format.x2, bool isFile = false, object salt = null)
+        public static string MD5Hash(string str, object salt = null, MD5Format md5Format = MD5Format.x2, bool isFile = false)
         {
             return MD5Hash(str + salt != null ? "{" + salt.ToString() + "}" : "", md5Format, isFile);
         }
