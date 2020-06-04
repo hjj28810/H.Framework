@@ -83,11 +83,8 @@ namespace H.Framework.UMeng.Push
         public void AsynSendMessage<T>(PostUMengJson<T> paramsJsonObj, Action<ReturnJsonClass> callback) where T : class, new()
         {
             var request = CreateHttpRequest(paramsJsonObj);
-
-            _requestClient.ExecuteAsync(request, resultResponse =>
-            {
-                callback?.Invoke(resultResponse.Content.ToJsonObj<ReturnJsonClass>());
-            });
+            var resultResponse = _requestClient.Execute(request);
+            callback?.Invoke(resultResponse.Content.ToJsonObj<ReturnJsonClass>());
         }
 
         #endregion 公共方法
