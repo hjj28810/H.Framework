@@ -28,6 +28,9 @@ namespace H.Framework.WPF.UITest
         {
             InitializeComponent();
             DataContext = this;
+
+            var a = HashEncryptHepler.MD5Hash(HashEncryptHepler.MD5Hash("13321952950", "I4kl$0bs"));
+            var b = HashEncryptHepler.EncryptAESToBase64("13321952950", ")O[xx]6,YF}+eecaj{+oESb7d8>Z'e9N", "!BN3DuA0gcxUvaql@j8QMd2*", 192);
             //var a = "cM067Ca06ivfYFjcJyUwHQjyhNydLioNn5tLbr7ac3uRTH0z/iP2wSdkICSxEgw3".AnalyseToken();
             //ListNode = new ThreadSafeObservableCollection<Node>();
             //ListNode.CollectionChanged += ListNode_CollectionChanged;

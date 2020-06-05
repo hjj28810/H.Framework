@@ -44,11 +44,6 @@ namespace H.Framework.Core.Utilities
                 }
         }
 
-        public static string MD5Hash(string str, string salt, MD5Format md5Format = MD5Format.x2, bool isFile = false)
-        {
-            return MD5Hash(str + salt != null ? "{" + salt + "}" : "", md5Format, isFile);
-        }
-
         public static string SHA1Hash(string content)
         {
             try
@@ -75,18 +70,18 @@ namespace H.Framework.Core.Utilities
         /// <param name="text"></param>
         /// <param name="password"></param>
         /// <param name="iv"></param>
-        /// <param name="keySize"></param>
+        /// <param name="blockSize"></param>
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <param name="pwLength">pw长度，默认32位，不足补0，支持16,24,32</param>
         /// <returns></returns>
-        public static byte[] EncryptAES(string text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7, int pwLength = 32)
+        public static byte[] EncryptAES(string text, string password, string iv = "", int blockSize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7, int pwLength = 32)
         {
             using (var rijndaelCipher = new RijndaelManaged
             {
                 Mode = mode,
                 Padding = padding,
-                KeySize = keySize
+                BlockSize = blockSize
             })
             {
                 var pwdBytes = Encoding.UTF8.GetBytes(password);
@@ -131,14 +126,14 @@ namespace H.Framework.Core.Utilities
         /// <param name="text"></param>
         /// <param name="password"></param>
         /// <param name="iv"></param>
-        /// <param name="keySize"></param>
+        /// <param name="blockSize"></param>
         /// <param name="mode"></param>
         /// <param name="padding"></param
         /// <param name="pwLength">pw长度，默认32位，不足补0，支持16,24,32</param>
         /// <returns></returns>
-        public static string EncryptAESToBase64(string text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7, int pwLength = 32)
+        public static string EncryptAESToBase64(string text, string password, string iv = "", int blockSize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7, int pwLength = 32)
         {
-            return Convert.ToBase64String(EncryptAES(text, password, iv, keySize, mode, padding, pwLength));
+            return Convert.ToBase64String(EncryptAES(text, password, iv, blockSize, mode, padding, pwLength));
         }
 
         /// <summary>
@@ -147,12 +142,12 @@ namespace H.Framework.Core.Utilities
         /// <param name="buffer"></param>
         /// <param name="password"></param>
         /// <param name="iv"></param>
-        /// <param name="keySize"></param>
+        /// <param name="blockSize"></param>
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <param name="pwLength">pw长度，默认32位，不足补0，支持16,24,32</param>
         /// <returns></returns>
-        public static byte[] DecryptAES(byte[] buffer, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7, int pwLength = 32)
+        public static byte[] DecryptAES(byte[] buffer, string password, string iv = "", int blockSize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7, int pwLength = 32)
         {
             try
             {
@@ -160,7 +155,7 @@ namespace H.Framework.Core.Utilities
                 {
                     Mode = mode,
                     Padding = padding,
-                    KeySize = keySize
+                    BlockSize = blockSize
                 })
                 {
                     var pwdBytes = Encoding.UTF8.GetBytes(password);
@@ -184,13 +179,13 @@ namespace H.Framework.Core.Utilities
         /// <param name="buffer"></param>
         /// <param name="password"></param>
         /// <param name="iv"></param>
-        /// <param name="keySize"></param>
+        /// <param name="blockSize"></param>
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <returns></returns>
-        public static byte[] DecryptAES(string base64text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
+        public static byte[] DecryptAES(string base64text, string password, string iv = "", int blockSize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
         {
-            return DecryptAES(Convert.FromBase64String(base64text), password, iv, keySize, mode, padding);
+            return DecryptAES(Convert.FromBase64String(base64text), password, iv, blockSize, mode, padding);
         }
 
         /// <summary>
@@ -199,14 +194,14 @@ namespace H.Framework.Core.Utilities
         /// <param name="buffer"></param>
         /// <param name="password"></param>
         /// <param name="iv"></param>
-        /// <param name="keySize"></param>
+        /// <param name="blockSize"></param>
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <param name="pwLength">pw长度，默认32位，不足补0，支持16,24,32</param>
         /// <returns></returns>
-        public static string DecryptAESToString(byte[] buffer, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7, int pwLength = 32)
+        public static string DecryptAESToString(byte[] buffer, string password, string iv = "", int blockSize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7, int pwLength = 32)
         {
-            return Encoding.UTF8.GetString(DecryptAES(buffer, password, iv, keySize, mode, padding, pwLength));
+            return Encoding.UTF8.GetString(DecryptAES(buffer, password, iv, blockSize, mode, padding, pwLength));
         }
 
         /// <summary>
@@ -215,14 +210,14 @@ namespace H.Framework.Core.Utilities
         /// <param name="buffer"></param>
         /// <param name="password"></param>
         /// <param name="iv"></param>
-        /// <param name="keySize"></param>
+        /// <param name="blockSize"></param>
         /// <param name="mode"></param>
         /// <param name="padding"></param>
         /// <param name="pwLength">pw长度，默认32位，不足补0，支持16,24,32</param>
         /// <returns></returns>
-        public static string DecryptAESToString(string base64text, string password, string iv = "", int keySize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7, int pwLength = 32)
+        public static string DecryptAESToString(string base64text, string password, string iv = "", int blockSize = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7, int pwLength = 32)
         {
-            return Encoding.UTF8.GetString(DecryptAES(Convert.FromBase64String(base64text), password, iv, keySize, mode, padding, pwLength));
+            return Encoding.UTF8.GetString(DecryptAES(Convert.FromBase64String(base64text), password, iv, blockSize, mode, padding, pwLength));
         }
 
         /// <summary>
