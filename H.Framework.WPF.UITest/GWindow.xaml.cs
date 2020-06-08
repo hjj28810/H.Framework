@@ -7,6 +7,7 @@ using H.Framework.WPF.Control.Controls.ExtendedWindows;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,15 +32,16 @@ namespace H.Framework.WPF.UITest
             txt1.Text = nonce;
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
-
-            //var 啊 = HashEncryptHepler.EncryptAESToBase64("abcd1234qqqaaazzz222wwwssxx333", "_accessToken", "AqIm%czX6M20mi8w");
+            var b = Encoding.Default.GetString(Convert.FromBase64String("eVRkd3JodWpNWjJmemhNWmVkaVJKWjlBNk45RFZReWw="));
+            var a = HashEncryptHepler.EncryptAESToBase64("Helloworld", b, b.Substring(0, 16));
+            var aa = HashEncryptHepler.DecryptAESToString("1xPHllFhBlKkesaMblP3RVo6xSjU69ujEJZiosJ+I4jmikPTii3QUq2m6UzlB6J4FHKyyKedwRndQxjrMvZIPA==", b, b.Substring(0, 16));
             //var 啊1 = HashEncryptHepler.DecryptAESToString(啊, "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j", "AqIm%czX6M20mi8w");
             //Trace.WriteLine(int.Parse("001231").ToString());
             //var a = Regex.Matches("asdasd1/9/2019 3:9:9 PM", RegexExtensions.DateTimePattern());
             //            var a = MsgServiceClient.GetUsers();
             //var b = MsgServiceClient.UpdateUser();
             //var c = MsgServiceClient.AddUserLog();
-            //var d = MsgServiceClient.GetUser();
+            //var d = MsgServiceClient.UpdateUser();
             //PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
             //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
             //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
@@ -197,14 +199,14 @@ namespace H.Framework.WPF.UITest
         public static UserResp GetUser()
         {
             var req = new UserReq();
-            req.Nickname = "涂凤朝";
+            req.Username = "15601739397";
             return _client.GetUser(req);
         }
 
         public static UserResp UpdateUser()
         {
             var req = new UserLevelReq();
-            req.Username = "13321952950";
+            req.Username = "15601739397";
             req.UserLevel = UserLevel.Vip;
             return _client.UpdateUserLevel(req);
         }
