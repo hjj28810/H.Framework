@@ -29,16 +29,16 @@ namespace H.Framework.WPF.UITest
         {
             var nonce = Utility.ObjectID;
             var curTime = DateTime.Now.ToLong().ToString();
-            txt1.Text = nonce;
-            txt2.Text = curTime;
-            txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
-            var b = Encoding.Default.GetString(Convert.FromBase64String("eVRkd3JodWpNWjJmemhNWmVkaVJKWjlBNk45RFZReWw="));
-            var a = HashEncryptHepler.EncryptAESToBase64("Helloworld", b, b.Substring(0, 16));
-            var aa = HashEncryptHepler.DecryptAESToString("1xPHllFhBlKkesaMblP3RVo6xSjU69ujEJZiosJ+I4jmikPTii3QUq2m6UzlB6J4FHKyyKedwRndQxjrMvZIPA==", b, b.Substring(0, 16));
+            //txt1.Text = nonce;
+            //txt2.Text = curTime;
+            //txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
+            //var b = Encoding.Default.GetString(Convert.FromBase64String("eVRkd3JodWpNWjJmemhNWmVkaVJKWjlBNk45RFZReWw="));
+            //var a = HashEncryptHepler.EncryptAESToBase64("Helloworld", b, b.Substring(0, 16));
+            //txt2.Text = HashEncryptHepler.DecryptAESToString(txt1.Text, b, b.Substring(0, 16));
             //var 啊1 = HashEncryptHepler.DecryptAESToString(啊, "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j", "AqIm%czX6M20mi8w");
             //Trace.WriteLine(int.Parse("001231").ToString());
             //var a = Regex.Matches("asdasd1/9/2019 3:9:9 PM", RegexExtensions.DateTimePattern());
-            //            var a = MsgServiceClient.GetUsers();
+            var a = MsgServiceClient.GetUsers();
             //var b = MsgServiceClient.UpdateUser();
             //var c = MsgServiceClient.AddUserLog();
             //var d = MsgServiceClient.UpdateUser();
@@ -182,7 +182,7 @@ namespace H.Framework.WPF.UITest
         static MsgServiceClient()
         {
             _channel = new Channel("127.0.0.1:40001", ChannelCredentials.Insecure);
-            //_channel = new Channel("192.168.99.109:40001", ChannelCredentials.Insecure);
+            //_channel = new Channel("192.168.99.109:40002", ChannelCredentials.Insecure);
             _client = new UserRpcService.UserRpcServiceClient(_channel);
             _client2 = new NotificationRpcService.NotificationRpcServiceClient(_channel);
             _client3 = new UserLogRpcService.UserLogRpcServiceClient(_channel);

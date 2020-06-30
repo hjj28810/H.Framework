@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -29,8 +30,9 @@ namespace H.Framework.WPF.UITest
             InitializeComponent();
             DataContext = this;
 
-            var a = HashEncryptHepler.MD5Hash(HashEncryptHepler.MD5Hash("13321952950I4kl$0bs"));
-            var b = HashEncryptHepler.EncryptAESToBase64("13321952950", ")O[xx]6,YF}+eecaj{+oESb7d8>Z'e9N", "UXS9rr9^1wUBzVu#");
+            //var a = HashEncryptHepler.MD5Hash(HashEncryptHepler.MD5Hash("13321952950I4kl$0bs"));
+            var b = Encoding.Default.GetString(Convert.FromBase64String("eVRkd3JodWpNWjJmemhNWmVkaVJKWjlBNk45RFZReWw="));
+            var a = HashEncryptHepler.EncryptAESToBase64("10000115", b, b.Substring(0, 16));
             //var c = HashEncryptHepler.DecryptAESToStringCore(b, ")O[xx]6,YF}+eecaj{+oESb7d8>Z'e9N", "UXS9rr9^1wUBzVu#");
             //var a = "cM067Ca06ivfYFjcJyUwHQjyhNydLioNn5tLbr7ac3uRTH0z/iP2wSdkICSxEgw3".AnalyseToken();
             //ListNode = new ThreadSafeObservableCollection<Node>();
@@ -312,8 +314,8 @@ namespace H.Framework.WPF.UITest
         public static void Test()
         {
             FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
-            var aa = new NotificationBLL();
-            var bb = aa.GetUnreads();
+            var aa = new UserBLL();
+            aa.Update();
             //aa.Add();
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
             //a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
@@ -514,6 +516,8 @@ namespace H.Framework.WPF.UITest
 
             public string NicknameExt { get; set; }
             public string PhotoExt { get; set; }
+            public string Privacy { get; set; }
+            public string Cipher { get; set; }
 
             [DetailList()]
             public List<UserStatus> UserStatuss { get; set; }
@@ -572,6 +576,9 @@ namespace H.Framework.WPF.UITest
             public string Nickname { get; set; }
             public bool IsSetPassword { get; set; }
             public string UpdatedAt { get; set; }
+
+            public string Privacy { get; set; }
+            public string Cipher { get; set; }
 
             //private string _createdAt;
 
@@ -639,6 +646,18 @@ namespace H.Framework.WPF.UITest
                 if (req.LastLoginAtFrom.HasValue && req.LastLoginAtTo.HasValue)
                     query = query.WhereAnd((x, y) => y.LastLoginAt > req.LastLoginAtFrom.Value && y.LastLoginAt < req.LastLoginAtTo.Value);
                 var list = GetList(query, 20, 0, "UserStatuss");
+            }
+
+            public void Update()
+            {
+                var b = Encoding.Default.GetString(Convert.FromBase64String("eVRkd3JodWpNWjJmemhNWmVkaVJKWjlBNk45RFZReWw="));
+                var list = GetList(x => 1 == 1, 20, 0);
+                foreach (var item in list)
+                {
+                    item.Cipher = HashEncryptHepler.EncryptAESToBase64(item.Username, b, b.Substring(0, 16));
+                }
+
+                Update(list);
             }
         }
     }
