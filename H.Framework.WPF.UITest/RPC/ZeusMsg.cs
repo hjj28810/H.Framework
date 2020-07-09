@@ -9,346 +9,394 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Zeus.RPC.Protocol {
+namespace Zeus.RPC.Protocol
+{
 
-  /// <summary>Holder for reflection information generated from zeus_msg.proto</summary>
-  public static partial class ZeusMsgReflection {
+    /// <summary>Holder for reflection information generated from zeus_msg.proto</summary>
+    public static partial class ZeusMsgReflection
+    {
 
-    #region Descriptor
-    /// <summary>File descriptor for zeus_msg.proto</summary>
-    public static pbr::FileDescriptor Descriptor {
-      get { return descriptor; }
-    }
-    private static pbr::FileDescriptor descriptor;
+        #region Descriptor
+        /// <summary>File descriptor for zeus_msg.proto</summary>
+        public static pbr::FileDescriptor Descriptor
+        {
+            get { return descriptor; }
+        }
+        private static pbr::FileDescriptor descriptor;
 
-    static ZeusMsgReflection() {
-      byte[] descriptorData = global::System.Convert.FromBase64String(
-          string.Concat(
-            "Cg56ZXVzX21zZy5wcm90bxIRWmV1cy5SUEMuUHJvdG9jb2wiXwoMQmFzZVJl",
-            "c3BvbnNlEi0KBGNvZGUYASABKA4yHy5aZXVzLlJQQy5Qcm90b2NvbC5SZXNw",
-            "b25zZUNvZGUSCwoDbXNnGAIgASgJEhMKC3NlcnZlcl90aW1lGAMgASgDKjQK",
-            "DFJlc3BvbnNlQ29kZRILCgdpbnZhbGlkEAASDAoHc3VjY2VzcxDIARIJCgRm",
-            "YWlsEPQDKjQKCFBsYXRmb3JtEgYKAnBjEAASBwoDaW9zEAESCwoHYW5kcm9p",
-            "ZBACEgoKBnNlcnZlchADKiAKCVVzZXJMZXZlbBIKCgZub3JtYWwQABIHCgN2",
-            "aXAQASqeAwoLVHJhZGVBY3Rpb24SCQoFbG9naW4QABIKCgZsb2dvdXQQARIQ",
-            "CgxiYW5rX2JhbGFuY2UQAhITCg9hY2NvdW50X2JhbGFuY2UQAxITCg9iYW5r",
-            "X3RvX2Z1dHVyZXMQBBITCg9mdXR1cmVzX3RvX2JhbmsQBRISCg5jcmVhdGVf",
-            "cG9zdGlvbhAGEhEKDWNsb3NlX3Bvc3Rpb24QBxIYChRjbG9zZV90b2RheWVf",
-            "cG9zdGlvbhAIEhAKDGNhbmNlbF9vcmRlchAJEgwKCGJhY2toYW5kEAoSGQoV",
-            "Y3JlYXRlX3N0b3Bwcm9maXRsb3NzEAsSGQoVZGVsZXRlX3N0b3Bwcm9maXRs",
-            "b3NzEAwSGQoVdXBkYXRlX3N0b3Bwcm9maXRsb3NzEA0SGgoWdHJpZ2dlcl9z",
-            "dG9wcHJvZml0bG9zcxAOEhIKDmNyZWF0ZV93YXJuaW5nEA8SEgoOZGVsZXRl",
-            "X3dhcm5pbmcQEBISCg51cGRhdGVfd2FybmluZxAREhMKD3RyaWdnZXJfd2Fy",
-            "bmluZxASEggKBGRlYWwQE2IGcHJvdG8z"));
-      descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Zeus.RPC.Protocol.ResponseCode), typeof(global::Zeus.RPC.Protocol.Platform), typeof(global::Zeus.RPC.Protocol.UserLevel), typeof(global::Zeus.RPC.Protocol.TradeAction), }, new pbr::GeneratedClrTypeInfo[] {
+        static ZeusMsgReflection()
+        {
+            byte[] descriptorData = global::System.Convert.FromBase64String(
+                string.Concat(
+                  "Cg56ZXVzX21zZy5wcm90bxIRWmV1cy5SUEMuUHJvdG9jb2wiXwoMQmFzZVJl",
+                  "c3BvbnNlEi0KBGNvZGUYASABKA4yHy5aZXVzLlJQQy5Qcm90b2NvbC5SZXNw",
+                  "b25zZUNvZGUSCwoDbXNnGAIgASgJEhMKC3NlcnZlcl90aW1lGAMgASgDKjQK",
+                  "DFJlc3BvbnNlQ29kZRILCgdpbnZhbGlkEAASDAoHc3VjY2VzcxDIARIJCgRm",
+                  "YWlsEPQDKjQKCFBsYXRmb3JtEgYKAnBjEAASBwoDaW9zEAESCwoHYW5kcm9p",
+                  "ZBACEgoKBnNlcnZlchADKiAKCVVzZXJMZXZlbBIKCgZub3JtYWwQABIHCgN2",
+                  "aXAQASqeAwoLVHJhZGVBY3Rpb24SCQoFbG9naW4QABIKCgZsb2dvdXQQARIQ",
+                  "CgxiYW5rX2JhbGFuY2UQAhITCg9hY2NvdW50X2JhbGFuY2UQAxITCg9iYW5r",
+                  "X3RvX2Z1dHVyZXMQBBITCg9mdXR1cmVzX3RvX2JhbmsQBRISCg5jcmVhdGVf",
+                  "cG9zdGlvbhAGEhEKDWNsb3NlX3Bvc3Rpb24QBxIYChRjbG9zZV90b2RheWVf",
+                  "cG9zdGlvbhAIEhAKDGNhbmNlbF9vcmRlchAJEgwKCGJhY2toYW5kEAoSGQoV",
+                  "Y3JlYXRlX3N0b3Bwcm9maXRsb3NzEAsSGQoVZGVsZXRlX3N0b3Bwcm9maXRs",
+                  "b3NzEAwSGQoVdXBkYXRlX3N0b3Bwcm9maXRsb3NzEA0SGgoWdHJpZ2dlcl9z",
+                  "dG9wcHJvZml0bG9zcxAOEhIKDmNyZWF0ZV93YXJuaW5nEA8SEgoOZGVsZXRl",
+                  "X3dhcm5pbmcQEBISCg51cGRhdGVfd2FybmluZxAREhMKD3RyaWdnZXJfd2Fy",
+                  "bmluZxASEggKBGRlYWwQE2IGcHJvdG8z"));
+            descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
+                new pbr::FileDescriptor[] { },
+                new pbr::GeneratedClrTypeInfo(new[] { typeof(global::Zeus.RPC.Protocol.ResponseCode), typeof(global::Zeus.RPC.Protocol.Platform), typeof(global::Zeus.RPC.Protocol.UserLevel), typeof(global::Zeus.RPC.Protocol.TradeAction), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.BaseResponse), global::Zeus.RPC.Protocol.BaseResponse.Parser, new[]{ "Code", "Msg", "ServerTime" }, null, null, null)
-          }));
+                }));
+        }
+        #endregion
+
     }
+    #region Enums
+    public enum ResponseCode
+    {
+        [pbr::OriginalName("invalid")] Invalid = 0,
+        [pbr::OriginalName("success")] Success = 200,
+        [pbr::OriginalName("fail")] Fail = 500,
+    }
+
+    public enum Platform
+    {
+        [pbr::OriginalName("pc")] Pc = 0,
+        [pbr::OriginalName("ios")] Ios = 1,
+        [pbr::OriginalName("android")] Android = 2,
+        [pbr::OriginalName("server")] Server = 3,
+    }
+
+    public enum UserLevel
+    {
+        [pbr::OriginalName("normal")] Normal = 0,
+        [pbr::OriginalName("vip")] Vip = 1,
+    }
+
+    public enum TradeAction
+    {
+        /// <summary>
+        ///资金账号登录
+        /// </summary>
+        [pbr::OriginalName("login")] Login = 0,
+        /// <summary>
+        ///资金账号登出
+        /// </summary>
+        [pbr::OriginalName("logout")] Logout = 1,
+        /// <summary>
+        ///查询银行余额
+        /// </summary>
+        [pbr::OriginalName("bank_balance")] BankBalance = 2,
+        /// <summary>
+        ///查询期货余额
+        /// </summary>
+        [pbr::OriginalName("account_balance")] AccountBalance = 3,
+        /// <summary>
+        ///银行转期货
+        /// </summary>
+        [pbr::OriginalName("bank_to_futures")] BankToFutures = 4,
+        /// <summary>
+        ///期货转银行
+        /// </summary>
+        [pbr::OriginalName("futures_to_bank")] FuturesToBank = 5,
+        /// <summary>
+        ///建仓
+        /// </summary>
+        [pbr::OriginalName("create_postion")] CreatePostion = 6,
+        /// <summary>
+        ///平仓
+        /// </summary>
+        [pbr::OriginalName("close_postion")] ClosePostion = 7,
+        /// <summary>
+        ///平今仓
+        /// </summary>
+        [pbr::OriginalName("close_todaye_postion")] CloseTodayePostion = 8,
+        /// <summary>
+        ///撤单
+        /// </summary>
+        [pbr::OriginalName("cancel_order")] CancelOrder = 9,
+        /// <summary>
+        ///反手
+        /// </summary>
+        [pbr::OriginalName("backhand")] Backhand = 10,
+        /// <summary>
+        ///新增止盈止损
+        /// </summary>
+        [pbr::OriginalName("create_stopprofitloss")] CreateStopprofitloss = 11,
+        /// <summary>
+        ///删除止盈止损
+        /// </summary>
+        [pbr::OriginalName("delete_stopprofitloss")] DeleteStopprofitloss = 12,
+        /// <summary>
+        ///更新止盈止损
+        /// </summary>
+        [pbr::OriginalName("update_stopprofitloss")] UpdateStopprofitloss = 13,
+        /// <summary>
+        ///触发止盈止损
+        /// </summary>
+        [pbr::OriginalName("trigger_stopprofitloss")] TriggerStopprofitloss = 14,
+        /// <summary>
+        ///新增预警
+        /// </summary>
+        [pbr::OriginalName("create_warning")] CreateWarning = 15,
+        /// <summary>
+        ///删除预警
+        /// </summary>
+        [pbr::OriginalName("delete_warning")] DeleteWarning = 16,
+        /// <summary>
+        ///更新预警
+        /// </summary>
+        [pbr::OriginalName("update_warning")] UpdateWarning = 17,
+        /// <summary>
+        ///触发预警
+        /// </summary>
+        [pbr::OriginalName("trigger_warning")] TriggerWarning = 18,
+        /// <summary>
+        ///成交
+        /// </summary>
+        [pbr::OriginalName("deal")] Deal = 19,
+    }
+
     #endregion
 
-  }
-  #region Enums
-  public enum ResponseCode {
-    [pbr::OriginalName("invalid")] Invalid = 0,
-    [pbr::OriginalName("success")] Success = 200,
-    [pbr::OriginalName("fail")] Fail = 500,
-  }
+    #region Messages
+    public sealed partial class BaseResponse : pb::IMessage<BaseResponse>
+    {
+        private static readonly pb::MessageParser<BaseResponse> _parser = new pb::MessageParser<BaseResponse>(() => new BaseResponse());
+        private pb::UnknownFieldSet _unknownFields;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pb::MessageParser<BaseResponse> Parser { get { return _parser; } }
 
-  public enum Platform {
-    [pbr::OriginalName("pc")] Pc = 0,
-    [pbr::OriginalName("ios")] Ios = 1,
-    [pbr::OriginalName("android")] Android = 2,
-    [pbr::OriginalName("server")] Server = 3,
-  }
-
-  public enum UserLevel {
-    [pbr::OriginalName("normal")] Normal = 0,
-    [pbr::OriginalName("vip")] Vip = 1,
-  }
-
-  public enum TradeAction {
-    /// <summary>
-    ///资金账号登录
-    /// </summary>
-    [pbr::OriginalName("login")] Login = 0,
-    /// <summary>
-    ///资金账号登出
-    /// </summary>
-    [pbr::OriginalName("logout")] Logout = 1,
-    /// <summary>
-    ///查询银行余额
-    /// </summary>
-    [pbr::OriginalName("bank_balance")] BankBalance = 2,
-    /// <summary>
-    ///查询期货余额
-    /// </summary>
-    [pbr::OriginalName("account_balance")] AccountBalance = 3,
-    /// <summary>
-    ///银行转期货
-    /// </summary>
-    [pbr::OriginalName("bank_to_futures")] BankToFutures = 4,
-    /// <summary>
-    ///期货转银行
-    /// </summary>
-    [pbr::OriginalName("futures_to_bank")] FuturesToBank = 5,
-    /// <summary>
-    ///建仓
-    /// </summary>
-    [pbr::OriginalName("create_postion")] CreatePostion = 6,
-    /// <summary>
-    ///平仓
-    /// </summary>
-    [pbr::OriginalName("close_postion")] ClosePostion = 7,
-    /// <summary>
-    ///平今仓
-    /// </summary>
-    [pbr::OriginalName("close_todaye_postion")] CloseTodayePostion = 8,
-    /// <summary>
-    ///撤单
-    /// </summary>
-    [pbr::OriginalName("cancel_order")] CancelOrder = 9,
-    /// <summary>
-    ///反手
-    /// </summary>
-    [pbr::OriginalName("backhand")] Backhand = 10,
-    /// <summary>
-    ///新增止盈止损
-    /// </summary>
-    [pbr::OriginalName("create_stopprofitloss")] CreateStopprofitloss = 11,
-    /// <summary>
-    ///删除止盈止损
-    /// </summary>
-    [pbr::OriginalName("delete_stopprofitloss")] DeleteStopprofitloss = 12,
-    /// <summary>
-    ///更新止盈止损
-    /// </summary>
-    [pbr::OriginalName("update_stopprofitloss")] UpdateStopprofitloss = 13,
-    /// <summary>
-    ///触发止盈止损
-    /// </summary>
-    [pbr::OriginalName("trigger_stopprofitloss")] TriggerStopprofitloss = 14,
-    /// <summary>
-    ///新增预警
-    /// </summary>
-    [pbr::OriginalName("create_warning")] CreateWarning = 15,
-    /// <summary>
-    ///删除预警
-    /// </summary>
-    [pbr::OriginalName("delete_warning")] DeleteWarning = 16,
-    /// <summary>
-    ///更新预警
-    /// </summary>
-    [pbr::OriginalName("update_warning")] UpdateWarning = 17,
-    /// <summary>
-    ///触发预警
-    /// </summary>
-    [pbr::OriginalName("trigger_warning")] TriggerWarning = 18,
-    /// <summary>
-    ///成交
-    /// </summary>
-    [pbr::OriginalName("deal")] Deal = 19,
-  }
-
-  #endregion
-
-  #region Messages
-  public sealed partial class BaseResponse : pb::IMessage<BaseResponse> {
-    private static readonly pb::MessageParser<BaseResponse> _parser = new pb::MessageParser<BaseResponse>(() => new BaseResponse());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<BaseResponse> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Zeus.RPC.Protocol.ZeusMsgReflection.Descriptor.MessageTypes[0]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public BaseResponse() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public BaseResponse(BaseResponse other) : this() {
-      code_ = other.code_;
-      msg_ = other.msg_;
-      serverTime_ = other.serverTime_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public BaseResponse Clone() {
-      return new BaseResponse(this);
-    }
-
-    /// <summary>Field number for the "code" field.</summary>
-    public const int CodeFieldNumber = 1;
-    private global::Zeus.RPC.Protocol.ResponseCode code_ = 0;
-    /// <summary>
-    ///返回码,200成功，500失败
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Zeus.RPC.Protocol.ResponseCode Code {
-      get { return code_; }
-      set {
-        code_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "msg" field.</summary>
-    public const int MsgFieldNumber = 2;
-    private string msg_ = "";
-    /// <summary>
-    ///错误消息
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Msg {
-      get { return msg_; }
-      set {
-        msg_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "server_time" field.</summary>
-    public const int ServerTimeFieldNumber = 3;
-    private long serverTime_;
-    /// <summary>
-    ///服务器时间戳
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long ServerTime {
-      get { return serverTime_; }
-      set {
-        serverTime_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as BaseResponse);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(BaseResponse other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Code != other.Code) return false;
-      if (Msg != other.Msg) return false;
-      if (ServerTime != other.ServerTime) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Code != 0) hash ^= Code.GetHashCode();
-      if (Msg.Length != 0) hash ^= Msg.GetHashCode();
-      if (ServerTime != 0L) hash ^= ServerTime.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (Code != 0) {
-        output.WriteRawTag(8);
-        output.WriteEnum((int) Code);
-      }
-      if (Msg.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Msg);
-      }
-      if (ServerTime != 0L) {
-        output.WriteRawTag(24);
-        output.WriteInt64(ServerTime);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (Code != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Code);
-      }
-      if (Msg.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Msg);
-      }
-      if (ServerTime != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ServerTime);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(BaseResponse other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Code != 0) {
-        Code = other.Code;
-      }
-      if (other.Msg.Length != 0) {
-        Msg = other.Msg;
-      }
-      if (other.ServerTime != 0L) {
-        ServerTime = other.ServerTime;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            Code = (global::Zeus.RPC.Protocol.ResponseCode) input.ReadEnum();
-            break;
-          }
-          case 18: {
-            Msg = input.ReadString();
-            break;
-          }
-          case 24: {
-            ServerTime = input.ReadInt64();
-            break;
-          }
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pbr::MessageDescriptor Descriptor
+        {
+            get { return global::Zeus.RPC.Protocol.ZeusMsgReflection.Descriptor.MessageTypes[0]; }
         }
-      }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        pbr::MessageDescriptor pb::IMessage.Descriptor
+        {
+            get { return Descriptor; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public BaseResponse()
+        {
+            OnConstruction();
+        }
+
+        partial void OnConstruction();
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public BaseResponse(BaseResponse other) : this()
+        {
+            code_ = other.code_;
+            msg_ = other.msg_;
+            serverTime_ = other.serverTime_;
+            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public BaseResponse Clone()
+        {
+            return new BaseResponse(this);
+        }
+
+        /// <summary>Field number for the "code" field.</summary>
+        public const int CodeFieldNumber = 1;
+        private global::Zeus.RPC.Protocol.ResponseCode code_ = 0;
+        /// <summary>
+        ///返回码,200成功，500失败
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public global::Zeus.RPC.Protocol.ResponseCode Code
+        {
+            get { return code_; }
+            set
+            {
+                code_ = value;
+            }
+        }
+
+        /// <summary>Field number for the "msg" field.</summary>
+        public const int MsgFieldNumber = 2;
+        private string msg_ = "";
+        /// <summary>
+        ///错误消息
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string Msg
+        {
+            get { return msg_; }
+            set
+            {
+                msg_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        /// <summary>Field number for the "server_time" field.</summary>
+        public const int ServerTimeFieldNumber = 3;
+        private long serverTime_;
+        /// <summary>
+        ///服务器时间戳
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public long ServerTime
+        {
+            get { return serverTime_; }
+            set
+            {
+                serverTime_ = value;
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override bool Equals(object other)
+        {
+            return Equals(other as BaseResponse);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public bool Equals(BaseResponse other)
+        {
+            if (ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(other, this))
+            {
+                return true;
+            }
+            if (Code != other.Code) return false;
+            if (Msg != other.Msg) return false;
+            if (ServerTime != other.ServerTime) return false;
+            return Equals(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override int GetHashCode()
+        {
+            int hash = 1;
+            if (Code != 0) hash ^= Code.GetHashCode();
+            if (Msg.Length != 0) hash ^= Msg.GetHashCode();
+            if (ServerTime != 0L) hash ^= ServerTime.GetHashCode();
+            if (_unknownFields != null)
+            {
+                hash ^= _unknownFields.GetHashCode();
+            }
+            return hash;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override string ToString()
+        {
+            return pb::JsonFormatter.ToDiagnosticString(this);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void WriteTo(pb::CodedOutputStream output)
+        {
+            if (Code != 0)
+            {
+                output.WriteRawTag(8);
+                output.WriteEnum((int)Code);
+            }
+            if (Msg.Length != 0)
+            {
+                output.WriteRawTag(18);
+                output.WriteString(Msg);
+            }
+            if (ServerTime != 0L)
+            {
+                output.WriteRawTag(24);
+                output.WriteInt64(ServerTime);
+            }
+            if (_unknownFields != null)
+            {
+                _unknownFields.WriteTo(output);
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public int CalculateSize()
+        {
+            int size = 0;
+            if (Code != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeEnumSize((int)Code);
+            }
+            if (Msg.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(Msg);
+            }
+            if (ServerTime != 0L)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeInt64Size(ServerTime);
+            }
+            if (_unknownFields != null)
+            {
+                size += _unknownFields.CalculateSize();
+            }
+            return size;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(BaseResponse other)
+        {
+            if (other == null)
+            {
+                return;
+            }
+            if (other.Code != 0)
+            {
+                Code = other.Code;
+            }
+            if (other.Msg.Length != 0)
+            {
+                Msg = other.Msg;
+            }
+            if (other.ServerTime != 0L)
+            {
+                ServerTime = other.ServerTime;
+            }
+            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(pb::CodedInputStream input)
+        {
+            uint tag;
+            while ((tag = input.ReadTag()) != 0)
+            {
+                switch (tag)
+                {
+                    default:
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+                        break;
+                    case 8:
+                        {
+                            Code = (global::Zeus.RPC.Protocol.ResponseCode)input.ReadEnum();
+                            break;
+                        }
+                    case 18:
+                        {
+                            Msg = input.ReadString();
+                            break;
+                        }
+                    case 24:
+                        {
+                            ServerTime = input.ReadInt64();
+                            break;
+                        }
+                }
+            }
+        }
+
     }
 
-  }
-
-  #endregion
+    #endregion
 
 }
 

@@ -32,7 +32,8 @@ namespace H.Framework.WPF.UITest
 
             //var a = HashEncryptHepler.MD5Hash(HashEncryptHepler.MD5Hash("13321952950I4kl$0bs"));
             var b = Encoding.Default.GetString(Convert.FromBase64String("eVRkd3JodWpNWjJmemhNWmVkaVJKWjlBNk45RFZReWw="));
-            var a = HashEncryptHepler.EncryptAESToBase64("10000115", b, b.Substring(0, 16));
+            //var a = HashEncryptHepler.EncryptAESToBase64("10000115", b, b.Substring(0, 16));
+            var a = HashEncryptHepler.DecryptAESToString("m/ikMq4WOWlEqHUcj2XalA==", b, b.Substring(0, 16));
             //var c = HashEncryptHepler.DecryptAESToStringCore(b, ")O[xx]6,YF}+eecaj{+oESb7d8>Z'e9N", "UXS9rr9^1wUBzVu#");
             //var a = "cM067Ca06ivfYFjcJyUwHQjyhNydLioNn5tLbr7ac3uRTH0z/iP2wSdkICSxEgw3".AnalyseToken();
             //ListNode = new ThreadSafeObservableCollection<Node>();

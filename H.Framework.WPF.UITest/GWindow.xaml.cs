@@ -29,19 +29,20 @@ namespace H.Framework.WPF.UITest
         {
             var nonce = Utility.ObjectID;
             var curTime = DateTime.Now.ToLong().ToString();
-            //txt1.Text = nonce;
-            //txt2.Text = curTime;
-            //txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
+            txt1.Text = nonce;
+            txt2.Text = curTime;
+            txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
             //var b = Encoding.Default.GetString(Convert.FromBase64String("eVRkd3JodWpNWjJmemhNWmVkaVJKWjlBNk45RFZReWw="));
             //var a = HashEncryptHepler.EncryptAESToBase64("Helloworld", b, b.Substring(0, 16));
             //txt2.Text = HashEncryptHepler.DecryptAESToString(txt1.Text, b, b.Substring(0, 16));
             //var 啊1 = HashEncryptHepler.DecryptAESToString(啊, "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j", "AqIm%czX6M20mi8w");
             //Trace.WriteLine(int.Parse("001231").ToString());
             //var a = Regex.Matches("asdasd1/9/2019 3:9:9 PM", RegexExtensions.DateTimePattern());
-            var a = MsgServiceClient.GetUsers();
+            //var a = MsgServiceClient.GetUsers();
             //var b = MsgServiceClient.UpdateUser();
             //var c = MsgServiceClient.AddUserLog();
             //var d = MsgServiceClient.UpdateUser();
+            MsgServiceClient.Send();
             //PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
             //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
             //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
@@ -213,7 +214,7 @@ namespace H.Framework.WPF.UITest
 
         public static NotificationResp Send()
         {
-            return _client2.SendAll(new NotificationAllReq { Type = "ZEUS", IsStock = false, IsNotify = false, Title = "RPC测试", Content = "RPC测试", Creator = "Rpc" });
+            return _client2.SendAll(new NotificationAllReq { Type = "ZEUS", IsStock = true, IsNotify = false, Title = "RPC测试", Content = "RPC测试", Creator = "Rpc", IsInnerBroadcast = true, NotificationTypeId = 4 });
         }
 
         public static UserLogResp AddUserLog()
