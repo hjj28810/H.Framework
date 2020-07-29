@@ -833,7 +833,7 @@ namespace H.Framework.Core.Utilities
         {
             var fi = value.GetType().GetField(value.ToString());
             var attributes =
-                   (CategoryAttribute[])fi.GetCustomAttributes(
+                   (CategoryAttribute[])fi?.GetCustomAttributes(
                    typeof(CategoryAttribute), false);
             return (attributes.Length > 0) ? attributes[0].Category : value.ToString();
         }
