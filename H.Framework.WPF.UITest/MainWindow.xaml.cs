@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -315,8 +316,17 @@ namespace H.Framework.WPF.UITest
         public static void Test()
         {
             FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
-            var aa = new UserBLL();
-            aa.Update();
+            //var aa = new UserBLL();
+            var a = new ContractGroupBLL();
+            var aa = a.GetAAAsync();
+            aa.ContinueWith(x =>
+            {
+                if (x.IsCompleted)
+                {
+                    var bb = x.Result;
+                }
+            });
+            //aa.Update();
             //aa.Add();
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
             //a.Update(new List<Menu> { new Menu { ID = "3", Name = "还好" } });
@@ -328,8 +338,9 @@ namespace H.Framework.WPF.UITest
             //var aa = new UserBLL();
             //aa.GetUsersWithLog(new UserStatusReq
             //{
-            //    Username = "10/19/2019 11:00:00 PM"
-            //});
+            //    CreatedAtFrom = new DateTime(2020, 7, 28, 10, 10, 10),
+            //    CreatedAtTo = new DateTime(2020, 7, 30, 10, 10, 10),
+            //}); ;
         }
 
         public class FuturesCompanyBLL : BaseBLL<FuturesCompanyDTO, FuturesCompany, FuturesCompanyCounter, FuturesCompanyDAL>
@@ -661,23 +672,94 @@ namespace H.Framework.WPF.UITest
                 Update(list);
             }
         }
-    }
 
-    public static class Exten
-    {
-        private const string _tokenPW = "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j";
-        private const string _tokenIV = "AqIm%czX6M20mi8w";
-
-        public static string AnalyseToken(this string original)
+        public class Contract : IFoundationModel
         {
-            try
+            public string ID { get; set; }
+
+            [LastIDCondition]
+            public string UserID { get; set; }
+
+            public string Name { get; set; }
+
+            public int Sort { get; set; }
+
+            public int Type { get; set; }
+
+            [ForeignKeyID("contractgroup")]
+            public string ContractGroupID { get; set; }
+        }
+
+        public class ContractGroup : IFoundationModel
+        {
+            public string ID { get; set; }
+
+            [LastIDCondition]
+            public string UserID { get; set; }
+
+            public string Name { get; set; }
+
+            [DetailList()]
+            public List<Contract> Contracts { get; set; }
+        }
+
+        public class ContractDTO : IFoundationViewModel
+        {
+            public string ID { get; set; }
+            public string UserID { get; set; }
+
+            public string Name { get; set; }
+            public int Sort { get; set; }
+
+            public int Type { get; set; }
+        }
+
+        public class ContractGroupDTO : IFoundationViewModel, ICustomMap<ContractGroup>
+        {
+            public string ID { get; set; }
+
+            [LastIDCondition]
+            public string UserID { get; set; }
+
+            public string Name { get; set; }
+
+            [MappingIgnore]
+            public IEnumerable<ContractDTO> Contracts { get; set; }
+
+            public void MapFrom(ContractGroup source)
             {
-                return HashEncryptHepler.DecryptAESToString(original, _tokenPW, _tokenIV);
+                Contracts = source?.Contracts?.MapAllTo(x => new ContractDTO());
             }
-            catch
+        }
+
+        public class ContractGroupDAL : BaseDAL<ContractGroup, Contract>
+        {
+        }
+
+        public class ContractGroupBLL : BaseBLL<ContractGroupDTO, ContractGroup, Contract, ContractGroupDAL>
+        {
+            public async Task<IEnumerable<ContractGroupDTO>> GetAAAsync()
             {
-                return string.Empty;
+                return await GetListAsync((x, y) => x.UserID == "14", "Contracts");
             }
+        }
+    }
+}
+
+public static class Exten
+{
+    private const string _tokenPW = "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j";
+    private const string _tokenIV = "AqIm%czX6M20mi8w";
+
+    public static string AnalyseToken(this string original)
+    {
+        try
+        {
+            return HashEncryptHepler.DecryptAESToString(original, _tokenPW, _tokenIV);
+        }
+        catch
+        {
+            return string.Empty;
         }
     }
 }

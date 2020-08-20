@@ -38,7 +38,7 @@ namespace H.Framework.WPF.UITest
             //var 啊1 = HashEncryptHepler.DecryptAESToString(啊, "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j", "AqIm%czX6M20mi8w");
             //Trace.WriteLine(int.Parse("001231").ToString());
             //var a = Regex.Matches("asdasd1/9/2019 3:9:9 PM", RegexExtensions.DateTimePattern());
-            //var a = MsgServiceClient.GetUser();
+            var a = MsgServiceClient.GetUsers();
             //var b = MsgServiceClient.UpdateUser();
             //var c = MsgServiceClient.AddUserLog();
             //var d = MsgServiceClient.UpdateUser();
@@ -183,7 +183,8 @@ namespace H.Framework.WPF.UITest
         static MsgServiceClient()
         {
             //_channel = new Channel("127.0.0.1:40001", ChannelCredentials.Insecure);
-            _channel = new Channel("192.168.99.109:40002", ChannelCredentials.Insecure);
+            //_channel = new Channel("192.168.50.30:40001", ChannelCredentials.Insecure);
+            _channel = new Channel("192.168.99.109:40001", ChannelCredentials.Insecure);
             //_channel = new Channel("172.19.134.96:40001", ChannelCredentials.Insecure);
             _client = new UserRpcService.UserRpcServiceClient(_channel);
             _client2 = new NotificationRpcService.NotificationRpcServiceClient(_channel);
@@ -194,7 +195,7 @@ namespace H.Framework.WPF.UITest
         public static UsersResp GetUsers()
         {
             var req = new UsersReq();
-            req.UserIDs.Add(2);
+            req.UserIDs.Add(1);
             return _client.GetUsers(req);
         }
 
