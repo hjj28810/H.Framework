@@ -643,7 +643,8 @@
             Margin="369,16,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            IsExpanded="False">
+            IsExpanded="False"
+            ShowPath="False">
             <extender:ExpanderEx.Header>
                 <Grid Height="40" VerticalAlignment="Center">
                     <TextBlock FontSize="20" Text="aaaaa" />

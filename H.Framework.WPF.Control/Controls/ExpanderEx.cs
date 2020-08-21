@@ -29,5 +29,18 @@ namespace H.Framework.WPF.Control.Controls
         //    get => (double)GetValue(HeaderHeightProperty);
         //    set => SetValue(HeaderHeightProperty, value);
         //}
+
+        public static readonly DependencyProperty ShowPathProperty = DependencyProperty.Register("ShowPath", typeof(bool), typeof(ExpanderEx), new PropertyMetadata(true, null));
+
+        /// <summary>
+        /// ShowPath
+        /// </summary>
+        [Description("获取或设置ShowPath")]
+        [Category("Defined Properties")]
+        public bool ShowPath
+        {
+            get => (bool)GetValue(ShowPathProperty);
+            set => SetValue(ShowPathProperty, value);
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace H.Framework.WPF.UITest
             //var a = "cM067Ca06ivfYFjcJyUwHQjyhNydLioNn5tLbr7ac3uRTH0z/iP2wSdkICSxEgw3".AnalyseToken();
             //ListNode = new ThreadSafeObservableCollection<Node>();
             //ListNode.CollectionChanged += ListNode_CollectionChanged;
-            TestSql.Test();
+            //TestSql.Test();
             //ListType.WriteJson("appSettings.json");
         }
 
