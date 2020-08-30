@@ -100,8 +100,8 @@ namespace H.Framework.NETCore.IoC.Autofac
             //    }
             //}
             var module = new ConfigurationModule(configuration);
-            CBuilder.RegisterModule(module);
             CBuilder.Populate(services);
+            CBuilder.RegisterModule(module);
             _container = CBuilder.Build();
             InitScope();
             return new AutofacServiceProvider(_container);
