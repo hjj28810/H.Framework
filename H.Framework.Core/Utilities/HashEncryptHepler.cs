@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Jose;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -421,13 +423,59 @@ namespace H.Framework.Core.Utilities
                 return Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(text)));
             }
         }
-    }
 
-    public enum MD5Format
-    {
-        X,
-        x,
-        X2,
-        x2
+        /// <summary>
+        /// JWT By JWK(密钥可以从https://mkjwk.org/上获取)
+        /// </summary>
+        /// <param name="privateKey">JWK PrivateKey</param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public static string JWKRS256ToJWT(string privateKey, string payload, string kid)
+        {
+            {
+                var jwk = privateKey.ToJsonObj<IDictionary<string, string>>();
+
+                var p = Base64Url.Decode(jwk["p"]);
+                var q = Base64Url.Decode(jwk["q"]);
+                var d = Base64Url.Decode(jwk["d"]);
+                var e = Base64Url.Decode(jwk["e"]);
+                var qi = Base64Url.Decode(jwk["qi"]);
+                var dq = Base64Url.Decode(jwk["dq"]);
+                var dp = Base64Url.Decode(jwk["dp"]);
+                var n = Base64Url.Decode(jwk["n"]);
+
+                using (var rsa = RSA.Create())
+                {
+                    var keyParams = new RSAParameters
+                    {
+                        P = p,
+                        Q = q,
+                        D = d,
+                        Exponent = e,
+                        InverseQ = qi,
+                        DP = dp,
+                        DQ = dq,
+                        Modulus = n
+                    };
+                    rsa.KeySize = 2048;
+                    rsa.ImportParameters(keyParams);
+                    var headers = new Dictionary<string, object>()
+                    {
+                         { "alg", "RS256"},
+                         { "typ", "JWT"},
+                         { "kid", kid}
+                    };
+                    return JWT.Encode(payload, rsa, JwsAlgorithm.RS256, headers);
+                }
+            }
+        }
+
+        public enum MD5Format
+        {
+            X,
+            x,
+            X2,
+            x2
+        }
     }
 }
