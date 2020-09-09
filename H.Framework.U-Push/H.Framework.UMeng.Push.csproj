@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>H.Framework.UMeng.Push</RootNamespace>
-    <Version>1.0.0.4</Version>
+    <Version>1.0.0.5</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.0.0.4</FileVersion>
+    <FileVersion>1.0.0.5</FileVersion>
     <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 

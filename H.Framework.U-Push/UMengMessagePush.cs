@@ -116,9 +116,8 @@ namespace H.Framework.UMeng.Push
         {
             if (string.IsNullOrEmpty(paramsJsonObj.Appkey)) paramsJsonObj.Appkey = _appkey;
             var json = paramsJsonObj.ToJson(true, CaseType.Lower);
-            string calcSign = HashEncryptHepler.MD5Hash(_requestMethod + _apiFullUrl + json + _appMasterSecret).ToLower();
+            var calcSign = HashEncryptHepler.MD5Hash(_requestMethod + _apiFullUrl + json + _appMasterSecret).ToLower();
             _apiFullUrl = string.Format("{0}?sign={1}", _apiFullUrl, calcSign);
-
             return json;
         }
 
