@@ -101,6 +101,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\PasswordBox.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\WindowFunctionBar.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -211,6 +215,7 @@
     <Compile Include="Adorners\DragAdorner.cs" />
     <Compile Include="Adorners\SearchBoxFocusAdorner.cs" />
     <Compile Include="Adorners\WatermarkAdorner.cs" />
+    <Compile Include="ControlHelpers\TextBoxHelper.cs" />
     <Compile Include="Controls\BusyChrome.cs" />
     <Compile Include="Controls\BusyCircle.cs" />
     <Compile Include="Controls\BusyDecorator.cs" />
@@ -237,6 +242,7 @@
     <Compile Include="Controls\ExtendedWindows\WindowService.WindowCommandHelper.cs" />
     <Compile Include="Controls\MarketLoading.cs" />
     <Compile Include="Controls\Pager.cs" />
+    <Compile Include="Controls\PasswordBox.cs" />
     <Compile Include="Controls\RadioButtonEx.cs" />
     <Compile Include="Controls\SwingLoading.cs" />
     <Compile Include="Controls\TextBoxEx.cs" />
@@ -301,5 +307,6 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\save.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

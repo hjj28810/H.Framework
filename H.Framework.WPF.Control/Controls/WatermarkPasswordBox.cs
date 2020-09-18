@@ -105,6 +105,35 @@ namespace H.Framework.WPF.Control.Controls
 
         #endregion SecurePassword
 
+        #region ShowPassword
+
+        public static readonly DependencyProperty ShowPasswordProperty = DependencyProperty.Register("ShowPassword", typeof(bool), typeof(WatermarkPasswordBox)
+          , new UIPropertyMetadata(false, OnShowPasswordChanged));
+
+        public bool ShowPassword
+        {
+            get
+            {
+                return (bool)GetValue(ShowPasswordProperty);
+            }
+
+            set
+            {
+                SetValue(ShowPasswordProperty, value);
+            }
+        }
+
+        private static void OnShowPasswordChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            var watermarkPasswordBox = o as WatermarkPasswordBox;
+            if (watermarkPasswordBox != null)
+            {
+                watermarkPasswordBox.SyncTextPassword(watermarkPasswordBox.Password.Length);
+            }
+        }
+
+        #endregion ShowPassword
+
         #endregion Properties
 
         #region Constructors
@@ -317,7 +346,10 @@ namespace H.Framework.WPF.Control.Controls
         private void SyncTextPassword(int nextCarretIndex)
         {
             var sb = new StringBuilder();
-            this.Text = sb.Append(Enumerable.Repeat(this.PasswordChar, this.Password.Length).ToArray()).ToString();
+            if (!ShowPassword)
+                this.Text = sb.Append(Enumerable.Repeat(this.PasswordChar, this.Password.Length).ToArray()).ToString();
+            else
+                this.Text = this.Password;
             //set CaretIndex after Text is changed
             this.CaretIndex = Math.Max(nextCarretIndex, 0);
         }

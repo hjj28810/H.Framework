@@ -113,6 +113,19 @@ namespace H.Framework.WPF.UITest
             }
         }
 
+        private string _pw;
+
+        //[Required(ErrorMessage = "sdsadasd")]
+        public string PW
+        {
+            get => _pw;
+            set
+            {
+                _pw = value;
+                OnPropertyChanged("PW");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
@@ -144,6 +157,7 @@ namespace H.Framework.WPF.UITest
             var list2 = new string[] { "1", "2" };
             list.AddRangeNoRept(list2);
             var g = new GWindow();
+            pwb.Password = "asdasd";
             g.Show();
             //screenCapture.StartCapture(30);
 

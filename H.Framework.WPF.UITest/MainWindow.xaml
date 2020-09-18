@@ -708,6 +708,34 @@
             Placement="Top"
             PlacementTarget="{Binding ElementName=asdsa}"
             ShadowColor="#A3A3A3" />
+        <Path
+            Grid.Row="1"
+            Data="M1969.024 144.896a74.24 74.24 0 0 0-13.44-95.744 67.456 67.456 0 0 0-95.744 13.568c-3.456 3.328-382.976 451.584-835.84 451.584-438.144 0-835.84-451.584-839.168-455.04a70.016 70.016 0 0 0-95.744-6.784 70.016 70.016 0 0 0-6.784 95.744c6.784 10.24 88.96 102.528 219.648 205.056L127.36 534.656a66.56 66.56 0 0 0 3.456 95.744c6.656 13.44 23.552 20.224 40.448 20.224a71.296 71.296 0 0 0 48.512-20.224l188.16-194.944c88.96 61.952 194.816 119.424 311.936 161.152l-72.064 243.2c-10.24 37.248 10.112 75.52 48.384 85.76h20.352a66.176 66.176 0 0 0 65.28-51.84L853.888 630.4c55.168 10.112 112.64 16.896 171.264 16.896 58.496 0 115.968-6.784 171.136-16.896l72.192 239.872c6.656 30.464 37.12 51.84 65.28 51.84 6.784 0 13.568 0 16.896-3.328a69.376 69.376 0 0 0 48.384-85.76l-72.064-239.872a1312.896 1312.896 0 0 0 312.064-161.024l184.704 191.488a67.328 67.328 0 0 0 48.384 20.224 69.888 69.888 0 0 0 51.84-115.968l-174.592-181.376a1392.896 1392.896 0 0 0 219.648-201.6z"
+            Fill="Green"
+            Stretch="Fill" />
+
+        <extender:WatermarkPasswordBox
+            Grid.Row="1"
+            Height="26"
+            Margin="227,61,431,0"
+            Padding="10,0"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center"
+            Background="LightGreen"
+            BorderThickness="1"
+            FontWeight="Light" />
+        <extender:PasswordBox
+            Name="pwb"
+            Grid.Row="1"
+            Height="26"
+            Margin="225,102,433,0"
+            Padding="10,0"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center"
+            Background="LightBlue"
+            BorderThickness="1"
+            FontWeight="Light"
+            Password="{Binding PW}" />
         <extender:ComboBoxEx
             Grid.Row="1"
             Height="28"

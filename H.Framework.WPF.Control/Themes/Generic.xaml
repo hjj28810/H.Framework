@@ -28,5 +28,6 @@
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/ClassicPager.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/ExtendedWindow.generic.xaml" />
         <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/WindowFunctionBar.generic.xaml" />
+        <ResourceDictionary Source="/H.Framework.WPF.Control;component/Themes/PasswordBox.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
