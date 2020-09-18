@@ -116,7 +116,6 @@ namespace H.Framework.WPF.Control.Controls
             {
                 return (bool)GetValue(ShowPasswordProperty);
             }
-
             set
             {
                 SetValue(ShowPasswordProperty, value);
