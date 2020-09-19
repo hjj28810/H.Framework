@@ -19,6 +19,17 @@ namespace H.Framework.WPF.Control.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PasswordBox), new FrameworkPropertyMetadata(typeof(PasswordBox)));
         }
 
+        public PasswordBox()
+        {
+            GotFocus += PasswordBox_GotFocus;
+        }
+
+        private void PasswordBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (PART_PasswordBox != null)
+                PART_PasswordBox.Focus();
+        }
+
         #region PasswordEye
 
         public static readonly DependencyProperty PasswordEyeProperty = DependencyProperty.Register("PasswordEye", typeof(bool), typeof(PasswordBox)
@@ -137,7 +148,8 @@ namespace H.Framework.WPF.Control.Controls
         {
             base.OnApplyTemplate();
             PART_PasswordBox = (WatermarkPasswordBox)GetTemplateChild("PART_PasswordBox");
-            PART_PasswordBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
+            if (PART_PasswordBox != null)
+                PART_PasswordBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
         }
 
         private void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)

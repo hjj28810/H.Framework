@@ -723,7 +723,8 @@
             VerticalContentAlignment="Center"
             Background="LightGreen"
             BorderThickness="1"
-            FontWeight="Light" />
+            FontWeight="Light"
+            TabIndex="0" />
         <extender:PasswordBox
             Name="pwb"
             Grid.Row="1"
@@ -735,7 +736,8 @@
             Background="LightBlue"
             BorderThickness="1"
             FontWeight="Light"
-            Password="{Binding PW}" />
+            Password="{Binding PW}"
+            TabIndex="1" />
         <extender:ComboBoxEx
             Grid.Row="1"
             Height="28"
@@ -753,7 +755,8 @@
             ItemContainerStyle="{StaticResource ComboBoxItemStyle}"
             ItemTemplate="{StaticResource CMBItemTemplate}"
             ItemsSource="{Binding ListType}"
-            SelectionItemTemplate="{StaticResource CMBSelectedItemTemplate}" />
+            SelectionItemTemplate="{StaticResource CMBSelectedItemTemplate}"
+            TabIndex="2" />
         <extender:TextBoxEx
             Name="sss"
             Grid.Row="1"
