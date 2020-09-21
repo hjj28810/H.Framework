@@ -738,8 +738,15 @@
             BorderThickness="1"
             FontWeight="Light"
             Password="{Binding PW}"
+            PasswordEye="True"
             TabIndex="1"
-            TextAlignment="Center" />
+            TextAlignment="Center">
+            <!--<extender:PasswordBox.Resources>
+                <Style TargetType="ScrollViewer">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </extender:PasswordBox.Resources>-->
+        </extender:PasswordBox>
         <extender:ComboBoxEx
             Grid.Row="1"
             Height="28"
