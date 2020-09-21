@@ -116,6 +116,19 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(BorderCornerRadiusProperty, value);
         }
 
+        public static readonly DependencyProperty TextAlignmentProperty = DependencyProperty.Register("TextAlignment", typeof(TextAlignment), typeof(PasswordBox), new UIPropertyMetadata(TextAlignment.Left));
+
+        /// <summary>
+        /// TextAlignment
+        /// </summary>
+        [Description("获取或设置TextAlignment")]
+        [Category("Defined Properties")]
+        public TextAlignment TextAlignment
+        {
+            get => (TextAlignment)GetValue(TextAlignmentProperty);
+            set => SetValue(TextAlignmentProperty, value);
+        }
+
         public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register("Password", typeof(string), typeof(PasswordBox), new FrameworkPropertyMetadata
         {
             BindsTwoWayByDefault = true,
