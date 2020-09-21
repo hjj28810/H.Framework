@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace H.Framework.WPF.Control.Controls
 {
@@ -114,6 +115,19 @@ namespace H.Framework.WPF.Control.Controls
         {
             get => (CornerRadius)GetValue(BorderCornerRadiusProperty);
             set => SetValue(BorderCornerRadiusProperty, value);
+        }
+
+        public static readonly DependencyProperty EyeColorProperty = DependencyProperty.Register("EyeColor", typeof(Brush), typeof(PasswordBox), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(155, 160, 170))));
+
+        /// <summary>
+        /// EysColor颜色
+        /// </summary>
+        [Description("获取或设置EysColor颜色")]
+        [Category("Defined Properties")]
+        public Brush EyeColor
+        {
+            get { return (Brush)GetValue(EyeColorProperty); }
+            set { SetValue(EyeColorProperty, value); }
         }
 
         public static readonly DependencyProperty TextAlignmentProperty = DependencyProperty.Register("TextAlignment", typeof(TextAlignment), typeof(PasswordBox), new UIPropertyMetadata(TextAlignment.Left));

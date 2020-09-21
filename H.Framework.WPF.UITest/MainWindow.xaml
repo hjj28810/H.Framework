@@ -736,6 +736,7 @@
             VerticalContentAlignment="Center"
             Background="LightBlue"
             BorderThickness="1"
+            EyeColor="Red"
             FontWeight="Light"
             Password="{Binding PW}"
             PasswordEye="True"
