@@ -33,17 +33,18 @@ namespace Zeus.RPC.Protocol
                   "b25zZUNvZGUSCwoDbXNnGAIgASgJEhMKC3NlcnZlcl90aW1lGAMgASgDKjQK",
                   "DFJlc3BvbnNlQ29kZRILCgdpbnZhbGlkEAASDAoHc3VjY2VzcxDIARIJCgRm",
                   "YWlsEPQDKjQKCFBsYXRmb3JtEgYKAnBjEAASBwoDaW9zEAESCwoHYW5kcm9p",
-                  "ZBACEgoKBnNlcnZlchADKiAKCVVzZXJMZXZlbBIKCgZub3JtYWwQABIHCgN2",
-                  "aXAQASqeAwoLVHJhZGVBY3Rpb24SCQoFbG9naW4QABIKCgZsb2dvdXQQARIQ",
-                  "CgxiYW5rX2JhbGFuY2UQAhITCg9hY2NvdW50X2JhbGFuY2UQAxITCg9iYW5r",
-                  "X3RvX2Z1dHVyZXMQBBITCg9mdXR1cmVzX3RvX2JhbmsQBRISCg5jcmVhdGVf",
-                  "cG9zdGlvbhAGEhEKDWNsb3NlX3Bvc3Rpb24QBxIYChRjbG9zZV90b2RheWVf",
-                  "cG9zdGlvbhAIEhAKDGNhbmNlbF9vcmRlchAJEgwKCGJhY2toYW5kEAoSGQoV",
-                  "Y3JlYXRlX3N0b3Bwcm9maXRsb3NzEAsSGQoVZGVsZXRlX3N0b3Bwcm9maXRs",
-                  "b3NzEAwSGQoVdXBkYXRlX3N0b3Bwcm9maXRsb3NzEA0SGgoWdHJpZ2dlcl9z",
-                  "dG9wcHJvZml0bG9zcxAOEhIKDmNyZWF0ZV93YXJuaW5nEA8SEgoOZGVsZXRl",
-                  "X3dhcm5pbmcQEBISCg51cGRhdGVfd2FybmluZxAREhMKD3RyaWdnZXJfd2Fy",
-                  "bmluZxASEggKBGRlYWwQE2IGcHJvdG8z"));
+                  "ZBACEgoKBnNlcnZlchADKk8KCVVzZXJMZXZlbBIKCgZub3JtYWwQABIHCgN2",
+                  "aXAQARIICgRnb2xkEAoSCwoHZGlhbW9uZBAUEgkKBWJsYWNrEB4SCwoHZXh0",
+                  "cmVtZRAoKp4DCgtUcmFkZUFjdGlvbhIJCgVsb2dpbhAAEgoKBmxvZ291dBAB",
+                  "EhAKDGJhbmtfYmFsYW5jZRACEhMKD2FjY291bnRfYmFsYW5jZRADEhMKD2Jh",
+                  "bmtfdG9fZnV0dXJlcxAEEhMKD2Z1dHVyZXNfdG9fYmFuaxAFEhIKDmNyZWF0",
+                  "ZV9wb3N0aW9uEAYSEQoNY2xvc2VfcG9zdGlvbhAHEhgKFGNsb3NlX3RvZGF5",
+                  "ZV9wb3N0aW9uEAgSEAoMY2FuY2VsX29yZGVyEAkSDAoIYmFja2hhbmQQChIZ",
+                  "ChVjcmVhdGVfc3RvcHByb2ZpdGxvc3MQCxIZChVkZWxldGVfc3RvcHByb2Zp",
+                  "dGxvc3MQDBIZChV1cGRhdGVfc3RvcHByb2ZpdGxvc3MQDRIaChZ0cmlnZ2Vy",
+                  "X3N0b3Bwcm9maXRsb3NzEA4SEgoOY3JlYXRlX3dhcm5pbmcQDxISCg5kZWxl",
+                  "dGVfd2FybmluZxAQEhIKDnVwZGF0ZV93YXJuaW5nEBESEwoPdHJpZ2dlcl93",
+                  "YXJuaW5nEBISCAoEZGVhbBATYgZwcm90bzM="));
             descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
                 new pbr::FileDescriptor[] { },
                 new pbr::GeneratedClrTypeInfo(new[] { typeof(global::Zeus.RPC.Protocol.ResponseCode), typeof(global::Zeus.RPC.Protocol.Platform), typeof(global::Zeus.RPC.Protocol.UserLevel), typeof(global::Zeus.RPC.Protocol.TradeAction), }, new pbr::GeneratedClrTypeInfo[] {
@@ -73,6 +74,10 @@ namespace Zeus.RPC.Protocol
     {
         [pbr::OriginalName("normal")] Normal = 0,
         [pbr::OriginalName("vip")] Vip = 1,
+        [pbr::OriginalName("gold")] Gold = 10,
+        [pbr::OriginalName("diamond")] Diamond = 20,
+        [pbr::OriginalName("black")] Black = 30,
+        [pbr::OriginalName("extreme")] Extreme = 40,
     }
 
     public enum TradeAction

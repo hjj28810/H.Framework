@@ -43,7 +43,7 @@ namespace H.Framework.WPF.UITest
             //var b = MsgServiceClient.UpdateUser();
             //var c = MsgServiceClient.AddUserLog();
             //var d = MsgServiceClient.UpdateUser();
-            //MsgServiceClient.Send();
+            MsgServiceClient.Send();
             //PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
             //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
             //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
@@ -217,7 +217,9 @@ namespace H.Framework.WPF.UITest
 
         public static NotificationResp Send()
         {
-            return _client2.SendAll(new NotificationAllReq { Type = "ZEUS", IsStock = true, IsNotify = true, Title = "RPC测试", Content = "RPC测试", Creator = "Rpc", IsInnerBroadcast = false, NotificationTypeId = 4 });
+            //return _client2.SendAll(new NotificationAllReq { Type = "ZEUS", IsStock = true, IsNotify = true, Title = "RPC测试", Content = "RPC测试", Creator = "Rpc", IsInnerBroadcast = false, NotificationTypeId = 4 });
+
+            return _client2.SendByUserLevel(new NotificationByUserLevelReq { Req = new NotificationReq { Type = "ZEUS", IsStock = true, IsNotify = true, Title = "RPC测试", Content = "RPC测试", Creator = "Rpc", NotificationTypeId = 4 }, UserLevel = UserLevel.Gold });
         }
 
         public static UserLogResp AddUserLog()

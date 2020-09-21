@@ -16,6 +16,7 @@ namespace Zeus.RPC.Protocol
         static readonly grpc::Marshaller<global::Zeus.RPC.Protocol.NotificationReq> __Marshaller_Zeus_RPC_Protocol_NotificationReq = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Zeus.RPC.Protocol.NotificationReq.Parser.ParseFrom);
         static readonly grpc::Marshaller<global::Zeus.RPC.Protocol.NotificationResp> __Marshaller_Zeus_RPC_Protocol_NotificationResp = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Zeus.RPC.Protocol.NotificationResp.Parser.ParseFrom);
         static readonly grpc::Marshaller<global::Zeus.RPC.Protocol.NotificationAllReq> __Marshaller_Zeus_RPC_Protocol_NotificationAllReq = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Zeus.RPC.Protocol.NotificationAllReq.Parser.ParseFrom);
+        static readonly grpc::Marshaller<global::Zeus.RPC.Protocol.NotificationByUserLevelReq> __Marshaller_Zeus_RPC_Protocol_NotificationByUserLevelReq = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Zeus.RPC.Protocol.NotificationByUserLevelReq.Parser.ParseFrom);
 
         static readonly grpc::Method<global::Zeus.RPC.Protocol.NotificationReq, global::Zeus.RPC.Protocol.NotificationResp> __Method_Send = new grpc::Method<global::Zeus.RPC.Protocol.NotificationReq, global::Zeus.RPC.Protocol.NotificationResp>(
             grpc::MethodType.Unary,
@@ -29,6 +30,13 @@ namespace Zeus.RPC.Protocol
             __ServiceName,
             "SendAll",
             __Marshaller_Zeus_RPC_Protocol_NotificationAllReq,
+            __Marshaller_Zeus_RPC_Protocol_NotificationResp);
+
+        static readonly grpc::Method<global::Zeus.RPC.Protocol.NotificationByUserLevelReq, global::Zeus.RPC.Protocol.NotificationResp> __Method_SendByUserLevel = new grpc::Method<global::Zeus.RPC.Protocol.NotificationByUserLevelReq, global::Zeus.RPC.Protocol.NotificationResp>(
+            grpc::MethodType.Unary,
+            __ServiceName,
+            "SendByUserLevel",
+            __Marshaller_Zeus_RPC_Protocol_NotificationByUserLevelReq,
             __Marshaller_Zeus_RPC_Protocol_NotificationResp);
 
         /// <summary>Service descriptor</summary>
@@ -47,6 +55,11 @@ namespace Zeus.RPC.Protocol
             }
 
             public virtual global::System.Threading.Tasks.Task<global::Zeus.RPC.Protocol.NotificationResp> SendAll(global::Zeus.RPC.Protocol.NotificationAllReq request, grpc::ServerCallContext context)
+            {
+                throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+            }
+
+            public virtual global::System.Threading.Tasks.Task<global::Zeus.RPC.Protocol.NotificationResp> SendByUserLevel(global::Zeus.RPC.Protocol.NotificationByUserLevelReq request, grpc::ServerCallContext context)
             {
                 throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
             }
@@ -108,6 +121,22 @@ namespace Zeus.RPC.Protocol
             {
                 return CallInvoker.AsyncUnaryCall(__Method_SendAll, null, options, request);
             }
+            public virtual global::Zeus.RPC.Protocol.NotificationResp SendByUserLevel(global::Zeus.RPC.Protocol.NotificationByUserLevelReq request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+            {
+                return SendByUserLevel(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+            }
+            public virtual global::Zeus.RPC.Protocol.NotificationResp SendByUserLevel(global::Zeus.RPC.Protocol.NotificationByUserLevelReq request, grpc::CallOptions options)
+            {
+                return CallInvoker.BlockingUnaryCall(__Method_SendByUserLevel, null, options, request);
+            }
+            public virtual grpc::AsyncUnaryCall<global::Zeus.RPC.Protocol.NotificationResp> SendByUserLevelAsync(global::Zeus.RPC.Protocol.NotificationByUserLevelReq request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+            {
+                return SendByUserLevelAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+            }
+            public virtual grpc::AsyncUnaryCall<global::Zeus.RPC.Protocol.NotificationResp> SendByUserLevelAsync(global::Zeus.RPC.Protocol.NotificationByUserLevelReq request, grpc::CallOptions options)
+            {
+                return CallInvoker.AsyncUnaryCall(__Method_SendByUserLevel, null, options, request);
+            }
             /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
             protected override NotificationRpcServiceClient NewInstance(ClientBaseConfiguration configuration)
             {
@@ -121,7 +150,8 @@ namespace Zeus.RPC.Protocol
         {
             return grpc::ServerServiceDefinition.CreateBuilder()
                 .AddMethod(__Method_Send, serviceImpl.Send)
-                .AddMethod(__Method_SendAll, serviceImpl.SendAll).Build();
+                .AddMethod(__Method_SendAll, serviceImpl.SendAll)
+                .AddMethod(__Method_SendByUserLevel, serviceImpl.SendByUserLevel).Build();
         }
 
         /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -132,6 +162,7 @@ namespace Zeus.RPC.Protocol
         {
             serviceBinder.AddMethod(__Method_Send, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Zeus.RPC.Protocol.NotificationReq, global::Zeus.RPC.Protocol.NotificationResp>(serviceImpl.Send));
             serviceBinder.AddMethod(__Method_SendAll, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Zeus.RPC.Protocol.NotificationAllReq, global::Zeus.RPC.Protocol.NotificationResp>(serviceImpl.SendAll));
+            serviceBinder.AddMethod(__Method_SendByUserLevel, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Zeus.RPC.Protocol.NotificationByUserLevelReq, global::Zeus.RPC.Protocol.NotificationResp>(serviceImpl.SendByUserLevel));
         }
 
     }

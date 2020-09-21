@@ -9,1221 +9,1463 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Zeus.RPC.Protocol {
+namespace Zeus.RPC.Protocol
+{
 
-  /// <summary>Holder for reflection information generated from zeus_user_msg.proto</summary>
-  public static partial class ZeusUserMsgReflection {
+    /// <summary>Holder for reflection information generated from zeus_user_msg.proto</summary>
+    public static partial class ZeusUserMsgReflection
+    {
 
-    #region Descriptor
-    /// <summary>File descriptor for zeus_user_msg.proto</summary>
-    public static pbr::FileDescriptor Descriptor {
-      get { return descriptor; }
-    }
-    private static pbr::FileDescriptor descriptor;
+        #region Descriptor
+        /// <summary>File descriptor for zeus_user_msg.proto</summary>
+        public static pbr::FileDescriptor Descriptor
+        {
+            get { return descriptor; }
+        }
+        private static pbr::FileDescriptor descriptor;
 
-    static ZeusUserMsgReflection() {
-      byte[] descriptorData = global::System.Convert.FromBase64String(
-          string.Concat(
-            "ChN6ZXVzX3VzZXJfbXNnLnByb3RvEhFaZXVzLlJQQy5Qcm90b2NvbBoOemV1",
-            "c19tc2cucHJvdG8irgEKB1VzZXJEVE8SDwoHdXNlcl9pZBgBIAEoBRIQCgh1",
-            "c2VybmFtZRgCIAEoCRIQCghuaWNrbmFtZRgDIAEoCRINCgVwaG90bxgEIAEo",
-            "CRITCgtkZXNjcmlwdGlvbhgFIAEoCRIwCgp1c2VyX2xldmVsGAYgASgOMhwu",
-            "WmV1cy5SUEMuUHJvdG9jb2wuVXNlckxldmVsEhgKEGxldmVsX3VwZGF0ZWRf",
-            "YXQYByABKAkiUQoHVXNlclJlcRIQCgh1c2VybmFtZRgBIAEoCRIQCghuaWNr",
-            "bmFtZRgCIAEoCRINCgVwaG90bxgDIAEoCRITCgtkZXNjcmlwdGlvbhgEIAEo",
-            "CSJSCgxVc2VyTGV2ZWxSZXESEAoIdXNlcm5hbWUYASABKAkSMAoKdXNlcl9s",
-            "ZXZlbBgCIAEoDjIcLlpldXMuUlBDLlByb3RvY29sLlVzZXJMZXZlbCJjCghV",
-            "c2VyUmVzcBItCgRyZXNwGAEgASgLMh8uWmV1cy5SUEMuUHJvdG9jb2wuQmFz",
-            "ZVJlc3BvbnNlEigKBHVzZXIYAiABKAsyGi5aZXVzLlJQQy5Qcm90b2NvbC5V",
-            "c2VyRFRPIhsKCFVzZXJzUmVxEg8KB3VzZXJJRHMYASADKAUiZQoJVXNlcnNS",
-            "ZXNwEi0KBHJlc3AYASABKAsyHy5aZXVzLlJQQy5Qcm90b2NvbC5CYXNlUmVz",
-            "cG9uc2USKQoFdXNlcnMYAiADKAsyGi5aZXVzLlJQQy5Qcm90b2NvbC5Vc2Vy",
-            "RFRPMvIBCg5Vc2VyUnBjU2VydmljZRJHCghHZXRVc2VycxIbLlpldXMuUlBD",
-            "LlByb3RvY29sLlVzZXJzUmVxGhwuWmV1cy5SUEMuUHJvdG9jb2wuVXNlcnNS",
-            "ZXNwIgASRAoHR2V0VXNlchIaLlpldXMuUlBDLlByb3RvY29sLlVzZXJSZXEa",
-            "Gy5aZXVzLlJQQy5Qcm90b2NvbC5Vc2VyUmVzcCIAElEKD1VwZGF0ZVVzZXJM",
-            "ZXZlbBIfLlpldXMuUlBDLlByb3RvY29sLlVzZXJMZXZlbFJlcRobLlpldXMu",
-            "UlBDLlByb3RvY29sLlVzZXJSZXNwIgBiBnByb3RvMw=="));
-      descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Zeus.RPC.Protocol.ZeusMsgReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+        static ZeusUserMsgReflection()
+        {
+            byte[] descriptorData = global::System.Convert.FromBase64String(
+                string.Concat(
+                  "ChN6ZXVzX3VzZXJfbXNnLnByb3RvEhFaZXVzLlJQQy5Qcm90b2NvbBoOemV1",
+                  "c19tc2cucHJvdG8irgEKB1VzZXJEVE8SDwoHdXNlcl9pZBgBIAEoBRIQCgh1",
+                  "c2VybmFtZRgCIAEoCRIQCghuaWNrbmFtZRgDIAEoCRINCgVwaG90bxgEIAEo",
+                  "CRITCgtkZXNjcmlwdGlvbhgFIAEoCRIwCgp1c2VyX2xldmVsGAYgASgOMhwu",
+                  "WmV1cy5SUEMuUHJvdG9jb2wuVXNlckxldmVsEhgKEGxldmVsX3VwZGF0ZWRf",
+                  "YXQYByABKAkiUQoHVXNlclJlcRIQCgh1c2VybmFtZRgBIAEoCRIQCghuaWNr",
+                  "bmFtZRgCIAEoCRINCgVwaG90bxgDIAEoCRITCgtkZXNjcmlwdGlvbhgEIAEo",
+                  "CSJSCgxVc2VyTGV2ZWxSZXESEAoIdXNlcm5hbWUYASABKAkSMAoKdXNlcl9s",
+                  "ZXZlbBgCIAEoDjIcLlpldXMuUlBDLlByb3RvY29sLlVzZXJMZXZlbCJjCghV",
+                  "c2VyUmVzcBItCgRyZXNwGAEgASgLMh8uWmV1cy5SUEMuUHJvdG9jb2wuQmFz",
+                  "ZVJlc3BvbnNlEigKBHVzZXIYAiABKAsyGi5aZXVzLlJQQy5Qcm90b2NvbC5V",
+                  "c2VyRFRPIhsKCFVzZXJzUmVxEg8KB3VzZXJJRHMYASADKAUiZQoJVXNlcnNS",
+                  "ZXNwEi0KBHJlc3AYASABKAsyHy5aZXVzLlJQQy5Qcm90b2NvbC5CYXNlUmVz",
+                  "cG9uc2USKQoFdXNlcnMYAiADKAsyGi5aZXVzLlJQQy5Qcm90b2NvbC5Vc2Vy",
+                  "RFRPMvIBCg5Vc2VyUnBjU2VydmljZRJHCghHZXRVc2VycxIbLlpldXMuUlBD",
+                  "LlByb3RvY29sLlVzZXJzUmVxGhwuWmV1cy5SUEMuUHJvdG9jb2wuVXNlcnNS",
+                  "ZXNwIgASRAoHR2V0VXNlchIaLlpldXMuUlBDLlByb3RvY29sLlVzZXJSZXEa",
+                  "Gy5aZXVzLlJQQy5Qcm90b2NvbC5Vc2VyUmVzcCIAElEKD1VwZGF0ZVVzZXJM",
+                  "ZXZlbBIfLlpldXMuUlBDLlByb3RvY29sLlVzZXJMZXZlbFJlcRobLlpldXMu",
+                  "UlBDLlByb3RvY29sLlVzZXJSZXNwIgBiBnByb3RvMw=="));
+            descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
+                new pbr::FileDescriptor[] { global::Zeus.RPC.Protocol.ZeusMsgReflection.Descriptor, },
+                new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UserDTO), global::Zeus.RPC.Protocol.UserDTO.Parser, new[]{ "UserId", "Username", "Nickname", "Photo", "Description", "UserLevel", "LevelUpdatedAt" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UserReq), global::Zeus.RPC.Protocol.UserReq.Parser, new[]{ "Username", "Nickname", "Photo", "Description" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UserLevelReq), global::Zeus.RPC.Protocol.UserLevelReq.Parser, new[]{ "Username", "UserLevel" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UserResp), global::Zeus.RPC.Protocol.UserResp.Parser, new[]{ "Resp", "User" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UsersReq), global::Zeus.RPC.Protocol.UsersReq.Parser, new[]{ "UserIDs" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.UsersResp), global::Zeus.RPC.Protocol.UsersResp.Parser, new[]{ "Resp", "Users" }, null, null, null)
-          }));
+                }));
+        }
+        #endregion
+
     }
+    #region Messages
+    /// <summary>
+    /// 用户信息(响应)
+    /// </summary>
+    public sealed partial class UserDTO : pb::IMessage<UserDTO>
+    {
+        private static readonly pb::MessageParser<UserDTO> _parser = new pb::MessageParser<UserDTO>(() => new UserDTO());
+        private pb::UnknownFieldSet _unknownFields;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pb::MessageParser<UserDTO> Parser { get { return _parser; } }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pbr::MessageDescriptor Descriptor
+        {
+            get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[0]; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        pbr::MessageDescriptor pb::IMessage.Descriptor
+        {
+            get { return Descriptor; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserDTO()
+        {
+            OnConstruction();
+        }
+
+        partial void OnConstruction();
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserDTO(UserDTO other) : this()
+        {
+            userId_ = other.userId_;
+            username_ = other.username_;
+            nickname_ = other.nickname_;
+            photo_ = other.photo_;
+            description_ = other.description_;
+            userLevel_ = other.userLevel_;
+            levelUpdatedAt_ = other.levelUpdatedAt_;
+            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserDTO Clone()
+        {
+            return new UserDTO(this);
+        }
+
+        /// <summary>Field number for the "user_id" field.</summary>
+        public const int UserIdFieldNumber = 1;
+        private int userId_;
+        /// <summary>
+        /// 用户ID
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public int UserId
+        {
+            get { return userId_; }
+            set
+            {
+                userId_ = value;
+            }
+        }
+
+        /// <summary>Field number for the "username" field.</summary>
+        public const int UsernameFieldNumber = 2;
+        private string username_ = "";
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string Username
+        {
+            get { return username_; }
+            set
+            {
+                username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        /// <summary>Field number for the "nickname" field.</summary>
+        public const int NicknameFieldNumber = 3;
+        private string nickname_ = "";
+        /// <summary>
+        /// 昵称
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string Nickname
+        {
+            get { return nickname_; }
+            set
+            {
+                nickname_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        /// <summary>Field number for the "photo" field.</summary>
+        public const int PhotoFieldNumber = 4;
+        private string photo_ = "";
+        /// <summary>
+        /// 头像
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string Photo
+        {
+            get { return photo_; }
+            set
+            {
+                photo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        /// <summary>Field number for the "description" field.</summary>
+        public const int DescriptionFieldNumber = 5;
+        private string description_ = "";
+        /// <summary>
+        /// 描述
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string Description
+        {
+            get { return description_; }
+            set
+            {
+                description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        /// <summary>Field number for the "user_level" field.</summary>
+        public const int UserLevelFieldNumber = 6;
+        private global::Zeus.RPC.Protocol.UserLevel userLevel_ = 0;
+        /// <summary>
+        /// 级别
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public global::Zeus.RPC.Protocol.UserLevel UserLevel
+        {
+            get { return userLevel_; }
+            set
+            {
+                userLevel_ = value;
+            }
+        }
+
+        /// <summary>Field number for the "level_updated_at" field.</summary>
+        public const int LevelUpdatedAtFieldNumber = 7;
+        private string levelUpdatedAt_ = "";
+        /// <summary>
+        /// 级别更新时间
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string LevelUpdatedAt
+        {
+            get { return levelUpdatedAt_; }
+            set
+            {
+                levelUpdatedAt_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override bool Equals(object other)
+        {
+            return Equals(other as UserDTO);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public bool Equals(UserDTO other)
+        {
+            if (ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(other, this))
+            {
+                return true;
+            }
+            if (UserId != other.UserId) return false;
+            if (Username != other.Username) return false;
+            if (Nickname != other.Nickname) return false;
+            if (Photo != other.Photo) return false;
+            if (Description != other.Description) return false;
+            if (UserLevel != other.UserLevel) return false;
+            if (LevelUpdatedAt != other.LevelUpdatedAt) return false;
+            return Equals(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override int GetHashCode()
+        {
+            int hash = 1;
+            if (UserId != 0) hash ^= UserId.GetHashCode();
+            if (Username.Length != 0) hash ^= Username.GetHashCode();
+            if (Nickname.Length != 0) hash ^= Nickname.GetHashCode();
+            if (Photo.Length != 0) hash ^= Photo.GetHashCode();
+            if (Description.Length != 0) hash ^= Description.GetHashCode();
+            if (UserLevel != 0) hash ^= UserLevel.GetHashCode();
+            if (LevelUpdatedAt.Length != 0) hash ^= LevelUpdatedAt.GetHashCode();
+            if (_unknownFields != null)
+            {
+                hash ^= _unknownFields.GetHashCode();
+            }
+            return hash;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override string ToString()
+        {
+            return pb::JsonFormatter.ToDiagnosticString(this);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void WriteTo(pb::CodedOutputStream output)
+        {
+            if (UserId != 0)
+            {
+                output.WriteRawTag(8);
+                output.WriteInt32(UserId);
+            }
+            if (Username.Length != 0)
+            {
+                output.WriteRawTag(18);
+                output.WriteString(Username);
+            }
+            if (Nickname.Length != 0)
+            {
+                output.WriteRawTag(26);
+                output.WriteString(Nickname);
+            }
+            if (Photo.Length != 0)
+            {
+                output.WriteRawTag(34);
+                output.WriteString(Photo);
+            }
+            if (Description.Length != 0)
+            {
+                output.WriteRawTag(42);
+                output.WriteString(Description);
+            }
+            if (UserLevel != 0)
+            {
+                output.WriteRawTag(48);
+                output.WriteEnum((int)UserLevel);
+            }
+            if (LevelUpdatedAt.Length != 0)
+            {
+                output.WriteRawTag(58);
+                output.WriteString(LevelUpdatedAt);
+            }
+            if (_unknownFields != null)
+            {
+                _unknownFields.WriteTo(output);
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public int CalculateSize()
+        {
+            int size = 0;
+            if (UserId != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeInt32Size(UserId);
+            }
+            if (Username.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
+            }
+            if (Nickname.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(Nickname);
+            }
+            if (Photo.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(Photo);
+            }
+            if (Description.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+            }
+            if (UserLevel != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeEnumSize((int)UserLevel);
+            }
+            if (LevelUpdatedAt.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(LevelUpdatedAt);
+            }
+            if (_unknownFields != null)
+            {
+                size += _unknownFields.CalculateSize();
+            }
+            return size;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(UserDTO other)
+        {
+            if (other == null)
+            {
+                return;
+            }
+            if (other.UserId != 0)
+            {
+                UserId = other.UserId;
+            }
+            if (other.Username.Length != 0)
+            {
+                Username = other.Username;
+            }
+            if (other.Nickname.Length != 0)
+            {
+                Nickname = other.Nickname;
+            }
+            if (other.Photo.Length != 0)
+            {
+                Photo = other.Photo;
+            }
+            if (other.Description.Length != 0)
+            {
+                Description = other.Description;
+            }
+            if (other.UserLevel != 0)
+            {
+                UserLevel = other.UserLevel;
+            }
+            if (other.LevelUpdatedAt.Length != 0)
+            {
+                LevelUpdatedAt = other.LevelUpdatedAt;
+            }
+            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(pb::CodedInputStream input)
+        {
+            uint tag;
+            while ((tag = input.ReadTag()) != 0)
+            {
+                switch (tag)
+                {
+                    default:
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+                        break;
+                    case 8:
+                        {
+                            UserId = input.ReadInt32();
+                            break;
+                        }
+                    case 18:
+                        {
+                            Username = input.ReadString();
+                            break;
+                        }
+                    case 26:
+                        {
+                            Nickname = input.ReadString();
+                            break;
+                        }
+                    case 34:
+                        {
+                            Photo = input.ReadString();
+                            break;
+                        }
+                    case 42:
+                        {
+                            Description = input.ReadString();
+                            break;
+                        }
+                    case 48:
+                        {
+                            UserLevel = (global::Zeus.RPC.Protocol.UserLevel)input.ReadEnum();
+                            break;
+                        }
+                    case 58:
+                        {
+                            LevelUpdatedAt = input.ReadString();
+                            break;
+                        }
+                }
+            }
+        }
+
+    }
+
+    public sealed partial class UserReq : pb::IMessage<UserReq>
+    {
+        private static readonly pb::MessageParser<UserReq> _parser = new pb::MessageParser<UserReq>(() => new UserReq());
+        private pb::UnknownFieldSet _unknownFields;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pb::MessageParser<UserReq> Parser { get { return _parser; } }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pbr::MessageDescriptor Descriptor
+        {
+            get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[1]; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        pbr::MessageDescriptor pb::IMessage.Descriptor
+        {
+            get { return Descriptor; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserReq()
+        {
+            OnConstruction();
+        }
+
+        partial void OnConstruction();
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserReq(UserReq other) : this()
+        {
+            username_ = other.username_;
+            nickname_ = other.nickname_;
+            photo_ = other.photo_;
+            description_ = other.description_;
+            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserReq Clone()
+        {
+            return new UserReq(this);
+        }
+
+        /// <summary>Field number for the "username" field.</summary>
+        public const int UsernameFieldNumber = 1;
+        private string username_ = "";
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string Username
+        {
+            get { return username_; }
+            set
+            {
+                username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        /// <summary>Field number for the "nickname" field.</summary>
+        public const int NicknameFieldNumber = 2;
+        private string nickname_ = "";
+        /// <summary>
+        /// 昵称
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string Nickname
+        {
+            get { return nickname_; }
+            set
+            {
+                nickname_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        /// <summary>Field number for the "photo" field.</summary>
+        public const int PhotoFieldNumber = 3;
+        private string photo_ = "";
+        /// <summary>
+        /// 头像
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string Photo
+        {
+            get { return photo_; }
+            set
+            {
+                photo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        /// <summary>Field number for the "description" field.</summary>
+        public const int DescriptionFieldNumber = 4;
+        private string description_ = "";
+        /// <summary>
+        /// 描述
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string Description
+        {
+            get { return description_; }
+            set
+            {
+                description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override bool Equals(object other)
+        {
+            return Equals(other as UserReq);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public bool Equals(UserReq other)
+        {
+            if (ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(other, this))
+            {
+                return true;
+            }
+            if (Username != other.Username) return false;
+            if (Nickname != other.Nickname) return false;
+            if (Photo != other.Photo) return false;
+            if (Description != other.Description) return false;
+            return Equals(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override int GetHashCode()
+        {
+            int hash = 1;
+            if (Username.Length != 0) hash ^= Username.GetHashCode();
+            if (Nickname.Length != 0) hash ^= Nickname.GetHashCode();
+            if (Photo.Length != 0) hash ^= Photo.GetHashCode();
+            if (Description.Length != 0) hash ^= Description.GetHashCode();
+            if (_unknownFields != null)
+            {
+                hash ^= _unknownFields.GetHashCode();
+            }
+            return hash;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override string ToString()
+        {
+            return pb::JsonFormatter.ToDiagnosticString(this);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void WriteTo(pb::CodedOutputStream output)
+        {
+            if (Username.Length != 0)
+            {
+                output.WriteRawTag(10);
+                output.WriteString(Username);
+            }
+            if (Nickname.Length != 0)
+            {
+                output.WriteRawTag(18);
+                output.WriteString(Nickname);
+            }
+            if (Photo.Length != 0)
+            {
+                output.WriteRawTag(26);
+                output.WriteString(Photo);
+            }
+            if (Description.Length != 0)
+            {
+                output.WriteRawTag(34);
+                output.WriteString(Description);
+            }
+            if (_unknownFields != null)
+            {
+                _unknownFields.WriteTo(output);
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public int CalculateSize()
+        {
+            int size = 0;
+            if (Username.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
+            }
+            if (Nickname.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(Nickname);
+            }
+            if (Photo.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(Photo);
+            }
+            if (Description.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+            }
+            if (_unknownFields != null)
+            {
+                size += _unknownFields.CalculateSize();
+            }
+            return size;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(UserReq other)
+        {
+            if (other == null)
+            {
+                return;
+            }
+            if (other.Username.Length != 0)
+            {
+                Username = other.Username;
+            }
+            if (other.Nickname.Length != 0)
+            {
+                Nickname = other.Nickname;
+            }
+            if (other.Photo.Length != 0)
+            {
+                Photo = other.Photo;
+            }
+            if (other.Description.Length != 0)
+            {
+                Description = other.Description;
+            }
+            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(pb::CodedInputStream input)
+        {
+            uint tag;
+            while ((tag = input.ReadTag()) != 0)
+            {
+                switch (tag)
+                {
+                    default:
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+                        break;
+                    case 10:
+                        {
+                            Username = input.ReadString();
+                            break;
+                        }
+                    case 18:
+                        {
+                            Nickname = input.ReadString();
+                            break;
+                        }
+                    case 26:
+                        {
+                            Photo = input.ReadString();
+                            break;
+                        }
+                    case 34:
+                        {
+                            Description = input.ReadString();
+                            break;
+                        }
+                }
+            }
+        }
+
+    }
+
+    public sealed partial class UserLevelReq : pb::IMessage<UserLevelReq>
+    {
+        private static readonly pb::MessageParser<UserLevelReq> _parser = new pb::MessageParser<UserLevelReq>(() => new UserLevelReq());
+        private pb::UnknownFieldSet _unknownFields;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pb::MessageParser<UserLevelReq> Parser { get { return _parser; } }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pbr::MessageDescriptor Descriptor
+        {
+            get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[2]; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        pbr::MessageDescriptor pb::IMessage.Descriptor
+        {
+            get { return Descriptor; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserLevelReq()
+        {
+            OnConstruction();
+        }
+
+        partial void OnConstruction();
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserLevelReq(UserLevelReq other) : this()
+        {
+            username_ = other.username_;
+            userLevel_ = other.userLevel_;
+            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserLevelReq Clone()
+        {
+            return new UserLevelReq(this);
+        }
+
+        /// <summary>Field number for the "username" field.</summary>
+        public const int UsernameFieldNumber = 1;
+        private string username_ = "";
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string Username
+        {
+            get { return username_; }
+            set
+            {
+                username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+
+        /// <summary>Field number for the "user_level" field.</summary>
+        public const int UserLevelFieldNumber = 2;
+        private global::Zeus.RPC.Protocol.UserLevel userLevel_ = 0;
+        /// <summary>
+        /// 级别
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public global::Zeus.RPC.Protocol.UserLevel UserLevel
+        {
+            get { return userLevel_; }
+            set
+            {
+                userLevel_ = value;
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override bool Equals(object other)
+        {
+            return Equals(other as UserLevelReq);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public bool Equals(UserLevelReq other)
+        {
+            if (ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(other, this))
+            {
+                return true;
+            }
+            if (Username != other.Username) return false;
+            if (UserLevel != other.UserLevel) return false;
+            return Equals(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override int GetHashCode()
+        {
+            int hash = 1;
+            if (Username.Length != 0) hash ^= Username.GetHashCode();
+            if (UserLevel != 0) hash ^= UserLevel.GetHashCode();
+            if (_unknownFields != null)
+            {
+                hash ^= _unknownFields.GetHashCode();
+            }
+            return hash;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override string ToString()
+        {
+            return pb::JsonFormatter.ToDiagnosticString(this);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void WriteTo(pb::CodedOutputStream output)
+        {
+            if (Username.Length != 0)
+            {
+                output.WriteRawTag(10);
+                output.WriteString(Username);
+            }
+            if (UserLevel != 0)
+            {
+                output.WriteRawTag(16);
+                output.WriteEnum((int)UserLevel);
+            }
+            if (_unknownFields != null)
+            {
+                _unknownFields.WriteTo(output);
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public int CalculateSize()
+        {
+            int size = 0;
+            if (Username.Length != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
+            }
+            if (UserLevel != 0)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeEnumSize((int)UserLevel);
+            }
+            if (_unknownFields != null)
+            {
+                size += _unknownFields.CalculateSize();
+            }
+            return size;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(UserLevelReq other)
+        {
+            if (other == null)
+            {
+                return;
+            }
+            if (other.Username.Length != 0)
+            {
+                Username = other.Username;
+            }
+            if (other.UserLevel != 0)
+            {
+                UserLevel = other.UserLevel;
+            }
+            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(pb::CodedInputStream input)
+        {
+            uint tag;
+            while ((tag = input.ReadTag()) != 0)
+            {
+                switch (tag)
+                {
+                    default:
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+                        break;
+                    case 10:
+                        {
+                            Username = input.ReadString();
+                            break;
+                        }
+                    case 16:
+                        {
+                            UserLevel = (global::Zeus.RPC.Protocol.UserLevel)input.ReadEnum();
+                            break;
+                        }
+                }
+            }
+        }
+
+    }
+
+    public sealed partial class UserResp : pb::IMessage<UserResp>
+    {
+        private static readonly pb::MessageParser<UserResp> _parser = new pb::MessageParser<UserResp>(() => new UserResp());
+        private pb::UnknownFieldSet _unknownFields;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pb::MessageParser<UserResp> Parser { get { return _parser; } }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pbr::MessageDescriptor Descriptor
+        {
+            get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[3]; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        pbr::MessageDescriptor pb::IMessage.Descriptor
+        {
+            get { return Descriptor; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserResp()
+        {
+            OnConstruction();
+        }
+
+        partial void OnConstruction();
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserResp(UserResp other) : this()
+        {
+            resp_ = other.resp_ != null ? other.resp_.Clone() : null;
+            user_ = other.user_ != null ? other.user_.Clone() : null;
+            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UserResp Clone()
+        {
+            return new UserResp(this);
+        }
+
+        /// <summary>Field number for the "resp" field.</summary>
+        public const int RespFieldNumber = 1;
+        private global::Zeus.RPC.Protocol.BaseResponse resp_;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public global::Zeus.RPC.Protocol.BaseResponse Resp
+        {
+            get { return resp_; }
+            set
+            {
+                resp_ = value;
+            }
+        }
+
+        /// <summary>Field number for the "user" field.</summary>
+        public const int UserFieldNumber = 2;
+        private global::Zeus.RPC.Protocol.UserDTO user_;
+        /// <summary>
+        ///返回的用户
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public global::Zeus.RPC.Protocol.UserDTO User
+        {
+            get { return user_; }
+            set
+            {
+                user_ = value;
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override bool Equals(object other)
+        {
+            return Equals(other as UserResp);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public bool Equals(UserResp other)
+        {
+            if (ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(other, this))
+            {
+                return true;
+            }
+            if (!object.Equals(Resp, other.Resp)) return false;
+            if (!object.Equals(User, other.User)) return false;
+            return Equals(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override int GetHashCode()
+        {
+            int hash = 1;
+            if (resp_ != null) hash ^= Resp.GetHashCode();
+            if (user_ != null) hash ^= User.GetHashCode();
+            if (_unknownFields != null)
+            {
+                hash ^= _unknownFields.GetHashCode();
+            }
+            return hash;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override string ToString()
+        {
+            return pb::JsonFormatter.ToDiagnosticString(this);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void WriteTo(pb::CodedOutputStream output)
+        {
+            if (resp_ != null)
+            {
+                output.WriteRawTag(10);
+                output.WriteMessage(Resp);
+            }
+            if (user_ != null)
+            {
+                output.WriteRawTag(18);
+                output.WriteMessage(User);
+            }
+            if (_unknownFields != null)
+            {
+                _unknownFields.WriteTo(output);
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public int CalculateSize()
+        {
+            int size = 0;
+            if (resp_ != null)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeMessageSize(Resp);
+            }
+            if (user_ != null)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeMessageSize(User);
+            }
+            if (_unknownFields != null)
+            {
+                size += _unknownFields.CalculateSize();
+            }
+            return size;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(UserResp other)
+        {
+            if (other == null)
+            {
+                return;
+            }
+            if (other.resp_ != null)
+            {
+                if (resp_ == null)
+                {
+                    Resp = new global::Zeus.RPC.Protocol.BaseResponse();
+                }
+                Resp.MergeFrom(other.Resp);
+            }
+            if (other.user_ != null)
+            {
+                if (user_ == null)
+                {
+                    User = new global::Zeus.RPC.Protocol.UserDTO();
+                }
+                User.MergeFrom(other.User);
+            }
+            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(pb::CodedInputStream input)
+        {
+            uint tag;
+            while ((tag = input.ReadTag()) != 0)
+            {
+                switch (tag)
+                {
+                    default:
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+                        break;
+                    case 10:
+                        {
+                            if (resp_ == null)
+                            {
+                                Resp = new global::Zeus.RPC.Protocol.BaseResponse();
+                            }
+                            input.ReadMessage(Resp);
+                            break;
+                        }
+                    case 18:
+                        {
+                            if (user_ == null)
+                            {
+                                User = new global::Zeus.RPC.Protocol.UserDTO();
+                            }
+                            input.ReadMessage(User);
+                            break;
+                        }
+                }
+            }
+        }
+
+    }
+
+    public sealed partial class UsersReq : pb::IMessage<UsersReq>
+    {
+        private static readonly pb::MessageParser<UsersReq> _parser = new pb::MessageParser<UsersReq>(() => new UsersReq());
+        private pb::UnknownFieldSet _unknownFields;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pb::MessageParser<UsersReq> Parser { get { return _parser; } }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pbr::MessageDescriptor Descriptor
+        {
+            get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[4]; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        pbr::MessageDescriptor pb::IMessage.Descriptor
+        {
+            get { return Descriptor; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UsersReq()
+        {
+            OnConstruction();
+        }
+
+        partial void OnConstruction();
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UsersReq(UsersReq other) : this()
+        {
+            userIDs_ = other.userIDs_.Clone();
+            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UsersReq Clone()
+        {
+            return new UsersReq(this);
+        }
+
+        /// <summary>Field number for the "userIDs" field.</summary>
+        public const int UserIDsFieldNumber = 1;
+        private static readonly pb::FieldCodec<int> _repeated_userIDs_codec
+            = pb::FieldCodec.ForInt32(10);
+        private readonly pbc::RepeatedField<int> userIDs_ = new pbc::RepeatedField<int>();
+        /// <summary>
+        ///用户ID列表
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public pbc::RepeatedField<int> UserIDs
+        {
+            get { return userIDs_; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override bool Equals(object other)
+        {
+            return Equals(other as UsersReq);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public bool Equals(UsersReq other)
+        {
+            if (ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(other, this))
+            {
+                return true;
+            }
+            if (!userIDs_.Equals(other.userIDs_)) return false;
+            return Equals(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override int GetHashCode()
+        {
+            int hash = 1;
+            hash ^= userIDs_.GetHashCode();
+            if (_unknownFields != null)
+            {
+                hash ^= _unknownFields.GetHashCode();
+            }
+            return hash;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override string ToString()
+        {
+            return pb::JsonFormatter.ToDiagnosticString(this);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void WriteTo(pb::CodedOutputStream output)
+        {
+            userIDs_.WriteTo(output, _repeated_userIDs_codec);
+            if (_unknownFields != null)
+            {
+                _unknownFields.WriteTo(output);
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public int CalculateSize()
+        {
+            int size = 0;
+            size += userIDs_.CalculateSize(_repeated_userIDs_codec);
+            if (_unknownFields != null)
+            {
+                size += _unknownFields.CalculateSize();
+            }
+            return size;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(UsersReq other)
+        {
+            if (other == null)
+            {
+                return;
+            }
+            userIDs_.Add(other.userIDs_);
+            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(pb::CodedInputStream input)
+        {
+            uint tag;
+            while ((tag = input.ReadTag()) != 0)
+            {
+                switch (tag)
+                {
+                    default:
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+                        break;
+                    case 10:
+                    case 8:
+                        {
+                            userIDs_.AddEntriesFrom(input, _repeated_userIDs_codec);
+                            break;
+                        }
+                }
+            }
+        }
+
+    }
+
+    public sealed partial class UsersResp : pb::IMessage<UsersResp>
+    {
+        private static readonly pb::MessageParser<UsersResp> _parser = new pb::MessageParser<UsersResp>(() => new UsersResp());
+        private pb::UnknownFieldSet _unknownFields;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pb::MessageParser<UsersResp> Parser { get { return _parser; } }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pbr::MessageDescriptor Descriptor
+        {
+            get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[5]; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        pbr::MessageDescriptor pb::IMessage.Descriptor
+        {
+            get { return Descriptor; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UsersResp()
+        {
+            OnConstruction();
+        }
+
+        partial void OnConstruction();
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UsersResp(UsersResp other) : this()
+        {
+            resp_ = other.resp_ != null ? other.resp_.Clone() : null;
+            users_ = other.users_.Clone();
+            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public UsersResp Clone()
+        {
+            return new UsersResp(this);
+        }
+
+        /// <summary>Field number for the "resp" field.</summary>
+        public const int RespFieldNumber = 1;
+        private global::Zeus.RPC.Protocol.BaseResponse resp_;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public global::Zeus.RPC.Protocol.BaseResponse Resp
+        {
+            get { return resp_; }
+            set
+            {
+                resp_ = value;
+            }
+        }
+
+        /// <summary>Field number for the "users" field.</summary>
+        public const int UsersFieldNumber = 2;
+        private static readonly pb::FieldCodec<global::Zeus.RPC.Protocol.UserDTO> _repeated_users_codec
+            = pb::FieldCodec.ForMessage(18, global::Zeus.RPC.Protocol.UserDTO.Parser);
+        private readonly pbc::RepeatedField<global::Zeus.RPC.Protocol.UserDTO> users_ = new pbc::RepeatedField<global::Zeus.RPC.Protocol.UserDTO>();
+        /// <summary>
+        ///返回的用户列表
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public pbc::RepeatedField<global::Zeus.RPC.Protocol.UserDTO> Users
+        {
+            get { return users_; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override bool Equals(object other)
+        {
+            return Equals(other as UsersResp);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public bool Equals(UsersResp other)
+        {
+            if (ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(other, this))
+            {
+                return true;
+            }
+            if (!object.Equals(Resp, other.Resp)) return false;
+            if (!users_.Equals(other.users_)) return false;
+            return Equals(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override int GetHashCode()
+        {
+            int hash = 1;
+            if (resp_ != null) hash ^= Resp.GetHashCode();
+            hash ^= users_.GetHashCode();
+            if (_unknownFields != null)
+            {
+                hash ^= _unknownFields.GetHashCode();
+            }
+            return hash;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override string ToString()
+        {
+            return pb::JsonFormatter.ToDiagnosticString(this);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void WriteTo(pb::CodedOutputStream output)
+        {
+            if (resp_ != null)
+            {
+                output.WriteRawTag(10);
+                output.WriteMessage(Resp);
+            }
+            users_.WriteTo(output, _repeated_users_codec);
+            if (_unknownFields != null)
+            {
+                _unknownFields.WriteTo(output);
+            }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public int CalculateSize()
+        {
+            int size = 0;
+            if (resp_ != null)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeMessageSize(Resp);
+            }
+            size += users_.CalculateSize(_repeated_users_codec);
+            if (_unknownFields != null)
+            {
+                size += _unknownFields.CalculateSize();
+            }
+            return size;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(UsersResp other)
+        {
+            if (other == null)
+            {
+                return;
+            }
+            if (other.resp_ != null)
+            {
+                if (resp_ == null)
+                {
+                    Resp = new global::Zeus.RPC.Protocol.BaseResponse();
+                }
+                Resp.MergeFrom(other.Resp);
+            }
+            users_.Add(other.users_);
+            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(pb::CodedInputStream input)
+        {
+            uint tag;
+            while ((tag = input.ReadTag()) != 0)
+            {
+                switch (tag)
+                {
+                    default:
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+                        break;
+                    case 10:
+                        {
+                            if (resp_ == null)
+                            {
+                                Resp = new global::Zeus.RPC.Protocol.BaseResponse();
+                            }
+                            input.ReadMessage(Resp);
+                            break;
+                        }
+                    case 18:
+                        {
+                            users_.AddEntriesFrom(input, _repeated_users_codec);
+                            break;
+                        }
+                }
+            }
+        }
+
+    }
+
     #endregion
-
-  }
-  #region Messages
-  /// <summary>
-  /// 用户信息(响应)
-  /// </summary>
-  public sealed partial class UserDTO : pb::IMessage<UserDTO> {
-    private static readonly pb::MessageParser<UserDTO> _parser = new pb::MessageParser<UserDTO>(() => new UserDTO());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<UserDTO> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[0]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserDTO() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserDTO(UserDTO other) : this() {
-      userId_ = other.userId_;
-      username_ = other.username_;
-      nickname_ = other.nickname_;
-      photo_ = other.photo_;
-      description_ = other.description_;
-      userLevel_ = other.userLevel_;
-      levelUpdatedAt_ = other.levelUpdatedAt_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserDTO Clone() {
-      return new UserDTO(this);
-    }
-
-    /// <summary>Field number for the "user_id" field.</summary>
-    public const int UserIdFieldNumber = 1;
-    private int userId_;
-    /// <summary>
-    /// 用户ID
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int UserId {
-      get { return userId_; }
-      set {
-        userId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "username" field.</summary>
-    public const int UsernameFieldNumber = 2;
-    private string username_ = "";
-    /// <summary>
-    /// 用户名
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Username {
-      get { return username_; }
-      set {
-        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "nickname" field.</summary>
-    public const int NicknameFieldNumber = 3;
-    private string nickname_ = "";
-    /// <summary>
-    /// 昵称
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Nickname {
-      get { return nickname_; }
-      set {
-        nickname_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "photo" field.</summary>
-    public const int PhotoFieldNumber = 4;
-    private string photo_ = "";
-    /// <summary>
-    /// 头像
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Photo {
-      get { return photo_; }
-      set {
-        photo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "description" field.</summary>
-    public const int DescriptionFieldNumber = 5;
-    private string description_ = "";
-    /// <summary>
-    /// 描述
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Description {
-      get { return description_; }
-      set {
-        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "user_level" field.</summary>
-    public const int UserLevelFieldNumber = 6;
-    private global::Zeus.RPC.Protocol.UserLevel userLevel_ = 0;
-    /// <summary>
-    /// 级别
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Zeus.RPC.Protocol.UserLevel UserLevel {
-      get { return userLevel_; }
-      set {
-        userLevel_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "level_updated_at" field.</summary>
-    public const int LevelUpdatedAtFieldNumber = 7;
-    private string levelUpdatedAt_ = "";
-    /// <summary>
-    /// 级别更新时间
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string LevelUpdatedAt {
-      get { return levelUpdatedAt_; }
-      set {
-        levelUpdatedAt_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as UserDTO);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(UserDTO other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (UserId != other.UserId) return false;
-      if (Username != other.Username) return false;
-      if (Nickname != other.Nickname) return false;
-      if (Photo != other.Photo) return false;
-      if (Description != other.Description) return false;
-      if (UserLevel != other.UserLevel) return false;
-      if (LevelUpdatedAt != other.LevelUpdatedAt) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (UserId != 0) hash ^= UserId.GetHashCode();
-      if (Username.Length != 0) hash ^= Username.GetHashCode();
-      if (Nickname.Length != 0) hash ^= Nickname.GetHashCode();
-      if (Photo.Length != 0) hash ^= Photo.GetHashCode();
-      if (Description.Length != 0) hash ^= Description.GetHashCode();
-      if (UserLevel != 0) hash ^= UserLevel.GetHashCode();
-      if (LevelUpdatedAt.Length != 0) hash ^= LevelUpdatedAt.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (UserId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(UserId);
-      }
-      if (Username.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Username);
-      }
-      if (Nickname.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Nickname);
-      }
-      if (Photo.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(Photo);
-      }
-      if (Description.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(Description);
-      }
-      if (UserLevel != 0) {
-        output.WriteRawTag(48);
-        output.WriteEnum((int) UserLevel);
-      }
-      if (LevelUpdatedAt.Length != 0) {
-        output.WriteRawTag(58);
-        output.WriteString(LevelUpdatedAt);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (UserId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(UserId);
-      }
-      if (Username.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
-      }
-      if (Nickname.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Nickname);
-      }
-      if (Photo.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Photo);
-      }
-      if (Description.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
-      }
-      if (UserLevel != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) UserLevel);
-      }
-      if (LevelUpdatedAt.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(LevelUpdatedAt);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(UserDTO other) {
-      if (other == null) {
-        return;
-      }
-      if (other.UserId != 0) {
-        UserId = other.UserId;
-      }
-      if (other.Username.Length != 0) {
-        Username = other.Username;
-      }
-      if (other.Nickname.Length != 0) {
-        Nickname = other.Nickname;
-      }
-      if (other.Photo.Length != 0) {
-        Photo = other.Photo;
-      }
-      if (other.Description.Length != 0) {
-        Description = other.Description;
-      }
-      if (other.UserLevel != 0) {
-        UserLevel = other.UserLevel;
-      }
-      if (other.LevelUpdatedAt.Length != 0) {
-        LevelUpdatedAt = other.LevelUpdatedAt;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            UserId = input.ReadInt32();
-            break;
-          }
-          case 18: {
-            Username = input.ReadString();
-            break;
-          }
-          case 26: {
-            Nickname = input.ReadString();
-            break;
-          }
-          case 34: {
-            Photo = input.ReadString();
-            break;
-          }
-          case 42: {
-            Description = input.ReadString();
-            break;
-          }
-          case 48: {
-            UserLevel = (global::Zeus.RPC.Protocol.UserLevel) input.ReadEnum();
-            break;
-          }
-          case 58: {
-            LevelUpdatedAt = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
-  public sealed partial class UserReq : pb::IMessage<UserReq> {
-    private static readonly pb::MessageParser<UserReq> _parser = new pb::MessageParser<UserReq>(() => new UserReq());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<UserReq> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[1]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserReq() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserReq(UserReq other) : this() {
-      username_ = other.username_;
-      nickname_ = other.nickname_;
-      photo_ = other.photo_;
-      description_ = other.description_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserReq Clone() {
-      return new UserReq(this);
-    }
-
-    /// <summary>Field number for the "username" field.</summary>
-    public const int UsernameFieldNumber = 1;
-    private string username_ = "";
-    /// <summary>
-    /// 用户名
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Username {
-      get { return username_; }
-      set {
-        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "nickname" field.</summary>
-    public const int NicknameFieldNumber = 2;
-    private string nickname_ = "";
-    /// <summary>
-    /// 昵称
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Nickname {
-      get { return nickname_; }
-      set {
-        nickname_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "photo" field.</summary>
-    public const int PhotoFieldNumber = 3;
-    private string photo_ = "";
-    /// <summary>
-    /// 头像
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Photo {
-      get { return photo_; }
-      set {
-        photo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "description" field.</summary>
-    public const int DescriptionFieldNumber = 4;
-    private string description_ = "";
-    /// <summary>
-    /// 描述
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Description {
-      get { return description_; }
-      set {
-        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as UserReq);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(UserReq other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Username != other.Username) return false;
-      if (Nickname != other.Nickname) return false;
-      if (Photo != other.Photo) return false;
-      if (Description != other.Description) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Username.Length != 0) hash ^= Username.GetHashCode();
-      if (Nickname.Length != 0) hash ^= Nickname.GetHashCode();
-      if (Photo.Length != 0) hash ^= Photo.GetHashCode();
-      if (Description.Length != 0) hash ^= Description.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (Username.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Username);
-      }
-      if (Nickname.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Nickname);
-      }
-      if (Photo.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Photo);
-      }
-      if (Description.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(Description);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (Username.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
-      }
-      if (Nickname.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Nickname);
-      }
-      if (Photo.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Photo);
-      }
-      if (Description.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(UserReq other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Username.Length != 0) {
-        Username = other.Username;
-      }
-      if (other.Nickname.Length != 0) {
-        Nickname = other.Nickname;
-      }
-      if (other.Photo.Length != 0) {
-        Photo = other.Photo;
-      }
-      if (other.Description.Length != 0) {
-        Description = other.Description;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            Username = input.ReadString();
-            break;
-          }
-          case 18: {
-            Nickname = input.ReadString();
-            break;
-          }
-          case 26: {
-            Photo = input.ReadString();
-            break;
-          }
-          case 34: {
-            Description = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
-  public sealed partial class UserLevelReq : pb::IMessage<UserLevelReq> {
-    private static readonly pb::MessageParser<UserLevelReq> _parser = new pb::MessageParser<UserLevelReq>(() => new UserLevelReq());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<UserLevelReq> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[2]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserLevelReq() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserLevelReq(UserLevelReq other) : this() {
-      username_ = other.username_;
-      userLevel_ = other.userLevel_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserLevelReq Clone() {
-      return new UserLevelReq(this);
-    }
-
-    /// <summary>Field number for the "username" field.</summary>
-    public const int UsernameFieldNumber = 1;
-    private string username_ = "";
-    /// <summary>
-    /// 用户名
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Username {
-      get { return username_; }
-      set {
-        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "user_level" field.</summary>
-    public const int UserLevelFieldNumber = 2;
-    private global::Zeus.RPC.Protocol.UserLevel userLevel_ = 0;
-    /// <summary>
-    /// 级别
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Zeus.RPC.Protocol.UserLevel UserLevel {
-      get { return userLevel_; }
-      set {
-        userLevel_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as UserLevelReq);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(UserLevelReq other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Username != other.Username) return false;
-      if (UserLevel != other.UserLevel) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Username.Length != 0) hash ^= Username.GetHashCode();
-      if (UserLevel != 0) hash ^= UserLevel.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (Username.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Username);
-      }
-      if (UserLevel != 0) {
-        output.WriteRawTag(16);
-        output.WriteEnum((int) UserLevel);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (Username.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
-      }
-      if (UserLevel != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) UserLevel);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(UserLevelReq other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Username.Length != 0) {
-        Username = other.Username;
-      }
-      if (other.UserLevel != 0) {
-        UserLevel = other.UserLevel;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            Username = input.ReadString();
-            break;
-          }
-          case 16: {
-            UserLevel = (global::Zeus.RPC.Protocol.UserLevel) input.ReadEnum();
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
-  public sealed partial class UserResp : pb::IMessage<UserResp> {
-    private static readonly pb::MessageParser<UserResp> _parser = new pb::MessageParser<UserResp>(() => new UserResp());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<UserResp> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[3]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserResp() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserResp(UserResp other) : this() {
-      resp_ = other.resp_ != null ? other.resp_.Clone() : null;
-      user_ = other.user_ != null ? other.user_.Clone() : null;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UserResp Clone() {
-      return new UserResp(this);
-    }
-
-    /// <summary>Field number for the "resp" field.</summary>
-    public const int RespFieldNumber = 1;
-    private global::Zeus.RPC.Protocol.BaseResponse resp_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Zeus.RPC.Protocol.BaseResponse Resp {
-      get { return resp_; }
-      set {
-        resp_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "user" field.</summary>
-    public const int UserFieldNumber = 2;
-    private global::Zeus.RPC.Protocol.UserDTO user_;
-    /// <summary>
-    ///返回的用户
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Zeus.RPC.Protocol.UserDTO User {
-      get { return user_; }
-      set {
-        user_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as UserResp);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(UserResp other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (!object.Equals(Resp, other.Resp)) return false;
-      if (!object.Equals(User, other.User)) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (resp_ != null) hash ^= Resp.GetHashCode();
-      if (user_ != null) hash ^= User.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (resp_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Resp);
-      }
-      if (user_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(User);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (resp_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Resp);
-      }
-      if (user_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(User);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(UserResp other) {
-      if (other == null) {
-        return;
-      }
-      if (other.resp_ != null) {
-        if (resp_ == null) {
-          Resp = new global::Zeus.RPC.Protocol.BaseResponse();
-        }
-        Resp.MergeFrom(other.Resp);
-      }
-      if (other.user_ != null) {
-        if (user_ == null) {
-          User = new global::Zeus.RPC.Protocol.UserDTO();
-        }
-        User.MergeFrom(other.User);
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            if (resp_ == null) {
-              Resp = new global::Zeus.RPC.Protocol.BaseResponse();
-            }
-            input.ReadMessage(Resp);
-            break;
-          }
-          case 18: {
-            if (user_ == null) {
-              User = new global::Zeus.RPC.Protocol.UserDTO();
-            }
-            input.ReadMessage(User);
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
-  public sealed partial class UsersReq : pb::IMessage<UsersReq> {
-    private static readonly pb::MessageParser<UsersReq> _parser = new pb::MessageParser<UsersReq>(() => new UsersReq());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<UsersReq> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[4]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UsersReq() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UsersReq(UsersReq other) : this() {
-      userIDs_ = other.userIDs_.Clone();
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UsersReq Clone() {
-      return new UsersReq(this);
-    }
-
-    /// <summary>Field number for the "userIDs" field.</summary>
-    public const int UserIDsFieldNumber = 1;
-    private static readonly pb::FieldCodec<int> _repeated_userIDs_codec
-        = pb::FieldCodec.ForInt32(10);
-    private readonly pbc::RepeatedField<int> userIDs_ = new pbc::RepeatedField<int>();
-    /// <summary>
-    ///用户ID列表
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<int> UserIDs {
-      get { return userIDs_; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as UsersReq);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(UsersReq other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if(!userIDs_.Equals(other.userIDs_)) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      hash ^= userIDs_.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      userIDs_.WriteTo(output, _repeated_userIDs_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      size += userIDs_.CalculateSize(_repeated_userIDs_codec);
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(UsersReq other) {
-      if (other == null) {
-        return;
-      }
-      userIDs_.Add(other.userIDs_);
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10:
-          case 8: {
-            userIDs_.AddEntriesFrom(input, _repeated_userIDs_codec);
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
-  public sealed partial class UsersResp : pb::IMessage<UsersResp> {
-    private static readonly pb::MessageParser<UsersResp> _parser = new pb::MessageParser<UsersResp>(() => new UsersResp());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<UsersResp> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Zeus.RPC.Protocol.ZeusUserMsgReflection.Descriptor.MessageTypes[5]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UsersResp() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UsersResp(UsersResp other) : this() {
-      resp_ = other.resp_ != null ? other.resp_.Clone() : null;
-      users_ = other.users_.Clone();
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public UsersResp Clone() {
-      return new UsersResp(this);
-    }
-
-    /// <summary>Field number for the "resp" field.</summary>
-    public const int RespFieldNumber = 1;
-    private global::Zeus.RPC.Protocol.BaseResponse resp_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Zeus.RPC.Protocol.BaseResponse Resp {
-      get { return resp_; }
-      set {
-        resp_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "users" field.</summary>
-    public const int UsersFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Zeus.RPC.Protocol.UserDTO> _repeated_users_codec
-        = pb::FieldCodec.ForMessage(18, global::Zeus.RPC.Protocol.UserDTO.Parser);
-    private readonly pbc::RepeatedField<global::Zeus.RPC.Protocol.UserDTO> users_ = new pbc::RepeatedField<global::Zeus.RPC.Protocol.UserDTO>();
-    /// <summary>
-    ///返回的用户列表
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::Zeus.RPC.Protocol.UserDTO> Users {
-      get { return users_; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as UsersResp);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(UsersResp other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (!object.Equals(Resp, other.Resp)) return false;
-      if(!users_.Equals(other.users_)) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (resp_ != null) hash ^= Resp.GetHashCode();
-      hash ^= users_.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (resp_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Resp);
-      }
-      users_.WriteTo(output, _repeated_users_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (resp_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Resp);
-      }
-      size += users_.CalculateSize(_repeated_users_codec);
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(UsersResp other) {
-      if (other == null) {
-        return;
-      }
-      if (other.resp_ != null) {
-        if (resp_ == null) {
-          Resp = new global::Zeus.RPC.Protocol.BaseResponse();
-        }
-        Resp.MergeFrom(other.Resp);
-      }
-      users_.Add(other.users_);
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            if (resp_ == null) {
-              Resp = new global::Zeus.RPC.Protocol.BaseResponse();
-            }
-            input.ReadMessage(Resp);
-            break;
-          }
-          case 18: {
-            users_.AddEntriesFrom(input, _repeated_users_codec);
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
-  #endregion
 
 }
 
