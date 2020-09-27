@@ -9,1527 +9,1267 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Zeus.RPC.Protocol
-{
+namespace Zeus.RPC.Protocol {
 
-    /// <summary>Holder for reflection information generated from zeus_notification_msg.proto</summary>
-    public static partial class ZeusNotificationMsgReflection
-    {
+  /// <summary>Holder for reflection information generated from zeus_notification_msg.proto</summary>
+  public static partial class ZeusNotificationMsgReflection {
 
-        #region Descriptor
-        /// <summary>File descriptor for zeus_notification_msg.proto</summary>
-        public static pbr::FileDescriptor Descriptor
-        {
-            get { return descriptor; }
-        }
-        private static pbr::FileDescriptor descriptor;
+    #region Descriptor
+    /// <summary>File descriptor for zeus_notification_msg.proto</summary>
+    public static pbr::FileDescriptor Descriptor {
+      get { return descriptor; }
+    }
+    private static pbr::FileDescriptor descriptor;
 
-        static ZeusNotificationMsgReflection()
-        {
-            byte[] descriptorData = global::System.Convert.FromBase64String(
-                string.Concat(
-                  "Cht6ZXVzX25vdGlmaWNhdGlvbl9tc2cucHJvdG8SEVpldXMuUlBDLlByb3Rv",
-                  "Y29sGg56ZXVzX21zZy5wcm90byLqAQoPTm90aWZpY2F0aW9uUmVxEhAKCHVz",
-                  "ZXJuYW1lGAEgASgJEg0KBXRpdGxlGAIgASgJEg8KB2NvbnRlbnQYAyABKAkS",
-                  "DgoGc3RhdHVzGAQgASgFEg0KBWxldmVsGAUgASgFEg8KB2NyZWF0b3IYBiAB",
-                  "KAkSEAoIZXh0X2pzb24YByABKAkSEAoIaXNfc3RvY2sYCCABKAgSEQoJaXNf",
-                  "bm90aWZ5GAkgASgIEhIKCmFsaWFzX3R5cGUYCiABKAkSDAoEdHlwZRgLIAEo",
-                  "CRIcChRub3RpZmljYXRpb25fdHlwZV9pZBgMIAEoBSLjAQoSTm90aWZpY2F0",
-                  "aW9uQWxsUmVxEg0KBXRpdGxlGAEgASgJEg8KB2NvbnRlbnQYAiABKAkSDgoG",
-                  "c3RhdHVzGAMgASgFEg0KBWxldmVsGAQgASgFEg8KB2NyZWF0b3IYBSABKAkS",
-                  "EAoIZXh0X2pzb24YBiABKAkSEAoIaXNfc3RvY2sYByABKAgSEQoJaXNfbm90",
-                  "aWZ5GAggASgIEgwKBHR5cGUYCSABKAkSHAoUbm90aWZpY2F0aW9uX3R5cGVf",
-                  "aWQYCiABKAUSGgoSaXNfaW5uZXJfYnJvYWRjYXN0GAsgASgIIn4KGk5vdGlm",
-                  "aWNhdGlvbkJ5VXNlckxldmVsUmVxEi8KA3JlcRgBIAEoCzIiLlpldXMuUlBD",
-                  "LlByb3RvY29sLk5vdGlmaWNhdGlvblJlcRIvCgl1c2VyTGV2ZWwYAiABKA4y",
-                  "HC5aZXVzLlJQQy5Qcm90b2NvbC5Vc2VyTGV2ZWwiQQoQTm90aWZpY2F0aW9u",
-                  "UmVzcBItCgRyZXNwGAEgASgLMh8uWmV1cy5SUEMuUHJvdG9jb2wuQmFzZVJl",
-                  "c3BvbnNlMq0CChZOb3RpZmljYXRpb25ScGNTZXJ2aWNlElEKBFNlbmQSIi5a",
-                  "ZXVzLlJQQy5Qcm90b2NvbC5Ob3RpZmljYXRpb25SZXEaIy5aZXVzLlJQQy5Q",
-                  "cm90b2NvbC5Ob3RpZmljYXRpb25SZXNwIgASVwoHU2VuZEFsbBIlLlpldXMu",
-                  "UlBDLlByb3RvY29sLk5vdGlmaWNhdGlvbkFsbFJlcRojLlpldXMuUlBDLlBy",
-                  "b3RvY29sLk5vdGlmaWNhdGlvblJlc3AiABJnCg9TZW5kQnlVc2VyTGV2ZWwS",
-                  "LS5aZXVzLlJQQy5Qcm90b2NvbC5Ob3RpZmljYXRpb25CeVVzZXJMZXZlbFJl",
-                  "cRojLlpldXMuUlBDLlByb3RvY29sLk5vdGlmaWNhdGlvblJlc3AiAGIGcHJv",
-                  "dG8z"));
-            descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-                new pbr::FileDescriptor[] { global::Zeus.RPC.Protocol.ZeusMsgReflection.Descriptor, },
-                new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+    static ZeusNotificationMsgReflection() {
+      byte[] descriptorData = global::System.Convert.FromBase64String(
+          string.Concat(
+            "Cht6ZXVzX25vdGlmaWNhdGlvbl9tc2cucHJvdG8SEVpldXMuUlBDLlByb3Rv",
+            "Y29sGg56ZXVzX21zZy5wcm90byLqAQoPTm90aWZpY2F0aW9uUmVxEhAKCHVz",
+            "ZXJuYW1lGAEgASgJEg0KBXRpdGxlGAIgASgJEg8KB2NvbnRlbnQYAyABKAkS",
+            "DgoGc3RhdHVzGAQgASgFEg0KBWxldmVsGAUgASgFEg8KB2NyZWF0b3IYBiAB",
+            "KAkSEAoIZXh0X2pzb24YByABKAkSEAoIaXNfc3RvY2sYCCABKAgSEQoJaXNf",
+            "bm90aWZ5GAkgASgIEhIKCmFsaWFzX3R5cGUYCiABKAkSDAoEdHlwZRgLIAEo",
+            "CRIcChRub3RpZmljYXRpb25fdHlwZV9pZBgMIAEoBSLjAQoSTm90aWZpY2F0",
+            "aW9uQWxsUmVxEg0KBXRpdGxlGAEgASgJEg8KB2NvbnRlbnQYAiABKAkSDgoG",
+            "c3RhdHVzGAMgASgFEg0KBWxldmVsGAQgASgFEg8KB2NyZWF0b3IYBSABKAkS",
+            "EAoIZXh0X2pzb24YBiABKAkSEAoIaXNfc3RvY2sYByABKAgSEQoJaXNfbm90",
+            "aWZ5GAggASgIEgwKBHR5cGUYCSABKAkSHAoUbm90aWZpY2F0aW9uX3R5cGVf",
+            "aWQYCiABKAUSGgoSaXNfaW5uZXJfYnJvYWRjYXN0GAsgASgIImEKGk5vdGlm",
+            "aWNhdGlvbkJ5VXNlckxldmVsUmVxEi8KA3JlcRgBIAEoCzIiLlpldXMuUlBD",
+            "LlByb3RvY29sLk5vdGlmaWNhdGlvblJlcRISCgp1c2VyTGV2ZWxzGAIgAygF",
+            "IkEKEE5vdGlmaWNhdGlvblJlc3ASLQoEcmVzcBgBIAEoCzIfLlpldXMuUlBD",
+            "LlByb3RvY29sLkJhc2VSZXNwb25zZTKtAgoWTm90aWZpY2F0aW9uUnBjU2Vy",
+            "dmljZRJRCgRTZW5kEiIuWmV1cy5SUEMuUHJvdG9jb2wuTm90aWZpY2F0aW9u",
+            "UmVxGiMuWmV1cy5SUEMuUHJvdG9jb2wuTm90aWZpY2F0aW9uUmVzcCIAElcK",
+            "B1NlbmRBbGwSJS5aZXVzLlJQQy5Qcm90b2NvbC5Ob3RpZmljYXRpb25BbGxS",
+            "ZXEaIy5aZXVzLlJQQy5Qcm90b2NvbC5Ob3RpZmljYXRpb25SZXNwIgASZwoP",
+            "U2VuZEJ5VXNlckxldmVsEi0uWmV1cy5SUEMuUHJvdG9jb2wuTm90aWZpY2F0",
+            "aW9uQnlVc2VyTGV2ZWxSZXEaIy5aZXVzLlJQQy5Qcm90b2NvbC5Ob3RpZmlj",
+            "YXRpb25SZXNwIgBiBnByb3RvMw=="));
+      descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
+          new pbr::FileDescriptor[] { global::Zeus.RPC.Protocol.ZeusMsgReflection.Descriptor, },
+          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.NotificationReq), global::Zeus.RPC.Protocol.NotificationReq.Parser, new[]{ "Username", "Title", "Content", "Status", "Level", "Creator", "ExtJson", "IsStock", "IsNotify", "AliasType", "Type", "NotificationTypeId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.NotificationAllReq), global::Zeus.RPC.Protocol.NotificationAllReq.Parser, new[]{ "Title", "Content", "Status", "Level", "Creator", "ExtJson", "IsStock", "IsNotify", "Type", "NotificationTypeId", "IsInnerBroadcast" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.NotificationByUserLevelReq), global::Zeus.RPC.Protocol.NotificationByUserLevelReq.Parser, new[]{ "Req", "UserLevel" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.NotificationByUserLevelReq), global::Zeus.RPC.Protocol.NotificationByUserLevelReq.Parser, new[]{ "Req", "UserLevels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zeus.RPC.Protocol.NotificationResp), global::Zeus.RPC.Protocol.NotificationResp.Parser, new[]{ "Resp" }, null, null, null)
-                }));
-        }
-        #endregion
-
+          }));
     }
-    #region Messages
-    /// <summary>
-    /// 消息通知（请求）
-    /// </summary>
-    public sealed partial class NotificationReq : pb::IMessage<NotificationReq>
-    {
-        private static readonly pb::MessageParser<NotificationReq> _parser = new pb::MessageParser<NotificationReq>(() => new NotificationReq());
-        private pb::UnknownFieldSet _unknownFields;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pb::MessageParser<NotificationReq> Parser { get { return _parser; } }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pbr::MessageDescriptor Descriptor
-        {
-            get { return global::Zeus.RPC.Protocol.ZeusNotificationMsgReflection.Descriptor.MessageTypes[0]; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        pbr::MessageDescriptor pb::IMessage.Descriptor
-        {
-            get { return Descriptor; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationReq()
-        {
-            OnConstruction();
-        }
-
-        partial void OnConstruction();
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationReq(NotificationReq other) : this()
-        {
-            username_ = other.username_;
-            title_ = other.title_;
-            content_ = other.content_;
-            status_ = other.status_;
-            level_ = other.level_;
-            creator_ = other.creator_;
-            extJson_ = other.extJson_;
-            isStock_ = other.isStock_;
-            isNotify_ = other.isNotify_;
-            aliasType_ = other.aliasType_;
-            type_ = other.type_;
-            notificationTypeId_ = other.notificationTypeId_;
-            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationReq Clone()
-        {
-            return new NotificationReq(this);
-        }
-
-        /// <summary>Field number for the "username" field.</summary>
-        public const int UsernameFieldNumber = 1;
-        private string username_ = "";
-        /// <summary>
-        /// 用户名
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string Username
-        {
-            get { return username_; }
-            set
-            {
-                username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "title" field.</summary>
-        public const int TitleFieldNumber = 2;
-        private string title_ = "";
-        /// <summary>
-        /// 标题
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string Title
-        {
-            get { return title_; }
-            set
-            {
-                title_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "content" field.</summary>
-        public const int ContentFieldNumber = 3;
-        private string content_ = "";
-        /// <summary>
-        /// 内容
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string Content
-        {
-            get { return content_; }
-            set
-            {
-                content_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "status" field.</summary>
-        public const int StatusFieldNumber = 4;
-        private int status_;
-        /// <summary>
-        /// 状态,默认0
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int Status
-        {
-            get { return status_; }
-            set
-            {
-                status_ = value;
-            }
-        }
-
-        /// <summary>Field number for the "level" field.</summary>
-        public const int LevelFieldNumber = 5;
-        private int level_;
-        /// <summary>
-        /// 级别,默认0
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int Level
-        {
-            get { return level_; }
-            set
-            {
-                level_ = value;
-            }
-        }
-
-        /// <summary>Field number for the "creator" field.</summary>
-        public const int CreatorFieldNumber = 6;
-        private string creator_ = "";
-        /// <summary>
-        /// 发送人
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string Creator
-        {
-            get { return creator_; }
-            set
-            {
-                creator_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "ext_json" field.</summary>
-        public const int ExtJsonFieldNumber = 7;
-        private string extJson_ = "";
-        /// <summary>
-        /// 扩展json
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string ExtJson
-        {
-            get { return extJson_; }
-            set
-            {
-                extJson_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "is_stock" field.</summary>
-        public const int IsStockFieldNumber = 8;
-        private bool isStock_;
-        /// <summary>
-        /// 是否入库（消息中心可见）
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool IsStock
-        {
-            get { return isStock_; }
-            set
-            {
-                isStock_ = value;
-            }
-        }
-
-        /// <summary>Field number for the "is_notify" field.</summary>
-        public const int IsNotifyFieldNumber = 9;
-        private bool isNotify_;
-        /// <summary>
-        /// 是否推送
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool IsNotify
-        {
-            get { return isNotify_; }
-            set
-            {
-                isNotify_ = value;
-            }
-        }
-
-        /// <summary>Field number for the "alias_type" field.</summary>
-        public const int AliasTypeFieldNumber = 10;
-        private string aliasType_ = "";
-        /// <summary>
-        /// 别名类型,只能为这3个值（zeus_temp, zeus_user, zeus_account）
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string AliasType
-        {
-            get { return aliasType_; }
-            set
-            {
-                aliasType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "type" field.</summary>
-        public const int TypeFieldNumber = 11;
-        private string type_ = "";
-        /// <summary>
-        /// 类型，写死:ZEUS
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string Type
-        {
-            get { return type_; }
-            set
-            {
-                type_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "notification_type_id" field.</summary>
-        public const int NotificationTypeIdFieldNumber = 12;
-        private int notificationTypeId_;
-        /// <summary>
-        /// 消息类型id
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int NotificationTypeId
-        {
-            get { return notificationTypeId_; }
-            set
-            {
-                notificationTypeId_ = value;
-            }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override bool Equals(object other)
-        {
-            return Equals(other as NotificationReq);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool Equals(NotificationReq other)
-        {
-            if (ReferenceEquals(other, null))
-            {
-                return false;
-            }
-            if (ReferenceEquals(other, this))
-            {
-                return true;
-            }
-            if (Username != other.Username) return false;
-            if (Title != other.Title) return false;
-            if (Content != other.Content) return false;
-            if (Status != other.Status) return false;
-            if (Level != other.Level) return false;
-            if (Creator != other.Creator) return false;
-            if (ExtJson != other.ExtJson) return false;
-            if (IsStock != other.IsStock) return false;
-            if (IsNotify != other.IsNotify) return false;
-            if (AliasType != other.AliasType) return false;
-            if (Type != other.Type) return false;
-            if (NotificationTypeId != other.NotificationTypeId) return false;
-            return Equals(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override int GetHashCode()
-        {
-            int hash = 1;
-            if (Username.Length != 0) hash ^= Username.GetHashCode();
-            if (Title.Length != 0) hash ^= Title.GetHashCode();
-            if (Content.Length != 0) hash ^= Content.GetHashCode();
-            if (Status != 0) hash ^= Status.GetHashCode();
-            if (Level != 0) hash ^= Level.GetHashCode();
-            if (Creator.Length != 0) hash ^= Creator.GetHashCode();
-            if (ExtJson.Length != 0) hash ^= ExtJson.GetHashCode();
-            if (IsStock != false) hash ^= IsStock.GetHashCode();
-            if (IsNotify != false) hash ^= IsNotify.GetHashCode();
-            if (AliasType.Length != 0) hash ^= AliasType.GetHashCode();
-            if (Type.Length != 0) hash ^= Type.GetHashCode();
-            if (NotificationTypeId != 0) hash ^= NotificationTypeId.GetHashCode();
-            if (_unknownFields != null)
-            {
-                hash ^= _unknownFields.GetHashCode();
-            }
-            return hash;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override string ToString()
-        {
-            return pb::JsonFormatter.ToDiagnosticString(this);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void WriteTo(pb::CodedOutputStream output)
-        {
-            if (Username.Length != 0)
-            {
-                output.WriteRawTag(10);
-                output.WriteString(Username);
-            }
-            if (Title.Length != 0)
-            {
-                output.WriteRawTag(18);
-                output.WriteString(Title);
-            }
-            if (Content.Length != 0)
-            {
-                output.WriteRawTag(26);
-                output.WriteString(Content);
-            }
-            if (Status != 0)
-            {
-                output.WriteRawTag(32);
-                output.WriteInt32(Status);
-            }
-            if (Level != 0)
-            {
-                output.WriteRawTag(40);
-                output.WriteInt32(Level);
-            }
-            if (Creator.Length != 0)
-            {
-                output.WriteRawTag(50);
-                output.WriteString(Creator);
-            }
-            if (ExtJson.Length != 0)
-            {
-                output.WriteRawTag(58);
-                output.WriteString(ExtJson);
-            }
-            if (IsStock != false)
-            {
-                output.WriteRawTag(64);
-                output.WriteBool(IsStock);
-            }
-            if (IsNotify != false)
-            {
-                output.WriteRawTag(72);
-                output.WriteBool(IsNotify);
-            }
-            if (AliasType.Length != 0)
-            {
-                output.WriteRawTag(82);
-                output.WriteString(AliasType);
-            }
-            if (Type.Length != 0)
-            {
-                output.WriteRawTag(90);
-                output.WriteString(Type);
-            }
-            if (NotificationTypeId != 0)
-            {
-                output.WriteRawTag(96);
-                output.WriteInt32(NotificationTypeId);
-            }
-            if (_unknownFields != null)
-            {
-                _unknownFields.WriteTo(output);
-            }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int CalculateSize()
-        {
-            int size = 0;
-            if (Username.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
-            }
-            if (Title.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(Title);
-            }
-            if (Content.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(Content);
-            }
-            if (Status != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeInt32Size(Status);
-            }
-            if (Level != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeInt32Size(Level);
-            }
-            if (Creator.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(Creator);
-            }
-            if (ExtJson.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(ExtJson);
-            }
-            if (IsStock != false)
-            {
-                size += 1 + 1;
-            }
-            if (IsNotify != false)
-            {
-                size += 1 + 1;
-            }
-            if (AliasType.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(AliasType);
-            }
-            if (Type.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(Type);
-            }
-            if (NotificationTypeId != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeInt32Size(NotificationTypeId);
-            }
-            if (_unknownFields != null)
-            {
-                size += _unknownFields.CalculateSize();
-            }
-            return size;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(NotificationReq other)
-        {
-            if (other == null)
-            {
-                return;
-            }
-            if (other.Username.Length != 0)
-            {
-                Username = other.Username;
-            }
-            if (other.Title.Length != 0)
-            {
-                Title = other.Title;
-            }
-            if (other.Content.Length != 0)
-            {
-                Content = other.Content;
-            }
-            if (other.Status != 0)
-            {
-                Status = other.Status;
-            }
-            if (other.Level != 0)
-            {
-                Level = other.Level;
-            }
-            if (other.Creator.Length != 0)
-            {
-                Creator = other.Creator;
-            }
-            if (other.ExtJson.Length != 0)
-            {
-                ExtJson = other.ExtJson;
-            }
-            if (other.IsStock != false)
-            {
-                IsStock = other.IsStock;
-            }
-            if (other.IsNotify != false)
-            {
-                IsNotify = other.IsNotify;
-            }
-            if (other.AliasType.Length != 0)
-            {
-                AliasType = other.AliasType;
-            }
-            if (other.Type.Length != 0)
-            {
-                Type = other.Type;
-            }
-            if (other.NotificationTypeId != 0)
-            {
-                NotificationTypeId = other.NotificationTypeId;
-            }
-            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(pb::CodedInputStream input)
-        {
-            uint tag;
-            while ((tag = input.ReadTag()) != 0)
-            {
-                switch (tag)
-                {
-                    default:
-                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-                        break;
-                    case 10:
-                        {
-                            Username = input.ReadString();
-                            break;
-                        }
-                    case 18:
-                        {
-                            Title = input.ReadString();
-                            break;
-                        }
-                    case 26:
-                        {
-                            Content = input.ReadString();
-                            break;
-                        }
-                    case 32:
-                        {
-                            Status = input.ReadInt32();
-                            break;
-                        }
-                    case 40:
-                        {
-                            Level = input.ReadInt32();
-                            break;
-                        }
-                    case 50:
-                        {
-                            Creator = input.ReadString();
-                            break;
-                        }
-                    case 58:
-                        {
-                            ExtJson = input.ReadString();
-                            break;
-                        }
-                    case 64:
-                        {
-                            IsStock = input.ReadBool();
-                            break;
-                        }
-                    case 72:
-                        {
-                            IsNotify = input.ReadBool();
-                            break;
-                        }
-                    case 82:
-                        {
-                            AliasType = input.ReadString();
-                            break;
-                        }
-                    case 90:
-                        {
-                            Type = input.ReadString();
-                            break;
-                        }
-                    case 96:
-                        {
-                            NotificationTypeId = input.ReadInt32();
-                            break;
-                        }
-                }
-            }
-        }
-
-    }
-
-    public sealed partial class NotificationAllReq : pb::IMessage<NotificationAllReq>
-    {
-        private static readonly pb::MessageParser<NotificationAllReq> _parser = new pb::MessageParser<NotificationAllReq>(() => new NotificationAllReq());
-        private pb::UnknownFieldSet _unknownFields;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pb::MessageParser<NotificationAllReq> Parser { get { return _parser; } }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pbr::MessageDescriptor Descriptor
-        {
-            get { return global::Zeus.RPC.Protocol.ZeusNotificationMsgReflection.Descriptor.MessageTypes[1]; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        pbr::MessageDescriptor pb::IMessage.Descriptor
-        {
-            get { return Descriptor; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationAllReq()
-        {
-            OnConstruction();
-        }
-
-        partial void OnConstruction();
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationAllReq(NotificationAllReq other) : this()
-        {
-            title_ = other.title_;
-            content_ = other.content_;
-            status_ = other.status_;
-            level_ = other.level_;
-            creator_ = other.creator_;
-            extJson_ = other.extJson_;
-            isStock_ = other.isStock_;
-            isNotify_ = other.isNotify_;
-            type_ = other.type_;
-            notificationTypeId_ = other.notificationTypeId_;
-            isInnerBroadcast_ = other.isInnerBroadcast_;
-            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationAllReq Clone()
-        {
-            return new NotificationAllReq(this);
-        }
-
-        /// <summary>Field number for the "title" field.</summary>
-        public const int TitleFieldNumber = 1;
-        private string title_ = "";
-        /// <summary>
-        /// 标题
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string Title
-        {
-            get { return title_; }
-            set
-            {
-                title_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "content" field.</summary>
-        public const int ContentFieldNumber = 2;
-        private string content_ = "";
-        /// <summary>
-        /// 内容
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string Content
-        {
-            get { return content_; }
-            set
-            {
-                content_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "status" field.</summary>
-        public const int StatusFieldNumber = 3;
-        private int status_;
-        /// <summary>
-        /// 状态,默认0
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int Status
-        {
-            get { return status_; }
-            set
-            {
-                status_ = value;
-            }
-        }
-
-        /// <summary>Field number for the "level" field.</summary>
-        public const int LevelFieldNumber = 4;
-        private int level_;
-        /// <summary>
-        /// 级别,默认0
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int Level
-        {
-            get { return level_; }
-            set
-            {
-                level_ = value;
-            }
-        }
-
-        /// <summary>Field number for the "creator" field.</summary>
-        public const int CreatorFieldNumber = 5;
-        private string creator_ = "";
-        /// <summary>
-        /// 发送人
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string Creator
-        {
-            get { return creator_; }
-            set
-            {
-                creator_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "ext_json" field.</summary>
-        public const int ExtJsonFieldNumber = 6;
-        private string extJson_ = "";
-        /// <summary>
-        /// 扩展json
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string ExtJson
-        {
-            get { return extJson_; }
-            set
-            {
-                extJson_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "is_stock" field.</summary>
-        public const int IsStockFieldNumber = 7;
-        private bool isStock_;
-        /// <summary>
-        /// 是否入库（消息中心可见）
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool IsStock
-        {
-            get { return isStock_; }
-            set
-            {
-                isStock_ = value;
-            }
-        }
-
-        /// <summary>Field number for the "is_notify" field.</summary>
-        public const int IsNotifyFieldNumber = 8;
-        private bool isNotify_;
-        /// <summary>
-        /// 是否推送
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool IsNotify
-        {
-            get { return isNotify_; }
-            set
-            {
-                isNotify_ = value;
-            }
-        }
-
-        /// <summary>Field number for the "type" field.</summary>
-        public const int TypeFieldNumber = 9;
-        private string type_ = "";
-        /// <summary>
-        /// 类型，写死:ZEUS
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string Type
-        {
-            get { return type_; }
-            set
-            {
-                type_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-            }
-        }
-
-        /// <summary>Field number for the "notification_type_id" field.</summary>
-        public const int NotificationTypeIdFieldNumber = 10;
-        private int notificationTypeId_;
-        /// <summary>
-        /// 消息类型id
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int NotificationTypeId
-        {
-            get { return notificationTypeId_; }
-            set
-            {
-                notificationTypeId_ = value;
-            }
-        }
-
-        /// <summary>Field number for the "is_inner_broadcast" field.</summary>
-        public const int IsInnerBroadcastFieldNumber = 11;
-        private bool isInnerBroadcast_;
-        /// <summary>
-        /// 是否内部广播
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool IsInnerBroadcast
-        {
-            get { return isInnerBroadcast_; }
-            set
-            {
-                isInnerBroadcast_ = value;
-            }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override bool Equals(object other)
-        {
-            return Equals(other as NotificationAllReq);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool Equals(NotificationAllReq other)
-        {
-            if (ReferenceEquals(other, null))
-            {
-                return false;
-            }
-            if (ReferenceEquals(other, this))
-            {
-                return true;
-            }
-            if (Title != other.Title) return false;
-            if (Content != other.Content) return false;
-            if (Status != other.Status) return false;
-            if (Level != other.Level) return false;
-            if (Creator != other.Creator) return false;
-            if (ExtJson != other.ExtJson) return false;
-            if (IsStock != other.IsStock) return false;
-            if (IsNotify != other.IsNotify) return false;
-            if (Type != other.Type) return false;
-            if (NotificationTypeId != other.NotificationTypeId) return false;
-            if (IsInnerBroadcast != other.IsInnerBroadcast) return false;
-            return Equals(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override int GetHashCode()
-        {
-            int hash = 1;
-            if (Title.Length != 0) hash ^= Title.GetHashCode();
-            if (Content.Length != 0) hash ^= Content.GetHashCode();
-            if (Status != 0) hash ^= Status.GetHashCode();
-            if (Level != 0) hash ^= Level.GetHashCode();
-            if (Creator.Length != 0) hash ^= Creator.GetHashCode();
-            if (ExtJson.Length != 0) hash ^= ExtJson.GetHashCode();
-            if (IsStock != false) hash ^= IsStock.GetHashCode();
-            if (IsNotify != false) hash ^= IsNotify.GetHashCode();
-            if (Type.Length != 0) hash ^= Type.GetHashCode();
-            if (NotificationTypeId != 0) hash ^= NotificationTypeId.GetHashCode();
-            if (IsInnerBroadcast != false) hash ^= IsInnerBroadcast.GetHashCode();
-            if (_unknownFields != null)
-            {
-                hash ^= _unknownFields.GetHashCode();
-            }
-            return hash;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override string ToString()
-        {
-            return pb::JsonFormatter.ToDiagnosticString(this);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void WriteTo(pb::CodedOutputStream output)
-        {
-            if (Title.Length != 0)
-            {
-                output.WriteRawTag(10);
-                output.WriteString(Title);
-            }
-            if (Content.Length != 0)
-            {
-                output.WriteRawTag(18);
-                output.WriteString(Content);
-            }
-            if (Status != 0)
-            {
-                output.WriteRawTag(24);
-                output.WriteInt32(Status);
-            }
-            if (Level != 0)
-            {
-                output.WriteRawTag(32);
-                output.WriteInt32(Level);
-            }
-            if (Creator.Length != 0)
-            {
-                output.WriteRawTag(42);
-                output.WriteString(Creator);
-            }
-            if (ExtJson.Length != 0)
-            {
-                output.WriteRawTag(50);
-                output.WriteString(ExtJson);
-            }
-            if (IsStock != false)
-            {
-                output.WriteRawTag(56);
-                output.WriteBool(IsStock);
-            }
-            if (IsNotify != false)
-            {
-                output.WriteRawTag(64);
-                output.WriteBool(IsNotify);
-            }
-            if (Type.Length != 0)
-            {
-                output.WriteRawTag(74);
-                output.WriteString(Type);
-            }
-            if (NotificationTypeId != 0)
-            {
-                output.WriteRawTag(80);
-                output.WriteInt32(NotificationTypeId);
-            }
-            if (IsInnerBroadcast != false)
-            {
-                output.WriteRawTag(88);
-                output.WriteBool(IsInnerBroadcast);
-            }
-            if (_unknownFields != null)
-            {
-                _unknownFields.WriteTo(output);
-            }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int CalculateSize()
-        {
-            int size = 0;
-            if (Title.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(Title);
-            }
-            if (Content.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(Content);
-            }
-            if (Status != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeInt32Size(Status);
-            }
-            if (Level != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeInt32Size(Level);
-            }
-            if (Creator.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(Creator);
-            }
-            if (ExtJson.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(ExtJson);
-            }
-            if (IsStock != false)
-            {
-                size += 1 + 1;
-            }
-            if (IsNotify != false)
-            {
-                size += 1 + 1;
-            }
-            if (Type.Length != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeStringSize(Type);
-            }
-            if (NotificationTypeId != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeInt32Size(NotificationTypeId);
-            }
-            if (IsInnerBroadcast != false)
-            {
-                size += 1 + 1;
-            }
-            if (_unknownFields != null)
-            {
-                size += _unknownFields.CalculateSize();
-            }
-            return size;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(NotificationAllReq other)
-        {
-            if (other == null)
-            {
-                return;
-            }
-            if (other.Title.Length != 0)
-            {
-                Title = other.Title;
-            }
-            if (other.Content.Length != 0)
-            {
-                Content = other.Content;
-            }
-            if (other.Status != 0)
-            {
-                Status = other.Status;
-            }
-            if (other.Level != 0)
-            {
-                Level = other.Level;
-            }
-            if (other.Creator.Length != 0)
-            {
-                Creator = other.Creator;
-            }
-            if (other.ExtJson.Length != 0)
-            {
-                ExtJson = other.ExtJson;
-            }
-            if (other.IsStock != false)
-            {
-                IsStock = other.IsStock;
-            }
-            if (other.IsNotify != false)
-            {
-                IsNotify = other.IsNotify;
-            }
-            if (other.Type.Length != 0)
-            {
-                Type = other.Type;
-            }
-            if (other.NotificationTypeId != 0)
-            {
-                NotificationTypeId = other.NotificationTypeId;
-            }
-            if (other.IsInnerBroadcast != false)
-            {
-                IsInnerBroadcast = other.IsInnerBroadcast;
-            }
-            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(pb::CodedInputStream input)
-        {
-            uint tag;
-            while ((tag = input.ReadTag()) != 0)
-            {
-                switch (tag)
-                {
-                    default:
-                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-                        break;
-                    case 10:
-                        {
-                            Title = input.ReadString();
-                            break;
-                        }
-                    case 18:
-                        {
-                            Content = input.ReadString();
-                            break;
-                        }
-                    case 24:
-                        {
-                            Status = input.ReadInt32();
-                            break;
-                        }
-                    case 32:
-                        {
-                            Level = input.ReadInt32();
-                            break;
-                        }
-                    case 42:
-                        {
-                            Creator = input.ReadString();
-                            break;
-                        }
-                    case 50:
-                        {
-                            ExtJson = input.ReadString();
-                            break;
-                        }
-                    case 56:
-                        {
-                            IsStock = input.ReadBool();
-                            break;
-                        }
-                    case 64:
-                        {
-                            IsNotify = input.ReadBool();
-                            break;
-                        }
-                    case 74:
-                        {
-                            Type = input.ReadString();
-                            break;
-                        }
-                    case 80:
-                        {
-                            NotificationTypeId = input.ReadInt32();
-                            break;
-                        }
-                    case 88:
-                        {
-                            IsInnerBroadcast = input.ReadBool();
-                            break;
-                        }
-                }
-            }
-        }
-
-    }
-
-    public sealed partial class NotificationByUserLevelReq : pb::IMessage<NotificationByUserLevelReq>
-    {
-        private static readonly pb::MessageParser<NotificationByUserLevelReq> _parser = new pb::MessageParser<NotificationByUserLevelReq>(() => new NotificationByUserLevelReq());
-        private pb::UnknownFieldSet _unknownFields;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pb::MessageParser<NotificationByUserLevelReq> Parser { get { return _parser; } }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pbr::MessageDescriptor Descriptor
-        {
-            get { return global::Zeus.RPC.Protocol.ZeusNotificationMsgReflection.Descriptor.MessageTypes[2]; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        pbr::MessageDescriptor pb::IMessage.Descriptor
-        {
-            get { return Descriptor; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationByUserLevelReq()
-        {
-            OnConstruction();
-        }
-
-        partial void OnConstruction();
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationByUserLevelReq(NotificationByUserLevelReq other) : this()
-        {
-            req_ = other.req_ != null ? other.req_.Clone() : null;
-            userLevel_ = other.userLevel_;
-            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationByUserLevelReq Clone()
-        {
-            return new NotificationByUserLevelReq(this);
-        }
-
-        /// <summary>Field number for the "req" field.</summary>
-        public const int ReqFieldNumber = 1;
-        private global::Zeus.RPC.Protocol.NotificationReq req_;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public global::Zeus.RPC.Protocol.NotificationReq Req
-        {
-            get { return req_; }
-            set
-            {
-                req_ = value;
-            }
-        }
-
-        /// <summary>Field number for the "userLevel" field.</summary>
-        public const int UserLevelFieldNumber = 2;
-        private global::Zeus.RPC.Protocol.UserLevel userLevel_ = 0;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public global::Zeus.RPC.Protocol.UserLevel UserLevel
-        {
-            get { return userLevel_; }
-            set
-            {
-                userLevel_ = value;
-            }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override bool Equals(object other)
-        {
-            return Equals(other as NotificationByUserLevelReq);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool Equals(NotificationByUserLevelReq other)
-        {
-            if (ReferenceEquals(other, null))
-            {
-                return false;
-            }
-            if (ReferenceEquals(other, this))
-            {
-                return true;
-            }
-            if (!object.Equals(Req, other.Req)) return false;
-            if (UserLevel != other.UserLevel) return false;
-            return Equals(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override int GetHashCode()
-        {
-            int hash = 1;
-            if (req_ != null) hash ^= Req.GetHashCode();
-            if (UserLevel != 0) hash ^= UserLevel.GetHashCode();
-            if (_unknownFields != null)
-            {
-                hash ^= _unknownFields.GetHashCode();
-            }
-            return hash;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override string ToString()
-        {
-            return pb::JsonFormatter.ToDiagnosticString(this);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void WriteTo(pb::CodedOutputStream output)
-        {
-            if (req_ != null)
-            {
-                output.WriteRawTag(10);
-                output.WriteMessage(Req);
-            }
-            if (UserLevel != 0)
-            {
-                output.WriteRawTag(16);
-                output.WriteEnum((int)UserLevel);
-            }
-            if (_unknownFields != null)
-            {
-                _unknownFields.WriteTo(output);
-            }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int CalculateSize()
-        {
-            int size = 0;
-            if (req_ != null)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeMessageSize(Req);
-            }
-            if (UserLevel != 0)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeEnumSize((int)UserLevel);
-            }
-            if (_unknownFields != null)
-            {
-                size += _unknownFields.CalculateSize();
-            }
-            return size;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(NotificationByUserLevelReq other)
-        {
-            if (other == null)
-            {
-                return;
-            }
-            if (other.req_ != null)
-            {
-                if (req_ == null)
-                {
-                    Req = new global::Zeus.RPC.Protocol.NotificationReq();
-                }
-                Req.MergeFrom(other.Req);
-            }
-            if (other.UserLevel != 0)
-            {
-                UserLevel = other.UserLevel;
-            }
-            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(pb::CodedInputStream input)
-        {
-            uint tag;
-            while ((tag = input.ReadTag()) != 0)
-            {
-                switch (tag)
-                {
-                    default:
-                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-                        break;
-                    case 10:
-                        {
-                            if (req_ == null)
-                            {
-                                Req = new global::Zeus.RPC.Protocol.NotificationReq();
-                            }
-                            input.ReadMessage(Req);
-                            break;
-                        }
-                    case 16:
-                        {
-                            UserLevel = (global::Zeus.RPC.Protocol.UserLevel)input.ReadEnum();
-                            break;
-                        }
-                }
-            }
-        }
-
-    }
-
-    public sealed partial class NotificationResp : pb::IMessage<NotificationResp>
-    {
-        private static readonly pb::MessageParser<NotificationResp> _parser = new pb::MessageParser<NotificationResp>(() => new NotificationResp());
-        private pb::UnknownFieldSet _unknownFields;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pb::MessageParser<NotificationResp> Parser { get { return _parser; } }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pbr::MessageDescriptor Descriptor
-        {
-            get { return global::Zeus.RPC.Protocol.ZeusNotificationMsgReflection.Descriptor.MessageTypes[3]; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        pbr::MessageDescriptor pb::IMessage.Descriptor
-        {
-            get { return Descriptor; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationResp()
-        {
-            OnConstruction();
-        }
-
-        partial void OnConstruction();
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationResp(NotificationResp other) : this()
-        {
-            resp_ = other.resp_ != null ? other.resp_.Clone() : null;
-            _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public NotificationResp Clone()
-        {
-            return new NotificationResp(this);
-        }
-
-        /// <summary>Field number for the "resp" field.</summary>
-        public const int RespFieldNumber = 1;
-        private global::Zeus.RPC.Protocol.BaseResponse resp_;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public global::Zeus.RPC.Protocol.BaseResponse Resp
-        {
-            get { return resp_; }
-            set
-            {
-                resp_ = value;
-            }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override bool Equals(object other)
-        {
-            return Equals(other as NotificationResp);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool Equals(NotificationResp other)
-        {
-            if (ReferenceEquals(other, null))
-            {
-                return false;
-            }
-            if (ReferenceEquals(other, this))
-            {
-                return true;
-            }
-            if (!object.Equals(Resp, other.Resp)) return false;
-            return Equals(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override int GetHashCode()
-        {
-            int hash = 1;
-            if (resp_ != null) hash ^= Resp.GetHashCode();
-            if (_unknownFields != null)
-            {
-                hash ^= _unknownFields.GetHashCode();
-            }
-            return hash;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override string ToString()
-        {
-            return pb::JsonFormatter.ToDiagnosticString(this);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void WriteTo(pb::CodedOutputStream output)
-        {
-            if (resp_ != null)
-            {
-                output.WriteRawTag(10);
-                output.WriteMessage(Resp);
-            }
-            if (_unknownFields != null)
-            {
-                _unknownFields.WriteTo(output);
-            }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int CalculateSize()
-        {
-            int size = 0;
-            if (resp_ != null)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeMessageSize(Resp);
-            }
-            if (_unknownFields != null)
-            {
-                size += _unknownFields.CalculateSize();
-            }
-            return size;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(NotificationResp other)
-        {
-            if (other == null)
-            {
-                return;
-            }
-            if (other.resp_ != null)
-            {
-                if (resp_ == null)
-                {
-                    Resp = new global::Zeus.RPC.Protocol.BaseResponse();
-                }
-                Resp.MergeFrom(other.Resp);
-            }
-            _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(pb::CodedInputStream input)
-        {
-            uint tag;
-            while ((tag = input.ReadTag()) != 0)
-            {
-                switch (tag)
-                {
-                    default:
-                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-                        break;
-                    case 10:
-                        {
-                            if (resp_ == null)
-                            {
-                                Resp = new global::Zeus.RPC.Protocol.BaseResponse();
-                            }
-                            input.ReadMessage(Resp);
-                            break;
-                        }
-                }
-            }
-        }
-
-    }
-
     #endregion
+
+  }
+  #region Messages
+  /// <summary>
+  /// 消息通知（请求）
+  /// </summary>
+  public sealed partial class NotificationReq : pb::IMessage<NotificationReq> {
+    private static readonly pb::MessageParser<NotificationReq> _parser = new pb::MessageParser<NotificationReq>(() => new NotificationReq());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NotificationReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Zeus.RPC.Protocol.ZeusNotificationMsgReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationReq(NotificationReq other) : this() {
+      username_ = other.username_;
+      title_ = other.title_;
+      content_ = other.content_;
+      status_ = other.status_;
+      level_ = other.level_;
+      creator_ = other.creator_;
+      extJson_ = other.extJson_;
+      isStock_ = other.isStock_;
+      isNotify_ = other.isNotify_;
+      aliasType_ = other.aliasType_;
+      type_ = other.type_;
+      notificationTypeId_ = other.notificationTypeId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationReq Clone() {
+      return new NotificationReq(this);
+    }
+
+    /// <summary>Field number for the "username" field.</summary>
+    public const int UsernameFieldNumber = 1;
+    private string username_ = "";
+    /// <summary>
+    /// 用户名
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Username {
+      get { return username_; }
+      set {
+        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "title" field.</summary>
+    public const int TitleFieldNumber = 2;
+    private string title_ = "";
+    /// <summary>
+    /// 标题
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Title {
+      get { return title_; }
+      set {
+        title_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "content" field.</summary>
+    public const int ContentFieldNumber = 3;
+    private string content_ = "";
+    /// <summary>
+    /// 内容
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Content {
+      get { return content_; }
+      set {
+        content_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "status" field.</summary>
+    public const int StatusFieldNumber = 4;
+    private int status_;
+    /// <summary>
+    /// 状态,默认0
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Status {
+      get { return status_; }
+      set {
+        status_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "level" field.</summary>
+    public const int LevelFieldNumber = 5;
+    private int level_;
+    /// <summary>
+    /// 级别,默认0
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Level {
+      get { return level_; }
+      set {
+        level_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "creator" field.</summary>
+    public const int CreatorFieldNumber = 6;
+    private string creator_ = "";
+    /// <summary>
+    /// 发送人
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Creator {
+      get { return creator_; }
+      set {
+        creator_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "ext_json" field.</summary>
+    public const int ExtJsonFieldNumber = 7;
+    private string extJson_ = "";
+    /// <summary>
+    /// 扩展json
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ExtJson {
+      get { return extJson_; }
+      set {
+        extJson_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "is_stock" field.</summary>
+    public const int IsStockFieldNumber = 8;
+    private bool isStock_;
+    /// <summary>
+    /// 是否入库（消息中心可见）
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsStock {
+      get { return isStock_; }
+      set {
+        isStock_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "is_notify" field.</summary>
+    public const int IsNotifyFieldNumber = 9;
+    private bool isNotify_;
+    /// <summary>
+    /// 是否推送
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsNotify {
+      get { return isNotify_; }
+      set {
+        isNotify_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "alias_type" field.</summary>
+    public const int AliasTypeFieldNumber = 10;
+    private string aliasType_ = "";
+    /// <summary>
+    /// 别名类型,只能为这3个值（zeus_temp, zeus_user, zeus_account）
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AliasType {
+      get { return aliasType_; }
+      set {
+        aliasType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "type" field.</summary>
+    public const int TypeFieldNumber = 11;
+    private string type_ = "";
+    /// <summary>
+    /// 类型，写死:ZEUS
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Type {
+      get { return type_; }
+      set {
+        type_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "notification_type_id" field.</summary>
+    public const int NotificationTypeIdFieldNumber = 12;
+    private int notificationTypeId_;
+    /// <summary>
+    /// 消息类型id
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int NotificationTypeId {
+      get { return notificationTypeId_; }
+      set {
+        notificationTypeId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NotificationReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NotificationReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Username != other.Username) return false;
+      if (Title != other.Title) return false;
+      if (Content != other.Content) return false;
+      if (Status != other.Status) return false;
+      if (Level != other.Level) return false;
+      if (Creator != other.Creator) return false;
+      if (ExtJson != other.ExtJson) return false;
+      if (IsStock != other.IsStock) return false;
+      if (IsNotify != other.IsNotify) return false;
+      if (AliasType != other.AliasType) return false;
+      if (Type != other.Type) return false;
+      if (NotificationTypeId != other.NotificationTypeId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Username.Length != 0) hash ^= Username.GetHashCode();
+      if (Title.Length != 0) hash ^= Title.GetHashCode();
+      if (Content.Length != 0) hash ^= Content.GetHashCode();
+      if (Status != 0) hash ^= Status.GetHashCode();
+      if (Level != 0) hash ^= Level.GetHashCode();
+      if (Creator.Length != 0) hash ^= Creator.GetHashCode();
+      if (ExtJson.Length != 0) hash ^= ExtJson.GetHashCode();
+      if (IsStock != false) hash ^= IsStock.GetHashCode();
+      if (IsNotify != false) hash ^= IsNotify.GetHashCode();
+      if (AliasType.Length != 0) hash ^= AliasType.GetHashCode();
+      if (Type.Length != 0) hash ^= Type.GetHashCode();
+      if (NotificationTypeId != 0) hash ^= NotificationTypeId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Username.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Username);
+      }
+      if (Title.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Title);
+      }
+      if (Content.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Content);
+      }
+      if (Status != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Status);
+      }
+      if (Level != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(Level);
+      }
+      if (Creator.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(Creator);
+      }
+      if (ExtJson.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(ExtJson);
+      }
+      if (IsStock != false) {
+        output.WriteRawTag(64);
+        output.WriteBool(IsStock);
+      }
+      if (IsNotify != false) {
+        output.WriteRawTag(72);
+        output.WriteBool(IsNotify);
+      }
+      if (AliasType.Length != 0) {
+        output.WriteRawTag(82);
+        output.WriteString(AliasType);
+      }
+      if (Type.Length != 0) {
+        output.WriteRawTag(90);
+        output.WriteString(Type);
+      }
+      if (NotificationTypeId != 0) {
+        output.WriteRawTag(96);
+        output.WriteInt32(NotificationTypeId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Username.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
+      }
+      if (Title.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Title);
+      }
+      if (Content.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Content);
+      }
+      if (Status != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Status);
+      }
+      if (Level != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Level);
+      }
+      if (Creator.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Creator);
+      }
+      if (ExtJson.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ExtJson);
+      }
+      if (IsStock != false) {
+        size += 1 + 1;
+      }
+      if (IsNotify != false) {
+        size += 1 + 1;
+      }
+      if (AliasType.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AliasType);
+      }
+      if (Type.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Type);
+      }
+      if (NotificationTypeId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(NotificationTypeId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NotificationReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Username.Length != 0) {
+        Username = other.Username;
+      }
+      if (other.Title.Length != 0) {
+        Title = other.Title;
+      }
+      if (other.Content.Length != 0) {
+        Content = other.Content;
+      }
+      if (other.Status != 0) {
+        Status = other.Status;
+      }
+      if (other.Level != 0) {
+        Level = other.Level;
+      }
+      if (other.Creator.Length != 0) {
+        Creator = other.Creator;
+      }
+      if (other.ExtJson.Length != 0) {
+        ExtJson = other.ExtJson;
+      }
+      if (other.IsStock != false) {
+        IsStock = other.IsStock;
+      }
+      if (other.IsNotify != false) {
+        IsNotify = other.IsNotify;
+      }
+      if (other.AliasType.Length != 0) {
+        AliasType = other.AliasType;
+      }
+      if (other.Type.Length != 0) {
+        Type = other.Type;
+      }
+      if (other.NotificationTypeId != 0) {
+        NotificationTypeId = other.NotificationTypeId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Username = input.ReadString();
+            break;
+          }
+          case 18: {
+            Title = input.ReadString();
+            break;
+          }
+          case 26: {
+            Content = input.ReadString();
+            break;
+          }
+          case 32: {
+            Status = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            Level = input.ReadInt32();
+            break;
+          }
+          case 50: {
+            Creator = input.ReadString();
+            break;
+          }
+          case 58: {
+            ExtJson = input.ReadString();
+            break;
+          }
+          case 64: {
+            IsStock = input.ReadBool();
+            break;
+          }
+          case 72: {
+            IsNotify = input.ReadBool();
+            break;
+          }
+          case 82: {
+            AliasType = input.ReadString();
+            break;
+          }
+          case 90: {
+            Type = input.ReadString();
+            break;
+          }
+          case 96: {
+            NotificationTypeId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class NotificationAllReq : pb::IMessage<NotificationAllReq> {
+    private static readonly pb::MessageParser<NotificationAllReq> _parser = new pb::MessageParser<NotificationAllReq>(() => new NotificationAllReq());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NotificationAllReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Zeus.RPC.Protocol.ZeusNotificationMsgReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationAllReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationAllReq(NotificationAllReq other) : this() {
+      title_ = other.title_;
+      content_ = other.content_;
+      status_ = other.status_;
+      level_ = other.level_;
+      creator_ = other.creator_;
+      extJson_ = other.extJson_;
+      isStock_ = other.isStock_;
+      isNotify_ = other.isNotify_;
+      type_ = other.type_;
+      notificationTypeId_ = other.notificationTypeId_;
+      isInnerBroadcast_ = other.isInnerBroadcast_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationAllReq Clone() {
+      return new NotificationAllReq(this);
+    }
+
+    /// <summary>Field number for the "title" field.</summary>
+    public const int TitleFieldNumber = 1;
+    private string title_ = "";
+    /// <summary>
+    /// 标题
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Title {
+      get { return title_; }
+      set {
+        title_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "content" field.</summary>
+    public const int ContentFieldNumber = 2;
+    private string content_ = "";
+    /// <summary>
+    /// 内容
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Content {
+      get { return content_; }
+      set {
+        content_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "status" field.</summary>
+    public const int StatusFieldNumber = 3;
+    private int status_;
+    /// <summary>
+    /// 状态,默认0
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Status {
+      get { return status_; }
+      set {
+        status_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "level" field.</summary>
+    public const int LevelFieldNumber = 4;
+    private int level_;
+    /// <summary>
+    /// 级别,默认0
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Level {
+      get { return level_; }
+      set {
+        level_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "creator" field.</summary>
+    public const int CreatorFieldNumber = 5;
+    private string creator_ = "";
+    /// <summary>
+    /// 发送人
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Creator {
+      get { return creator_; }
+      set {
+        creator_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "ext_json" field.</summary>
+    public const int ExtJsonFieldNumber = 6;
+    private string extJson_ = "";
+    /// <summary>
+    /// 扩展json
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ExtJson {
+      get { return extJson_; }
+      set {
+        extJson_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "is_stock" field.</summary>
+    public const int IsStockFieldNumber = 7;
+    private bool isStock_;
+    /// <summary>
+    /// 是否入库（消息中心可见）
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsStock {
+      get { return isStock_; }
+      set {
+        isStock_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "is_notify" field.</summary>
+    public const int IsNotifyFieldNumber = 8;
+    private bool isNotify_;
+    /// <summary>
+    /// 是否推送
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsNotify {
+      get { return isNotify_; }
+      set {
+        isNotify_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "type" field.</summary>
+    public const int TypeFieldNumber = 9;
+    private string type_ = "";
+    /// <summary>
+    /// 类型，写死:ZEUS
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Type {
+      get { return type_; }
+      set {
+        type_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "notification_type_id" field.</summary>
+    public const int NotificationTypeIdFieldNumber = 10;
+    private int notificationTypeId_;
+    /// <summary>
+    /// 消息类型id
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int NotificationTypeId {
+      get { return notificationTypeId_; }
+      set {
+        notificationTypeId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "is_inner_broadcast" field.</summary>
+    public const int IsInnerBroadcastFieldNumber = 11;
+    private bool isInnerBroadcast_;
+    /// <summary>
+    /// 是否内部广播
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsInnerBroadcast {
+      get { return isInnerBroadcast_; }
+      set {
+        isInnerBroadcast_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NotificationAllReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NotificationAllReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Title != other.Title) return false;
+      if (Content != other.Content) return false;
+      if (Status != other.Status) return false;
+      if (Level != other.Level) return false;
+      if (Creator != other.Creator) return false;
+      if (ExtJson != other.ExtJson) return false;
+      if (IsStock != other.IsStock) return false;
+      if (IsNotify != other.IsNotify) return false;
+      if (Type != other.Type) return false;
+      if (NotificationTypeId != other.NotificationTypeId) return false;
+      if (IsInnerBroadcast != other.IsInnerBroadcast) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Title.Length != 0) hash ^= Title.GetHashCode();
+      if (Content.Length != 0) hash ^= Content.GetHashCode();
+      if (Status != 0) hash ^= Status.GetHashCode();
+      if (Level != 0) hash ^= Level.GetHashCode();
+      if (Creator.Length != 0) hash ^= Creator.GetHashCode();
+      if (ExtJson.Length != 0) hash ^= ExtJson.GetHashCode();
+      if (IsStock != false) hash ^= IsStock.GetHashCode();
+      if (IsNotify != false) hash ^= IsNotify.GetHashCode();
+      if (Type.Length != 0) hash ^= Type.GetHashCode();
+      if (NotificationTypeId != 0) hash ^= NotificationTypeId.GetHashCode();
+      if (IsInnerBroadcast != false) hash ^= IsInnerBroadcast.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Title.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Title);
+      }
+      if (Content.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Content);
+      }
+      if (Status != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Status);
+      }
+      if (Level != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Level);
+      }
+      if (Creator.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Creator);
+      }
+      if (ExtJson.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(ExtJson);
+      }
+      if (IsStock != false) {
+        output.WriteRawTag(56);
+        output.WriteBool(IsStock);
+      }
+      if (IsNotify != false) {
+        output.WriteRawTag(64);
+        output.WriteBool(IsNotify);
+      }
+      if (Type.Length != 0) {
+        output.WriteRawTag(74);
+        output.WriteString(Type);
+      }
+      if (NotificationTypeId != 0) {
+        output.WriteRawTag(80);
+        output.WriteInt32(NotificationTypeId);
+      }
+      if (IsInnerBroadcast != false) {
+        output.WriteRawTag(88);
+        output.WriteBool(IsInnerBroadcast);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Title.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Title);
+      }
+      if (Content.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Content);
+      }
+      if (Status != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Status);
+      }
+      if (Level != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Level);
+      }
+      if (Creator.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Creator);
+      }
+      if (ExtJson.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ExtJson);
+      }
+      if (IsStock != false) {
+        size += 1 + 1;
+      }
+      if (IsNotify != false) {
+        size += 1 + 1;
+      }
+      if (Type.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Type);
+      }
+      if (NotificationTypeId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(NotificationTypeId);
+      }
+      if (IsInnerBroadcast != false) {
+        size += 1 + 1;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NotificationAllReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Title.Length != 0) {
+        Title = other.Title;
+      }
+      if (other.Content.Length != 0) {
+        Content = other.Content;
+      }
+      if (other.Status != 0) {
+        Status = other.Status;
+      }
+      if (other.Level != 0) {
+        Level = other.Level;
+      }
+      if (other.Creator.Length != 0) {
+        Creator = other.Creator;
+      }
+      if (other.ExtJson.Length != 0) {
+        ExtJson = other.ExtJson;
+      }
+      if (other.IsStock != false) {
+        IsStock = other.IsStock;
+      }
+      if (other.IsNotify != false) {
+        IsNotify = other.IsNotify;
+      }
+      if (other.Type.Length != 0) {
+        Type = other.Type;
+      }
+      if (other.NotificationTypeId != 0) {
+        NotificationTypeId = other.NotificationTypeId;
+      }
+      if (other.IsInnerBroadcast != false) {
+        IsInnerBroadcast = other.IsInnerBroadcast;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Title = input.ReadString();
+            break;
+          }
+          case 18: {
+            Content = input.ReadString();
+            break;
+          }
+          case 24: {
+            Status = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            Level = input.ReadInt32();
+            break;
+          }
+          case 42: {
+            Creator = input.ReadString();
+            break;
+          }
+          case 50: {
+            ExtJson = input.ReadString();
+            break;
+          }
+          case 56: {
+            IsStock = input.ReadBool();
+            break;
+          }
+          case 64: {
+            IsNotify = input.ReadBool();
+            break;
+          }
+          case 74: {
+            Type = input.ReadString();
+            break;
+          }
+          case 80: {
+            NotificationTypeId = input.ReadInt32();
+            break;
+          }
+          case 88: {
+            IsInnerBroadcast = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class NotificationByUserLevelReq : pb::IMessage<NotificationByUserLevelReq> {
+    private static readonly pb::MessageParser<NotificationByUserLevelReq> _parser = new pb::MessageParser<NotificationByUserLevelReq>(() => new NotificationByUserLevelReq());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NotificationByUserLevelReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Zeus.RPC.Protocol.ZeusNotificationMsgReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationByUserLevelReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationByUserLevelReq(NotificationByUserLevelReq other) : this() {
+      req_ = other.req_ != null ? other.req_.Clone() : null;
+      userLevels_ = other.userLevels_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationByUserLevelReq Clone() {
+      return new NotificationByUserLevelReq(this);
+    }
+
+    /// <summary>Field number for the "req" field.</summary>
+    public const int ReqFieldNumber = 1;
+    private global::Zeus.RPC.Protocol.NotificationReq req_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Zeus.RPC.Protocol.NotificationReq Req {
+      get { return req_; }
+      set {
+        req_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "userLevels" field.</summary>
+    public const int UserLevelsFieldNumber = 2;
+    private static readonly pb::FieldCodec<int> _repeated_userLevels_codec
+        = pb::FieldCodec.ForInt32(18);
+    private readonly pbc::RepeatedField<int> userLevels_ = new pbc::RepeatedField<int>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<int> UserLevels {
+      get { return userLevels_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NotificationByUserLevelReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NotificationByUserLevelReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Req, other.Req)) return false;
+      if(!userLevels_.Equals(other.userLevels_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (req_ != null) hash ^= Req.GetHashCode();
+      hash ^= userLevels_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (req_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Req);
+      }
+      userLevels_.WriteTo(output, _repeated_userLevels_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (req_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Req);
+      }
+      size += userLevels_.CalculateSize(_repeated_userLevels_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NotificationByUserLevelReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.req_ != null) {
+        if (req_ == null) {
+          Req = new global::Zeus.RPC.Protocol.NotificationReq();
+        }
+        Req.MergeFrom(other.Req);
+      }
+      userLevels_.Add(other.userLevels_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (req_ == null) {
+              Req = new global::Zeus.RPC.Protocol.NotificationReq();
+            }
+            input.ReadMessage(Req);
+            break;
+          }
+          case 18:
+          case 16: {
+            userLevels_.AddEntriesFrom(input, _repeated_userLevels_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class NotificationResp : pb::IMessage<NotificationResp> {
+    private static readonly pb::MessageParser<NotificationResp> _parser = new pb::MessageParser<NotificationResp>(() => new NotificationResp());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NotificationResp> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Zeus.RPC.Protocol.ZeusNotificationMsgReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationResp() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationResp(NotificationResp other) : this() {
+      resp_ = other.resp_ != null ? other.resp_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NotificationResp Clone() {
+      return new NotificationResp(this);
+    }
+
+    /// <summary>Field number for the "resp" field.</summary>
+    public const int RespFieldNumber = 1;
+    private global::Zeus.RPC.Protocol.BaseResponse resp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Zeus.RPC.Protocol.BaseResponse Resp {
+      get { return resp_; }
+      set {
+        resp_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NotificationResp);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NotificationResp other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Resp, other.Resp)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (resp_ != null) hash ^= Resp.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (resp_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Resp);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (resp_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Resp);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NotificationResp other) {
+      if (other == null) {
+        return;
+      }
+      if (other.resp_ != null) {
+        if (resp_ == null) {
+          Resp = new global::Zeus.RPC.Protocol.BaseResponse();
+        }
+        Resp.MergeFrom(other.Resp);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (resp_ == null) {
+              Resp = new global::Zeus.RPC.Protocol.BaseResponse();
+            }
+            input.ReadMessage(Resp);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  #endregion
 
 }
 
