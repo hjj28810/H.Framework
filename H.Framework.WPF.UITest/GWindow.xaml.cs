@@ -43,7 +43,7 @@ namespace H.Framework.WPF.UITest
             //var b = MsgServiceClient.UpdateUser();
             //var c = MsgServiceClient.AddUserLog();
             //var d = MsgServiceClient.UpdateUser();
-            var a = MsgServiceClient.GetUsers();
+            var a = MsgServiceClient.Code();
             //PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
             //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
             //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");
@@ -180,17 +180,19 @@ namespace H.Framework.WPF.UITest
         private static NotificationRpcService.NotificationRpcServiceClient _client2;
         private static UserLogRpcService.UserLogRpcServiceClient _client3;
         private static FuturesCompanyRpcService.FuturesCompanyRpcServiceClient _client4;
+        private static CommonRpcService.CommonRpcServiceClient _client5;
 
         static MsgServiceClient()
         {
-            //_channel = new Channel("127.0.0.1:40001", ChannelCredentials.Insecure);
+            _channel = new Channel("127.0.0.1:40001", ChannelCredentials.Insecure);
             //_channel = new Channel("192.168.50.30:40001", ChannelCredentials.Insecure);
             //_channel = new Channel("192.168.99.109:40001", ChannelCredentials.Insecure);
-            _channel = new Channel("39.102.44.67:40001", ChannelCredentials.Insecure);
+            //_channel = new Channel("39.102.44.67:40001", ChannelCredentials.Insecure);
             _client = new UserRpcService.UserRpcServiceClient(_channel);
             _client2 = new NotificationRpcService.NotificationRpcServiceClient(_channel);
             _client3 = new UserLogRpcService.UserLogRpcServiceClient(_channel);
             _client4 = new FuturesCompanyRpcService.FuturesCompanyRpcServiceClient(_channel);
+            _client5 = new CommonRpcService.CommonRpcServiceClient(_channel);
         }
 
         public static UsersResp GetUsers()
@@ -232,6 +234,16 @@ namespace H.Framework.WPF.UITest
         public static FuturesCompanysResp Get()
         {
             return _client4.Get(new FuturesCompanysReq { Platform = "PC" });
+        }
+
+        public static VerificationCodeResp GetCode()
+        {
+            return _client5.GetVerificationCode(new VerificationCodeReq { Phone = "13321952950" });
+        }
+
+        public static VerificationCodeResp Code()
+        {
+            return _client5.VerifyCode(new VerificationCodeReq { Phone = "13321952950", VerificationCode = "598960" });
         }
     }
 
