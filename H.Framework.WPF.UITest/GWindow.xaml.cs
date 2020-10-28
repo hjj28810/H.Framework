@@ -32,7 +32,7 @@ namespace H.Framework.WPF.UITest
             txt1.Text = nonce;
             txt2.Text = curTime;
             txt3.Text = HashEncryptHepler.SHA1Hash(txt0.Text + nonce + curTime).ToLower();
-            //var a = HashEncryptHepler.MD5Hash(HashEncryptHepler.MD5Hash("15901976774" + "I4kl$0bs"));
+            var a = HashEncryptHepler.MD5Hash(HashEncryptHepler.MD5Hash("15604293775" + "I4kl$0bs"));
             //var b = Encoding.Default.GetString(Convert.FromBase64String("eVRkd3JodWpNWjJmemhNWmVkaVJKWjlBNk45RFZReWw="));
             //var a = HashEncryptHepler.EncryptAESToBase64("Helloworld", b, b.Substring(0, 16));
             //txt2.Text = HashEncryptHepler.DecryptAESToString(txt1.Text, b, b.Substring(0, 16));
@@ -43,7 +43,7 @@ namespace H.Framework.WPF.UITest
             //var b = MsgServiceClient.UpdateUser();
             //var c = MsgServiceClient.AddUserLog();
             //var d = MsgServiceClient.UpdateUser();
-            var a = MsgServiceClient.Code();
+            //var a = MsgServiceClient.Code();
             //PushAndroidMsg(PushType.CustomizedCast, true, null, "", "测试测试", "测试内容", "", "12606278");
             //PushIosMsg(PushType.CustomizedCast,false,null,"","测试测试","测试内容","","d9e81235a11e4328a6d73ac104ff57d6");
             //PushMessage(PushType.BroadCast, "", "", "测试", "测试umeng广播", "测试umeng", "1");

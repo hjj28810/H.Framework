@@ -183,7 +183,7 @@ namespace H.Framework.Data.ORM.Foundations
                     break;
 
                 case SqlType.LastID:
-                    sqlStr = "select LAST_INSERT_ID() from " + tableName.ToLower() + " where 1 = 1" + columnParm + ";";
+                    sqlStr = "select LAST_INSERT_ID() from " + tableName.ToLower() + " where 1 = 1" + columnParm + " limit 1;";
                     break;
             }
             return sqlStr;
