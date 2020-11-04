@@ -157,9 +157,9 @@ namespace H.Framework.WPF.UITest
             var list = new List<string>();
             var list2 = new string[] { "1", "2" };
             list.AddRangeNoRept(list2);
-            var g = new GWindow();
-            pwb.Password = "asdasd";
-            g.Show();
+            //var g = new GWindow();
+            //pwb.Password = "asdasd";
+            //g.Show();
             //screenCapture.StartCapture(30);
 
             //swingLoading.ShowUp = swingLoading.ShowUp == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;

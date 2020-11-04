@@ -75,6 +75,19 @@ namespace H.Framework.WPF.Control.Controls
             set => SetValue(CloseColorProperty, value);
         }
 
+        public static readonly DependencyProperty NeedCloseProperty = DependencyProperty.Register("NeedClose", typeof(bool), typeof(WarnBlock), new PropertyMetadata(true, null));
+
+        /// <summary>
+        /// CloseColor
+        /// </summary>
+        [Description("获取或设置 NeedClose")]
+        [Category("Defined Properties")]
+        public bool NeedClose
+        {
+            get => (bool)GetValue(NeedCloseProperty);
+            set => SetValue(NeedCloseProperty, value);
+        }
+
         //public static readonly DependencyProperty AlertStyleProperty = DependencyProperty.Register("AlertStyle", typeof(AlertStyle), typeof(WarnBlock), new PropertyMetadata(AlertStyle.Error, null));
 
         ///// <summary>
@@ -126,7 +139,7 @@ namespace H.Framework.WPF.Control.Controls
 
             border.Effect = shadow;
             var borderGrid = new Grid();
-            borderGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(18) });
+            borderGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
             borderGrid.RowDefinitions.Add(new RowDefinition());
             var txt1 = new TextBlock
             {
@@ -137,26 +150,33 @@ namespace H.Framework.WPF.Control.Controls
                 VerticalAlignment = VerticalAlignment.Center,
                 Text = "i"
             };
+            var sbArr = CreateAnimation(border);
             var stackPanel = new StackPanel
             {
-                VerticalAlignment = VerticalAlignment.Top,
+                VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(20, 0, 20, 0),
                 Orientation = Orientation.Horizontal
             };
-            stackPanel.Children.Add(txt1);
-            var txt2 = new TextBlock
-            {
-                Margin = new Thickness(6, 0, 0, 0),
-                FontFamily = new FontFamily("Webdings"),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                FontSize = 12,
-                VerticalAlignment = VerticalAlignment.Center,
-                Cursor = Cursors.Hand,
-                Foreground = CloseColor,
-                Text = "r"
-            };
-            Grid.SetRow(txt2, 0);
 
+            stackPanel.Children.Add(txt1);
+            if (NeedClose)
+            {
+                stackPanel.VerticalAlignment = VerticalAlignment.Top;
+                var txt2 = new TextBlock
+                {
+                    Margin = new Thickness(6, 3, 0, 0),
+                    FontFamily = new FontFamily("Webdings"),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    FontSize = 12,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Cursor = Cursors.Hand,
+                    Foreground = CloseColor,
+                    Text = "r"
+                };
+                Grid.SetRow(txt2, 0);
+                txt2.MouseDown += (o, e) => { sbArr[1]?.Begin(); txt2.IsEnabled = false; };
+                borderGrid.Children.Add(txt2);
+            }
             var txtWarn = new TextBlock
             {
                 Margin = new Thickness(6, 0, 0, 0),
@@ -171,18 +191,17 @@ namespace H.Framework.WPF.Control.Controls
             stackPanel.Children.Add(txtWarn);
             Grid.SetRow(stackPanel, 1);
 
-            var sbArr = CreateAnimation(border);
-            txt2.MouseDown += (o, e) => { sbArr[1]?.Begin(); txt2.IsEnabled = false; };
             sbArr[1].Completed += (o, e) =>
             {
                 sbArr[0]?.Stop();
                 sbArr[1]?.Stop();
                 sbArr[0] = null;
                 sbArr[1] = null;
-                _grid.Children.Remove(border);
+                borderGrid.Children.Clear();
+                border.Child = null;
+                _grid.Children.Clear();
             };
 
-            borderGrid.Children.Add(txt2);
             borderGrid.Children.Add(stackPanel);
             border.Child = borderGrid;
             return border;
