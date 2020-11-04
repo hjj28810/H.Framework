@@ -154,7 +154,7 @@ namespace H.Framework.WPF.Control.Controls
             var stackPanel = new StackPanel
             {
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(20, 0, 20, 0),
+                Margin = Padding,
                 Orientation = Orientation.Horizontal
             };
 

@@ -673,6 +673,7 @@
             Grid.Row="1"
             Height="50"
             Margin="0,64,0,0"
+            Padding="5,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             FontSize="15"
