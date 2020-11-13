@@ -917,5 +917,18 @@ namespace H.Framework.Core.Utilities
             }
             return true;
         }
+
+        public static bool ForAny<T>(this IEnumerable<T> list, Func<T, bool> func)
+        {
+            var result = false;
+            var count = list.Count();
+            for (var i = 0; i < count; i++)
+            {
+                result = func(list.ElementAt(i));
+                if (result)
+                    break;
+            }
+            return result;
+        }
     }
 }

@@ -137,6 +137,7 @@ namespace H.Framework.WPF.UITest
         private void ImageButton_Click(object sender, RoutedEventArgs e)
         {
             ListNode = new ThreadSafeObservableCollection<Node> { new Node { ID = "11" }, new Node { ID = "22" } };
+            var aaa = ListNode.ForAny(x => x.ID == "111");
             var a = TimeHelper.CurrentServerTime;
             var aaaa = DateTime.Parse("2019.06.08");
             PpOpen = !PpOpen;
