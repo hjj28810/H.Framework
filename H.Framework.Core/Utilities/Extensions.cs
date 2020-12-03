@@ -822,20 +822,14 @@ namespace H.Framework.Core.Utilities
 
         public static string GetDescription(this object value)
         {
-            var fi = value.GetType().GetField(value.ToString());
-            var attributes =
-                   (DescriptionAttribute[])fi?.GetCustomAttributes(
-                   typeof(DescriptionAttribute), false);
-            return (attributes.Length > 0) ? attributes[0].Description : value.ToString();
+            var attributes = (DescriptionAttribute[])value?.GetType()?.GetField(value?.ToString())?.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            return (attributes?.Length > 0) ? attributes[0]?.Description : value?.ToString();
         }
 
         public static string GetCategory(this object value)
         {
-            var fi = value.GetType().GetField(value.ToString());
-            var attributes =
-                   (CategoryAttribute[])fi?.GetCustomAttributes(
-                   typeof(CategoryAttribute), false);
-            return (attributes.Length > 0) ? attributes[0].Category : value.ToString();
+            var attributes = (CategoryAttribute[])value?.GetType()?.GetField(value?.ToString())?.GetCustomAttributes(typeof(CategoryAttribute), false);
+            return (attributes?.Length > 0) ? attributes[0]?.Category : value?.ToString();
         }
 
         /// <summary>

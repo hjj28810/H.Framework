@@ -574,11 +574,11 @@
             Name="swingLoading"
             Grid.Row="1"
             ShowUp="Hidden" />-->
-        <extender:BusyCircle
+        <!--<extender:BusyCircle
             Panel.ZIndex="99"
             BrushColor="Red"
             Diameter="12"
-            Visibility="{Binding SBShow, Converter={StaticResource objConverter}, ConverterParameter=false:Collapsed:Visible}" />
+            Visibility="{Binding SBShow, Converter={StaticResource objConverter}, ConverterParameter=false:Collapsed:Visible}" />-->
         <extender:DownloadComponent
             Grid.RowSpan="2"
             Margin="266,23,0,0"
@@ -832,5 +832,35 @@
             VerticalAlignment="Top"
             Click="ButtonEx_Click"
             Content="ButtonEx" />
+        <ListBox
+            Grid.Row="1"
+            Width="221"
+            Height="85"
+            Margin="513,339,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            DisplayMemberPath="ID"
+            ItemsSource="{Binding ListNode}"
+            ScrollViewer.CanContentScroll="True"
+            VirtualizingStackPanel.IsVirtualizing="True"
+            VirtualizingStackPanel.VirtualizationMode="Recycling">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <DataGrid
+            Grid.Row="1"
+            Width="277"
+            Height="123"
+            Margin="185,295,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            AutoGenerateColumns="True"
+            ItemsSource="{Binding ListNode}"
+            ScrollViewer.CanContentScroll="False"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.VirtualizationMode="Standard" />
     </Grid>
 </extender:WindowEx>
