@@ -9,7 +9,7 @@ namespace H.Framework.Core.Utilities
     {
         public static IEnumerable<TItem> BuildTree<T, TId, TItem>(this IEnumerable<T> source,
             Func<T, TId> idSelector, Func<T, TId> pidSelector,
-            Func<T, IEnumerable<TItem>, TItem> selector, TId rootId = default(TId))
+            Func<T, IEnumerable<TItem>, TItem> selector, TId rootId = default)
         {
             var dict = new Dictionary<TId, List<T>>();
             foreach (var item in source)
@@ -47,7 +47,7 @@ namespace H.Framework.Core.Utilities
 
         public static IEnumerable<NodeItem<TId, TModel>> BuildTree<T, TId, TModel>(this IEnumerable<T> source,
                 Func<T, TId> idSelector, Func<T, TId> pidSelector,
-                Func<T, NodeItem<TId, TModel>> selector, TId rootId = default(TId))
+                Func<T, NodeItem<TId, TModel>> selector, TId rootId = default)
         {
             Func<T, IEnumerable<NodeItem<TId, TModel>>, NodeItem<TId, TModel>> newSelector = (m, c) =>
               {
@@ -137,21 +137,33 @@ namespace H.Framework.Core.Utilities
             }
             return model;
         }
+
+        public static IEnumerable<T> ProcessList<T>(this IEnumerable<NodeItem<string, T>> list, Func<T, IEnumerable<T>> idSelector)
+        {
+            var listModel = new List<T>();
+            foreach (var item in list)
+            {
+                listModel.Add(item.OriginalModel);
+                if (idSelector.Invoke(item.OriginalModel).NotNullAny())
+                    listModel.AddRange(ProcessList(item.Children, idSelector));
+            }
+            return listModel;
+        }
     }
 
     public class NodeItem<T, TModel>
     {
-        public class NodeState
-        {
-            public bool Opened { get; set; }
-            public bool Selected { get; set; }
-            public bool Disabled { get; set; }
-        }
+        //public class NodeState
+        //{
+        //    public bool Opened { get; set; }
+        //    public bool Selected { get; set; }
+        //    public bool Disabled { get; set; }
+        //}
 
-        public NodeItem()
-        {
-            State = new NodeState();
-        }
+        //public NodeItem()
+        //{
+        //    State = new NodeState();
+        //}
 
         public T ID { get; set; }
 
@@ -161,17 +173,22 @@ namespace H.Framework.Core.Utilities
         public string Text { get; set; }
 
         /// <summary>
-        /// 节点图标
+        /// 节点类型
         /// </summary>
-        public string Icon { get; set; }
+        public string Type { get; set; }
 
-        /// <summary>
-        /// 选中状态
-        /// </summary>
-        public NodeState State { get; set; }
+        ///// <summary>
+        ///// 节点图标
+        ///// </summary>
+        //public string Icon { get; set; }
 
-        public string Code { get; set; }
-        public int OrderNumber { get; set; }
+        ///// <summary>
+        ///// 选中状态
+        ///// </summary>
+        //public NodeState State { get; set; }
+
+        public string Value { get; set; }
+        public string ExtJson { get; set; }
 
         public TModel OriginalModel { get; set; }
 

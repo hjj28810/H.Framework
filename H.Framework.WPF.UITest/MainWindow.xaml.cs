@@ -50,6 +50,8 @@ namespace H.Framework.WPF.UITest
             //ListNode.CollectionChanged += ListNode_CollectionChanged;
             //TestSql.Test();
             //ListType.WriteJson("appSettings.json");
+
+            var l = List.BuildTree<Node, string, Node>(x => x.ID, y => y.PID, (m, n) => new Node { Parent = m, ID = m.ID, PID = m.PID, Children = n }, "0");
         }
 
         public void SaveCSV(DataTable dt, string fullPath)
@@ -265,7 +267,7 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
             //    busyC.Visibility = Visibility.Collapsed;
             //else
             //    busyC.Visibility = Visibility.Visible;
-            warnBlock.Show(SBVisibility.ToString(), Control.Controls.AlertStyle.Info);
+            //warnBlock.Show(SBVisibility.ToString(), Control.Controls.AlertStyle.Info);
             //warmBlock.Show("haaaaaa");
             //warmBlock.Show("ggggggggggggggggggg");
             //warmBlock.Show("ha");
