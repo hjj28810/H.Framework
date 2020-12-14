@@ -149,6 +149,23 @@ namespace H.Framework.Core.Utilities
             }
             return listModel;
         }
+
+        public static IEnumerable<T> GetChildren<T, TID>(this IEnumerable<T> list, Func<T, TID> idSelector, Func<T, TID> pidSelector, TID rootID)
+        {
+            var result = new List<T>();
+            //获取Children
+            var subordinate = list.Where(e => pidSelector(e).Equals(rootID)).ToList();
+            //如果存在Children
+            if (subordinate.NotNullAny())
+            {
+                result.AddRange(subordinate);
+                foreach (var subo in subordinate)
+                {
+                    result.AddRange(GetChildren(list, idSelector, pidSelector, idSelector(subo)));
+                }
+            }
+            return result;
+        }
     }
 
     public class NodeItem<T, TModel>

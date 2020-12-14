@@ -52,6 +52,8 @@ namespace H.Framework.WPF.UITest
             //ListType.WriteJson("appSettings.json");
 
             var l = List.BuildTree<Node, string, Node>(x => x.ID, y => y.PID, (m, n) => new Node { Parent = m, ID = m.ID, PID = m.PID, Children = n }, "0");
+
+            var ll = List.GetChildren(x => x.ID, x => x.PID, "22");
         }
 
         public void SaveCSV(DataTable dt, string fullPath)
