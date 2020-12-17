@@ -181,6 +181,7 @@
     <Compile Include="CefWindow.xaml.cs">
       <DependentUpon>CefWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DiqiuModel.cs" />
     <Compile Include="GWindow.xaml.cs">
       <DependentUpon>GWindow.xaml</DependentUpon>
     </Compile>

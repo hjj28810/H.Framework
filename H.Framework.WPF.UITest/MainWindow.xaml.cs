@@ -51,9 +51,19 @@ namespace H.Framework.WPF.UITest
             //TestSql.Test();
             //ListType.WriteJson("appSettings.json");
 
-            var l = List.BuildTree<Node, string, Node>(x => x.ID, y => y.PID, (m, n) => new Node { Parent = m, ID = m.ID, PID = m.PID, Children = n }, "0");
+            var l = List.BuildLine<Node, string>(x => x.ID, y => y.PID, p => new Node { ID = p.ID, PID = p.PID }, (m, n) => new Node { Parent = m, ID = m.ID, PID = m.PID }, "1111");
 
             var ll = List.GetChildren(x => x.ID, x => x.PID, "22");
+            tt();
+        }
+
+        private async void tt()
+        {
+            FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=diqiu_crm;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
+            var query = new WhereQueryable<UserDTO, Department, Role>((x, y, z) => true);
+
+            query = query.WhereAnd((x, y, z) => x.ID == "1");
+            var user = await new UserBLL().GetAsync(query, "Department,Roles");
         }
 
         public void SaveCSV(DataTable dt, string fullPath)
@@ -647,28 +657,28 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
             public string UserID { get; set; }
         }
 
-        public class User : IFoundationModel
-        {
-            public string ID { get; set; }
-            public string Username { get; set; }
+        //public class User : IFoundationModel
+        //{
+        //    public string ID { get; set; }
+        //    public string Username { get; set; }
 
-            public string Nickname { get; set; }
-            public string Password { get; set; }
-            public string Photo { get; set; }
+        //    public string Nickname { get; set; }
+        //    public string Password { get; set; }
+        //    public string Photo { get; set; }
 
-            public string Description { get; set; }
-            public string UpdatedAt { get; set; }
-            public DateTime CreatedAt { get; set; }
-            public int Level { get; set; }
+        //    public string Description { get; set; }
+        //    public string UpdatedAt { get; set; }
+        //    public DateTime CreatedAt { get; set; }
+        //    public int Level { get; set; }
 
-            public string NicknameExt { get; set; }
-            public string PhotoExt { get; set; }
-            public string Privacy { get; set; }
-            public string Cipher { get; set; }
+        //    public string NicknameExt { get; set; }
+        //    public string PhotoExt { get; set; }
+        //    public string Privacy { get; set; }
+        //    public string Cipher { get; set; }
 
-            [DetailList()]
-            public List<UserStatus> UserStatuss { get; set; }
-        }
+        //    [DetailList()]
+        //    public List<UserStatus> UserStatuss { get; set; }
+        //}
 
         public class UserStatus : IFoundationModel
         {
@@ -713,52 +723,52 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
             //}
         }
 
-        public class UserDTO : IFoundationViewModel, ICustomMap<User>
-        {
-            public string ID { get; set; }
-            public string Username { get; set; }
-            public string Password { get; set; }
-            public string Photo { get; set; }
-            public string Token { get; set; }
-            public string Nickname { get; set; }
-            public bool IsSetPassword { get; set; }
-            public string UpdatedAt { get; set; }
+        //public class UserDTO : IFoundationViewModel, ICustomMap<User>
+        //{
+        //    public string ID { get; set; }
+        //    public string Username { get; set; }
+        //    public string Password { get; set; }
+        //    public string Photo { get; set; }
+        //    public string Token { get; set; }
+        //    public string Nickname { get; set; }
+        //    public bool IsSetPassword { get; set; }
+        //    public string UpdatedAt { get; set; }
 
-            public string Privacy { get; set; }
-            public string Cipher { get; set; }
+        //    public string Privacy { get; set; }
+        //    public string Cipher { get; set; }
 
-            //private string _createdAt;
+        //    //private string _createdAt;
 
-            //public string CreatedAt
-            //{
-            //    get
-            //    {
-            //        if (DateTime.TryParse(_createdAt, out DateTime createdDate))
-            //            return createdDate.ToString("yyyy-MM-dd HH:mm:ss");
-            //        return _createdAt;
-            //    }
-            //    set { _createdAt = value; }
-            //}
+        //    //public string CreatedAt
+        //    //{
+        //    //    get
+        //    //    {
+        //    //        if (DateTime.TryParse(_createdAt, out DateTime createdDate))
+        //    //            return createdDate.ToString("yyyy-MM-dd HH:mm:ss");
+        //    //        return _createdAt;
+        //    //    }
+        //    //    set { _createdAt = value; }
+        //    //}
 
-            public DateTime CreatedAt
-            {
-                get; set;
-            }
+        //    public DateTime CreatedAt
+        //    {
+        //        get; set;
+        //    }
 
-            public string Description { get; set; }
-            public int Level { get; set; }
+        //    public string Description { get; set; }
+        //    public int Level { get; set; }
 
-            public string NicknameExt { get; set; }
-            public string PhotoExt { get; set; }
+        //    public string NicknameExt { get; set; }
+        //    public string PhotoExt { get; set; }
 
-            public bool IsRegistered { get; set; }
-            public UserStatusDTO UserStatus { get; set; }
+        //    public bool IsRegistered { get; set; }
+        //    public UserStatusDTO UserStatus { get; set; }
 
-            public void MapFrom(User source)
-            {
-                UserStatus = source.UserStatuss?.First()?.MapTo(x => new UserStatusDTO());
-            }
-        }
+        //    public void MapFrom(User source)
+        //    {
+        //        UserStatus = source.UserStatuss?.First()?.MapTo(x => new UserStatusDTO());
+        //    }
+        //}
 
         public class UserDAL : BaseDAL<User, UserStatus>
         {
@@ -781,31 +791,31 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
 
         public class UserBLL : BaseBLL<UserDTO, User, UserStatus, UserDAL>
         {
-            public void GetUsersWithLog(UserStatusReq req)
-            {
-                var query = new WhereQueryable<UserDTO, UserStatus>((x, y) => 1 == 1);
-                if (!string.IsNullOrWhiteSpace(req.Username))
-                    query = query.WhereAnd((x, y) => x.Username == req.Username);
-                if (req.Platform.HasValue)
-                    query = query.WhereAnd((x, y) => y.LastLoginPlatform == req.Platform.Value);
-                if (req.CreatedAtFrom.HasValue && req.CreatedAtTo.HasValue)
-                    query = query.WhereAnd((x, y) => x.CreatedAt > req.CreatedAtFrom.Value && x.CreatedAt < req.CreatedAtTo.Value);
-                if (req.LastLoginAtFrom.HasValue && req.LastLoginAtTo.HasValue)
-                    query = query.WhereAnd((x, y) => y.LastLoginAt > req.LastLoginAtFrom.Value && y.LastLoginAt < req.LastLoginAtTo.Value);
-                var list = GetList(query, 20, 0, "UserStatuss");
-            }
+            //public void GetUsersWithLog(UserStatusReq req)
+            //{
+            //    var query = new WhereQueryable<UserDTO, UserStatus>((x, y) => 1 == 1);
+            //    if (!string.IsNullOrWhiteSpace(req.Username))
+            //        query = query.WhereAnd((x, y) => x.Username == req.Username);
+            //    if (req.Platform.HasValue)
+            //        query = query.WhereAnd((x, y) => y.LastLoginPlatform == req.Platform.Value);
+            //    if (req.CreatedAtFrom.HasValue && req.CreatedAtTo.HasValue)
+            //        query = query.WhereAnd((x, y) => x.CreatedAt > req.CreatedAtFrom.Value && x.CreatedAt < req.CreatedAtTo.Value);
+            //    if (req.LastLoginAtFrom.HasValue && req.LastLoginAtTo.HasValue)
+            //        query = query.WhereAnd((x, y) => y.LastLoginAt > req.LastLoginAtFrom.Value && y.LastLoginAt < req.LastLoginAtTo.Value);
+            //    var list = GetList(query, 20, 0, "UserStatuss");
+            //}
 
-            public void Update()
-            {
-                var b = Encoding.Default.GetString(Convert.FromBase64String("eVRkd3JodWpNWjJmemhNWmVkaVJKWjlBNk45RFZReWw="));
-                var list = GetList(x => 1 == 1, 20, 0);
-                foreach (var item in list)
-                {
-                    item.Cipher = HashEncryptHepler.EncryptAESToBase64(item.Username, b, b.Substring(0, 16));
-                }
+            //public void Update()
+            //{
+            //    var b = Encoding.Default.GetString(Convert.FromBase64String("eVRkd3JodWpNWjJmemhNWmVkaVJKWjlBNk45RFZReWw="));
+            //    var list = GetList(x => 1 == 1, 20, 0);
+            //    foreach (var item in list)
+            //    {
+            //        item.Cipher = HashEncryptHepler.EncryptAESToBase64(item.Username, b, b.Substring(0, 16));
+            //    }
 
-                Update(list);
-            }
+            //    Update(list);
+            //}
         }
 
         public class Contract : IFoundationModel

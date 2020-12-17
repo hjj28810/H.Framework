@@ -247,8 +247,8 @@ namespace H.Framework.WPF.UITest
         }
     }
 
-    public class User
-    {
-        public int Level { get; set; }
-    }
+    //public class User
+    //{
+    //    public int Level { get; set; }
+    //}
 }
