@@ -2,6 +2,9 @@
 
 namespace H.Framework.Data.ORM.Attributes
 {
+    /// <summary>
+    /// 一对多，在外键表设置ForeignKeyID
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class ForeignKeyIDAttribute : Attribute
     {

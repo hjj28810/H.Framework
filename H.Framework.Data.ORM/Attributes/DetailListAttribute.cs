@@ -2,6 +2,9 @@
 
 namespace H.Framework.Data.ORM.Attributes
 {
+    /// <summary>
+    /// 三个参数为多对多用，一对多，在外键表设置ForeignKeyID，三个参数不设置
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class DetailListAttribute : Attribute
     {

@@ -145,6 +145,7 @@ namespace H.Framework.Data.ORM
                                 if (foreignProp.IsDefined(typeof(DataFieldIgnoreAttribute))) continue;
                                 if (foreignProp.IsDefined(typeof(DetailListAttribute))) continue;
                                 var mapItem = listMap?.FirstOrDefault(item => item.ForeignPropName?.ToLower() == pi.Name.ToLower() && item.ColumnName == foreignProp.Name);
+                                if (mapItem == null) continue;
                                 if (dt.Columns.Contains(mapItem?.AliasColumn))
                                 {
                                     try

@@ -87,7 +87,7 @@ namespace H.Framework.Core.Utilities
                 Func<T, TId> idSelector, Func<T, TId> pidSelector, Func<T, T> pSelector, Func<T, T, T> selector, TId leafID, List<T> all = null)
 
         {
-            var list = source.BuildLineList(idSelector, pidSelector, (m) => selector(m, default(T)), leafID);
+            var list = source.BuildLineList(idSelector, pidSelector, (m) => selector(m, default), leafID);
             return list.ProcessLine(new Dictionary<TId, T>(), idSelector, pidSelector, pSelector, (m, n) => selector(m, n), list.FirstOrDefault());
         }
 

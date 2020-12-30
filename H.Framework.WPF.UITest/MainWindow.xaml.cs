@@ -14,6 +14,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -51,19 +52,22 @@ namespace H.Framework.WPF.UITest
             //TestSql.Test();
             //ListType.WriteJson("appSettings.json");
 
-            var l = List.BuildLine<Node, string>(x => x.ID, y => y.PID, p => new Node { ID = p.ID, PID = p.PID }, (m, n) => new Node { Parent = m, ID = m.ID, PID = m.PID }, "1111");
+            //var l = List.BuildLine(x => x.ID, y => y.PID, p => p.Parent, (m, n) => new Node { Parent = n, ID = m.ID, PID = m.PID }, "1111");
 
-            var ll = List.GetChildren(x => x.ID, x => x.PID, "22");
+            //var ll = List.GetChildren(x => x.ID, x => x.PID, "22");
+
             tt();
         }
 
         private async void tt()
         {
             FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=diqiu_crm;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
-            var query = new WhereQueryable<UserDTO, Department, Role>((x, y, z) => true);
+            //var query = new WhereQueryable<UserDTO, Department, Role>((x, y, z) => true);
 
-            query = query.WhereAnd((x, y, z) => x.ID == "1");
-            var user = await new UserBLL().GetAsync(query, "Department,Roles");
+            //query = query.WhereAnd((x, y, z) => x.ID == "1");
+            //var user = await new UserBLL().GetAsync(query, "Department,Roles");
+            //new OrderBLL().AddOrder();
+            new CustomerBLL().GetAsync();
         }
 
         public void SaveCSV(DataTable dt, string fullPath)
@@ -893,18 +897,18 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
 
 public static class Exten
 {
-    private const string _tokenPW = "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j";
-    private const string _tokenIV = "AqIm%czX6M20mi8w";
+    //private const string _tokenPW = "qiK5jiZ7$rgBWVz1V*jJ!@ly7d2vxT9j";
+    //private const string _tokenIV = "AqIm%czX6M20mi8w";
 
-    public static string AnalyseToken(this string original)
-    {
-        try
-        {
-            return HashEncryptHepler.DecryptAESToString(original, _tokenPW, _tokenIV);
-        }
-        catch
-        {
-            return string.Empty;
-        }
-    }
+    //public static string AnalyseToken(this string original)
+    //{
+    //    try
+    //    {
+    //        return HashEncryptHepler.DecryptAESToString(original, _tokenPW, _tokenIV);
+    //    }
+    //    catch
+    //    {
+    //        return string.Empty;
+    //    }
+    //}
 }

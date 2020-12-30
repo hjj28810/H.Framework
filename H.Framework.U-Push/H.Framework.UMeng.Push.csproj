@@ -7,6 +7,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <FileVersion>1.0.0.5</FileVersion>
     <Platforms>AnyCPU;x64;x86</Platforms>
+    <AssemblyVersion>1.0.0.5</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

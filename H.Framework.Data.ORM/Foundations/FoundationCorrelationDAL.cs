@@ -207,6 +207,7 @@ namespace H.Framework.Data.ORM.Foundations
             foreach (var param in node.Parameters)
             {
                 var tableMap = _list.FirstOrDefault(tb => tb.TableName == param.Type.Name);
+                if (tableMap == null) continue;
                 builder.Replace("Param_" + node.Parameters.IndexOf(param).ToString(), tableMap.Alias);
             }
             _whereSQL = builder.ReplaceSQLKW().ToString();

@@ -39,10 +39,10 @@ namespace H.Framework.Data.ORM.Foundations
             foreach (var model in list)
             {
                 var arr = MySQLUtility.ExecuteParm(model, "add");
-                builder.Append(CreateSql(SqlType.Add, modelName, arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2.Remove(arr.Item2.Length - 1)));
+                builder.Append(CreateSql(SqlType.Add, "`" + modelName + "`", arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2.Remove(arr.Item2.Length - 1)));
             }
             var lastArr = MySQLUtility.ExecuteLastIDParm(list.Last());
-            builder.Append(CreateSql(SqlType.LastID, modelName, "", CreateSql(lastArr.Item1)));
+            builder.Append(CreateSql(SqlType.LastID, "`" + modelName + "`", "", CreateSql(lastArr.Item1)));
             //builder.Append(" end;"); //oracle
             return ExecuteReader(CommandType.Text, builder.ToString(), null);
         }
@@ -55,7 +55,7 @@ namespace H.Framework.Data.ORM.Foundations
             foreach (var model in list)
             {
                 var arr = MySQLUtility.ExecuteParm(model, "update", include);
-                builder.Append(CreateSql(SqlType.Update, modelName, arr.Item1.Substring(0, arr.Item1.Length - 1), arr.Item2));
+                builder.Append(CreateSql(SqlType.Update, "`" + modelName + "`", arr.Item1.Substring(0, arr.Item1.Length - 1), arr.Item2));
             }
             //builder.Append(" end;");//oracle
             ExecuteReader(CommandType.Text, builder.ToString(), null);
@@ -63,7 +63,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public void Delete(string id)
         {
-            ExecuteReader(CommandType.Text, CreateSql(SqlType.Delete, modelName).ToLower(), new MySqlParameter("@id", id));
+            ExecuteReader(CommandType.Text, CreateSql(SqlType.Delete, "`" + modelName + "`").ToLower(), new MySqlParameter("@id", id));
         }
 
         public void Delete(List<string> ids)
@@ -72,7 +72,7 @@ namespace H.Framework.Data.ORM.Foundations
             var paramList = new List<MySqlParameter>();
             ids.ForEach((x) =>
             {
-                sqlStr += CreateSql(SqlType.Delete, modelName, "", "", null, 20, 1, x).ToLower();
+                sqlStr += CreateSql(SqlType.Delete, "`" + modelName + "`", "", "", null, 20, 1, x).ToLower();
                 paramList.Add(new MySqlParameter("@id" + x, x));
             });
             ExecuteReader(CommandType.Text, sqlStr, paramList.ToArray());
@@ -80,7 +80,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public void DeleteLogic(TModel model)
         {
-            ExecuteReader(CommandType.Text, CreateSql(SqlType.DeleteLogic, modelName).ToLower(), new MySqlParameter("@id", model.ID));
+            ExecuteReader(CommandType.Text, CreateSql(SqlType.DeleteLogic, "`" + modelName + "`").ToLower(), new MySqlParameter("@id", model.ID));
         }
 
         protected string ExecuteReader(CommandType commandType, string sqlText, params MySqlParameter[] param)
@@ -141,23 +141,23 @@ namespace H.Framework.Data.ORM.Foundations
             switch (type)
             {
                 case SqlType.Add:
-                    sqlStr = "insert into `" + tableName.ToLower() + "` (" + columnName + ")" + " values (" + columnParm + ");";
+                    sqlStr = "insert into " + tableName.ToLower() + " (" + columnName + ")" + " values (" + columnParm + ");";
                     break;
 
                 case SqlType.Delete:
-                    sqlStr = "delete from `" + tableName.ToLower() + "` where id = @id" + paramID + ";commit;";
+                    sqlStr = "delete from " + tableName.ToLower() + " where id = @id" + paramID + ";commit;";
                     break;
 
                 case SqlType.DeleteLogic:
-                    sqlStr = "update `" + tableName.ToLower() + "` set IsDeteted = 1 where id = @id";
+                    sqlStr = "update " + tableName.ToLower() + " set IsDeteted = 1 where id = @id";
                     break;
 
                 case SqlType.Update:
-                    sqlStr = "update `" + tableName.ToLower() + "` a set " + columnName + " where " + columnParm + ";";
+                    sqlStr = "update " + tableName.ToLower() + " a set " + columnName + " where " + columnParm + ";";
                     break;
 
                 case SqlType.Get:
-                    sqlStr = "select " + columnName.ReplaceKeyword() + " from `" + tableName.ToLower() + "` where 1 = 1" + columnParm + orderbyStr;
+                    sqlStr = "select " + columnName.ReplaceKeyword() + " from " + tableName.ToLower() + " where 1 = 1" + columnParm + orderbyStr;
                     break;
 
                 //case SqlType.GetPage_Oracle:
@@ -168,22 +168,22 @@ namespace H.Framework.Data.ORM.Foundations
                 //    sqlStr = "select rn," + ReplaceName(columnName).ReplaceKeyword() + " FROM (select if(@tid = a.id, @rownum := @rownum, @rownum := @rownum + 1) rn, @tid := a.id," + columnName + " from " + tableName.ToLower() + " join (SELECT @rownum := 0, @tid := NULL) rntemp where 1 = 1" + columnParm + orderbyStr + ") a where rn > " + (pageNum * pageSize).ToString() + " and rn <= " + ((pageNum + 1) * pageSize).ToString();
                 //    break;
                 case SqlType.GetPage_MySQL:
-                    sqlStr = "select " + columnName + " from `" + tableName.ToLower() + "` where 1 = 1" + columnParm + orderbyStr + " limit " + (pageNum * pageSize).ToString() + ", " + pageSize.ToString();
+                    sqlStr = "select " + columnName + " from " + tableName.ToLower() + " where 1 = 1" + columnParm + orderbyStr + " limit " + (pageNum * pageSize).ToString() + ", " + pageSize.ToString();
                     break;
                 //case SqlType.Count:
                 //    sqlStr = "select sum(ct) as DataCount from (select count(id) as ct from (select a.id from " + tableName + " where 1 = 1" + columnParm + " group by a.id))";
                 //    break;
 
                 case SqlType.Count_MySQL:
-                    sqlStr = "select count(id) as DataCount from (select a.id from `" + tableName.ToLower() + "` where 1 = 1" + columnParm + " group by a.id) a";
+                    sqlStr = "select count(id) as DataCount from (select a.id from " + tableName.ToLower() + " where 1 = 1" + columnParm + " group by a.id) a";
                     break;
 
                 case SqlType.CountDetail:
-                    sqlStr = "select sum(ct) as DataCount from (select count(a.id) as ct from `" + tableName.ToLower() + "` where 1 = 1" + columnParm + ") a";
+                    sqlStr = "select sum(ct) as DataCount from (select count(a.id) as ct from " + tableName.ToLower() + " where 1 = 1" + columnParm + ") a";
                     break;
 
                 case SqlType.LastID:
-                    sqlStr = "select LAST_INSERT_ID() from `" + tableName.ToLower() + "` where 1 = 1" + columnParm + " limit 1;";
+                    sqlStr = "select LAST_INSERT_ID() from " + tableName.ToLower() + " where 1 = 1" + columnParm + " limit 1;";
                     break;
             }
             return sqlStr;
@@ -238,6 +238,7 @@ namespace H.Framework.Data.ORM.Foundations
             foreach (var param in node.Parameters)
             {
                 var tableMap = _list.FirstOrDefault(tb => tb.TableName == param.Type.Name);
+                if (tableMap == null) continue;
                 builder.Replace(param.ToString(), tableMap.Alias);
             }
             _whereSQL = builder.ReplaceSQLKW().ToString();

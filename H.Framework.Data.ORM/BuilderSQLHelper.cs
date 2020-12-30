@@ -1,6 +1,7 @@
 ﻿using H.Framework.Core.Utilities;
 using System;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace H.Framework.Data.ORM
 {
@@ -83,7 +84,14 @@ namespace H.Framework.Data.ORM
 
         public static string In(this string str)
         {
-            return str.Replace(".Contains(", " in (");
+            var pattern = @".Contains[\((]'[^\))]+'[\))]";
+            var matchs = Regex.Matches(str, pattern);
+            foreach (Match m in matchs)
+            {
+                var newStr = m.Value.Replace(".Contains('", " in (").Replace("')", ")");
+                str = str.Replace(m.Value, newStr);
+            }
+            return str;
         }
 
         //public static string In(this string str)

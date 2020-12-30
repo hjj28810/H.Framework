@@ -255,9 +255,9 @@ namespace H.Framework.Data.ORM.Foundations
                 }
                 if (node.Expression is ConstantExpression)
                     model = (node.Expression as ConstantExpression).Value;
-                if (node.Member is FieldInfo)
+                if (node.Member is FieldInfo && model != null)
                     value = ((FieldInfo)node.Member).GetValue(model);
-                if (node.Member is PropertyInfo)
+                if (node.Member is PropertyInfo && model != null)
                     value = ((PropertyInfo)node.Member).GetValue(model);
                 return Expression.Constant(value, value.GetType());
             }
@@ -275,9 +275,9 @@ namespace H.Framework.Data.ORM.Foundations
             }
             if (node.Expression is ConstantExpression)
                 model = (node.Expression as ConstantExpression).Value;
-            if (node.Member is FieldInfo)
+            if (node.Member is FieldInfo && model != null)
                 value = ((FieldInfo)node.Member).GetValue(model);
-            if (node.Member is PropertyInfo)
+            if (node.Member is PropertyInfo && model != null)
                 value = ((PropertyInfo)node.Member).GetValue(model);
             return Expression.Constant(value, value.GetType());
         }

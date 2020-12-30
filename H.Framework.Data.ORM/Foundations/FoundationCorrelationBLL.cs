@@ -111,7 +111,7 @@ namespace H.Framework.Data.ORM.Foundations
             if (item != null)
                 return item.MapTo(RetrieveSelector);
             else
-                return default(TViewModel);
+                return default;
         }
 
         public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
@@ -581,7 +581,7 @@ namespace H.Framework.Data.ORM.Foundations
         {
             var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression) && (member == null || memberFM == null))
+            if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
             {
                 return ChildVisitMember(node);
             }
@@ -608,7 +608,7 @@ namespace H.Framework.Data.ORM.Foundations
             var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression) && (member == null || memberFM == null || memberFM1 == null))
+            if (!(node.Expression is ParameterExpression)) //&& (member == null || memberFM == null || memberFM1 == null) 所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
             {
                 return ChildVisitMember(node);
             }
@@ -638,7 +638,7 @@ namespace H.Framework.Data.ORM.Foundations
             var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression) && (member == null || memberFM == null || memberFM1 == null || memberFM2 == null))
+            if (!(node.Expression is ParameterExpression))// && (member == null || memberFM == null || memberFM1 == null || memberFM2 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
             {
                 return ChildVisitMember(node);
             }
@@ -671,7 +671,7 @@ namespace H.Framework.Data.ORM.Foundations
             var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM3 = _parms[4].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression) && (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null))
+            if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
             {
                 return ChildVisitMember(node);
             }
@@ -707,7 +707,7 @@ namespace H.Framework.Data.ORM.Foundations
             var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM3 = _parms[4].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM4 = _parms[5].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression) && (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null || memberFM4 == null))
+            if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null || memberFM4 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
             {
                 return ChildVisitMember(node);
             }
@@ -746,7 +746,7 @@ namespace H.Framework.Data.ORM.Foundations
             var memberFM3 = _parms[4].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM4 = _parms[5].Type.GetMember(node.Member.Name).FirstOrDefault();
             var memberFM5 = _parms[6].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression) && (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null || memberFM4 == null || memberFM5 == null))
+            if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null || memberFM4 == null || memberFM5 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
             {
                 return ChildVisitMember(node);
             }

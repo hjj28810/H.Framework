@@ -116,7 +116,7 @@ namespace H.Framework.Data.ORM
             lock (_locker)
             {
                 var properties = typeof(TModel).GetProperties();
-                string columnName = "", tableName = typeof(TModel).Name + " a ";
+                string columnName = "", tableName = "`" + typeof(TModel).Name + "` a ";
                 int i = 0;
                 var hasPrimaryProp = properties.Any(x => x.IsDefined(typeof(PrimaryKeyIDAttribute)));
                 foreach (var prop in properties)
@@ -130,9 +130,9 @@ namespace H.Framework.Data.ORM
                             GetMap(mapList, prop.PropertyType, i, TableType.Foreign, prop.Name);
                             var map = mapList.FirstOrDefault(x => x.Type == TableType.Foreign && x.ForeignPropName?.ToLower() == prop.Name.ToLower());
                             if (string.IsNullOrWhiteSpace(foreignAttribute.ForeignPrimaryKeyIDName))
-                                tableName += "left join " + prop.PropertyType.Name + " " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + ".id ";
+                                tableName += "left join `" + prop.PropertyType.Name + "` " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + ".id ";
                             else
-                                tableName += "left join " + prop.PropertyType.Name + " " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + "." + foreignAttribute.ForeignPrimaryKeyIDName + " ";
+                                tableName += "left join `" + prop.PropertyType.Name + "` " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + "." + foreignAttribute.ForeignPrimaryKeyIDName + " ";
                             var foreignProps = prop.PropertyType.GetProperties();
                             foreach (var foreignProp in foreignProps)
                             {
@@ -159,7 +159,7 @@ namespace H.Framework.Data.ORM
                             {
                                 GetMap(mapList, detailType, i, TableType.Detail, "");
                                 var mapTable = mapList.First(item => item.TableName == detailType.Name);
-                                tableName += "left join " + detailType.Name + " " + mapTable.Alias + " on " + mapTable.Alias + "." + detailForeignIDProp.Name + " = a.id ";
+                                tableName += "left join `" + detailType.Name + "` " + mapTable.Alias + " on " + mapTable.Alias + "." + detailForeignIDProp.Name + " = a.id ";
                                 foreach (var detailProp in detailProps)
                                 {
                                     if (detailProp.Name.ToUpper() == "ID" && hasDetailPrimaryKeyProp)
@@ -172,11 +172,11 @@ namespace H.Framework.Data.ORM
                             {
                                 var transitionAlias = "a" + i.ToString();
                                 var transitionAliasID = transitionAlias + "." + listAttribute.ForeignKeyIDName;
-                                tableName += "left join " + listAttribute.TableName + " " + transitionAlias + " on " + transitionAliasID + " = a.id ";
+                                tableName += "left join `" + listAttribute.TableName + "` " + transitionAlias + " on " + transitionAliasID + " = a.id ";
                                 i++;
                                 GetMap(mapList, detailType, i, TableType.Detail, "");
                                 var mapTable = mapList.First(item => item.TableName == detailType.Name);
-                                tableName += "left join " + detailType.Name + " " + mapTable.Alias + " on " + transitionAlias + "." + listAttribute.ForeignKeyIDName2 + " = " + mapTable.Alias + ".id ";
+                                tableName += "left join `" + detailType.Name + "` " + mapTable.Alias + " on " + transitionAlias + "." + listAttribute.ForeignKeyIDName2 + " = " + mapTable.Alias + ".id ";
                                 foreach (var detailProp in detailProps)
                                 {
                                     if (detailProp.Name.ToUpper() == "ID" && hasDetailPrimaryKeyProp)
