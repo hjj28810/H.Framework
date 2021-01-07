@@ -14,16 +14,16 @@ namespace H.Framework.WPF.UITest
     {
         public string ID { get; set; }
 
-        public string CreatedTime { get; set; }
-        public string UpdatedTime { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
     }
 
     public class BaseDBModel : IFoundationModel
     {
         public string ID { get; set; }
 
-        public string CreatedTime { get; set; }
-        public string UpdatedTime { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
     }
 
     public class Order : BaseDBModel
@@ -345,6 +345,16 @@ namespace H.Framework.WPF.UITest
         {
             var query = new WhereQueryable<CustomerDTO, User, Order>((x, y, z) => true);
             var a = await GetAsync((x, y, z) => x.UserID.Contains("70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,9,10,11,23,86") && y.DepartmentID.Contains("6"), "User");
+        }
+
+        public async void AddAsync()
+        {
+            await AddAsync(new List<CustomerDTO> { new CustomerDTO { Nickname = "asd'eee" }, new CustomerDTO { Nickname = "哈哈'eee" } });
+        }
+
+        public async void UpdateAsync()
+        {
+            await UpdateAsync(new List<CustomerDTO> { new CustomerDTO { Nickname = "asd'尔尔", ID = "832", UpdatedTime = DateTime.Now.AddDays(1) }, new CustomerDTO { Nickname = "哈哈'吧吧v", ID = "833" } });
         }
     }
 }

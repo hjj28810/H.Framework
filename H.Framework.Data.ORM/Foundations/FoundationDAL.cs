@@ -36,15 +36,19 @@ namespace H.Framework.Data.ORM.Foundations
             if (list == null || !list.Any()) return "";
             //var builder = new StringBuilder("begin "); //oracle
             var builder = new StringBuilder();
+            var i = 0;
+            var paramList = new List<MySqlParameter>();
             foreach (var model in list)
             {
-                var arr = MySQLUtility.ExecuteParm(model, "add");
+                var arr = MySQLUtility.ExecuteParm(model, "add", i);
+                paramList.AddRange(arr.Item3);
                 builder.Append(CreateSql(SqlType.Add, "`" + modelName + "`", arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2.Remove(arr.Item2.Length - 1)));
+                i++;
             }
             var lastArr = MySQLUtility.ExecuteLastIDParm(list.Last());
             builder.Append(CreateSql(SqlType.LastID, "`" + modelName + "`", "", CreateSql(lastArr.Item1)));
             //builder.Append(" end;"); //oracle
-            return ExecuteReader(CommandType.Text, builder.ToString(), null);
+            return ExecuteReader(CommandType.Text, builder.ToString(), paramList.ToArray());
         }
 
         public void Update(IEnumerable<TModel> list, string include = "")
@@ -52,13 +56,17 @@ namespace H.Framework.Data.ORM.Foundations
             if (list == null || !list.Any()) return;
             //var builder = new StringBuilder("begin ");//oracle
             var builder = new StringBuilder();
+            var i = 0;
+            var paramList = new List<MySqlParameter>();
             foreach (var model in list)
             {
-                var arr = MySQLUtility.ExecuteParm(model, "update", include);
+                var arr = MySQLUtility.ExecuteParm(model, "update", i, include);
+                paramList.AddRange(arr.Item3);
                 builder.Append(CreateSql(SqlType.Update, "`" + modelName + "`", arr.Item1.Substring(0, arr.Item1.Length - 1), arr.Item2));
+                i++;
             }
             //builder.Append(" end;");//oracle
-            ExecuteReader(CommandType.Text, builder.ToString(), null);
+            ExecuteReader(CommandType.Text, builder.ToString(), paramList.ToArray());
         }
 
         public void Delete(string id)

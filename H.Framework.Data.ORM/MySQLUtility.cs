@@ -40,7 +40,7 @@ namespace H.Framework.Data.ORM
             }
         }
 
-        public static Tuple<string, string, List<MySqlParameter>, string> ExecuteParm<TModel>(TModel model, string type = "", string include = "", OrderByEntity orderBy = null) where TModel : IFoundationModel, new()
+        public static Tuple<string, string, List<MySqlParameter>, string> ExecuteParm<TModel>(TModel model, string type = "", int index = 0, string include = "") where TModel : IFoundationModel, new()
         {
             lock (_locker)
             {
@@ -61,32 +61,49 @@ namespace H.Framework.Data.ORM
                             if (type == "add")
                             {
                                 columnName += prop.Name + ",";
-                                //if (prop.PropertyType == typeof(DateTime)) //oracle
-                                //    columnParm += "to_date('" + propValue + "','yyyy-mm-dd hh24:mi:ss'),";
+
+                                #region 直接拼sql
+
+                                //if (prop.PropertyType == typeof(bool))
+                                //    columnParm += Convert.ToInt32(propValue) + ",";
+                                //else if (prop.PropertyType == typeof(DateTime))
+                                //    columnParm += "'" + Convert.ToDateTime(propValue).ToString("yyyyMMddHHmmss") + "',";
                                 //else
-                                if (prop.PropertyType == typeof(bool))
-                                    columnParm += Convert.ToInt32(propValue) + ",";
-                                else if (prop.PropertyType == typeof(DateTime))
-                                    columnParm += "'" + Convert.ToDateTime(propValue).ToString("yyyyMMddHHmmss") + "',";
-                                else
-                                    columnParm += "'" + propValue + "',";
+                                //    columnParm += "'" + propValue + "',";
+
+                                #endregion 直接拼sql
+
+                                #region 参数化
+
+                                columnParm += $"@{prop.Name + index.ToString()},";
+
+                                #endregion 参数化
                             }
                             else
                             {
+                                #region 直接拼sql
+
+                                //if (prop.Name != "ID")
+                                //    if (prop.PropertyType == typeof(bool))
+                                //        columnName += "a." + prop.Name + " = " + Convert.ToInt32(propValue) + ",";
+                                //    else if (prop.PropertyType == typeof(DateTime))
+                                //        columnName += "a." + prop.Name + " = '" + Convert.ToDateTime(propValue).ToString("yyyyMMddHHmmss") + "',";
+                                //    else
+                                //        columnName += "a." + prop.Name + " = '" + propValue + "',";
+
+                                #endregion 直接拼sql
+
+                                #region 参数化
+
                                 if (prop.Name != "ID")
-                                    //if (prop.PropertyType == typeof(DateTime)) //oracle
-                                    //    columnName += "a." + prop.Name + " = to_date('" + propValue + "','yyyy-mm-dd hh24:mi:ss'),";
-                                    //else
-                                    if (prop.PropertyType == typeof(bool))
-                                        columnName += "a." + prop.Name + " = " + Convert.ToInt32(propValue) + ",";
-                                    else if (prop.PropertyType == typeof(DateTime))
-                                        columnName += "a." + prop.Name + " = '" + Convert.ToDateTime(propValue).ToString("yyyyMMddHHmmss") + "',";
-                                    else
-                                        columnName += "a." + prop.Name + " = '" + propValue + "',";
+                                    columnName += $"a.{ prop.Name } = @{prop.Name + index.ToString()},";
+
+                                #endregion 参数化
+
                                 columnParm = "a.id = '" + properties.First(item => item.Name == "ID").GetValue(model) + "'";
                             }
 
-                            parms.Add(new MySqlParameter(prop.Name, propValue));
+                            parms.Add(new MySqlParameter(prop.Name + index.ToString(), propValue));
                         }
                     }
                 }

@@ -67,7 +67,7 @@ namespace H.Framework.WPF.UITest
             //query = query.WhereAnd((x, y, z) => x.ID == "1");
             //var user = await new UserBLL().GetAsync(query, "Department,Roles");
             //new OrderBLL().AddOrder();
-            new CustomerBLL().GetAsync();
+            new CustomerBLL().UpdateAsync();
         }
 
         public void SaveCSV(DataTable dt, string fullPath)
