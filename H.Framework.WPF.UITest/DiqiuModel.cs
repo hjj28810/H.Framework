@@ -28,14 +28,11 @@ namespace H.Framework.WPF.UITest
 
     public class Order : BaseDBModel
     {
-        public string OrderID { get; set; }
+        public string OrderNum { get; set; }
         public int Status { get; set; }
 
         [Foreign("Customer", "CustomerID")]
         public Customer Customer { get; set; }
-
-        [Foreign("User", "UserID")]
-        public User User { get; set; }
 
         [ForeignKeyID("customer")]
         public int CustomerID { get; set; }
@@ -58,7 +55,6 @@ namespace H.Framework.WPF.UITest
         public bool IsVerify { get; set; }
         public bool IsSend { get; set; }
         public string MWebUrl { get; set; }
-        public string UserID { get; set; }
     }
 
     public class Customer : BaseDBModel
@@ -73,8 +69,6 @@ namespace H.Framework.WPF.UITest
         public int RelationType { get; set; }
         public string Channel { get; set; }
         public string ServiceRelation { get; set; }
-        public string UserID { get; set; }
-        public string EmployeeID { get; set; }
         public string Periods { get; set; }
         public string ClassBatch { get; set; }
         public string OpenID { get; set; }
@@ -83,11 +77,21 @@ namespace H.Framework.WPF.UITest
         public int Level { get; set; }
         public string CustomerNum { get; set; }
 
+        public string PreUserID { get; set; }
+
+        public string PostUserID { get; set; }
+
+        [Foreign("User", "PreUserID")]
+        public User PreUser { get; set; }
+
+        [Foreign("User", "PostUserID")]
+        public User PostUser { get; set; }
+
         [DetailList()]
         public IEnumerable<Order> Orders { get; set; }
 
-        [Foreign("User", "UserID")]
-        public User User { get; set; }
+        //[DetailList("CustomerUser", "CustomerID", "UserID")]
+        //public List<User> Users { get; set; }
     }
 
     public class Department : BaseDBModel
@@ -189,8 +193,6 @@ namespace H.Framework.WPF.UITest
         public int RelationType { get; set; }
         public string Channel { get; set; }
         public string ServiceRelation { get; set; }
-        public string UserID { get; set; }
-        public string EmployeeID { get; set; }
         public string Periods { get; set; }
         public string ClassBatch { get; set; }
         public string OpenID { get; set; }
@@ -199,20 +201,27 @@ namespace H.Framework.WPF.UITest
         public int Level { get; set; }
         public string CustomerNum { get; set; }
 
+        public string PreUserID { get; set; }
+
+        public string PostUserID { get; set; }
+
         [MappingIgnore]
         public IEnumerable<OrderDTO> Orders { get; set; }
 
+        //[MappingIgnore]
+        //public IEnumerable<UserDTO> Users { get; set; }
+
         [MappingIgnore]
-        public UserDTO User
-        {
-            get;
-            set;
-        }
+        public UserDTO PreUser { get; set; }
+
+        [MappingIgnore]
+        public UserDTO PostUser { get; set; }
 
         public void MapFrom(Customer source)
         {
             Orders = source?.Orders?.MapAllTo(x => new OrderDTO());
-            User = source?.User?.MapTo(x => new UserDTO());
+            PreUser = source?.PreUser?.MapTo(x => new UserDTO());
+            PostUser = source?.PostUser?.MapTo(x => new UserDTO());
         }
     }
 
@@ -258,7 +267,7 @@ namespace H.Framework.WPF.UITest
         public void MapFrom(Order source)
         {
             Customer = source?.Customer?.MapTo(x => new CustomerDTO());
-            User = source?.User?.MapTo(x => new UserDTO());
+            //User = source?.User?.MapTo(x => new UserDTO());
         }
     }
 
@@ -303,6 +312,19 @@ namespace H.Framework.WPF.UITest
         }
     }
 
+    public class RoleDAL : BaseDAL<Role, Resource>
+    {
+    }
+
+    public class RoleBLL : BaseBLL<RoleDTO, Role, Resource, RoleDAL>
+    {
+        public async void Get()
+        {
+            var query = new WhereQueryable<RoleDTO, Resource>((x, y) => y.Name == "客户列表");
+            var a = await GetListAsync(query, "Resources");
+        }
+    }
+
     public class UserDAL : BaseDAL<User, Department, Role>
     {
     }
@@ -335,16 +357,16 @@ namespace H.Framework.WPF.UITest
         }
     }
 
-    public class CustomerDAL : BaseDAL<Customer, User, Order>
+    public class CustomerDAL : BaseDAL<Customer, User, User, Order>
     {
     }
 
-    public class CustomerBLL : BaseBLL<CustomerDTO, Customer, User, Order, CustomerDAL>
+    public class CustomerBLL : BaseBLL<CustomerDTO, Customer, User, User, Order, CustomerDAL>
     {
         public async void GetAsync()
         {
-            var query = new WhereQueryable<CustomerDTO, User, Order>((x, y, z) => true);
-            var a = await GetAsync((x, y, z) => x.UserID.Contains("70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,9,10,11,23,86") && y.DepartmentID.Contains("6"), "User");
+            var query = new WhereQueryable<CustomerDTO, User, User, Order>((x, y, yy, z) => true);
+            var a = await GetAsync((x, y, yy, z) => y.Username == "111111" && yy.Username == "asdsa" && x.Nickname == "sadsad" || z.GoodsID == "aasdsadwww", "PreUser,PostUser,Orders");
         }
 
         public async void AddAsync()

@@ -204,12 +204,12 @@ namespace H.Framework.Data.ORM.Foundations
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
             var builder = new StringBuilder(Regex.Replace(node.ToString(), @"\(.*\=\>\ ", ""));
-            foreach (var param in node.Parameters)
-            {
-                var tableMap = _list.FirstOrDefault(tb => tb.TableName == param.Type.Name);
-                if (tableMap == null) continue;
-                builder.Replace("Param_" + node.Parameters.IndexOf(param).ToString(), tableMap.Alias);
-            }
+            //foreach (var param in node.Parameters)
+            //{
+            //    var tableMap = _list.FirstOrDefault(tb => tb.TableName == param.Type.Name);
+            //    if (tableMap == null) continue;
+            //    builder.Replace("Param_" + node.Parameters.IndexOf(param).ToString(), tableMap.Alias);
+            //}
             _whereSQL = builder.ReplaceSQLKW().ToString();
             return BaseVisitLambda(node);
         }

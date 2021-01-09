@@ -229,9 +229,9 @@ namespace H.Framework.Data.ORM.Foundations
 
     public class ConvertMemberVisitor<TViewModel> : ExpressionVisitor
     {
-        private readonly ParameterExpression[] _parms;
+        private readonly List<ParameterExpression> _parms;
 
-        public ConvertMemberVisitor(params ParameterExpression[] parms)
+        public ConvertMemberVisitor(List<ParameterExpression> parms)
         {
             _parms = parms;
         }
@@ -241,30 +241,67 @@ namespace H.Framework.Data.ORM.Foundations
             return base.Visit(node);
         }
 
+        //protected Expression VisitMemberChild(MemberExpression node, ParameterExpression[] parms)
+        //{
+        //    if (!(node.Expression is ParameterExpression))
+        //    {
+        //        return ChildVisitMember(node);
+        //    }
+        //    foreach (var item in parms)
+        //    {
+        //        var me = item.Type.GetMember(node.Member.Name).FirstOrDefault();
+        //        if (me != null && me.ReflectedType == node.Expression.Type)
+        //        {
+        //            return Expression.MakeMemberAccess(item, me);
+        //        }
+        //    }
+        //    return VisitMember(node);
+        //}
+
         protected override Expression VisitMember(MemberExpression node)
         {
-            var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression) || member == null)
+            var nodeExp = node.Expression;
+            if (!(nodeExp is ParameterExpression))
+                return ChildVisitMember(node);
+            foreach (var item in _parms)
+            {
+                if (nodeExp is ParameterExpression exp && exp.Type == item.Type)//关联多个同类型，暂时用顺序和表达式字符长短判断，例：y.ID == "aa" && yy.ID = "bb"
+                {
+                    var paramExps = _parms.Where(x => x.Type == exp.Type).ToList();
+                    if (paramExps.Count > 1)
+                    {
+                        var index = paramExps.IndexOf(item);
+                        if (index != (exp.Name.Length - 1) && index > -1)
+                            continue;
+                    }
+                }
+                var member = item.Type.GetMember(node.Member.Name).FirstOrDefault();
+                if (member != null && member.ReflectedType == nodeExp.Type)
+                    return Expression.MakeMemberAccess(item, member);
+            }
+            var mainMember = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
+            if (!(nodeExp is ParameterExpression) || mainMember == null)
             {
                 object value = null, model = null;
-                if (node.Expression is MemberExpression)
+                if (nodeExp is MemberExpression memberExp)
                 {
-                    var expr = VisitMember(node.Expression as MemberExpression);
-                    if (expr is ConstantExpression)
-                        model = (expr as ConstantExpression).Value;
+                    //var expr = VisitMember(memberExp);
+                    //if (expr is ConstantExpression const1Exp)
+                    //    model = const1Exp.Value;
+                    nodeExp = VisitMember(memberExp);
                 }
-                if (node.Expression is ConstantExpression)
-                    model = (node.Expression as ConstantExpression).Value;
-                if (node.Member is FieldInfo && model != null)
-                    value = ((FieldInfo)node.Member).GetValue(model);
-                if (node.Member is PropertyInfo && model != null)
-                    value = ((PropertyInfo)node.Member).GetValue(model);
+                if (nodeExp is ConstantExpression constExp)
+                    model = constExp.Value;
+                if (node.Member is FieldInfo field && model != null)
+                    value = field.GetValue(model);
+                if (node.Member is PropertyInfo prop && model != null)
+                    value = prop.GetValue(model);
                 return Expression.Constant(value, value.GetType());
             }
-            return Expression.MakeMemberAccess(_parms[0], member);
+            return Expression.MakeMemberAccess(_parms[0], mainMember);
         }
 
-        protected Expression ChildVisitMember(MemberExpression node)
+        public Expression ChildVisitMember(MemberExpression node)
         {
             object value = null, model = null;
             if (node.Expression is MemberExpression)
@@ -290,30 +327,6 @@ namespace H.Framework.Data.ORM.Foundations
             }
             else
             {
-                //if (node.Method.Name == "Contains")
-                //{
-                //    var arg = node.Arguments.FirstOrDefault(args => args.NodeType == ExpressionType.NewArrayInit);
-                //    if (arg != null)
-                //    {
-                //        var arrExpr = arg as NewArrayExpression;
-                //        var builder = new StringBuilder("");
-                //        foreach (var arrItemExpr in arrExpr.Expressions)
-                //        {
-                //            if (arrItemExpr is MemberExpression)
-                //            {
-                //                var expr = VisitMember(arrItemExpr as MemberExpression);
-                //                if (expr is ConstantExpression)
-                //                    builder.Append("'" + (expr as ConstantExpression).Value + "',");
-                //            }
-                //            if (arrItemExpr is ConstantExpression)
-                //            {
-                //                builder.Append("'" + (arrItemExpr as ConstantExpression).Value + "',");
-                //            }
-                //        }
-                //        return Expression.Constant(builder.Remove(builder.Length - 1, 1).ToString());
-                //    }
-                //}
-                ;
                 var value = Expression.Lambda(node, _parms).Compile().DynamicInvoke();
                 return Expression.Constant(value, value.GetType());
             }

@@ -11,7 +11,7 @@ namespace H.Framework.Data.ORM
 {
     public class MySQLUtility
     {
-        private static object _locker;
+        private static readonly object _locker;
 
         static MySQLUtility()
         {
@@ -351,7 +351,7 @@ namespace H.Framework.Data.ORM
             {
                 if (whereSelector == null)
                     return null;
-                var parameter = Expression.Parameter(typeof(TModel));
+                var parameter = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a") };
                 return Expression.Lambda<Func<TModel, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parameter).Visit(whereSelector)).Body, parameter);
             }
         }
@@ -362,8 +362,8 @@ namespace H.Framework.Data.ORM
             {
                 if (whereSelector == null)
                     return null;
-                var parmArr = new ParameterExpression[] { Expression.Parameter(typeof(TModel)), Expression.Parameter(typeof(TForeignModel)) };
-                return Expression.Lambda<Func<TModel, TForeignModel, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel, TForeignModel>(parmArr).Visit(whereSelector)).Body, parmArr);
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0") };
+                return Expression.Lambda<Func<TModel, TForeignModel, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
 
@@ -373,8 +373,8 @@ namespace H.Framework.Data.ORM
             {
                 if (whereSelector == null)
                     return null;
-                var parmArr = new ParameterExpression[] { Expression.Parameter(typeof(TModel)), Expression.Parameter(typeof(TForeignModel)), Expression.Parameter(typeof(TForeignModel1)) };
-                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1>(parmArr).Visit(whereSelector)).Body, parmArr);
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1") };
+                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
 
@@ -384,8 +384,8 @@ namespace H.Framework.Data.ORM
             {
                 if (whereSelector == null)
                     return null;
-                var parmArr = new ParameterExpression[] { Expression.Parameter(typeof(TModel)), Expression.Parameter(typeof(TForeignModel)), Expression.Parameter(typeof(TForeignModel1)), Expression.Parameter(typeof(TForeignModel2)) };
-                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2>(parmArr).Visit(whereSelector)).Body, parmArr);
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2") };
+                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
 
@@ -395,8 +395,8 @@ namespace H.Framework.Data.ORM
             {
                 if (whereSelector == null)
                     return null;
-                var parmArr = new ParameterExpression[] { Expression.Parameter(typeof(TModel)), Expression.Parameter(typeof(TForeignModel)), Expression.Parameter(typeof(TForeignModel1)), Expression.Parameter(typeof(TForeignModel2)), Expression.Parameter(typeof(TForeignModel3)) };
-                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(parmArr).Visit(whereSelector)).Body, parmArr);
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2"), Expression.Parameter(typeof(TForeignModel3), "a3") };
+                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
 
@@ -406,8 +406,8 @@ namespace H.Framework.Data.ORM
             {
                 if (whereSelector == null)
                     return null;
-                var parmArr = new ParameterExpression[] { Expression.Parameter(typeof(TModel)), Expression.Parameter(typeof(TForeignModel)), Expression.Parameter(typeof(TForeignModel1)), Expression.Parameter(typeof(TForeignModel2)), Expression.Parameter(typeof(TForeignModel3)), Expression.Parameter(typeof(TForeignModel4)) };
-                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(parmArr).Visit(whereSelector)).Body, parmArr);
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2"), Expression.Parameter(typeof(TForeignModel3), "a3"), Expression.Parameter(typeof(TForeignModel4), "a4") };
+                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
 
@@ -417,8 +417,8 @@ namespace H.Framework.Data.ORM
             {
                 if (whereSelector == null)
                     return null;
-                var parmArr = new ParameterExpression[] { Expression.Parameter(typeof(TModel)), Expression.Parameter(typeof(TForeignModel)), Expression.Parameter(typeof(TForeignModel1)), Expression.Parameter(typeof(TForeignModel2)), Expression.Parameter(typeof(TForeignModel3)), Expression.Parameter(typeof(TForeignModel4)), Expression.Parameter(typeof(TForeignModel5)) };
-                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(parmArr).Visit(whereSelector)).Body, parmArr);
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2"), Expression.Parameter(typeof(TForeignModel3), "a3"), Expression.Parameter(typeof(TForeignModel4), "a4"), Expression.Parameter(typeof(TForeignModel5), "a5") };
+                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
     }

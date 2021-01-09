@@ -568,203 +568,200 @@ namespace H.Framework.Data.ORM.Foundations
         }
     }
 
-    public class ConvertMemberVisitor<TViewModel, TForeignModel> : ConvertMemberVisitor<TViewModel>
-    {
-        private readonly ParameterExpression[] _parms;
+    //public class ConvertMemberVisitor<TViewModel, TForeignModel> : ConvertMemberVisitor<TViewModel>
+    //{
+    //    private readonly ParameterExpression[] _parms;
 
-        public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
-        {
-            _parms = parms;
-        }
+    //    public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
+    //    {
+    //        _parms = parms;
+    //    }
 
-        protected override Expression VisitMember(MemberExpression node)
-        {
-            var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
-            {
-                return ChildVisitMember(node);
-            }
-            if (memberFM != null && memberFM.ReflectedType == node.Expression.Type)
-                return Expression.MakeMemberAccess(_parms[1], memberFM);
-            if (member != null)
-                return Expression.MakeMemberAccess(_parms[0], member);
-            return base.VisitMember(node);
-        }
-    }
+    //    protected override Expression VisitMember(MemberExpression node)
+    //    {
+    //        var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
+    //        {
+    //            return ChildVisitMember(node);
+    //        }
+    //        if (memberFM != null && memberFM.ReflectedType == node.Expression.Type)
+    //            return Expression.MakeMemberAccess(_parms[1], memberFM);
+    //        if (member != null)
+    //            return Expression.MakeMemberAccess(_parms[0], member);
+    //        return base.VisitMember(node);
+    //    }
+    //}
 
-    public class ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1> : ConvertMemberVisitor<TViewModel>
-    {
-        private readonly ParameterExpression[] _parms;
+    //public class ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1> : ConvertMemberVisitor<TViewModel>
+    //{
+    //    private readonly ParameterExpression[] _parms;
 
-        public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
-        {
-            _parms = parms;
-        }
+    //    public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
+    //    {
+    //        _parms = parms;
+    //    }
 
-        protected override Expression VisitMember(MemberExpression node)
-        {
-            ///BUG 取相同属性，会return第一个
-            var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression)) //&& (member == null || memberFM == null || memberFM1 == null) 所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
-            {
-                return ChildVisitMember(node);
-            }
-            if (memberFM1 != null && memberFM1.ReflectedType == node.Expression.Type)
-                return Expression.MakeMemberAccess(_parms[2], memberFM1);
-            if (memberFM != null && memberFM.ReflectedType == node.Expression.Type)
-                return Expression.MakeMemberAccess(_parms[1], memberFM);
-            if (member != null)
-                return Expression.MakeMemberAccess(_parms[0], member);
-            return base.VisitMember(node);
-        }
-    }
+    //    protected override Expression VisitMember(MemberExpression node)
+    //    {
+    //        // BUG 取相同属性，会return第一个
+    //        var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        if (!(node.Expression is ParameterExpression)) //&& (member == null || memberFM == null || memberFM1 == null) 所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
+    //        {
+    //            return ChildVisitMember(node);
+    //        }
+    //        if (memberFM1 != null && memberFM1.ReflectedType == node.Expression.Type)
+    //            return Expression.MakeMemberAccess(_parms[2], memberFM1);
+    //        if (memberFM != null && memberFM.ReflectedType == node.Expression.Type)
+    //            return Expression.MakeMemberAccess(_parms[1], memberFM);
+    //        if (member != null)
+    //            return Expression.MakeMemberAccess(_parms[0], member);
+    //        return base.VisitMember(node);
+    //    }
+    //}
 
-    public class ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> : ConvertMemberVisitor<TViewModel>
-    {
-        private readonly ParameterExpression[] _parms;
+    //public class ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> : ConvertMemberVisitor<TViewModel>
+    //{
+    //    private readonly ParameterExpression[] _parms;
 
-        public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
-        {
-            _parms = parms;
-        }
+    //    public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
+    //    {
+    //        _parms = parms;
+    //    }
 
-        protected override Expression VisitMember(MemberExpression node)
-        {
-            ///BUG 取相同属性，会return第一个
-            var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression))// && (member == null || memberFM == null || memberFM1 == null || memberFM2 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
-            {
-                return ChildVisitMember(node);
-            }
-            if (memberFM2 != null && memberFM2.ReflectedType == node.Expression.Type)
-                return Expression.MakeMemberAccess(_parms[3], memberFM2);
-            if (memberFM1 != null && memberFM1.ReflectedType == node.Expression.Type)
-                return Expression.MakeMemberAccess(_parms[2], memberFM1);
-            if (memberFM != null && memberFM.ReflectedType == node.Expression.Type)
-                return Expression.MakeMemberAccess(_parms[1], memberFM);
-            if (member != null)
-                return Expression.MakeMemberAccess(_parms[0], member);
-            return base.VisitMember(node);
-        }
-    }
+    //    protected override Expression VisitMember(MemberExpression node)
+    //    {
+    //        // BUG 取相同属性，会return第一个
+    //         var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
 
-    public class ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> : ConvertMemberVisitor<TViewModel>
-    {
-        private readonly ParameterExpression[] _parms;
+    //        if (memberFM2 != null && memberFM2.ReflectedType == node.Expression.Type)
+    //            return Expression.MakeMemberAccess(_parms[3], memberFM2);
+    //        if (memberFM1 != null && memberFM1.ReflectedType == node.Expression.Type)
+    //            return Expression.MakeMemberAccess(_parms[2], memberFM1);
+    //        if (memberFM != null && memberFM.ReflectedType == node.Expression.Type)
+    //            return Expression.MakeMemberAccess(_parms[1], memberFM);
+    //        if (member != null)
+    //            return Expression.MakeMemberAccess(_parms[0], member);
+    //        return base.VisitMember(node);
+    //    }
+    //}
 
-        public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
-        {
-            _parms = parms;
-        }
+    //public class ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> : ConvertMemberVisitor<TViewModel>
+    //{
+    //    private readonly ParameterExpression[] _parms;
 
-        protected override Expression VisitMember(MemberExpression node)
-        {
-            ///BUG 取相同属性，会return第一个
-            var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM3 = _parms[4].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
-            {
-                return ChildVisitMember(node);
-            }
-            if (member != null)
-                return Expression.MakeMemberAccess(_parms[0], member);
-            if (memberFM != null)
-                return Expression.MakeMemberAccess(_parms[1], memberFM);
-            if (memberFM1 != null)
-                return Expression.MakeMemberAccess(_parms[2], memberFM1);
-            if (memberFM2 != null)
-                return Expression.MakeMemberAccess(_parms[3], memberFM2);
-            if (memberFM3 != null)
-                return Expression.MakeMemberAccess(_parms[4], memberFM3);
-            return base.VisitMember(node);
-        }
-    }
+    //    public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
+    //    {
+    //        _parms = parms;
+    //    }
 
-    public class ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> : ConvertMemberVisitor<TViewModel>
-    {
-        private readonly ParameterExpression[] _parms;
+    //    protected override Expression VisitMember(MemberExpression node)
+    //    {
+    //        ////BUG 取相同属性，会return第一个
+    //        var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM3 = _parms[4].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
+    //        {
+    //            return ChildVisitMember(node);
+    //        }
+    //        if (member != null)
+    //            return Expression.MakeMemberAccess(_parms[0], member);
+    //        if (memberFM != null)
+    //            return Expression.MakeMemberAccess(_parms[1], memberFM);
+    //        if (memberFM1 != null)
+    //            return Expression.MakeMemberAccess(_parms[2], memberFM1);
+    //        if (memberFM2 != null)
+    //            return Expression.MakeMemberAccess(_parms[3], memberFM2);
+    //        if (memberFM3 != null)
+    //            return Expression.MakeMemberAccess(_parms[4], memberFM3);
+    //        return base.VisitMember(node);
+    //    }
+    //}
 
-        public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
-        {
-            _parms = parms;
-        }
+    //public class ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> : ConvertMemberVisitor<TViewModel>
+    //{
+    //    private readonly ParameterExpression[] _parms;
 
-        protected override Expression VisitMember(MemberExpression node)
-        {
-            ///BUG 取相同属性，会return第一个
-            var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM3 = _parms[4].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM4 = _parms[5].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null || memberFM4 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
-            {
-                return ChildVisitMember(node);
-            }
-            if (member != null)
-                return Expression.MakeMemberAccess(_parms[0], member);
-            if (memberFM != null)
-                return Expression.MakeMemberAccess(_parms[1], memberFM);
-            if (memberFM1 != null)
-                return Expression.MakeMemberAccess(_parms[2], memberFM1);
-            if (memberFM2 != null)
-                return Expression.MakeMemberAccess(_parms[3], memberFM2);
-            if (memberFM3 != null)
-                return Expression.MakeMemberAccess(_parms[4], memberFM3);
-            if (memberFM4 != null)
-                return Expression.MakeMemberAccess(_parms[5], memberFM4);
-            return base.VisitMember(node);
-        }
-    }
+    //    public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
+    //    {
+    //        _parms = parms;
+    //    }
 
-    public class ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> : ConvertMemberVisitor<TViewModel>
-    {
-        private readonly ParameterExpression[] _parms;
+    //    protected override Expression VisitMember(MemberExpression node)
+    //    {
+    //        //BUG 取相同属性，会return第一个
+    //        var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM3 = _parms[4].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM4 = _parms[5].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null || memberFM4 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
+    //        {
+    //            return ChildVisitMember(node);
+    //        }
+    //        if (member != null)
+    //            return Expression.MakeMemberAccess(_parms[0], member);
+    //        if (memberFM != null)
+    //            return Expression.MakeMemberAccess(_parms[1], memberFM);
+    //        if (memberFM1 != null)
+    //            return Expression.MakeMemberAccess(_parms[2], memberFM1);
+    //        if (memberFM2 != null)
+    //            return Expression.MakeMemberAccess(_parms[3], memberFM2);
+    //        if (memberFM3 != null)
+    //            return Expression.MakeMemberAccess(_parms[4], memberFM3);
+    //        if (memberFM4 != null)
+    //            return Expression.MakeMemberAccess(_parms[5], memberFM4);
+    //        return base.VisitMember(node);
+    //    }
+    //}
 
-        public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
-        {
-            _parms = parms;
-        }
+    //public class ConvertMemberVisitor<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> : ConvertMemberVisitor<TViewModel>
+    //{
+    //    private readonly ParameterExpression[] _parms;
 
-        protected override Expression VisitMember(MemberExpression node)
-        {
-            ///BUG 取相同属性，会return第一个
-            var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM3 = _parms[4].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM4 = _parms[5].Type.GetMember(node.Member.Name).FirstOrDefault();
-            var memberFM5 = _parms[6].Type.GetMember(node.Member.Name).FirstOrDefault();
-            if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null || memberFM4 == null || memberFM5 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
-            {
-                return ChildVisitMember(node);
-            }
-            if (member != null)
-                return Expression.MakeMemberAccess(_parms[0], member);
-            if (memberFM != null)
-                return Expression.MakeMemberAccess(_parms[1], memberFM);
-            if (memberFM1 != null)
-                return Expression.MakeMemberAccess(_parms[2], memberFM1);
-            if (memberFM2 != null)
-                return Expression.MakeMemberAccess(_parms[3], memberFM2);
-            if (memberFM3 != null)
-                return Expression.MakeMemberAccess(_parms[4], memberFM3);
-            if (memberFM4 != null)
-                return Expression.MakeMemberAccess(_parms[5], memberFM4);
-            if (memberFM5 != null)
-                return Expression.MakeMemberAccess(_parms[6], memberFM5);
-            return base.VisitMember(node);
-        }
-    }
+    //    public ConvertMemberVisitor(params ParameterExpression[] parms) : base(parms)
+    //    {
+    //        _parms = parms;
+    //    }
+
+    //    protected override Expression VisitMember(MemberExpression node)
+    //    {
+    //        //BUG 取相同属性，会return第一个
+    //        var member = _parms[0].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM = _parms[1].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM1 = _parms[2].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM2 = _parms[3].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM3 = _parms[4].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM4 = _parms[5].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        var memberFM5 = _parms[6].Type.GetMember(node.Member.Name).FirstOrDefault();
+    //        if (!(node.Expression is ParameterExpression))//&& (member == null || memberFM == null || memberFM1 == null || memberFM2 == null || memberFM3 == null || memberFM4 == null || memberFM5 == null)所有表有同一个字段名时，无法查询bug，比如id,a.id=a.id
+    //        {
+    //            return ChildVisitMember(node);
+    //        }
+    //        if (member != null)
+    //            return Expression.MakeMemberAccess(_parms[0], member);
+    //        if (memberFM != null)
+    //            return Expression.MakeMemberAccess(_parms[1], memberFM);
+    //        if (memberFM1 != null)
+    //            return Expression.MakeMemberAccess(_parms[2], memberFM1);
+    //        if (memberFM2 != null)
+    //            return Expression.MakeMemberAccess(_parms[3], memberFM2);
+    //        if (memberFM3 != null)
+    //            return Expression.MakeMemberAccess(_parms[4], memberFM3);
+    //        if (memberFM4 != null)
+    //            return Expression.MakeMemberAccess(_parms[5], memberFM4);
+    //        if (memberFM5 != null)
+    //            return Expression.MakeMemberAccess(_parms[6], memberFM5);
+    //        return base.VisitMember(node);
+    //    }
+    //}
 }
