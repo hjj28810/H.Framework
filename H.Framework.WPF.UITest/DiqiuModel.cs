@@ -15,7 +15,7 @@ namespace H.Framework.WPF.UITest
         public string ID { get; set; }
 
         public DateTime CreatedTime { get; set; }
-        public DateTime UpdatedTime { get; set; }
+        public string UpdatedTime { get; set; }
     }
 
     public class BaseDBModel : IFoundationModel
@@ -60,20 +60,9 @@ namespace H.Framework.WPF.UITest
     public class Customer : BaseDBModel
     {
         public string Phone { get; set; }
-        public string Nickname { get; set; }
-        public int Sno { get; set; }
-        public string Avatar { get; set; }
-        public int Source { get; set; }
-        public string AppID { get; set; }
-        public int Ver { get; set; }
-        public int RelationType { get; set; }
-        public string Channel { get; set; }
-        public string ServiceRelation { get; set; }
+
         public string Periods { get; set; }
         public string ClassBatch { get; set; }
-        public string OpenID { get; set; }
-        public string UnionID { get; set; }
-        public string DeviceID { get; set; }
         public int Level { get; set; }
         public string CustomerNum { get; set; }
 
@@ -184,20 +173,12 @@ namespace H.Framework.WPF.UITest
     public class CustomerDTO : BaseDTO, ICustomMap<Customer>
     {
         public string Phone { get; set; }
-        public string Nickname { get; set; }
+
         public int Sno { get; set; }
-        public string Avatar { get; set; }
         public int Source { get; set; }
-        public string AppID { get; set; }
-        public int Ver { get; set; }
-        public int RelationType { get; set; }
-        public string Channel { get; set; }
-        public string ServiceRelation { get; set; }
+
         public string Periods { get; set; }
-        public string ClassBatch { get; set; }
-        public string OpenID { get; set; }
-        public string UnionID { get; set; }
-        public string DeviceID { get; set; }
+
         public int Level { get; set; }
         public string CustomerNum { get; set; }
 
@@ -366,17 +347,111 @@ namespace H.Framework.WPF.UITest
         public async void GetAsync()
         {
             var query = new WhereQueryable<CustomerDTO, User, User, Order>((x, y, yy, z) => true);
-            var a = await GetAsync((x, y, yy, z) => y.Username == "111111" && yy.Username == "asdsa" && x.Nickname == "sadsad" || z.GoodsID == "aasdsadwww", "PreUser,PostUser,Orders");
+            var a = await GetAsync((x, y, yy, z) => y.Username == "111111" && yy.Username == "asdsa" || z.GoodsID == "aasdsadwww", "PreUser,PostUser,Orders");
         }
 
         public async void AddAsync()
         {
-            await AddAsync(new List<CustomerDTO> { new CustomerDTO { Nickname = "asd'eee" }, new CustomerDTO { Nickname = "哈哈'eee" } });
+            await AddAsync(new List<CustomerDTO> { new CustomerDTO { Phone = "13321952950" }, new CustomerDTO { Phone = "13521952950" } });
         }
 
         public async void UpdateAsync()
         {
-            await UpdateAsync(new List<CustomerDTO> { new CustomerDTO { Nickname = "asd'尔尔", ID = "832", UpdatedTime = DateTime.Now.AddDays(1) }, new CustomerDTO { Nickname = "哈哈'吧吧v", ID = "833" } });
+            await UpdateAsync(new List<CustomerDTO> { new CustomerDTO { ID = "832" }, new CustomerDTO { ID = "833" } });
         }
+    }
+
+    public class CallRecordDTO : BaseDTO, ICustomMap<CallRecord>
+    {
+        public int Duration { get; set; }
+        public string Phone { get; set; }
+        public int Type { get; set; }
+        public string CustomerID { get; set; }
+        public string UserID { get; set; }
+        public string Remark { get; set; }
+        public string RecordUrl { get; set; }
+        public string UserDisplay { get; set; }
+
+        [MappingIgnore]
+        public CustomerDTO Customer { get; set; }
+
+        [MappingIgnore]
+        public UserDTO User { get; set; }
+
+        public void MapFrom(CallRecord source)
+        {
+            Customer = source?.Customer?.MapTo(x => new CustomerDTO());
+            User = source?.User?.MapTo(x => new UserDTO());
+        }
+    }
+
+    public class CallRecord : BaseDBModel
+    {
+        public int Duration { get; set; }
+        public string Phone { get; set; }
+        public int Type { get; set; }
+
+        [ForeignKeyID("customer")]
+        public string CustomerID { get; set; }
+
+        [Foreign("Customer", "CustomerID")]
+        public Customer Customer { get; set; }
+
+        [Foreign("User", "UserID")]
+        public User User { get; set; }
+
+        public string UserID { get; set; }
+        public string Remark { get; set; }
+        public string RecordUrl { get; set; }
+    }
+
+    public class CallRecordDAL : BaseDAL<CallRecord, Customer, User>
+    {
+    }
+
+    public class CallRecordBLL : BaseBLL<CallRecordDTO, CallRecord, Customer, User, CallRecordDAL>
+    {
+        public async void AddCallRecordAsync(CallRecordDTO req)
+        {
+            await AddAsync(req);
+        }
+    }
+
+    public class DynamicFieldDTO : BaseDTO
+    {
+        public string Name { get; set; }
+
+        public int Type { get; set; }
+
+        public int ViewType { get; set; }
+
+        public string Extension { get; set; }
+    }
+
+    public class DynamicFieldBLL : BaseBLL<DynamicFieldDTO, DynamicField, DynamicFieldDAL>
+    {
+        /// <summary>
+        /// 获取动态字段
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<DynamicFieldDTO>> GetDynamicFieldsAsync(int type)
+        {
+            return await GetListAsync(x => x.Type == type);
+        }
+    }
+
+    public class DynamicField : BaseDBModel
+    {
+        public string Name { get; set; }
+
+        public int Type { get; set; }
+
+        public int ViewType { get; set; }
+
+        public string Extension { get; set; }
+    }
+
+    public class DynamicFieldDAL : BaseDAL<DynamicField>
+    {
     }
 }

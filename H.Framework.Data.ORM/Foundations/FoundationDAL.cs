@@ -157,7 +157,7 @@ namespace H.Framework.Data.ORM.Foundations
                     break;
 
                 case SqlType.DeleteLogic:
-                    sqlStr = "update " + tableName.ToLower() + " set IsDeteted = 1 where id = @id";
+                    sqlStr = "update " + tableName.ToLower() + " set isdeleted = 1 where id = @id";
                     break;
 
                 case SqlType.Update:
