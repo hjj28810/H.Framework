@@ -113,7 +113,7 @@ namespace H.Framework.Core.Utilities
 
         public static bool IsPicture(this string filePath)
         {
-            return filePath.IsMatchFileExt(new string[] { ".jpg", ".png", ".bmp", ".jpeg" });
+            return filePath.IsMatchFileExt(new string[] { ".jpg", ".png", ".bmp", ".jpeg", ".gif" });
         }
 
         public static bool IsMatchFileExt(this string filePath, params string[] exts)

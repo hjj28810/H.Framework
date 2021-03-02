@@ -38,7 +38,7 @@ namespace H.Framework.WPF.Control.Controls
         private static void OnTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var obj = (UnreadTip)d;
-            if (e.NewValue.ToString() == "0")
+            if (e.NewValue?.ToString() == "0")
                 obj.Visibility = Visibility.Collapsed;
             else
                 obj.Visibility = Visibility.Visible;

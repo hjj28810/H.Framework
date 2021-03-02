@@ -596,6 +596,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             FontSize="12"
+            IsShowText="False"
             Value="{Binding Text, ElementName=sss}" />
         <extender:SearchBox
             Name="search"
@@ -770,7 +771,7 @@
             ItemsSource="{Binding ListType}"
             SelectionItemTemplate="{StaticResource CMBSelectedItemTemplate}"
             TabIndex="2" />
-        <extender:TextBoxEx
+        <extender:RichTextEdit
             Name="sss"
             Grid.Row="1"
             Height="100"
@@ -780,17 +781,16 @@
             AcceptsReturn="True"
             AllowDrop="True"
             DragEnter="sss_DragEnter"
-            Drop="sss_Drop"
+            PreviewDrop="sss_Drop"
             Text="{Binding TestText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
             TextChanged="Sss_TextChanged"
-            TextWrapping="WrapWithOverflow"
             VerticalScrollBarVisibility="Auto">
             <!--<TextBox.Resources>
                     <Style BasedOn="{StaticResource DefaultScrollviewer}" TargetType="ScrollViewer">
                         <Setter Property="VerticalAlignment" Value="Top" />
                     </Style>
                 </TextBox.Resources>-->
-        </extender:TextBoxEx>
+        </extender:RichTextEdit>
 
         <extender:ClassicPager
             Name="cPager"

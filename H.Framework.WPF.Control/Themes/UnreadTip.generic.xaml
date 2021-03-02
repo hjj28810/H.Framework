@@ -16,23 +16,24 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Fill="{TemplateBinding Background}" />
-                        <TextBlock
-                            Name="PART_TextBlock"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="{TemplateBinding FontSize}"
-                            Foreground="{TemplateBinding Foreground}"
-                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            TextAlignment="Center"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsShowText, Converter={StaticResource objConverter}, ConverterParameter=true:Visible:Collapsed}" />
-                        <TextBlock
-                            Name="PART_TextBlockLong"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Foreground="{TemplateBinding Foreground}"
-                            Text="99+"
-                            TextAlignment="Center"
-                            Visibility="Hidden" />
+                        <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsShowText, Converter={StaticResource objConverter}, ConverterParameter=true:Visible:Collapsed}">
+                            <TextBlock
+                                Name="PART_TextBlock"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="{TemplateBinding FontSize}"
+                                Foreground="{TemplateBinding Foreground}"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                Name="PART_TextBlockLong"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{TemplateBinding Foreground}"
+                                Text="99+"
+                                TextAlignment="Center"
+                                Visibility="Hidden" />
+                        </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <MultiDataTrigger>

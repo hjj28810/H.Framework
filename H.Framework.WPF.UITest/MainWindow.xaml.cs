@@ -52,11 +52,11 @@ namespace H.Framework.WPF.UITest
             //TestSql.Test();
             //ListType.WriteJson("appSettings.json");
 
-            //var l = List.BuildLine(x => x.ID, y => y.PID, p => p.Parent, (m, n) => new Node { Parent = n, ID = m.ID, PID = m.PID }, "1111");
-
+            //var l = List.BuildLine(x => x.ID, y => y.PID, p => p.Parent, (m, n) => new Node { Parent = n, ID = m.ID, PID = m.PID }, "1");
+            //var a = new UserDB().GetUsers();
             //var ll = List.GetChildren(x => x.ID, x => x.PID, "22");
 
-            tt();
+            //tt();
         }
 
         private async void tt()
@@ -337,7 +337,7 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
 
         public IEnumerable<Node> Get()
         {
-            return new List<Node> { new Node { ID = "1", PID = "0" }, new Node { ID = "11", PID = "1" }, new Node { ID = "22", PID = "1" }, new Node { ID = "33", PID = "1" }, new Node { ID = "111", PID = "11" }, new Node { ID = "112", PID = "11" }, new Node { ID = "1111", PID = "111" }, new Node { ID = "222", PID = "22" }, new Node { ID = "2223", PID = "22" }, new Node { ID = "2225", PID = "22" }, new Node { ID = "2212", PID = "22" }, new Node { ID = "5222", PID = "22" } };
+            return new List<Node> { new Node { ID = "1", PID = "0" }/*, new Node { ID = "11", PID = "1" }, new Node { ID = "22", PID = "1" }, new Node { ID = "33", PID = "1" }, new Node { ID = "111", PID = "11" }, new Node { ID = "112", PID = "11" }, new Node { ID = "1111", PID = "111" }, new Node { ID = "222", PID = "22" }, new Node { ID = "2223", PID = "22" }, new Node { ID = "2225", PID = "22" }, new Node { ID = "2212", PID = "22" }, new Node { ID = "5222", PID = "22" } */};
         }
 
         public string Error => null;
@@ -421,6 +421,7 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
 
         private void sss_Drop(object sender, DragEventArgs e)
         {
+            var A = e.Data.GetFormats();
         }
 
         private void sss_DragEnter(object sender, DragEventArgs e)
