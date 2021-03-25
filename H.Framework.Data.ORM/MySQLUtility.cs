@@ -60,6 +60,8 @@ namespace H.Framework.Data.ORM
                                 continue;
                             if (type == "add")
                             {
+                                if (prop.IsDefined(typeof(PrimaryKeyIDAttribute))) continue;
+                                if (prop.Name.ToUpper() == "ID") continue;
                                 columnName += prop.Name + ",";
 
                                 #region 直接拼sql
@@ -95,12 +97,12 @@ namespace H.Framework.Data.ORM
 
                                 #region 参数化
 
-                                if (prop.Name != "ID")
+                                if (prop.Name.ToUpper() != "ID")
                                     columnName += $"a.{ prop.Name } = @{prop.Name + index.ToString()},";
 
                                 #endregion 参数化
 
-                                columnParm = "a.id = '" + properties.First(item => item.Name == "ID").GetValue(model) + "'";
+                                columnParm = "a.id = '" + properties.First(item => item.Name.ToUpper() == "ID").GetValue(model) + "'";
                             }
 
                             parms.Add(new MySqlParameter(prop.Name + index.ToString(), propValue));

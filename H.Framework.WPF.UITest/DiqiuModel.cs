@@ -357,7 +357,7 @@ namespace H.Framework.WPF.UITest
 
         public async void UpdateAsync()
         {
-            await UpdateAsync(new List<CustomerDTO> { new CustomerDTO { ID = "832" }, new CustomerDTO { ID = "833" } });
+            await UpdateAsync(new List<CustomerDTO> { new CustomerDTO { ID = "832", Phone = "13321952950" }, new CustomerDTO { ID = "833", Phone = "13321952951" } });
         }
     }
 
