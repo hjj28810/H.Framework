@@ -26,6 +26,22 @@ namespace H.Framework.WPF.UITest
         public DateTime UpdatedTime { get; set; }
     }
 
+    public class CustomerDynamicField : BaseDBModel
+    {
+        public string DynamicFieldID { get; set; }
+
+        [ForeignKeyID("customer")]
+        public string CustomerID { get; set; }
+
+        public int DepartmentType { get; set; }
+        public string FieldValue { get; set; }
+        public string FieldKey { get; set; }
+
+        [MappingIgnore]
+        [Foreign("Customer", "CustomerID")]
+        public Customer Customer { get; set; }
+    }
+
     public class Order : BaseDBModel
     {
         public string OrderNum { get; set; }
@@ -77,7 +93,13 @@ namespace H.Framework.WPF.UITest
         public User PostUser { get; set; }
 
         [DetailList()]
-        public IEnumerable<Order> Orders { get; set; }
+        public List<Order> Orders { get; set; }
+
+        [DetailList()]
+        public List<Contact> Contacts { get; set; }
+
+        [DetailList()]
+        public List<CustomerDynamicField> CustomerDynamicFields { get; set; }
 
         //[DetailList("CustomerUser", "CustomerID", "UserID")]
         //public List<User> Users { get; set; }
@@ -189,8 +211,8 @@ namespace H.Framework.WPF.UITest
         [MappingIgnore]
         public IEnumerable<OrderDTO> Orders { get; set; }
 
-        //[MappingIgnore]
-        //public IEnumerable<UserDTO> Users { get; set; }
+        [MappingIgnore]
+        public IEnumerable<Contact> Contacts { get; set; }
 
         [MappingIgnore]
         public UserDTO PreUser { get; set; }
@@ -338,16 +360,16 @@ namespace H.Framework.WPF.UITest
         }
     }
 
-    public class CustomerDAL : BaseDAL<Customer, User, User, Order>
+    public class CustomerDAL : BaseDAL<Customer, User, User, Contact, CustomerDynamicField>
     {
     }
 
-    public class CustomerBLL : BaseBLL<CustomerDTO, Customer, User, User, Order, CustomerDAL>
+    public class CustomerBLL : BaseBLL<CustomerDTO, Customer, User, User, Contact, CustomerDynamicField, CustomerDAL>
     {
         public async void GetAsync()
         {
-            var query = new WhereQueryable<CustomerDTO, User, User, Order>((x, y, yy, z) => true);
-            var a = await GetAsync((x, y, yy, z) => y.Username == "111111" && yy.Username == "asdsa" || z.GoodsID == "aasdsadwww", "PreUser,PostUser,Orders");
+            var query = new WhereQueryable<CustomerDTO, User, User, Contact, CustomerDynamicField>((x, y, yy, z, zzz) => true);
+            var a = await GetListAsync((x, y, yy, z, zzz) => x.CustomerNum == "3941" && y.Username == "aa" && x.Level == 1, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
         }
 
         public async void AddAsync()
@@ -383,6 +405,20 @@ namespace H.Framework.WPF.UITest
             Customer = source?.Customer?.MapTo(x => new CustomerDTO());
             User = source?.User?.MapTo(x => new UserDTO());
         }
+    }
+
+    public class Contact : BaseDBModel
+    {
+        public string Content { get; set; }
+
+        [ForeignKeyID("customer")]
+        public string CustomerID { get; set; }
+
+        public string Remark { get; set; }
+
+        [MappingIgnore]
+        [Foreign("Customer", "CustomerID")]
+        public Customer Customer { get; set; }
     }
 
     public class CallRecord : BaseDBModel

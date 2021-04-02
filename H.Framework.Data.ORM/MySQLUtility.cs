@@ -113,29 +113,12 @@ namespace H.Framework.Data.ORM
             }
         }
 
-        public static Tuple<string, string, List<MySqlParameter>, string, List<TableMap>> ExecuteParm<TModel>(Expression<Func<TModel, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new()
-        {
-            lock (_locker)
-            {
-                var mapList = new List<TableMap>();
-                var arr = ExecuteParm<TModel>(mapList, include);
-                var visit = new MemberSQLVisitor(mapList);
-                var whereSQL = "";
-                if (whereSelector != null)
-                {
-                    visit.Visit(whereSelector);
-                    whereSQL = " and " + visit.WhereSQL;
-                }
-                return new Tuple<string, string, List<MySqlParameter>, string, List<TableMap>>(arr.Item1, whereSQL, arr.Item2, arr.Item3, mapList);
-            }
-        }
-
-        public static Tuple<string, List<MySqlParameter>, string> ExecuteParm<TModel>(List<TableMap> mapList = null, string include = "") where TModel : IFoundationModel, new()
+        public static SqlParamModel ExecuteParm<TModel>(List<TableMap> mapList = null, string include = "") where TModel : IFoundationModel, new()
         {
             lock (_locker)
             {
                 var properties = typeof(TModel).GetProperties();
-                string columnName = "", tableName = "`" + typeof(TModel).Name + "` a ";
+                string columnName = "", mainTableName = $"`{typeof(TModel).Name.ToLower()}` a ", tableName = "";
                 int i = 0;
                 var hasPrimaryProp = properties.Any(x => x.IsDefined(typeof(PrimaryKeyIDAttribute)));
                 foreach (var prop in properties)
@@ -216,7 +199,7 @@ namespace H.Framework.Data.ORM
                         mapList.Add(new TableMap { Alias = "a", TableName = typeof(TModel).Name, ColumnName = prop.Name });
                     }
                 }
-                return new Tuple<string, List<MySqlParameter>, string>(columnName, new List<MySqlParameter>(), tableName.ToLower());
+                return new SqlParamModel(mainTableName, tableName.ToLower(), columnName);
             }
         }
 
@@ -245,12 +228,61 @@ namespace H.Framework.Data.ORM
             }
         }
 
-        public static Tuple<string, string, List<MySqlParameter>, string, List<TableMap>> ExecuteParm<TModel, TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
+        public static SqlParamModel ExecuteParm<TModel>(Expression<Func<TModel, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new()
         {
             lock (_locker)
             {
                 var mapList = new List<TableMap>();
-                var arr = ExecuteParm<TModel>(mapList, include);
+                var paramModel = ExecuteParm<TModel>(mapList, include);
+                var visit = new MemberSQLVisitor(mapList);
+                var whereSQL = "";
+                if (whereSelector != null)
+                {
+                    visit.Visit(whereSelector);
+                    whereSQL = " and " + visit.WhereSQL;
+                }
+                paramModel.JoinWhereSQL = whereSQL;
+                paramModel.ListTableMap = mapList;
+                return paramModel;
+            }
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel>(whereSelector, include);
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel1>(whereSelector, include);
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel2>(whereSelector, include);
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel3>(whereSelector, include);
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel4>(whereSelector, include);
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel5>(whereSelector, include);
+        }
+
+        private static SqlParamModel ExecuteParmInternal<TModel, TForeignModel>(Expression whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
+        {
+            lock (_locker)
+            {
+                var mapList = new List<TableMap>();
+                var paramModel = ExecuteParm<TModel>(mapList, include);
                 var visit = new MemberSQLVisitor<TForeignModel>(mapList);
                 var whereSQL = "";
                 if (whereSelector != null)
@@ -258,92 +290,9 @@ namespace H.Framework.Data.ORM
                     visit.Visit(whereSelector);
                     whereSQL = " and " + visit.WhereSQL;
                 }
-                return new Tuple<string, string, List<MySqlParameter>, string, List<TableMap>>(arr.Item1, whereSQL, arr.Item2, arr.Item3, mapList);
-            }
-        }
-
-        public static Tuple<string, string, List<MySqlParameter>, string, List<TableMap>> ExecuteParm<TModel, TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
-        {
-            lock (_locker)
-            {
-                var mapList = new List<TableMap>();
-                var arr = ExecuteParm<TModel>(mapList, include);
-                var visit = new MemberSQLVisitor<TForeignModel1>(mapList);
-                var whereSQL = "";
-                if (whereSelector != null)
-                {
-                    visit.Visit(whereSelector);
-                    whereSQL = " and " + visit.WhereSQL;
-                }
-                return new Tuple<string, string, List<MySqlParameter>, string, List<TableMap>>(arr.Item1, whereSQL, arr.Item2, arr.Item3, mapList);
-            }
-        }
-
-        public static Tuple<string, string, List<MySqlParameter>, string, List<TableMap>> ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            lock (_locker)
-            {
-                var mapList = new List<TableMap>();
-                var arr = ExecuteParm<TModel>(mapList, include);
-                var visit = new MemberSQLVisitor<TForeignModel2>(mapList);
-                var whereSQL = "";
-                if (whereSelector != null)
-                {
-                    visit.Visit(whereSelector);
-                    whereSQL = " and " + visit.WhereSQL;
-                }
-                return new Tuple<string, string, List<MySqlParameter>, string, List<TableMap>>(arr.Item1, whereSQL, arr.Item2, arr.Item3, mapList);
-            }
-        }
-
-        public static Tuple<string, string, List<MySqlParameter>, string, List<TableMap>> ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            lock (_locker)
-            {
-                var mapList = new List<TableMap>();
-                var arr = ExecuteParm<TModel>(mapList, include);
-                var visit = new MemberSQLVisitor<TForeignModel3>(mapList);
-                var whereSQL = "";
-                if (whereSelector != null)
-                {
-                    visit.Visit(whereSelector);
-                    whereSQL = " and " + visit.WhereSQL;
-                }
-                return new Tuple<string, string, List<MySqlParameter>, string, List<TableMap>>(arr.Item1, whereSQL, arr.Item2, arr.Item3, mapList);
-            }
-        }
-
-        public static Tuple<string, string, List<MySqlParameter>, string, List<TableMap>> ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
-        {
-            lock (_locker)
-            {
-                var mapList = new List<TableMap>();
-                var arr = ExecuteParm<TModel>(mapList, include);
-                var visit = new MemberSQLVisitor<TForeignModel4>(mapList);
-                var whereSQL = "";
-                if (whereSelector != null)
-                {
-                    visit.Visit(whereSelector);
-                    whereSQL = " and " + visit.WhereSQL;
-                }
-                return new Tuple<string, string, List<MySqlParameter>, string, List<TableMap>>(arr.Item1, whereSQL, arr.Item2, arr.Item3, mapList);
-            }
-        }
-
-        public static Tuple<string, string, List<MySqlParameter>, string, List<TableMap>> ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            lock (_locker)
-            {
-                var mapList = new List<TableMap>();
-                var arr = ExecuteParm<TModel>(mapList, include);
-                var visit = new MemberSQLVisitor<TForeignModel5>(mapList);
-                var whereSQL = "";
-                if (whereSelector != null)
-                {
-                    visit.Visit(whereSelector);
-                    whereSQL = " and " + visit.WhereSQL;
-                }
-                return new Tuple<string, string, List<MySqlParameter>, string, List<TableMap>>(arr.Item1, whereSQL, arr.Item2, arr.Item3, mapList);
+                paramModel.JoinWhereSQL = whereSQL;
+                paramModel.ListTableMap = mapList;
+                return paramModel;
             }
         }
 

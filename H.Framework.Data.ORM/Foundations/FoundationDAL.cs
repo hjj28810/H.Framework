@@ -113,8 +113,8 @@ namespace H.Framework.Data.ORM.Foundations
 
         public int Count(Expression<Func<TModel, bool>> whereSelector)
         {
-            var arr = MySQLUtility.ExecuteParm(whereSelector, "");
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(SqlType.Count_MySQL, arr.Item4, arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2)).Rows[0][0]);
+            var paramModel = MySQLUtility.ExecuteParm(whereSelector, "");
+            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(SqlType.Count_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
         }
 
         public TModel Get(Expression<Func<TModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
@@ -124,27 +124,19 @@ namespace H.Framework.Data.ORM.Foundations
 
         public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var arr = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, arr.Item4, arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2, orderBy), arr.Item5, include, arr.Item3.ToArray());
+            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var arr = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPage_MySQL, arr.Item4, arr.Item1.Remove(arr.Item1.Length - 1), arr.Item2, orderBy, pageSize, pageNum), arr.Item5, include, arr.Item3.ToArray());
+            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 1, string paramID = "")
         {
-            string orderbyStr = "";
-            if (orderBy.NotNullAny())
-            {
-                foreach (var item in orderBy)
-                {
-                    orderbyStr += item.KeyWord + (item.IsAsc ? " asc" : " desc") + ",";
-                }
-                orderbyStr = " order by " + orderbyStr.TrimEnd(',');
-            }
+            string orderbyStr = CreateOrderBy(orderBy);
             var sqlStr = "";
             switch (type)
             {
@@ -175,9 +167,9 @@ namespace H.Framework.Data.ORM.Foundations
                 //case SqlType.GetPage_MySQL:
                 //    sqlStr = "select rn," + ReplaceName(columnName).ReplaceKeyword() + " FROM (select if(@tid = a.id, @rownum := @rownum, @rownum := @rownum + 1) rn, @tid := a.id," + columnName + " from " + tableName.ToLower() + " join (SELECT @rownum := 0, @tid := NULL) rntemp where 1 = 1" + columnParm + orderbyStr + ") a where rn > " + (pageNum * pageSize).ToString() + " and rn <= " + ((pageNum + 1) * pageSize).ToString();
                 //    break;
-                case SqlType.GetPage_MySQL:
-                    sqlStr = "select " + columnName + " from " + tableName.ToLower() + " where 1 = 1" + columnParm + orderbyStr + " limit " + (pageNum * pageSize).ToString() + ", " + pageSize.ToString();
-                    break;
+                //case SqlType.GetPage_MySQL:
+                //    sqlStr = "select " + columnName + " from " + tableName.ToLower() + " where 1 = 1" + columnParm + orderbyStr + " limit " + (pageNum * pageSize).ToString() + ", " + pageSize.ToString();
+                //    break;
                 //case SqlType.Count:
                 //    sqlStr = "select sum(ct) as DataCount from (select count(id) as ct from (select a.id from " + tableName + " where 1 = 1" + columnParm + " group by a.id))";
                 //    break;
@@ -195,6 +187,31 @@ namespace H.Framework.Data.ORM.Foundations
                     break;
             }
             return sqlStr;
+        }
+
+        protected string CreateSql(string mainTableName, string columnName, string mainColumnParm = "", string tableName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 1)
+        {
+            string orderbyStr = CreateOrderBy(orderBy);
+            string mainOrderbyStr = CreateOrderBy(orderBy?.Where(x => x.IsMainTable));
+            //var sqlStr = $@"create TEMPORARY table idsTable (Select id from {mainTableName} where true {mainColumnParm}{mainOrderbyStr} limit {(pageNum * pageSize)},{pageSize});
+            //               SELECT {columnName} FROM {mainTableName}{tableName} where a.id in(select id from idsTable) and {columnParm}{orderbyStr};
+            //               drop table idsTable;";
+            var sqlStr = $"SELECT {columnName} from (select * from {mainTableName} where true {mainColumnParm}{mainOrderbyStr} limit {(pageNum * pageSize)},{pageSize}) a {tableName} where true{columnParm}{orderbyStr}";
+            return sqlStr;
+        }
+
+        private string CreateOrderBy(IEnumerable<OrderByEntity> orderBy)
+        {
+            var orderbyStr = "";
+            if (orderBy.NotNullAny())
+            {
+                foreach (var item in orderBy)
+                {
+                    orderbyStr += item.KeyWord + (item.IsAsc ? " asc" : " desc") + ",";
+                }
+                orderbyStr = " order by " + orderbyStr.TrimEnd(',');
+            }
+            return orderbyStr;
         }
 
         protected string CreateSql(List<MySqlParameter> list)
@@ -220,8 +237,10 @@ namespace H.Framework.Data.ORM.Foundations
         DeleteLogic,
         Update,
         Get,
-        GetPage_MySQL,
+
+        //GetPage_MySQL,
         Count_MySQL,
+
         CountDetail,
         LastID
         //Count,

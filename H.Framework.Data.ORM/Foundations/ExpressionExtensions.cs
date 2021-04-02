@@ -325,7 +325,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public string ToString<TModel>() where TModel : IFoundationModel, new()
         {
-            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel>(Expr), "").Item2;
+            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel>(Expr), "").WhereSQL;
         }
     }
 
@@ -340,7 +340,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public string ToString<TModel>(string include) where TModel : IFoundationModel, new()
         {
-            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(Expr), include).Item2;
+            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(Expr), include).WhereSQL;
         }
     }
 
@@ -355,7 +355,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public string ToString<TModel>(string include) where TModel : IFoundationModel, new()
         {
-            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(Expr), include).Item2;
+            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(Expr), include).WhereSQL;
         }
     }
 
@@ -370,7 +370,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public string ToString<TModel>(string include) where TModel : IFoundationModel, new()
         {
-            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(Expr), include).Item2;
+            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(Expr), include).WhereSQL;
         }
     }
 
@@ -385,7 +385,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public string ToString<TModel>(string include) where TModel : IFoundationModel, new()
         {
-            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expr), include).Item2;
+            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expr), include).WhereSQL;
         }
     }
 
@@ -400,7 +400,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public string ToString<TModel>(string include) where TModel : IFoundationModel, new()
         {
-            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expr), include).Item2;
+            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expr), include).WhereSQL;
         }
     }
 
@@ -415,7 +415,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public string ToString<TModel>(string include) where TModel : IFoundationModel, new()
         {
-            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expr), include).Item2;
+            return MySQLUtility.ExecuteParm(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expr), include).WhereSQL;
         }
     }
 }
