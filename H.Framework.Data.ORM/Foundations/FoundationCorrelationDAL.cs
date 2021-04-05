@@ -14,28 +14,26 @@ namespace H.Framework.Data.ORM.Foundations
         {
         }
 
-        public TModel Get(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TModel Get(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return GetList(mainWhereSelector, joinWhereSelector, include, orderBy).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         public int Count(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "", bool isAll = true)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-
+            var paramModel = MySQLUtility.ExecuteParmInternal<TModel, TForeignModel>(whereSelector, include);
             return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
         }
     }
@@ -46,27 +44,26 @@ namespace H.Framework.Data.ORM.Foundations
         {
         }
 
-        public TModel Get(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TModel Get(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return GetList(mainWhereSelector, joinWhereSelector, include, orderBy).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         public int Count(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", bool isAll = true)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParmInternal<TModel, TForeignModel1>(whereSelector, include);
             return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
         }
     }
@@ -77,27 +74,26 @@ namespace H.Framework.Data.ORM.Foundations
         {
         }
 
-        public TModel Get(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TModel Get(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return GetList(mainWhereSelector, joinWhereSelector, include, orderBy).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         public int Count(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", bool isAll = true)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParmInternal<TModel, TForeignModel2>(whereSelector, include);
             return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
         }
     }
@@ -108,27 +104,26 @@ namespace H.Framework.Data.ORM.Foundations
         {
         }
 
-        public TModel Get(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TModel Get(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return GetList(mainWhereSelector, joinWhereSelector, include, orderBy).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         public int Count(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", bool isAll = true)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParmInternal<TModel, TForeignModel3>(whereSelector, include);
             return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
         }
     }
@@ -139,27 +134,26 @@ namespace H.Framework.Data.ORM.Foundations
         {
         }
 
-        public TModel Get(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TModel Get(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return GetList(mainWhereSelector, joinWhereSelector, include, orderBy).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         public int Count(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", bool isAll = true)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParmInternal<TModel, TForeignModel4>(whereSelector, include);
             return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
         }
     }
@@ -170,27 +164,26 @@ namespace H.Framework.Data.ORM.Foundations
         {
         }
 
-        public TModel Get(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TModel Get(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return GetList(mainWhereSelector, joinWhereSelector, include, orderBy).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         public int Count(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", bool isAll = true)
         {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            var paramModel = MySQLUtility.ExecuteParmInternal<TModel, TForeignModel4>(whereSelector, include);
             return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
         }
     }

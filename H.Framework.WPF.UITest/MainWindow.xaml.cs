@@ -468,15 +468,15 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
         {
             FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=Zeus;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
             //var aa = new UserBLL();
-            var a = new ContractGroupBLL();
-            var aa = a.GetAAAsync();
-            aa.ContinueWith(x =>
-            {
-                if (x.IsCompleted)
-                {
-                    var bb = x.Result;
-                }
-            });
+            //var a = new ContractGroupBLL();
+            //var aa = a.GetAAAsync();
+            //aa.ContinueWith(x =>
+            //{
+            //    if (x.IsCompleted)
+            //    {
+            //        var bb = x.Result;
+            //    }
+            //});
             //aa.Update();
             //aa.Add();
             //var aa = a.Add(new List<Menu> { new Menu { Code = "aa", Name = "aaa", UserID = "999" } });
@@ -582,11 +582,11 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
 
         public class NotificationBLL : BaseBLL<NotificationDTO, Notification, NotificationMark, NotificationDAL>
         {
-            public void Get()
-            {
-                var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => y.UserID == "13321952950");
-                var a = GetList(query, 10, 0, "NotificationMarks", new List<OrderByEntity> { new OrderByEntity { KeyWord = "CreatedAt", IsAsc = false } });
-            }
+            //public void Get()
+            //{
+            //    var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => y.UserID == "13321952950");
+            //    var a = GetList(query, 10, 0, "NotificationMarks", new List<OrderByEntity> { new OrderByEntity { KeyWord = "CreatedAt", IsAsc = false } });
+            //}
 
             public Dictionary<string, IEnumerable<Notification>> GetUnreads()
             {
@@ -889,10 +889,10 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
 
         public class ContractGroupBLL : BaseBLL<ContractGroupDTO, ContractGroup, Contract, ContractGroupDAL>
         {
-            public async Task<IEnumerable<ContractGroupDTO>> GetAAAsync()
-            {
-                return await GetListAsync((x, y) => x.UserID == "14", "Contracts");
-            }
+            //public async Task<IEnumerable<ContractGroupDTO>> GetAAAsync()
+            //{
+            //    return await GetListAsync((x, y) => x.UserID == "14", "Contracts");
+            //}
         }
     }
 }

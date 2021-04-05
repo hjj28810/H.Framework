@@ -227,7 +227,7 @@ namespace H.Framework.Data.ORM.Foundations
         } = item => new TModel();
     }
 
-    public class ConvertMemberVisitor<TViewModel> : ExpressionVisitor
+    public class ConvertMemberVisitor : ExpressionVisitor
     {
         private readonly List<ParameterExpression> _parms;
 

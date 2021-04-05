@@ -22,8 +22,9 @@ namespace H.Framework.Data.ORM.Foundations
 
         public string ColumnName { get; set; }
 
-        public string WhereSQL => MainWhereSQL + JoinWhereSQL;
+        public string WhereSQL { get; set; }
         public string JoinWhereSQL { get; set; }
+
         public string MainWhereSQL { get; set; }
 
         public List<MySqlParameter> ListSqlParams { get; set; }

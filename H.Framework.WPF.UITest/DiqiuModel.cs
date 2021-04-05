@@ -324,7 +324,7 @@ namespace H.Framework.WPF.UITest
         public async void Get()
         {
             var query = new WhereQueryable<RoleDTO, Resource>((x, y) => y.Name == "客户列表");
-            var a = await GetListAsync(query, "Resources");
+            //var a = await GetListAsync(query, "Resources");
         }
     }
 
@@ -338,7 +338,7 @@ namespace H.Framework.WPF.UITest
         {
             var req = new UserDTO { Username = "11135", ID = "8" };
             var query = new WhereQueryable<UserDTO, Department, Role>((x, y, z) => x.ID == req.ID && y.Name == "asd");
-            var a = await GetAsync(query, "Department,Roles");
+            //var a = await GetAsync(query, "Department,Roles");
         }
     }
 
@@ -351,7 +351,7 @@ namespace H.Framework.WPF.UITest
         //DepartmentWithParent
         public async void GetOrdersAsync()
         {
-            var a = await GetListAsync((x, y, z) => 1 == 1, 1, 0, "Customer,User");
+            //var a = await GetListAsync((x, y, z) => 1 == 1, 1, 0, "Customer,User");
         }
 
         public void AddOrder()
@@ -369,7 +369,8 @@ namespace H.Framework.WPF.UITest
         public async void GetAsync()
         {
             var query = new WhereQueryable<CustomerDTO, User, User, Contact, CustomerDynamicField>((x, y, yy, z, zzz) => true);
-            var a = await GetListAsync((x, y, yy, z, zzz) => x.CustomerNum == "3941" && y.Username == "aa" && x.Level == 1, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
+            //var a = await GetListAsync(x => true, (y, yy, z, zzz) => true, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
+            var b = await CountAsync(query, "PreUser,PostUser,Contacts,CustomerDynamicFields");
         }
 
         public async void AddAsync()

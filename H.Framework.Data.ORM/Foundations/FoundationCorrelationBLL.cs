@@ -13,68 +13,68 @@ namespace H.Framework.Data.ORM.Foundations
                                                                    where TViewModel : IFoundationViewModel, new()
                                                                    where TForeignModel : IFoundationModel, new()
     {
-        public virtual TViewModel Get(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual TViewModel Get(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(whereSelector), include, orderBy);
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy);
             if (item != null)
                 return item.MapTo(RetrieveSelector);
             else
                 return default(TViewModel);
         }
 
-        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, include, orderBy));
         }
 
-        public TViewModel Get(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TViewModel Get(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Get(whereSelector.Expr, include, orderBy);
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
         public virtual int Count(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", bool isAll = true)
@@ -105,68 +105,68 @@ namespace H.Framework.Data.ORM.Foundations
                                                                    where TForeignModel : IFoundationModel, new()
                                                                    where TForeignModel1 : IFoundationModel, new()
     {
-        public virtual TViewModel Get(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual TViewModel Get(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(whereSelector), include, orderBy);
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy);
             if (item != null)
                 return item.MapTo(RetrieveSelector);
             else
                 return default;
         }
 
-        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, include, orderBy));
         }
 
-        public TViewModel Get(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TViewModel Get(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Get(whereSelector.Expr, include, orderBy);
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
         public virtual int Count(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", bool isAll = true)
@@ -198,68 +198,68 @@ namespace H.Framework.Data.ORM.Foundations
                                                                  where TForeignModel1 : IFoundationModel, new()
                                                                  where TForeignModel2 : IFoundationModel, new()
     {
-        public virtual TViewModel Get(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual TViewModel Get(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(whereSelector), include, orderBy);
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy);
             if (item != null)
                 return item.MapTo(RetrieveSelector);
             else
                 return default(TViewModel);
         }
 
-        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, include, orderBy));
         }
 
-        public TViewModel Get(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TViewModel Get(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Get(whereSelector.Expr, include, orderBy);
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
         public virtual int Count(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", bool isAll = true)
@@ -292,68 +292,68 @@ namespace H.Framework.Data.ORM.Foundations
                                                              where TForeignModel2 : IFoundationModel, new()
                                                              where TForeignModel3 : IFoundationModel, new()
     {
-        public virtual TViewModel Get(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual TViewModel Get(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(whereSelector), include, orderBy);
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy);
             if (item != null)
                 return item.MapTo(RetrieveSelector);
             else
                 return default(TViewModel);
         }
 
-        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, include, orderBy));
         }
 
-        public TViewModel Get(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TViewModel Get(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Get(whereSelector.Expr, include, orderBy);
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
         public virtual int Count(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", bool isAll = true)
@@ -387,68 +387,68 @@ namespace H.Framework.Data.ORM.Foundations
                                                          where TForeignModel3 : IFoundationModel, new()
                                                          where TForeignModel4 : IFoundationModel, new()
     {
-        public virtual TViewModel Get(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual TViewModel Get(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(whereSelector), include, orderBy);
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy);
             if (item != null)
                 return item.MapTo(RetrieveSelector);
             else
                 return default(TViewModel);
         }
 
-        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, include, orderBy));
         }
 
-        public TViewModel Get(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TViewModel Get(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Get(whereSelector.Expr, include, orderBy);
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
         public virtual int Count(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", bool isAll = true)
@@ -483,68 +483,68 @@ namespace H.Framework.Data.ORM.Foundations
                                                          where TForeignModel4 : IFoundationModel, new()
                                                          where TForeignModel5 : IFoundationModel, new()
     {
-        public virtual TViewModel Get(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual TViewModel Get(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(whereSelector), include, orderBy);
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy);
             if (item != null)
                 return item.MapTo(RetrieveSelector);
             else
                 return default(TViewModel);
         }
 
-        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<TViewModel> GetAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, include, orderBy));
         }
 
-        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual List<TViewModel> GetList(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
         }
 
-        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public virtual Task<List<TViewModel>> GetListAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, include, orderBy));
         }
 
-        public TViewModel Get(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public TViewModel Get(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Get(whereSelector.Expr, include, orderBy);
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<TViewModel> GetAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, include, orderBy));
         }
 
-        public List<TViewModel> GetList(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public List<TViewModel> GetList(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy);
         }
 
-        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public Task<List<TViewModel>> GetListAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
         public virtual int Count(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", bool isAll = true)

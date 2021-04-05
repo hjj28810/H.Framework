@@ -241,43 +241,43 @@ namespace H.Framework.Data.ORM
                     visit.Visit(whereSelector);
                     whereSQL = " and " + visit.WhereSQL;
                 }
-                paramModel.JoinWhereSQL = whereSQL;
+                paramModel.WhereSQL = whereSQL;
                 paramModel.ListTableMap = mapList;
                 return paramModel;
             }
         }
 
-        public static SqlParamModel ExecuteParm<TModel, TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
         {
-            return ExecuteParmInternal<TModel, TForeignModel>(whereSelector, include);
+            return ExecuteParmInternal<TModel, TForeignModel>(mainWhereSelector, joinWhereSelector, include);
         }
 
-        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
-            return ExecuteParmInternal<TModel, TForeignModel1>(whereSelector, include);
+            return ExecuteParmInternal<TModel, TForeignModel1>(mainWhereSelector, joinWhereSelector, include);
         }
 
-        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
         {
-            return ExecuteParmInternal<TModel, TForeignModel2>(whereSelector, include);
+            return ExecuteParmInternal<TModel, TForeignModel2>(mainWhereSelector, joinWhereSelector, include);
         }
 
-        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
         {
-            return ExecuteParmInternal<TModel, TForeignModel3>(whereSelector, include);
+            return ExecuteParmInternal<TModel, TForeignModel3>(mainWhereSelector, joinWhereSelector, include);
         }
 
-        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
         {
-            return ExecuteParmInternal<TModel, TForeignModel4>(whereSelector, include);
+            return ExecuteParmInternal<TModel, TForeignModel4>(mainWhereSelector, joinWhereSelector, include);
         }
 
-        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
-            return ExecuteParmInternal<TModel, TForeignModel5>(whereSelector, include);
+            return ExecuteParmInternal<TModel, TForeignModel5>(mainWhereSelector, joinWhereSelector, include);
         }
 
-        private static SqlParamModel ExecuteParmInternal<TModel, TForeignModel>(Expression whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
+        public static SqlParamModel ExecuteParmInternal<TModel, TForeignModel>(Expression whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
         {
             lock (_locker)
             {
@@ -290,9 +290,22 @@ namespace H.Framework.Data.ORM
                     visit.Visit(whereSelector);
                     whereSQL = " and " + visit.WhereSQL;
                 }
-                paramModel.JoinWhereSQL = whereSQL;
+                paramModel.WhereSQL = whereSQL;
                 paramModel.ListTableMap = mapList;
                 return paramModel;
+            }
+        }
+
+        private static SqlParamModel ExecuteParmInternal<TModel, TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression joinWhereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
+        {
+            lock (_locker)
+            {
+                var mainSqlParam = ExecuteParm(mainWhereSelector, include);
+                var joinSqlParam = ExecuteParmInternal<TModel, TForeignModel>(joinWhereSelector, include);
+                mainSqlParam.JoinWhereSQL = joinSqlParam.WhereSQL;
+                mainSqlParam.MainWhereSQL = mainSqlParam.WhereSQL;
+                mainSqlParam.WhereSQL = mainSqlParam.MainWhereSQL + mainSqlParam.JoinWhereSQL;
+                return mainSqlParam;
             }
         }
 
@@ -303,7 +316,7 @@ namespace H.Framework.Data.ORM
                 if (whereSelector == null)
                     return null;
                 var parameter = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a") };
-                return Expression.Lambda<Func<TModel, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parameter).Visit(whereSelector)).Body, parameter);
+                return Expression.Lambda<Func<TModel, bool>>(((LambdaExpression)new ConvertMemberVisitor(parameter).Visit(whereSelector)).Body, parameter);
             }
         }
 
@@ -314,7 +327,7 @@ namespace H.Framework.Data.ORM
                 if (whereSelector == null)
                     return null;
                 var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0") };
-                return Expression.Lambda<Func<TModel, TForeignModel, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
+                return Expression.Lambda<Func<TModel, TForeignModel, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
 
@@ -325,7 +338,7 @@ namespace H.Framework.Data.ORM
                 if (whereSelector == null)
                     return null;
                 var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1") };
-                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
+                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
 
@@ -336,7 +349,7 @@ namespace H.Framework.Data.ORM
                 if (whereSelector == null)
                     return null;
                 var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2") };
-                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
+                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
 
@@ -347,7 +360,7 @@ namespace H.Framework.Data.ORM
                 if (whereSelector == null)
                     return null;
                 var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2"), Expression.Parameter(typeof(TForeignModel3), "a3") };
-                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
+                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
 
@@ -358,7 +371,7 @@ namespace H.Framework.Data.ORM
                 if (whereSelector == null)
                     return null;
                 var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2"), Expression.Parameter(typeof(TForeignModel3), "a3"), Expression.Parameter(typeof(TForeignModel4), "a4") };
-                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
+                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
 
@@ -369,7 +382,73 @@ namespace H.Framework.Data.ORM
                 if (whereSelector == null)
                     return null;
                 var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TModel), "a"), Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2"), Expression.Parameter(typeof(TForeignModel3), "a3"), Expression.Parameter(typeof(TForeignModel4), "a4"), Expression.Parameter(typeof(TForeignModel5), "a5") };
-                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>>(((LambdaExpression)new ConvertMemberVisitor<TViewModel>(parmArr).Visit(whereSelector)).Body, parmArr);
+                return Expression.Lambda<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
+            }
+        }
+
+        public static Expression<Func<TForeignModel, bool>> GetModelExpr<TForeignModel>(Expression<Func<TForeignModel, bool>> whereSelector) where TForeignModel : IFoundationModel, new()
+        {
+            lock (_locker)
+            {
+                if (whereSelector == null)
+                    return null;
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TForeignModel), "a0") };
+                return Expression.Lambda<Func<TForeignModel, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
+            }
+        }
+
+        public static Expression<Func<TForeignModel, TForeignModel1, bool>> GetModelExpr<TForeignModel, TForeignModel1>(Expression<Func<TForeignModel, TForeignModel1, bool>> whereSelector) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            lock (_locker)
+            {
+                if (whereSelector == null)
+                    return null;
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1") };
+                return Expression.Lambda<Func<TForeignModel, TForeignModel1, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
+            }
+        }
+
+        public static Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> GetModelExpr<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            lock (_locker)
+            {
+                if (whereSelector == null)
+                    return null;
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2") };
+                return Expression.Lambda<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
+            }
+        }
+
+        public static Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> GetModelExpr<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            lock (_locker)
+            {
+                if (whereSelector == null)
+                    return null;
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2"), Expression.Parameter(typeof(TForeignModel3), "a3") };
+                return Expression.Lambda<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
+            }
+        }
+
+        public static Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> GetModelExpr<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            lock (_locker)
+            {
+                if (whereSelector == null)
+                    return null;
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2"), Expression.Parameter(typeof(TForeignModel3), "a3"), Expression.Parameter(typeof(TForeignModel4), "a4") };
+                return Expression.Lambda<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
+            }
+        }
+
+        public static Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> GetModelExpr<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            lock (_locker)
+            {
+                if (whereSelector == null)
+                    return null;
+                var parmArr = new List<ParameterExpression> { Expression.Parameter(typeof(TForeignModel), "a0"), Expression.Parameter(typeof(TForeignModel1), "a1"), Expression.Parameter(typeof(TForeignModel2), "a2"), Expression.Parameter(typeof(TForeignModel3), "a3"), Expression.Parameter(typeof(TForeignModel4), "a4"), Expression.Parameter(typeof(TForeignModel5), "a5") };
+                return Expression.Lambda<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>>(((LambdaExpression)new ConvertMemberVisitor(parmArr).Visit(whereSelector)).Body, parmArr);
             }
         }
     }
