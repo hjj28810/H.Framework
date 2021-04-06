@@ -80,7 +80,7 @@ namespace H.Framework.Data.ORM.Foundations
             var paramList = new List<MySqlParameter>();
             ids.ForEach((x) =>
             {
-                sqlStr += CreateSql(SqlType.Delete, "`" + modelName + "`", "", "", null, 20, 1, x).ToLower();
+                sqlStr += CreateSql(SqlType.Delete, "`" + modelName + "`", "", "", null, x).ToLower();
                 paramList.Add(new MySqlParameter("@id" + x, x));
             });
             ExecuteReader(CommandType.Text, sqlStr, paramList.ToArray());
@@ -128,13 +128,13 @@ namespace H.Framework.Data.ORM.Foundations
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, int pageSize = 20, int pageNum = 0, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 1, string paramID = "")
+        protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, string paramID = "")
         {
             string orderbyStr = CreateOrderBy(orderBy);
             var sqlStr = "";
@@ -189,7 +189,7 @@ namespace H.Framework.Data.ORM.Foundations
             return sqlStr;
         }
 
-        protected string CreateSql(string mainTableName, string columnName, string mainColumnParm = "", string tableName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 1)
+        protected string CreateSql(string mainTableName, string columnName, string mainColumnParm = "", string tableName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 0)
         {
             string orderbyStr = CreateOrderBy(orderBy);
             string mainOrderbyStr = CreateOrderBy(orderBy?.Where(x => x.IsMainTable));
