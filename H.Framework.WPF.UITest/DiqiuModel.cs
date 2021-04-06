@@ -323,8 +323,7 @@ namespace H.Framework.WPF.UITest
     {
         public async void Get()
         {
-            var query = new WhereQueryable<RoleDTO, Resource>((x, y) => y.Name == "客户列表");
-            //var a = await GetListAsync(query, "Resources");
+            var a = await GetListAsync((x) => x.ID.Contains("1"), (y) => true, "Resources");
         }
     }
 

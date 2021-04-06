@@ -204,6 +204,7 @@ namespace H.Framework.Data.ORM.Foundations
             //    builder.Replace("Param_" + node.Parameters.IndexOf(param).ToString(), tableMap.Alias);
             //}
             _whereSQL = builder.ReplaceSQLKW().ToString();
+            _whereSQL = Regex.Replace(_whereSQL, @"a.*\=\>\ ", "");
             return BaseVisitLambda(node);
         }
     }
