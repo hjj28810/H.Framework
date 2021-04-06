@@ -77,24 +77,24 @@ namespace H.Framework.Data.ORM.Foundations
             return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
-        public virtual int Count(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(whereSelector), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, include, isAll));
         }
 
-        public virtual int Count(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(whereSelector.Expr), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, include, isAll));
         }
     }
 
@@ -169,24 +169,24 @@ namespace H.Framework.Data.ORM.Foundations
             return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
-        public virtual int Count(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(whereSelector), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, include, isAll));
         }
 
-        public virtual int Count(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(whereSelector.Expr), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, include, isAll));
         }
     }
 
@@ -262,24 +262,24 @@ namespace H.Framework.Data.ORM.Foundations
             return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
-        public virtual int Count(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(whereSelector), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, include, isAll));
         }
 
-        public virtual int Count(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(whereSelector.Expr), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, include, isAll));
         }
     }
 
@@ -356,24 +356,24 @@ namespace H.Framework.Data.ORM.Foundations
             return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
-        public virtual int Count(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(whereSelector), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, include, isAll));
         }
 
-        public virtual int Count(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(whereSelector.Expr), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, include, isAll));
         }
     }
 
@@ -451,24 +451,24 @@ namespace H.Framework.Data.ORM.Foundations
             return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
-        public virtual int Count(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(whereSelector), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, include, isAll));
         }
 
-        public virtual int Count(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(whereSelector.Expr), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, include, isAll));
         }
     }
 
@@ -547,24 +547,24 @@ namespace H.Framework.Data.ORM.Foundations
             return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, include, orderBy));
         }
 
-        public virtual int Count(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(whereSelector), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, include, isAll));
         }
 
-        public virtual int Count(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", bool isAll = true)
+        public virtual int Count(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(whereSelector.Expr), include, isAll);
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr), include, isAll);
         }
 
-        public virtual Task<int> CountAsync(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", bool isAll = true)
+        public virtual Task<int> CountAsync(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string include = "", bool isAll = true)
         {
-            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, include, isAll));
         }
     }
 

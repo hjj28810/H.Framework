@@ -370,7 +370,7 @@ namespace H.Framework.WPF.UITest
         {
             var query = new WhereQueryable<CustomerDTO, User, User, Contact, CustomerDynamicField>((x, y, yy, z, zzz) => true);
             //var a = await GetListAsync(x => true, (y, yy, z, zzz) => true, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
-            var b = await CountAsync(query, "PreUser,PostUser,Contacts,CustomerDynamicFields");
+            var b = await CountAsync(x => true, (y, yy, z, zzz) => true, "PreUser,PostUser,Contacts,CustomerDynamicFields");
         }
 
         public async void AddAsync()

@@ -277,7 +277,7 @@ namespace H.Framework.Data.ORM
             return ExecuteParmInternal<TModel, TForeignModel5>(mainWhereSelector, joinWhereSelector, include);
         }
 
-        public static SqlParamModel ExecuteParmInternal<TModel, TForeignModel>(Expression whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
+        private static SqlParamModel ExecuteParmInternal<TModel, TForeignModel>(Expression whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
         {
             lock (_locker)
             {
