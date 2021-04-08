@@ -138,6 +138,8 @@ namespace H.Framework.WPF.UITest
 
         public string Phone { get; set; }
 
+        public string Nickname { get; set; }
+
         public string EmployeeID { get; set; }
 
         public string DepartmentID { get; set; }
@@ -280,6 +282,8 @@ namespace H.Framework.WPF.UITest
 
         public string Phone { get; set; }
 
+        public string Nickname { get; set; }
+
         public string EmployeeID { get; set; }
 
         public string DepartmentID { get; set; }
@@ -336,8 +340,8 @@ namespace H.Framework.WPF.UITest
         public async void Get()
         {
             var req = new UserDTO { Username = "11135", ID = "8" };
-            var query = new WhereQueryable<UserDTO, Department, Role>((x, y, z) => x.ID == req.ID && y.Name == "asd");
-            //var a = await GetAsync(query, "Department,Roles");
+            var query = new WhereQueryable<UserDTO>((x) => x.Nickname == "后端业务");
+            var a = await GetListAsync(query, 20, 0, "Roles");
         }
     }
 

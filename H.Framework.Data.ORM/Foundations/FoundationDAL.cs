@@ -131,7 +131,7 @@ namespace H.Framework.Data.ORM.Foundations
         public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, int pageSize = 20, int pageNum = 0, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.WhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, string paramID = "")
