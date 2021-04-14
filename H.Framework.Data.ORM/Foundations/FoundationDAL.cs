@@ -80,7 +80,7 @@ namespace H.Framework.Data.ORM.Foundations
             var paramList = new List<MySqlParameter>();
             ids.ForEach((x) =>
             {
-                sqlStr += CreateSql(SqlType.Delete, "`" + modelName + "`", "", "", null, x).ToLower();
+                sqlStr += CreateSql(SqlType.Delete, "`" + modelName + "`", "", "", null, 0, 0, x).ToLower();
                 paramList.Add(new MySqlParameter("@id" + x, x));
             });
             ExecuteReader(CommandType.Text, sqlStr, paramList.ToArray());
@@ -134,7 +134,7 @@ namespace H.Framework.Data.ORM.Foundations
             return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.WhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, string paramID = "")
+        protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 0, string paramID = "")
         {
             string orderbyStr = CreateOrderBy(orderBy);
             var sqlStr = "";
@@ -167,9 +167,9 @@ namespace H.Framework.Data.ORM.Foundations
                 //case SqlType.GetPage_MySQL:
                 //    sqlStr = "select rn," + ReplaceName(columnName).ReplaceKeyword() + " FROM (select if(@tid = a.id, @rownum := @rownum, @rownum := @rownum + 1) rn, @tid := a.id," + columnName + " from " + tableName.ToLower() + " join (SELECT @rownum := 0, @tid := NULL) rntemp where 1 = 1" + columnParm + orderbyStr + ") a where rn > " + (pageNum * pageSize).ToString() + " and rn <= " + ((pageNum + 1) * pageSize).ToString();
                 //    break;
-                //case SqlType.GetPage_MySQL:
-                //    sqlStr = "select " + columnName + " from " + tableName.ToLower() + " where 1 = 1" + columnParm + orderbyStr + " limit " + (pageNum * pageSize).ToString() + ", " + pageSize.ToString();
-                //    break;
+                case SqlType.GetPageOneToOne_MySQL:
+                    sqlStr = "select " + columnName.ReplaceKeyword() + " from " + tableName.ToLower() + " where 1 = 1" + columnParm + orderbyStr + " limit " + (pageNum * pageSize).ToString() + ", " + pageSize.ToString();
+                    break;
                 //case SqlType.Count:
                 //    sqlStr = "select sum(ct) as DataCount from (select count(id) as ct from (select a.id from " + tableName + " where 1 = 1" + columnParm + " group by a.id))";
                 //    break;
@@ -237,8 +237,7 @@ namespace H.Framework.Data.ORM.Foundations
         DeleteLogic,
         Update,
         Get,
-
-        //GetPage_MySQL,
+        GetPageOneToOne_MySQL,
         Count_MySQL,
 
         CountDetail,

@@ -247,6 +247,36 @@ namespace H.Framework.Data.ORM
             }
         }
 
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel>(whereSelector, include);
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel1>(whereSelector, include);
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel2>(whereSelector, include);
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel3>(whereSelector, include);
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel4>(whereSelector, include);
+        }
+
+        public static SqlParamModel ExecuteParm<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return ExecuteParmInternal<TModel, TForeignModel5>(whereSelector, include);
+        }
+
         public static SqlParamModel ExecuteParm<TModel, TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string include = "") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
         {
             return ExecuteParmInternal<TModel, TForeignModel>(mainWhereSelector, joinWhereSelector, include);

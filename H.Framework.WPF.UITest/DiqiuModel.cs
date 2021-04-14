@@ -354,7 +354,7 @@ namespace H.Framework.WPF.UITest
         //DepartmentWithParent
         public async void GetOrdersAsync()
         {
-            //var a = await GetListAsync((x, y, z) => 1 == 1, 1, 0, "Customer,User");
+            var a = await GetListAsync((x, y, z) => 1 == 1, 1, 0, "Customer,User");
         }
 
         public void AddOrder()
@@ -371,9 +371,11 @@ namespace H.Framework.WPF.UITest
     {
         public async void GetAsync()
         {
-            var query = new WhereQueryable<CustomerDTO, User, User, Contact, CustomerDynamicField>((x, y, yy, z, zzz) => true);
+            var date = DateTime.Now.AddMonths(-1);
+            var query = new WhereQueryable<CustomerDTO>((x) => x.CreatedTime >= date);
+            var query1 = new WhereJoinQueryable<User, User, Contact, CustomerDynamicField>((y, yy, z, zzz) => true);
             //var a = await GetListAsync(x => true, (y, yy, z, zzz) => true, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
-            var b = await CountAsync(x => true, (y, yy, z, zzz) => true, "PreUser,PostUser,Contacts,CustomerDynamicFields");
+            var b = await CountAsync(query, query1, "PreUser,PostUser,Contacts,CustomerDynamicFields");
         }
 
         public async void AddAsync()
