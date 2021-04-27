@@ -131,7 +131,7 @@ namespace H.Framework.Data.ORM.Foundations
         public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, int pageSize = 20, int pageNum = 0, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.ColumnName, paramModel.WhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 0, string paramID = "")
@@ -189,14 +189,14 @@ namespace H.Framework.Data.ORM.Foundations
             return sqlStr;
         }
 
-        protected string CreateSql(string mainTableName, string columnName, string mainColumnParm = "", string tableName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 0)
+        protected string CreateSql(string mainTableName, string columnName, string mainColumnName, string mainColumnParm = "", string tableName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 0)
         {
             string orderbyStr = CreateOrderBy(orderBy);
             string mainOrderbyStr = CreateOrderBy(orderBy?.Where(x => x.IsMainTable));
             //var sqlStr = $@"create TEMPORARY table idsTable (Select id from {mainTableName} where true {mainColumnParm}{mainOrderbyStr} limit {(pageNum * pageSize)},{pageSize});
             //               SELECT {columnName} FROM {mainTableName}{tableName} where a.id in(select id from idsTable) and {columnParm}{orderbyStr};
             //               drop table idsTable;";
-            var sqlStr = $"SELECT {columnName} from (select * from {mainTableName} where true {mainColumnParm}{mainOrderbyStr} limit {(pageNum * pageSize)},{pageSize}) a {tableName} where true{columnParm}{orderbyStr}";
+            var sqlStr = $"SELECT {columnName} from (select {mainColumnName} from {mainTableName} where true {mainColumnParm}{mainOrderbyStr} limit {(pageNum * pageSize)},{pageSize}) a {tableName} where true{columnParm}{orderbyStr}";
             return sqlStr;
         }
 
@@ -297,20 +297,20 @@ namespace H.Framework.Data.ORM.Foundations
                 if (expr is ConstantExpression)
                 {
                     model = (expr as ConstantExpression).Value;
-                    if (node.Member is FieldInfo)
-                        value = ((FieldInfo)node.Member).GetValue(model);
-                    if (node.Member is PropertyInfo)
-                        value = ((PropertyInfo)node.Member).GetValue(model);
+                    if (node.Member is FieldInfo fInfo)
+                        value = fInfo.GetValue(model);
+                    if (node.Member is PropertyInfo pInfo)
+                        value = pInfo.GetValue(model);
                     _whereSQL = _whereSQL.Replace(node.ToString(), "'" + value.ToString() + "'");
                 }
             }
             if (node.Expression is ConstantExpression)
             {
                 model = (node.Expression as ConstantExpression).Value;
-                if (node.Member is FieldInfo)
-                    value = ((FieldInfo)node.Member).GetValue(model);
-                if (node.Member is PropertyInfo)
-                    value = ((PropertyInfo)node.Member).GetValue(model);
+                if (node.Member is FieldInfo fInfo)
+                    value = fInfo.GetValue(model);
+                if (node.Member is PropertyInfo pInfo)
+                    value = pInfo.GetValue(model);
                 if (!isMemberExpr)
                     _whereSQL = _whereSQL.Replace(node.ToString(), "'" + value.ToString() + "'");
                 isMemberExpr = false;

@@ -7,11 +7,14 @@ namespace H.Framework.Data.ORM.Foundations
 {
     public class SqlParamModel
     {
-        public SqlParamModel(string mainTableName, string joinTableName, string columnName)
+        public SqlParamModel(string mainTableName, string joinTableName, string columnName, string simpleColumnName, string joinColumnName)
         {
             MainTableName = mainTableName;
             JoinTableName = joinTableName;
+            SimpleColumnName = simpleColumnName;
+            JoinColumnName = joinColumnName;
             ColumnName = columnName.TrimEnd(',');
+
             ListSqlParams = new List<MySqlParameter>();
         }
 
@@ -21,6 +24,13 @@ namespace H.Framework.Data.ORM.Foundations
         public string TableName => MainTableName + JoinTableName;
 
         public string ColumnName { get; set; }
+
+        public string PageColumnName { get; set; }
+
+        public string SimpleColumnName { get; set; }
+
+        public string MainColumnName { get; set; }
+        public string JoinColumnName { get; set; }
 
         public string WhereSQL { get; set; }
         public string JoinWhereSQL { get; set; }

@@ -92,12 +92,15 @@ namespace H.Framework.WPF.UITest
         [Foreign("User", "PostUserID")]
         public User PostUser { get; set; }
 
+        [MappingIgnore]
         [DetailList()]
         public List<Order> Orders { get; set; }
 
+        [MappingIgnore]
         [DetailList()]
         public List<Contact> Contacts { get; set; }
 
+        [MappingIgnore]
         [DetailList()]
         public List<CustomerDynamicField> CustomerDynamicFields { get; set; }
 
@@ -214,7 +217,7 @@ namespace H.Framework.WPF.UITest
         public IEnumerable<OrderDTO> Orders { get; set; }
 
         [MappingIgnore]
-        public IEnumerable<Contact> Contacts { get; set; }
+        public IEnumerable<ContactDTO> Contacts { get; set; }
 
         [MappingIgnore]
         public UserDTO PreUser { get; set; }
@@ -225,6 +228,7 @@ namespace H.Framework.WPF.UITest
         public void MapFrom(Customer source)
         {
             Orders = source?.Orders?.MapAllTo(x => new OrderDTO());
+            Contacts = source?.Contacts?.MapAllTo(x => new ContactDTO());
             PreUser = source?.PreUser?.MapTo(x => new UserDTO());
             PostUser = source?.PostUser?.MapTo(x => new UserDTO());
         }
@@ -372,10 +376,25 @@ namespace H.Framework.WPF.UITest
         public async void GetAsync()
         {
             var date = DateTime.Now.AddMonths(-1);
-            var query = new WhereQueryable<CustomerDTO>((x) => x.CreatedTime >= date);
-            var query1 = new WhereJoinQueryable<User, User, Contact, CustomerDynamicField>((y, yy, z, zzz) => true);
+            var query = new WhereQueryable<CustomerDTO, User, User>((x, y, yy) => true);
+            var query0 = new WhereQueryable<CustomerDTO, User, User, Contact, CustomerDynamicField>((x, y, yy, z, zzz) => true);
+            var query1 = new WhereJoinQueryable<Contact, CustomerDynamicField>((z, zzz) => z.Content.Contains("'13321952950'"));
             //var a = await GetListAsync(x => true, (y, yy, z, zzz) => true, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
-            var b = await CountAsync(query, query1, "PreUser,PostUser,Contacts,CustomerDynamicFields");
+            var b = await GetListAsync(query, query1, 20, 0, "PreUser,PostUser", "Contacts,CustomerDynamicFields");
+            //query.WhereAnd((x, y, yy) => true);
+            //query1.WhereAnd((z, zz) => true);
+            //query0.WhereAnd((x, y, yy, z, zzz) => true);
+
+            //var bb = await CountAsync(query0, "PreUser,PostUser,Contacts,CustomerDynamicFields");
+        }
+
+        public async void Get()
+        {
+            var mainQuery = new WhereQueryable<CustomerDTO, User, User>((x, y, yy) => true);
+            var joinQuery = new WhereJoinQueryable<Contact, CustomerDynamicField>((w, d) => true);
+            mainQuery = mainQuery.WhereAnd((x, y, yy) => x.ID == "1");
+
+            var data = await GetAsync(mainQuery, joinQuery, "PreUser,PostUser", "Contacts");
         }
 
         public async void AddAsync()
@@ -494,6 +513,109 @@ namespace H.Framework.WPF.UITest
     }
 
     public class DynamicFieldDAL : BaseDAL<DynamicField>
+    {
+    }
+
+    public class ContactDTO : BaseDTO
+    {
+        public string Content { get; set; }
+        public string CustomerID { get; set; }
+        public string Remark { get; set; }
+    }
+
+    public class UserAttachmentDAL : BaseDAL<UserAttachment>
+    {
+    }
+
+    public class UserAttachment : BaseDBModel
+    {
+        public string AttachmentUrl { get; set; }
+        public int Type { get; set; }
+        public string UserID { get; set; }
+    }
+
+    public class UserAttachmentDTO : BaseDTO
+    {
+        public string AttachmentUrl { get; set; }
+        public int Type { get; set; }
+        public string UserID { get; set; }
+
+        public string UserDisplay { get; set; }
+    }
+
+    public class UserAttachmentBLL : BaseBLL<UserAttachmentDTO, UserAttachment, UserAttachmentDAL>
+    {
+        public async void GetUserAttachmentsAsync()
+        {
+            var query = new WhereQueryable<UserAttachmentDTO>((x) => true);
+            //query = query.WhereAnd(x => x.UserID.Contains(token.SubordinateUserIDs));
+            var a = await GetListAsync(query, 20, 0, "", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "CreatedTime" } });
+        }
+    }
+
+    public class Notification : BaseDBModel
+    {
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public int Status { get; set; }
+        public int Level { get; set; }
+        public string Creator { get; set; }
+        public string ExtJson { get; set; }
+        public int Type { get; set; }
+
+        [DetailList()]
+        public List<NotificationMark> NotificationMarks { get; set; }
+    }
+
+    public class NotificationMark : BaseDBModel
+    {
+        public bool IsRead { get; set; }
+
+        [ForeignKeyID("notification")]
+        public string NotificationID { get; set; }
+
+        public string UserID { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime DeletedTime { get; set; }
+    }
+
+    public class NotificationBLL : BaseBLL<NotificationDTO, Notification, NotificationMark, NotificationDAL>
+    {
+        public async void GetUnreadCountAsync(int type)
+        {
+            var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => y.UserID == "9" && x.IsRead == false & y.IsDeleted == false);
+            if (type != 0)
+                query = query.WhereAnd((x, y) => x.Type == type);
+            var a = await CountAsync(query, "NotificationMarks");
+        }
+    }
+
+    public class NotificationDTO : BaseDTO, ICustomMap<Notification>
+    {
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public int Status { get; set; }
+        public int Level { get; set; }
+        public int Type { get; set; }
+        public string Creator { get; set; }
+        public string ExtJson { get; set; }
+
+        public bool IsRead { get; set; }
+
+        public string MarkID { get; set; }
+
+        public void MapFrom(Notification source)
+        {
+            var item = source?.NotificationMarks?.FirstOrDefault();
+            if (item != null)
+            {
+                IsRead = item.IsRead;
+                MarkID = item.ID;
+            }
+        }
+    }
+
+    public class NotificationDAL : BaseDAL<Notification, NotificationMark>
     {
     }
 }

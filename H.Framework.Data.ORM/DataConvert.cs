@@ -208,9 +208,10 @@ namespace H.Framework.Data.ORM
                             if (childProp.IsDefined(typeof(DataFieldIgnoreAttribute))) continue;
                             if (childProp.IsDefined(typeof(DetailListAttribute))) continue;
                             if (childProp.IsDefined(typeof(ForeignAttribute))) continue;
-                            var mapItem = listMap?.First(item => item.TableName == childType.Name && item.ColumnName == childProp.Name);
+                            var mapItem = listMap?.FirstOrDefault(item => item.TableName == childType.Name && item.ColumnName == childProp.Name);
                             try
                             {
+                                if (string.IsNullOrWhiteSpace(mapItem?.AliasColumn)) continue;
                                 if (dr.IsNull(mapItem?.AliasColumn)) continue;
                                 if (!childProp.CanWrite) continue;
                                 if (childProp.PropertyType.IsGenericType && childProp.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))

@@ -47,9 +47,9 @@ namespace H.Framework.WPF.UITest
             _db = new DBDiqiuContext();
         }
 
-        public List<EFCoreTest.User> GetUsers()
-        {
-            return _db.user.Join(_db.userattachment, a => a.ID, b => b.UserID, (a, b) => new EFCoreTest.User { ID = a.ID, Username = a.Username }).ToList();
-        }
+        //public List<EFCoreTest.User> GetUsers()
+        //{
+        //    return _db.user.Join(_db.userattachment, a => a.ID, b => b.UserID, (a, b) => new EFCoreTest.User { ID = a.ID, Username = a.Username }).ToList();
+        //}
     }
 }

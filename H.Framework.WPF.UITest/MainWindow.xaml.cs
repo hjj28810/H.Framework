@@ -55,8 +55,8 @@ namespace H.Framework.WPF.UITest
             //var l = List.BuildLine(x => x.ID, y => y.PID, p => p.Parent, (m, n) => new Node { Parent = n, ID = m.ID, PID = m.PID }, "1");
             //var a = new UserDB().GetUsers();
             //var ll = List.GetChildren(x => x.ID, x => x.PID, "22");
-
-            tt();
+            var aa = CurrentNode.ProcessParentValues(x => x.PID, y => y.Parent);
+            //tt();
         }
 
         private void tt()
@@ -68,7 +68,7 @@ namespace H.Framework.WPF.UITest
             //var user = await new UserBLL().GetAsync(query, "Department,Roles");
             //new OrderBLL().AddOrder();
             //new CallRecordBLL().AddCallRecordAsync(new CallRecordDTO { Duration = 12321, CustomerID = "-1", Customer = null, ID = null, Phone = "12312312", RecordUrl = "", Remark = "阿斯达四大撒大所多阿萨德", Type = 1, UpdatedTime = null, User = null, UserDisplay = null, UserID = "85",CreatedTime = DateTime.MinValue });
-            new OrderBLL().GetOrdersAsync();
+            new NotificationBLL().GetUnreadCountAsync(0);
         }
 
         public void SaveCSV(DataTable dt, string fullPath)
@@ -334,6 +334,8 @@ new Node { ID = "22" }, new Node { ID = "22" }, new Node { ID = "22" }, new Node
             //var str = HashEncryptHepler.DecryptAESToString(Hash, "_accessToken", "1111111111111111");
             //var aHash = HashEncryptHepler.Decrypt3DES("JxVJzmZzKlcAybCaXnn5Odjfrtnw5kBu3LOYOsQK0Yg7tepNAeJyQNjfrtnw5kBu3LOYOsQK0YiBxFDnQlo9blYD44J1lr32UpKh1sMF33nufbggphIXmT1AlmRkHN4pPJuVnFfEr1A3TlSnKvy6b4ylyguVd/tLom8xHaOTBbQRi0y1K88cvpKQs/4z7Cb5J0O3PMFYGpENPz6Cth+7oNyAERMhVzFf3QLayjEkZX5bRfc9uSHeUTpEWJoHUk9NibNstXZZ6HXEWXw+l2ERlQeqFLYYzH7vkajkuba6xz74TQonW6217ccPCb29orG9JLm5OBN19P1erlA7W2gmenIM9RwLHMmbBTnFsTeqJxwnx5C28kkdprsv5psuYFEfur1h1Yx38EROrYr3sU4BbFagL2nwLKcCeaxFkOapZ2F7OY+2EEL7TZLcvqikX3qho2KH07j8eDkP6UcpU0WohK/O3LfG3ZbibOZXip9pd4BRauwLaPOw2gU1zrgPh3/Qx1GPAXR2pC6J", "SKFMNGHJVBNDKI=56ELBGKFW");
         }
+
+        private Node CurrentNode => new Node { ID = "5", PID = "3", Parent = new Node { ID = "3", PID = "1", Parent = new Node { ID = "1", PID = "0" } } };
 
         public IEnumerable<Node> Get()
         {
