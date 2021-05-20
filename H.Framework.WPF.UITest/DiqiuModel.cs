@@ -98,11 +98,13 @@ namespace H.Framework.WPF.UITest
 
         [MappingIgnore]
         [DetailList()]
-        public List<Contact> Contacts { get; set; }
+        [OnlyQuery]
+        public List<CustomerDynamicField> CustomerDynamicFields { get; set; }
 
         [MappingIgnore]
         [DetailList()]
-        public List<CustomerDynamicField> CustomerDynamicFields { get; set; }
+        [OnlyQuery]
+        public List<Contact> Contacts { get; set; }
 
         //[DetailList("CustomerUser", "CustomerID", "UserID")]
         //public List<User> Users { get; set; }
@@ -367,31 +369,34 @@ namespace H.Framework.WPF.UITest
         }
     }
 
-    public class CustomerDAL : BaseDAL<Customer, User, User, Contact, CustomerDynamicField>
+    public class CustomerDAL : BaseDAL<Customer, User, User, CustomerDynamicField, Contact>
     {
     }
 
-    public class CustomerBLL : BaseBLL<CustomerDTO, Customer, User, User, Contact, CustomerDynamicField, CustomerDAL>
+    public class CustomerBLL : BaseBLL<CustomerDTO, Customer, User, User, CustomerDynamicField, Contact, CustomerDAL>
     {
-        public async void GetAsync()
+        public void GetAsync()
         {
             var date = DateTime.Now.AddMonths(-1);
             var query = new WhereQueryable<CustomerDTO, User, User>((x, y, yy) => true);
-            var query0 = new WhereQueryable<CustomerDTO, User, User, Contact, CustomerDynamicField>((x, y, yy, z, zzz) => true);
+            var query0 = new WhereQueryable<CustomerDTO, User, User, CustomerDynamicField, Contact>((x, y, yy, d, w) => true);
             var query1 = new WhereJoinQueryable<Contact, CustomerDynamicField>((z, zzz) => z.Content.Contains("'13321952950'"));
             //var a = await GetListAsync(x => true, (y, yy, z, zzz) => true, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
-            var b = await GetListAsync(query, query1, 20, 0, "PreUser,PostUser", "Contacts,CustomerDynamicFields");
+            //var b = await GetListAsync(query, query1, 20, 0, "PreUser,PostUser", "Contacts,CustomerDynamicFields");
             //query.WhereAnd((x, y, yy) => true);
             //query1.WhereAnd((z, zz) => true);
             //query0.WhereAnd((x, y, yy, z, zzz) => true);
+            var include = "PreUser,PostUser";
 
-            //var bb = await CountAsync(query0, "PreUser,PostUser,Contacts,CustomerDynamicFields");
+            include += ",Contacts,CustomerDynamicFields";
+            query0 = query0.WhereAnd((x, y, yy, d, w) => d.DynamicFieldID == "7" && d.FieldKey == "310300");
+            var bb = GetListAsync(query0, 20, 0, "PreUser,PostUser,CustomerDynamicFields").Result;
         }
 
         public async void Get()
         {
             var mainQuery = new WhereQueryable<CustomerDTO, User, User>((x, y, yy) => true);
-            var joinQuery = new WhereJoinQueryable<Contact, CustomerDynamicField>((w, d) => true);
+            var joinQuery = new WhereJoinQueryable<CustomerDynamicField, Contact>((w, d) => true);
             mainQuery = mainQuery.WhereAnd((x, y, yy) => x.ID == "1");
 
             var data = await GetAsync(mainQuery, joinQuery, "PreUser,PostUser", "Contacts");
@@ -405,6 +410,29 @@ namespace H.Framework.WPF.UITest
         public async void UpdateAsync()
         {
             await UpdateAsync(new List<CustomerDTO> { new CustomerDTO { ID = "832", Phone = "13321952950" }, new CustomerDTO { ID = "833", Phone = "13321952951" } });
+        }
+    }
+
+    public class Customer1DAL : BaseDAL<Customer>
+    {
+    }
+
+    public class Customer1BLL : BaseBLL<CustomerDTO, Customer, Customer1DAL>
+    {
+        public void GetAsync()
+        {
+            var date = DateTime.Now.AddMonths(-1);
+            var query = new WhereQueryable<CustomerDTO, User, User>((x, y, yy) => true);
+            var query0 = new WhereQueryable<CustomerDTO, User, User, CustomerDynamicField>((x, y, yy, d) => true);
+            var query1 = new WhereJoinQueryable<Contact, CustomerDynamicField>((z, zzz) => z.Content.Contains("'13321952950'"));
+            //var a = await GetListAsync(x => true, (y, yy, z, zzz) => true, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
+            //var b = await GetListAsync(query, query1, 20, 0, "PreUser,PostUser", "Contacts,CustomerDynamicFields");
+            //query.WhereAnd((x, y, yy) => true);
+            //query1.WhereAnd((z, zz) => true);
+            //query0.WhereAnd((x, y, yy, z, zzz) => true);
+            query0 = query0.WhereAnd((x, y, yy, d) => d.DynamicFieldID == "7" && d.FieldKey == "310300");
+            var bb = GetListAsync(query0, 20, 0, "PreUser,PostUser,CustomerDynamicFields").Result;
+            var cc = CountAsync(query0, "PreUser,PostUser,CustomerDynamicFields").Result;
         }
     }
 
@@ -586,7 +614,7 @@ namespace H.Framework.WPF.UITest
             var query = new WhereQueryable<NotificationDTO, NotificationMark>((x, y) => y.UserID == "9" && x.IsRead == false & y.IsDeleted == false);
             if (type != 0)
                 query = query.WhereAnd((x, y) => x.Type == type);
-            var a = await CountAsync(query, "NotificationMarks");
+            var a = await GetAsync(x => true, "NotificationMarks");
         }
     }
 

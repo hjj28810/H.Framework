@@ -138,15 +138,14 @@ namespace H.Framework.Core.Utilities
             return model;
         }
 
-        public static string ProcessParentValues<TType, T>(this T model, Func<T, TType> idSelector, Func<T, T> parentSelector)
+        public static List<T> ProcessParentValues<T>(this T model, Func<T, T> parentSelector)
         {
-            var str = "";
-            var id = idSelector(model);//得到model_id
+            var list = new List<T>();
+            list.Add(model);
             var parent = parentSelector(model);
-            str += id + ",";
             if (parent != null)
-                str += ProcessParentValues(parent, idSelector, parentSelector);
-            return str.TrimEnd(',');
+                list.AddRange(ProcessParentValues(parent, parentSelector));
+            return list;
         }
 
         public static IEnumerable<T> ProcessList<T>(this IEnumerable<NodeItem<string, T>> list, Func<T, IEnumerable<T>> idSelector)

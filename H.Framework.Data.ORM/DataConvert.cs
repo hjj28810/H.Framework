@@ -192,6 +192,7 @@ namespace H.Framework.Data.ORM
 
                 foreach (var pi in detailListPropertys)
                 {
+                    if (pi.IsDefined(typeof(OnlyQueryAttribute))) continue;
                     if (listMap != null && include.Contains(pi.Name))
                     {
                         var childType = pi.PropertyType.GetGenericArguments()[0];
@@ -208,6 +209,7 @@ namespace H.Framework.Data.ORM
                             if (childProp.IsDefined(typeof(DataFieldIgnoreAttribute))) continue;
                             if (childProp.IsDefined(typeof(DetailListAttribute))) continue;
                             if (childProp.IsDefined(typeof(ForeignAttribute))) continue;
+
                             var mapItem = listMap?.FirstOrDefault(item => item.TableName == childType.Name && item.ColumnName == childProp.Name);
                             try
                             {

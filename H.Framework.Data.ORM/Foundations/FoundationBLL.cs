@@ -225,6 +225,2264 @@ namespace H.Framework.Data.ORM.Foundations
             get;
             set;
         } = item => new TModel();
+
+        public virtual TViewModel Get<TForeignModel>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual int Count<TForeignModel>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual int Count<TForeignModel>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel>(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(whereSelector), include, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel>(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel>(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel>(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel>(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel>(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel>(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Get(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel>(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel>(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel>(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel>(WhereQueryable<TViewModel, TForeignModel> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel>(WhereQueryable<TViewModel, TForeignModel> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+        }
+
+        public virtual int Count<TForeignModel>(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(whereSelector), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel>(Expression<Func<TViewModel, TForeignModel, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector, include, isAll));
+        }
+
+        public virtual int Count<TForeignModel>(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(whereSelector.Expr), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel>(WhereQueryable<TViewModel, TForeignModel> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(whereSelector), include, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default;
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Get(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(whereSelector), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector, include, isAll));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(whereSelector.Expr), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(whereSelector), include, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Get(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(whereSelector), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector, include, isAll));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(whereSelector.Expr), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(whereSelector), include, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Get(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(whereSelector), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector, include, isAll));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(whereSelector.Expr), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(whereSelector), include, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Get(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(whereSelector), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector, include, isAll));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(whereSelector.Expr), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()where TForeignModel1 : IFoundationModel, new()   where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()     where TForeignModel4 : IFoundationModel, new()    where TForeignModel5 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default;
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default;
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), pageSize, pageNum, mainInclude, joinInclude, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector, joinWhereSelector, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> mainWhereSelector, WhereJoinQueryable<TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> mainWhereSelector, WhereJoinQueryable<TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> mainWhereSelector, WhereJoinQueryable<TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> mainWhereSelector, WhereJoinQueryable<TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> mainWhereSelector, WhereJoinQueryable<TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> mainWhereSelector, WhereJoinQueryable<TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, int pageSize, int pageNum, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(mainWhereSelector.Expr, joinWhereSelector.Expr, pageSize, pageNum, mainInclude, joinInclude, orderBy));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> mainWhereSelector, WhereJoinQueryable<TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(mainWhereSelector.Expr), MySQLUtility.GetModelExpr(joinWhereSelector.Expr, mainInclude.Split(',').Length), mainInclude, joinInclude, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel> mainWhereSelector, WhereJoinQueryable<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel> mainWhereSelector, WhereJoinQueryable<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1> mainWhereSelector, WhereJoinQueryable<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2> mainWhereSelector, WhereJoinQueryable<TForeignModel3, TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3> mainWhereSelector, WhereJoinQueryable<TForeignModel4, TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4> mainWhereSelector, WhereJoinQueryable<TForeignModel5> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(mainWhereSelector.Expr, joinWhereSelector.Expr, mainInclude, joinInclude, isAll));
+        }
+
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(whereSelector), include, orderBy);
+            if (item != null)
+                return item.MapTo(RetrieveSelector);
+            else
+                return default(TViewModel);
+        }
+
+        public virtual Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(whereSelector), include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, include, orderBy));
+        }
+
+        public virtual List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.GetList(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(whereSelector), pageSize, pageNum, include, orderBy).MapAllTo(RetrieveSelector).ToList();
+        }
+
+        public virtual Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector, pageSize, pageNum, include, orderBy));
+        }
+
+        public TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Get(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<TViewModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Get(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, include, orderBy));
+        }
+
+        public List<TViewModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy);
+        }
+
+        public Task<List<TViewModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, int pageSize, int pageNum, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => GetList(whereSelector.Expr, pageSize, pageNum, include, orderBy));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(whereSelector), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector, include, isAll));
+        }
+
+        public virtual int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return DAL.Count(MySQLUtility.GetModelExpr<TViewModel, TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(whereSelector.Expr), include, isAll);
+        }
+
+        public virtual Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(WhereQueryable<TViewModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return Task.Run(() => Count(whereSelector.Expr, include, isAll));
+        }
     }
 
     public class ConvertMemberVisitor : ExpressionVisitor

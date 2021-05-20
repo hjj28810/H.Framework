@@ -55,8 +55,8 @@ namespace H.Framework.WPF.UITest
             //var l = List.BuildLine(x => x.ID, y => y.PID, p => p.Parent, (m, n) => new Node { Parent = n, ID = m.ID, PID = m.PID }, "1");
             //var a = new UserDB().GetUsers();
             //var ll = List.GetChildren(x => x.ID, x => x.PID, "22");
-            var aa = CurrentNode.ProcessParentValues(x => x.PID, y => y.Parent);
-            //tt();
+            //var aa = CurrentNode.ProcessParentValues(y => y.Parent);
+            tt();
         }
 
         private void tt()
@@ -68,7 +68,7 @@ namespace H.Framework.WPF.UITest
             //var user = await new UserBLL().GetAsync(query, "Department,Roles");
             //new OrderBLL().AddOrder();
             //new CallRecordBLL().AddCallRecordAsync(new CallRecordDTO { Duration = 12321, CustomerID = "-1", Customer = null, ID = null, Phone = "12312312", RecordUrl = "", Remark = "阿斯达四大撒大所多阿萨德", Type = 1, UpdatedTime = null, User = null, UserDisplay = null, UserID = "85",CreatedTime = DateTime.MinValue });
-            new NotificationBLL().GetUnreadCountAsync(0);
+            new Customer1BLL().GetAsync();
         }
 
         public void SaveCSV(DataTable dt, string fullPath)

@@ -163,17 +163,18 @@ namespace H.Framework.Data.ORM
                                 GetMap(mapList, detailType, i, TableType.Detail, "");
                                 var mapTable = mapList.First(item => item.TableName == detailType.Name);
                                 tableName += "left join `" + detailType.Name + "` " + mapTable.Alias + " on " + mapTable.Alias + "." + detailForeignIDProp.Name + " = a.id ";
-                                foreach (var detailProp in detailProps)
-                                {
-                                    if (detailProp.Name.ToUpper() == "ID" && hasDetailPrimaryKeyProp)
-                                        continue;
-                                    if (!detailProp.IsDefined(typeof(ForeignAttribute)) && !detailProp.IsDefined(typeof(DetailListAttribute)))
+                                if (!prop.IsDefined(typeof(OnlyQueryAttribute)))
+                                    foreach (var detailProp in detailProps)
                                     {
-                                        //columnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
-                                        joinColumnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
-                                        simpleColumnName += mapTable.Alias + "_" + detailProp.Name + ",";
+                                        if (detailProp.Name.ToUpper() == "ID" && hasDetailPrimaryKeyProp)
+                                            continue;
+                                        if (!detailProp.IsDefined(typeof(ForeignAttribute)) && !detailProp.IsDefined(typeof(DetailListAttribute)))
+                                        {
+                                            //columnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
+                                            joinColumnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
+                                            simpleColumnName += mapTable.Alias + "_" + detailProp.Name + ",";
+                                        }
                                     }
-                                }
                             }
                             else
                             {
@@ -184,17 +185,18 @@ namespace H.Framework.Data.ORM
                                 GetMap(mapList, detailType, i, TableType.Detail, "");
                                 var mapTable = mapList.First(item => item.TableName == detailType.Name);
                                 tableName += "left join `" + detailType.Name + "` " + mapTable.Alias + " on " + transitionAlias + "." + listAttribute.ForeignKeyIDName2 + " = " + mapTable.Alias + ".id ";
-                                foreach (var detailProp in detailProps)
-                                {
-                                    if (detailProp.Name.ToUpper() == "ID" && hasDetailPrimaryKeyProp)
-                                        continue;
-                                    if (!detailProp.IsDefined(typeof(ForeignAttribute)) && !detailProp.IsDefined(typeof(DetailListAttribute)))
+                                if (!prop.IsDefined(typeof(OnlyQueryAttribute)))
+                                    foreach (var detailProp in detailProps)
                                     {
-                                        //columnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
-                                        joinColumnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
-                                        simpleColumnName += mapTable.Alias + "_" + detailProp.Name + ",";
+                                        if (detailProp.Name.ToUpper() == "ID" && hasDetailPrimaryKeyProp)
+                                            continue;
+                                        if (!detailProp.IsDefined(typeof(ForeignAttribute)) && !detailProp.IsDefined(typeof(DetailListAttribute)))
+                                        {
+                                            //columnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
+                                            joinColumnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
+                                            simpleColumnName += mapTable.Alias + "_" + detailProp.Name + ",";
+                                        }
                                     }
-                                }
                             }
 
                             i++;
