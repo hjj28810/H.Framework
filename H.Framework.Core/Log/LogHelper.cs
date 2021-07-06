@@ -7,14 +7,14 @@ namespace H.Framework.Core.Log
     public static class LogHelper
     {
         private static readonly object _locker = new object();
-        private static Dictionary<string, ILogger> loggers = new Dictionary<string, ILogger>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, ILogger> _loggers = new Dictionary<string, ILogger>(StringComparer.OrdinalIgnoreCase);
 
         public static void Register(ILogger logger, string name)
         {
             lock (_locker)
             {
-                if (!loggers.ContainsKey(name))
-                    loggers.Add(name, logger);
+                if (!_loggers.ContainsKey(name))
+                    _loggers.Add(name, logger);
             }
         }
 
@@ -22,7 +22,7 @@ namespace H.Framework.Core.Log
         {
             lock (_locker)
             {
-                return loggers.TryGetValue(name, out ILogger result) ? result : null;
+                return _loggers.TryGetValue(name, out ILogger result) ? result : null;
             }
         }
 
@@ -64,26 +64,26 @@ namespace H.Framework.Core.Log
             WriteLogFile(new LogMessage<object> { Title = title, Data = data }, logType, innnerException);
         }
 
-        public static void WriteLogFileAsync<T>(LogMessage<T> input, LogType logType, Exception innnerException = null)
+        public static Task WriteLogFileAsync<T>(LogMessage<T> input, LogType logType, Exception innnerException = null)
         {
-            lock (_locker)
+            return Task.Run(() =>
             {
-                Task.Run(() =>
+                lock (_locker)
                 {
                     WriteLogFile(input, logType, innnerException);
-                });
-            }
+                }
+            });
         }
 
-        public static void WriteLogFileAsync<T>(T input, LogType logType, Exception innnerException = null)
+        public static Task WriteLogFileAsync<T>(T input, LogType logType, Exception innnerException = null)
         {
-            lock (_locker)
+            return Task.Run(() =>
             {
-                Task.Run(() =>
+                lock (_locker)
                 {
                     WriteLogFile(input, logType, innnerException);
-                });
-            }
+                }
+            });
         }
     }
 }

@@ -50,7 +50,6 @@ namespace H.Framework.Data.ORM
         public static List<T> ToList<T>(this DataTable dt) where T : new()
         {
             var ts = new List<T>();
-
             var members = typeof(T).GetMembers();
             foreach (DataRow dr in dt.Rows)
             {

@@ -71,6 +71,22 @@ namespace H.Framework.WPF.UITest
         public bool IsVerify { get; set; }
         public bool IsSend { get; set; }
         public string MWebUrl { get; set; }
+
+        public string PreUserID { get; set; }
+        public string PostUserID { get; set; }
+        public string IntroducerUserID { get; set; }
+
+        [MappingIgnore]
+        [Foreign("User", "PreUserID")]
+        public User PreUser { get; set; }
+
+        [MappingIgnore]
+        [Foreign("User", "PostUserID")]
+        public User PostUser { get; set; }
+
+        [MappingIgnore]
+        [Foreign("User", "IntroducerUserID")]
+        public User IntroducerUser { get; set; }
     }
 
     public class Customer : BaseDBModel
@@ -258,7 +274,9 @@ namespace H.Framework.WPF.UITest
         public int ExpiredAt { get; set; }
         public bool IsVerify { get; set; }
         public bool IsSend { get; set; }
-        public string UserID { get; set; }
+        public string PreUserID { get; set; }
+        public string PostUserID { get; set; }
+        public string IntroducerUserID { get; set; }
         public string MWebUrl { get; set; }
 
         [MappingIgnore]
@@ -269,7 +287,21 @@ namespace H.Framework.WPF.UITest
         }
 
         [MappingIgnore]
-        public UserDTO User
+        public UserDTO PreUser
+        {
+            get;
+            set;
+        }
+
+        [MappingIgnore]
+        public UserDTO PostUser
+        {
+            get;
+            set;
+        }
+
+        [MappingIgnore]
+        public UserDTO IntroducerUser
         {
             get;
             set;
@@ -278,7 +310,9 @@ namespace H.Framework.WPF.UITest
         public void MapFrom(Order source)
         {
             Customer = source?.Customer?.MapTo(x => new CustomerDTO());
-            //User = source?.User?.MapTo(x => new UserDTO());
+            PreUser = source?.PreUser?.MapTo(x => new UserDTO());
+            PostUser = source?.PostUser?.MapTo(x => new UserDTO());
+            IntroducerUser = source?.IntroducerUser?.MapTo(x => new UserDTO());
         }
     }
 
@@ -351,16 +385,16 @@ namespace H.Framework.WPF.UITest
         }
     }
 
-    public class OrderDAL : BaseDAL<Order, Customer, User>
+    public class OrderDAL : BaseDAL<Order, Customer, User, User, User>
     {
     }
 
-    public class OrderBLL : BaseBLL<OrderDTO, Order, Customer, User, OrderDAL>
+    public class OrderBLL : BaseBLL<OrderDTO, Order, Customer, User, User, User, OrderDAL>
     {
         //DepartmentWithParent
         public async void GetOrdersAsync()
         {
-            var a = await GetListAsync((x, y, z) => 1 == 1, 1, 0, "Customer,User");
+            var a = await GetListAsync((x, y, z, zz, zzz) => 1 == 1, 1, 0, "Customer,PreUser,PostUser,IntroducerUser");
         }
 
         public void AddOrder()

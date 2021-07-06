@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace H.Framework.Data.ORM.Foundations
 {
@@ -109,6 +110,27 @@ namespace H.Framework.Data.ORM.Foundations
         public int ExecuteNonQuerySQL(string sqlText, params MySqlParameter[] param)
         {
             return Fabricate.ExecuteNonQuery(CommandType.Text, sqlText, param);
+        }
+
+        public Task<IEnumerable<T>> ExecuteQuerySQLAsync<T>(string sqlText, params MySqlParameter[] param) where T : new()
+        {
+            return Task.Run(() => { return Fabricate.GetTable(CommandType.Text, sqlText, param).ToList<T>().AsEnumerable(); });
+        }
+
+        public Task<Dictionary<string, IEnumerable<T>>> ExecuteQueryMutiSQLAsync<T>(string sqlText, string[] keys, params MySqlParameter[] param) where T : new()
+        {
+            return Task.Run(() =>
+            {
+                return Fabricate.GetSet(CommandType.Text, sqlText, param).ToDictList<T>(keys);
+            });
+        }
+
+        public Task<int> ExecuteNonQuerySQLAsync(string sqlText, params MySqlParameter[] param)
+        {
+            return Task.Run(() =>
+            {
+                return Fabricate.ExecuteNonQuery(CommandType.Text, sqlText, param);
+            });
         }
 
         public int Count(Expression<Func<TModel, bool>> whereSelector)
