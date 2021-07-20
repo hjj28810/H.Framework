@@ -72,17 +72,12 @@ namespace H.Framework.WPF.UITest
         public bool IsSend { get; set; }
         public string MWebUrl { get; set; }
 
-        public string PreUserID { get; set; }
-        public string PostUserID { get; set; }
+        public string UserID { get; set; }
         public string IntroducerUserID { get; set; }
 
         [MappingIgnore]
-        [Foreign("User", "PreUserID")]
-        public User PreUser { get; set; }
-
-        [MappingIgnore]
-        [Foreign("User", "PostUserID")]
-        public User PostUser { get; set; }
+        [Foreign("User", "UserID")]
+        public User User { get; set; }
 
         [MappingIgnore]
         [Foreign("User", "IntroducerUserID")]
@@ -97,7 +92,7 @@ namespace H.Framework.WPF.UITest
         public string ClassBatch { get; set; }
         public int Level { get; set; }
         public string CustomerNum { get; set; }
-
+        public string Nickname { get; set; }
         public string PreUserID { get; set; }
 
         public string PostUserID { get; set; }
@@ -227,6 +222,8 @@ namespace H.Framework.WPF.UITest
         public int Level { get; set; }
         public string CustomerNum { get; set; }
 
+        public string Nickname { get; set; }
+
         public string PreUserID { get; set; }
 
         public string PostUserID { get; set; }
@@ -274,8 +271,7 @@ namespace H.Framework.WPF.UITest
         public int ExpiredAt { get; set; }
         public bool IsVerify { get; set; }
         public bool IsSend { get; set; }
-        public string PreUserID { get; set; }
-        public string PostUserID { get; set; }
+        public string UserID { get; set; }
         public string IntroducerUserID { get; set; }
         public string MWebUrl { get; set; }
 
@@ -287,14 +283,7 @@ namespace H.Framework.WPF.UITest
         }
 
         [MappingIgnore]
-        public UserDTO PreUser
-        {
-            get;
-            set;
-        }
-
-        [MappingIgnore]
-        public UserDTO PostUser
+        public UserDTO User
         {
             get;
             set;
@@ -310,8 +299,7 @@ namespace H.Framework.WPF.UITest
         public void MapFrom(Order source)
         {
             Customer = source?.Customer?.MapTo(x => new CustomerDTO());
-            PreUser = source?.PreUser?.MapTo(x => new UserDTO());
-            PostUser = source?.PostUser?.MapTo(x => new UserDTO());
+            User = source?.User?.MapTo(x => new UserDTO());
             IntroducerUser = source?.IntroducerUser?.MapTo(x => new UserDTO());
         }
     }
@@ -385,16 +373,17 @@ namespace H.Framework.WPF.UITest
         }
     }
 
-    public class OrderDAL : BaseDAL<Order, Customer, User, User, User>
+    public class OrderDAL : BaseDAL<Order, Customer, User, User>
     {
     }
 
-    public class OrderBLL : BaseBLL<OrderDTO, Order, Customer, User, User, User, OrderDAL>
+    public class OrderBLL : BaseBLL<OrderDTO, Order, Customer, User, User, OrderDAL>
     {
         //DepartmentWithParent
         public async void GetOrdersAsync()
         {
-            var a = await GetListAsync((x, y, z, zz, zzz) => 1 == 1, 1, 0, "Customer,PreUser,PostUser,IntroducerUser");
+            var date = DateTime.Now;
+            var a = await GetListAsync((x, y, z, zz) => x.CreatedTime > date, 1, 0, "Customer,User,IntroducerUser");
         }
 
         public void AddOrder()
@@ -423,7 +412,8 @@ namespace H.Framework.WPF.UITest
             var include = "PreUser,PostUser";
 
             include += ",Contacts,CustomerDynamicFields";
-            query0 = query0.WhereAnd((x, y, yy, d, w) => d.DynamicFieldID == "7" && d.FieldKey == "310300");
+            var nickname = "qi'ying💕";
+            query0 = query0.WhereAnd((x, y, yy, d, w) => x.Nickname == nickname);
             var bb = GetListAsync(query0, 20, 0, "PreUser,PostUser,CustomerDynamicFields").Result;
         }
 

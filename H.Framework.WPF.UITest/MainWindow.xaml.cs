@@ -61,14 +61,14 @@ namespace H.Framework.WPF.UITest
 
         private void tt()
         {
-            FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=diqiu_crm;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8";
+            FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=diqiu_crm;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8mb4";
             //var query = new WhereQueryable<UserDTO, Department, Role>((x, y, z) => true);
 
             //query = query.WhereAnd((x, y, z) => x.ID == "1");
             //var user = await new UserBLL().GetAsync(query, "Department,Roles");
             //new OrderBLL().AddOrder();
             //new CallRecordBLL().AddCallRecordAsync(new CallRecordDTO { Duration = 12321, CustomerID = "-1", Customer = null, ID = null, Phone = "12312312", RecordUrl = "", Remark = "阿斯达四大撒大所多阿萨德", Type = 1, UpdatedTime = null, User = null, UserDisplay = null, UserID = "85",CreatedTime = DateTime.MinValue });
-            new OrderBLL().GetOrdersAsync();
+            new CustomerBLL().GetAsync();
         }
 
         public void SaveCSV(DataTable dt, string fullPath)

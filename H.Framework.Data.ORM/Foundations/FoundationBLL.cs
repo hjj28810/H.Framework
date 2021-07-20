@@ -1896,7 +1896,7 @@ namespace H.Framework.Data.ORM.Foundations
             return Task.Run(() => Count(whereSelector.Expr, include, isAll));
         }
 
-        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()where TForeignModel1 : IFoundationModel, new()   where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()     where TForeignModel4 : IFoundationModel, new()    where TForeignModel5 : IFoundationModel, new()
+        public virtual TViewModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TViewModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var item = DAL.Get(MySQLUtility.GetModelExpr<TViewModel, TModel>(mainWhereSelector), MySQLUtility.GetModelExpr(joinWhereSelector, mainInclude.Split(',').Length), mainInclude, joinInclude, orderBy);
             if (item != null)
@@ -2561,7 +2561,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public Expression ChildVisitMember(MemberExpression node)
         {
-            object value = null, model = null;
+            object value = "", model = null;
             if (node.Expression is MemberExpression)
             {
                 var expr = VisitMember(node.Expression as MemberExpression);
@@ -2570,10 +2570,18 @@ namespace H.Framework.Data.ORM.Foundations
             }
             if (node.Expression is ConstantExpression)
                 model = (node.Expression as ConstantExpression).Value;
-            if (node.Member is FieldInfo && model != null)
-                value = ((FieldInfo)node.Member).GetValue(model);
-            if (node.Member is PropertyInfo && model != null)
-                value = ((PropertyInfo)node.Member).GetValue(model);
+            if (node.Member is FieldInfo fieldInfo && model != null)
+            {
+                if (fieldInfo.FieldType == typeof(string))
+                    value = fieldInfo.GetValue(model).ToString().Replace("'", "''");
+                else
+                    value = fieldInfo.GetValue(model);
+            }
+            if (node.Member is PropertyInfo propertyInfo && model != null)
+                if (propertyInfo.PropertyType == typeof(string))
+                    value = propertyInfo.GetValue(model).ToString().Replace("'", "''");
+                else
+                    value = propertyInfo.GetValue(model);
             return Expression.Constant(value, value.GetType());
         }
 
