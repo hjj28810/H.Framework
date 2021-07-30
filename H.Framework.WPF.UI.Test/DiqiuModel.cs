@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace H.Framework.WPF.UITest
+namespace H.Framework.WPF.UI.Test
 {
     public class BaseDTO : IFoundationViewModel
     {
@@ -412,8 +412,8 @@ namespace H.Framework.WPF.UITest
             var include = "PreUser,PostUser";
 
             include += ",Contacts,CustomerDynamicFields";
-            var nickname = "qi'ying💕";
-            query0 = query0.WhereAnd((x, y, yy, d, w) => x.Nickname == nickname);
+            var nickname = "Lo";
+            query0 = query0.WhereAnd((x, y, yy, d, w) => x.Nickname.Equals(nickname));
             var bb = GetListAsync(query0, 20, 0, "PreUser,PostUser,CustomerDynamicFields").Result;
         }
 

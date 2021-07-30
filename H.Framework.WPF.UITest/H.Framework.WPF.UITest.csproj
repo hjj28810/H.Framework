@@ -234,7 +234,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DiqiuModel.cs" />
     <Compile Include="EFCoreTest.cs" />
     <Compile Include="GWindow.xaml.cs">
       <DependentUpon>GWindow.xaml</DependentUpon>
@@ -309,14 +308,6 @@
     <ProjectReference Include="..\H.Framework.Core\H.Framework.Core.csproj">
       <Project>{5cabebef-8408-4713-a005-aae14b48f10c}</Project>
       <Name>H.Framework.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\H.Framework.Data.ORM\H.Framework.Data.ORM.csproj">
-      <Project>{39D2A01F-E4C7-46D8-9051-318F7AD489C5}</Project>
-      <Name>H.Framework.Data.ORM</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\H.Framework.U-Push\H.Framework.UMeng.Push.csproj">
-      <Project>{3350f8f5-24b2-4c2b-b39d-d28b6cdd4da2}</Project>
-      <Name>H.Framework.UMeng.Push</Name>
     </ProjectReference>
     <ProjectReference Include="..\H.Framework.WPF.Control\H.Framework.WPF.Control.csproj">
       <Project>{828b8f6d-5dc6-41c8-99f6-f4dfae7a91f7}</Project>

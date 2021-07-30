@@ -16,7 +16,7 @@ namespace H.Framework.Data.ORM
 
         public static string ReplaceSQLKW(this string str)
         {
-            return str.In().LikeEnd();
+            return str.In().Like().LikeStart().LikeEnd();
         }
 
         public static string ReplaceKeyword(this string str)
@@ -94,20 +94,34 @@ namespace H.Framework.Data.ORM
             return str;
         }
 
-        //public static string In(this string str)
-        //{
-        //    return str.Replace(".Contains(''", " in ('").Replace("'')", "')");
-        //}
+        public static string LikeStart(this string str)
+        {
+            var pattern = @".StartsWith[\((]'[^\))]+'[\))]";
+            var matchs = Regex.Matches(str, pattern);
+            foreach (Match m in matchs)
+            {
+                var newStr = m.Value.Replace(".StartsWith('", " like ('").Replace("')", "%')");
+                str = str.Replace(m.Value, newStr);
+            }
+            return str;
+        }
 
         public static string LikeEnd(this string str)
         {
-            return str.Replace(".StartsWith('", " like ('%");
+            return str.Replace(".EndsWith('", " like ('%");
         }
 
-        //public static string LikeEnd(this string str)
-        //{;
-        //    return str.Replace(".EndsWith('", " like ");
-        //}
+        public static string Like(this string str)
+        {
+            var pattern = @".Equals[\((]'[^\))]+'[\))]";
+            var matchs = Regex.Matches(str, pattern);
+            foreach (Match m in matchs)
+            {
+                var newStr = m.Value.Replace(".Equals('", " like ('%").Replace("')", "%')");
+                str = str.Replace(m.Value, newStr);
+            }
+            return str;
+        }
 
         //public static bool Contains(this string str, params string[] condition)
         //{
