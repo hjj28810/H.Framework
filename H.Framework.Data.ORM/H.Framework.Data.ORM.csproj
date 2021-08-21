@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.0.5.8</Version>
+    <Version>1.0.5.9</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>1.0.5.8</AssemblyVersion>
-    <FileVersion>1.0.5.8</FileVersion>
+    <AssemblyVersion>1.0.5.9</AssemblyVersion>
+    <FileVersion>1.0.5.9</FileVersion>
     <Company>H</Company>
     <Authors>Alvin Huang</Authors>
     <Product>H.Framework</Product>
@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.0.25" />
+    <PackageReference Include="MySql.Data" Version="8.0.26" />
   </ItemGroup>
 
   <ItemGroup>

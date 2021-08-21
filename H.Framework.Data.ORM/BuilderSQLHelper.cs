@@ -84,11 +84,11 @@ namespace H.Framework.Data.ORM
 
         public static string In(this string str)
         {
-            var pattern = @".Contains[\((]'[^\))]+'[\))]";
+            var pattern = @".Contains[\(]'(.*?)'[\)]";
             var matchs = Regex.Matches(str, pattern);
             foreach (Match m in matchs)
             {
-                var newStr = m.Value.Replace(".Contains('", " in (").Replace("')", ")");
+                var newStr = m.Value.Replace(".Contains('", " in (").Replace("')", ")").Replace("''", "'");
                 str = str.Replace(m.Value, newStr);
             }
             return str;
@@ -96,7 +96,7 @@ namespace H.Framework.Data.ORM
 
         public static string LikeStart(this string str)
         {
-            var pattern = @".StartsWith[\((]'[^\))]+'[\))]";
+            var pattern = @".StartsWith[\(]'(.*?)'[\)]";
             var matchs = Regex.Matches(str, pattern);
             foreach (Match m in matchs)
             {
@@ -113,7 +113,7 @@ namespace H.Framework.Data.ORM
 
         public static string Like(this string str)
         {
-            var pattern = @".Equals[\((]'[^\))]+'[\))]";
+            var pattern = @".Equals[\(]'(.*?)'[\)]";
             var matchs = Regex.Matches(str, pattern);
             foreach (Match m in matchs)
             {

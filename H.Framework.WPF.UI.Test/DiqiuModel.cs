@@ -412,7 +412,7 @@ namespace H.Framework.WPF.UI.Test
             var include = "PreUser,PostUser";
 
             include += ",Contacts,CustomerDynamicFields";
-            var nickname = "Lo";
+            var nickname = "wang(aaa)";
             query0 = query0.WhereAnd((x, y, yy, d, w) => x.Nickname.Equals(nickname));
             var bb = GetListAsync(query0, 20, 0, "PreUser,PostUser,CustomerDynamicFields").Result;
         }
