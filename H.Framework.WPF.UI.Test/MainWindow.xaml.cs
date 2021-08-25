@@ -24,7 +24,9 @@ namespace H.Framework.WPF.UI.Test
     {
         public MainWindow()
         {
-            InitializeComponent(); tt();
+            InitializeComponent();
+            //tt();
+            TTT();
         }
 
         private void tt()
@@ -38,6 +40,14 @@ namespace H.Framework.WPF.UI.Test
             //new CallRecordBLL().AddCallRecordAsync(new CallRecordDTO { Duration = 12321, CustomerID = "-1", Customer = null, ID = null, Phone = "12312312", RecordUrl = "", Remark = "阿斯达四大撒大所多阿萨德", Type = 1, UpdatedTime = null, User = null, UserDisplay = null, UserID = "85",CreatedTime = DateTime.MinValue });
             new CustomerBLL().GetAsync();
             //var a = "YHZxySCyG5iI0bnRNnlURwxVsqar3rdN07B8kNcEh7/Snfu5j3V44fWMJa/YcNmZ".AnalyseToken();
+        }
+
+        private void TTT()
+        {
+            var t = new Test();
+            string inputmsg = "abefc501010008000000057102ac03e8ab0014b80295c40284c4057102b203e8b60014c60295c90284c40403e8b50014b70295c00284c1057102b603e8ae0014b80295bd0284c2047102aa03e8ad0295c20284c0047102a603e8b10295c40284be040295ba0014c00284c17102b70403e8af0295bf0014ba0284b20503e8ac0295bc0014be0284c07102b00503e8b50295c00014bd0284b57102a70503e8a80295c20014b80284ba7102af0403e8b20295c40014c20284bb0403e8b40295bf0014c17102bf0503e8b40295c30014ca0284c67102b20403e8b50295cc0014ca0284c80303e8b80295ca7102b90403e8b20295b90284c37102a90403e8b60295ca0014cb7102b2040295ca0014c90284bf7102b9050295c20014c70284c77102b003e8b1050295ca0014cb0284c57102ad03e8b5050295cd0014cb0284c67102af03e8b4040014c50284c17102bb03e8b8050014ca0284c37102a603e8b20295ca050284c57102b003e8b30295ca0014ca050284c17102b903e8b70295ca0014ca050284c57102ab03e8b20295be0014c7030284c503e8b60295ca037102b003e8b20014ca057102ba03e8b60295be0014c50284c60244030000ff0000000000000000000000000000db";
+            byte[] message = t.HexStringToBytes(inputmsg.ToUpper());
+            t.SaveMessage(message);
         }
     }
 
