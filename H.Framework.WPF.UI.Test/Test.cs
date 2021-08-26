@@ -46,9 +46,11 @@ namespace H.Framework.WPF.UI.Test
                 int start = idx;
                 //后续包长度
                 int packsize = message[idx] & 0xFF;
+                oneM.Add("packsize", packsize.ToString());
                 idx += 1;
                 //包头帧控制字
                 int packheader = message[idx] & 0xFF;
+                oneM.Add("packheader", packheader.ToString());
                 idx += 1;
                 //信号强度
                 int strength = message[idx];
@@ -86,7 +88,7 @@ namespace H.Framework.WPF.UI.Test
                     beacon.Add("beaconstatus", rssi);
                     beaconlist.Add(beacon);
                 }
-                //oneM.Add("beaconList", beaconlist.ToJson());
+                oneM.Add("beaconList", beaconlist.ToJson());
                 //卡片状态
                 //int status = message[idx]&0xFF;
                 //oneM.Add("cardStatus", ConvertByte.byteToBit(message[idx]));
@@ -116,7 +118,7 @@ namespace H.Framework.WPF.UI.Test
 
                     //    float longitude = float.Parse(x1.Substring(0, 2)) + float.Parse(x1.Substring(2, 4) + "." + x1.Substring(4)) / 60.0F;
                     //    float latitude = float.Parse(y1.Substring(0, 3)) + float.Parse(y1.Substring(3, 5) + "." + y1.Substring(5)) / 60.0F;
-                    //    oneM.Add("GPS", (new float[] { longitude, latitude }).ToJson());
+                    //    oneM.Add("GPS" + idx, (new float[] { longitude, latitude }).ToJson());
                     //    continue;
                     //}
                     if (attr == 2)
