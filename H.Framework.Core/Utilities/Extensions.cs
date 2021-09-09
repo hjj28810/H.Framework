@@ -938,7 +938,7 @@ namespace H.Framework.Core.Utilities
             return builder.ToString().Trim();
         }
 
-        public static byte[] ToToHexByte(this string hexString)
+        public static byte[] ToHexByte(this string hexString)
         {
             hexString = hexString.Replace(" ", "");
             if ((hexString.Length % 2) != 0)
