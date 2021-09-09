@@ -25,13 +25,13 @@ namespace H.Framework.WPF.UI.Test
         public MainWindow()
         {
             InitializeComponent();
-            //tt();
-            TTT();
+            tt();
+            //TTT();
         }
 
         private void tt()
         {
-            FoundationDAL.ConnectedString = "Server=192.168.99.108;Database=diqiu_crm;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8mb4";
+            FoundationDAL.ConnectedString = "Server=10.68.99.108;Database=diqiu_crm;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8mb4";
             //var query = new WhereQueryable<UserDTO, Department, Role>((x, y, z) => true);
 
             //query = query.WhereAnd((x, y, z) => x.ID == "1");

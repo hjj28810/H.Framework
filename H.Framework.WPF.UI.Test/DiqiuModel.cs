@@ -411,10 +411,10 @@ namespace H.Framework.WPF.UI.Test
             //query0.WhereAnd((x, y, yy, z, zzz) => true);
             var include = "PreUser,PostUser";
 
-            include += ",Contacts,CustomerDynamicFields";
+            include += ",Contacts,'',Contacts";
             var nickname = "wang(aaa)";
-            query0 = query0.WhereAnd((x, y, yy, d, w) => x.Nickname.Equals(nickname));
-            var bb = GetListAsync(query0, 20, 0, "PreUser,PostUser,CustomerDynamicFields").Result;
+            query0 = query0.WhereAnd((x, y, yy, d, w) => w.Content == "13321952950");
+            var bb = GetListAsync(query0, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Contacts").Result;
         }
 
         public async void Get()

@@ -874,8 +874,8 @@ namespace H.Framework.Core.Utilities
             {
                 return false;//生日验证
             }
-            var arrVarifyCode = ("1,0,x,9,8,7,6,5,4,3,2").Split(',');
-            var Wi = ("7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2").Split(',');
+            var arrVarifyCode = "1,0,x,9,8,7,6,5,4,3,2".Split(',');
+            var Wi = "7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2".Split(',');
             var Ai = idNumber.Remove(17).ToCharArray();
             var sum = 0;
             for (int i = 0; i < 17; i++)
@@ -923,6 +923,30 @@ namespace H.Framework.Core.Utilities
                     break;
             }
             return result;
+        }
+
+        /// <summary>
+        /// 字节数组转16进制字符串：空格分隔
+        /// </summary>
+        /// <param name="byteDatas"></param>
+        /// <returns></returns>
+        public static string ToHexStrFromByte(this byte[] byteDatas)
+        {
+            var builder = new StringBuilder();
+            foreach (var v in byteDatas)
+                builder.Append(string.Format("{0:X2} ", v));
+            return builder.ToString().Trim();
+        }
+
+        public static byte[] ToToHexByte(this string hexString)
+        {
+            hexString = hexString.Replace(" ", "");
+            if ((hexString.Length % 2) != 0)
+                hexString += " ";
+            var returnBytes = new byte[hexString.Length / 2];
+            for (int i = 0; i < returnBytes.Length; i++)
+                returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
+            return returnBytes;
         }
     }
 }
