@@ -33,7 +33,6 @@ namespace H.Framework.WPF.UI.Test
         [ForeignKeyID("customer")]
         public string CustomerID { get; set; }
 
-        public int DepartmentType { get; set; }
         public string FieldValue { get; set; }
         public string FieldKey { get; set; }
 
@@ -105,10 +104,6 @@ namespace H.Framework.WPF.UI.Test
 
         [MappingIgnore]
         [DetailList()]
-        public List<Order> Orders { get; set; }
-
-        [MappingIgnore]
-        [DetailList()]
         [OnlyQuery]
         public List<CustomerDynamicField> CustomerDynamicFields { get; set; }
 
@@ -116,6 +111,14 @@ namespace H.Framework.WPF.UI.Test
         [DetailList()]
         [OnlyQuery]
         public List<Contact> Contacts { get; set; }
+
+        [MappingIgnore]
+        [DetailList()]
+        [OnlyQuery]
+        public List<Order> Orders { get; set; }
+
+        [DynamicSQLField("case when a4.FieldValue != '未知' and a4.DynamicFieldID = 2 then true else false end IsHighRisk")]
+        public bool IsHighRisk { get; set; }
 
         //[DetailList("CustomerUser", "CustomerID", "UserID")]
         //public List<User> Users { get; set; }
@@ -210,6 +213,16 @@ namespace H.Framework.WPF.UI.Test
         public IEnumerable<ResourceDTO> Children { get; set; }
     }
 
+    public class CustomerDynamicFieldDTO : BaseDBModel
+    {
+        public string DynamicFieldID { get; set; }
+
+        public string CustomerID { get; set; }
+
+        public string FieldValue { get; set; }
+        public string FieldKey { get; set; }
+    }
+
     public class CustomerDTO : BaseDTO, ICustomMap<Customer>
     {
         public string Phone { get; set; }
@@ -235,15 +248,21 @@ namespace H.Framework.WPF.UI.Test
         public IEnumerable<ContactDTO> Contacts { get; set; }
 
         [MappingIgnore]
+        public IEnumerable<CustomerDynamicFieldDTO> CustomerDynamicFields { get; set; }
+
+        [MappingIgnore]
         public UserDTO PreUser { get; set; }
 
         [MappingIgnore]
         public UserDTO PostUser { get; set; }
 
+        public bool IsHighRisk { get; set; }
+
         public void MapFrom(Customer source)
         {
             Orders = source?.Orders?.MapAllTo(x => new OrderDTO());
             Contacts = source?.Contacts?.MapAllTo(x => new ContactDTO());
+            CustomerDynamicFields = source?.CustomerDynamicFields?.MapAllTo(x => new CustomerDynamicFieldDTO());
             PreUser = source?.PreUser?.MapTo(x => new UserDTO());
             PostUser = source?.PostUser?.MapTo(x => new UserDTO());
         }
@@ -401,9 +420,9 @@ namespace H.Framework.WPF.UI.Test
         public void GetAsync()
         {
             var date = DateTime.Now.AddMonths(-1);
-            var query = new WhereQueryable<CustomerDTO, User, User>((x, y, yy) => true);
+            var query = new WhereQueryable<CustomerDTO, User, User, CustomerDynamicField, Order>((x, y, yy, d, o) => true);
             var query0 = new WhereQueryable<CustomerDTO, User, User, CustomerDynamicField, Contact>((x, y, yy, d, w) => true);
-            var query1 = new WhereJoinQueryable<Contact, CustomerDynamicField>((z, zzz) => z.Content.Contains("'13321952950'"));
+            var query1 = new WhereJoinQueryable<CustomerDynamicField>((z) => true);
             //var a = await GetListAsync(x => true, (y, yy, z, zzz) => true, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
             //var b = await GetListAsync(query, query1, 20, 0, "PreUser,PostUser", "Contacts,CustomerDynamicFields");
             //query.WhereAnd((x, y, yy) => true);
@@ -413,8 +432,10 @@ namespace H.Framework.WPF.UI.Test
 
             include += ",Contacts,'',Contacts";
             var nickname = "wang(aaa)";
-            query0 = query0.WhereAnd((x, y, yy, d, w) => w.Content == "13321952950");
-            var bb = GetListAsync(query0, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Contacts").Result;
+            query0 = query0.WhereAnd((x, y, yy, d, w) => d.DynamicFieldID == "3");
+            //var bb = GetListAsync(query, query1, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders", "CustomerDynamicFields").Result;
+
+            var bb = GetListAsync(query, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders").Result;
         }
 
         public async void Get()

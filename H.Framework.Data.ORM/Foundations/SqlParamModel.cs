@@ -7,7 +7,7 @@ namespace H.Framework.Data.ORM.Foundations
 {
     public class SqlParamModel
     {
-        public SqlParamModel(string mainTableName, string joinTableName, string columnName, string simpleColumnName, string joinColumnName)
+        public SqlParamModel(string mainTableName, string joinTableName, string columnName, string simpleColumnName, string joinColumnName, List<string> listDynamicSQLField = null)
         {
             MainTableName = mainTableName;
             JoinTableName = joinTableName;
@@ -16,6 +16,7 @@ namespace H.Framework.Data.ORM.Foundations
             ColumnName = columnName.TrimEnd(',');
 
             ListSqlParams = new List<MySqlParameter>();
+            ListDynamicSQLField = listDynamicSQLField;
         }
 
         public string MainTableName { get; set; }
@@ -40,5 +41,7 @@ namespace H.Framework.Data.ORM.Foundations
         public List<MySqlParameter> ListSqlParams { get; set; }
 
         public List<TableMap> ListTableMap { get; set; }
+
+        public List<string> ListDynamicSQLField { get; set; }
     }
 }

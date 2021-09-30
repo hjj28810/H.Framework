@@ -121,9 +121,11 @@ namespace H.Framework.Data.ORM
                 string columnName = "", simpleColumnName = "", joinColumnName = "", mainTableName = $"`{typeof(TModel).Name.ToLower()}` a ", tableName = "";
                 var hasPrimaryProp = properties.Any(x => x.IsDefined(typeof(PrimaryKeyIDAttribute)));
                 var includeArray = include.Split(",");
+                var dynamicSQLProps = properties.Where(x => x.IsDefined(typeof(DynamicSQLFieldAttribute)));
                 foreach (var prop in properties)
                 {
                     if (prop.IsDefined(typeof(DataFieldIgnoreAttribute))) continue;
+                    if (prop.IsDefined(typeof(DynamicSQLFieldAttribute))) continue;
                     if (prop.IsDefined(typeof(ForeignAttribute)))
                     {
                         if (include.Contains(prop.Name))
@@ -140,7 +142,7 @@ namespace H.Framework.Data.ORM
                             {
                                 if (foreignProp.Name.ToUpper() == "ID" && !string.IsNullOrWhiteSpace(foreignAttribute.ForeignPrimaryKeyIDName))
                                     continue;
-                                if (!foreignProp.IsDefined(typeof(ForeignAttribute)) && !foreignProp.IsDefined(typeof(DetailListAttribute)))
+                                if (!foreignProp.IsDefined(typeof(ForeignAttribute)) && !foreignProp.IsDefined(typeof(DetailListAttribute)) && !foreignProp.IsDefined(typeof(DynamicSQLFieldAttribute)))
                                 {
                                     //columnName += map.Alias + "." + foreignProp.Name + " as " + map.Alias + "_" + foreignProp.Name + ",";
                                     joinColumnName += map.Alias + "." + foreignProp.Name + " as " + map.Alias + "_" + foreignProp.Name + ",";
@@ -175,7 +177,7 @@ namespace H.Framework.Data.ORM
                                         {
                                             if (detailProp.Name.ToUpper() == "ID" && hasDetailPrimaryKeyProp)
                                                 continue;
-                                            if (!detailProp.IsDefined(typeof(ForeignAttribute)) && !detailProp.IsDefined(typeof(DetailListAttribute)))
+                                            if (!detailProp.IsDefined(typeof(ForeignAttribute)) && !detailProp.IsDefined(typeof(DetailListAttribute)) && !detailProp.IsDefined(typeof(DynamicSQLFieldAttribute)))
                                             {
                                                 //columnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
                                                 joinColumnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
@@ -197,7 +199,7 @@ namespace H.Framework.Data.ORM
                                         {
                                             if (detailProp.Name.ToUpper() == "ID" && hasDetailPrimaryKeyProp)
                                                 continue;
-                                            if (!detailProp.IsDefined(typeof(ForeignAttribute)) && !detailProp.IsDefined(typeof(DetailListAttribute)))
+                                            if (!detailProp.IsDefined(typeof(ForeignAttribute)) && !detailProp.IsDefined(typeof(DetailListAttribute)) && !detailProp.IsDefined(typeof(DynamicSQLFieldAttribute)))
                                             {
                                                 //columnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
                                                 joinColumnName += mapTable.Alias + "." + detailProp.Name + " as " + mapTable.Alias + "_" + detailProp.Name + ",";
@@ -218,8 +220,15 @@ namespace H.Framework.Data.ORM
                         mapList.Add(new TableMap { Alias = "a", TableName = typeof(TModel).Name, ColumnName = prop.Name });
                     }
                 }
+                var listDynamicSQLField = new List<string>();
+                foreach (var item in dynamicSQLProps)
+                {
+                    var sql = item.GetCustomAttribute<DynamicSQLFieldAttribute>().SQLString;
+                    listDynamicSQLField.Add(sql);
+                    columnName += sql + ",";
+                }
                 columnName += joinColumnName;
-                return new SqlParamModel(mainTableName, tableName.ToLower(), columnName, simpleColumnName, joinColumnName);
+                return new SqlParamModel(mainTableName, tableName.ToLower(), columnName, simpleColumnName, joinColumnName, listDynamicSQLField);
             }
         }
 
@@ -439,6 +448,11 @@ namespace H.Framework.Data.ORM
                 var joinSqlParam = ExecuteParmInternal<TModel, TForeignModel>(joinWhereSelector, joinInclude, mainInclude.Split(',').Length);
                 mainSqlParam.MainTableName = mainSqlParam.TableName;
                 mainSqlParam.MainColumnName = mainSqlParam.ColumnName;
+                if (mainSqlParam.ListDynamicSQLField != null)
+                    foreach (var item in mainSqlParam.ListDynamicSQLField)
+                    {
+                        mainSqlParam.MainColumnName = mainSqlParam.MainColumnName.Replace(item + ",", "");
+                    }
                 mainSqlParam.JoinWhereSQL = joinSqlParam.WhereSQL;
                 mainSqlParam.MainWhereSQL = mainSqlParam.WhereSQL;
                 mainSqlParam.JoinTableName = joinSqlParam.JoinTableName;
