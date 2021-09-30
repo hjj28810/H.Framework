@@ -49,7 +49,7 @@ namespace H.Framework.Data.ORM
                 string columnName = "", columnParm = "", tableName = typeof(TModel).Name;
                 foreach (var prop in properties)
                 {
-                    if (prop.IsDefined(typeof(DataFieldIgnoreAttribute))) continue;
+                    if (prop.IsDefined(typeof(DataFieldIgnoreAttribute)) || prop.IsDefined(typeof(DynamicSQLFieldAttribute))) continue;
                     if (string.IsNullOrWhiteSpace(include) || include.Contains(prop.Name))
                     {
                         var propValue = prop.GetValue(model);
@@ -118,7 +118,7 @@ namespace H.Framework.Data.ORM
             lock (_locker)
             {
                 var properties = typeof(TModel).GetProperties();
-                string columnName = "", simpleColumnName = "", joinColumnName = "", mainTableName = $"`{typeof(TModel).Name.ToLower()}` a ", tableName = "";
+                string columnName = "", simpleColumnName = "", joinColumnName = "", mainTableName = $"`{typeof(TModel).GetCustomAttribute<DataTableAttribute>()?.TableName ?? typeof(TModel).Name.ToLower()}` a ", tableName = "";
                 var hasPrimaryProp = properties.Any(x => x.IsDefined(typeof(PrimaryKeyIDAttribute)));
                 var includeArray = include.Split(",");
                 var dynamicSQLProps = properties.Where(x => x.IsDefined(typeof(DynamicSQLFieldAttribute)));

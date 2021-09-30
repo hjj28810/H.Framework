@@ -218,7 +218,8 @@ namespace H.Framework.Data.ORM.Foundations
             //var sqlStr = $@"create TEMPORARY table idsTable (Select id from {mainTableName} where true {mainColumnParm}{mainOrderbyStr} limit {(pageNum * pageSize)},{pageSize});
             //               SELECT {columnName} FROM {mainTableName}{tableName} where a.id in(select id from idsTable) and {columnParm}{orderbyStr};
             //               drop table idsTable;";
-            var sqlStr = $"SELECT {columnName} from (select {mainColumnName} from {mainTableName} where true {mainColumnParm}{mainOrderbyStr} limit {pageNum * pageSize},{pageSize}) a {tableName} where true{columnParm}{orderbyStr}";
+            var groupbyStr = columnName.Contains("case when") ? " group by id " : "";
+            var sqlStr = $"SELECT {columnName} from (select {mainColumnName} from {mainTableName} where true {mainColumnParm}{mainOrderbyStr} limit {pageNum * pageSize},{pageSize}) a {tableName} where true {columnParm}{groupbyStr}{orderbyStr}";
             return sqlStr;
         }
 

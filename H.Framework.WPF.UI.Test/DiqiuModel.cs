@@ -117,11 +117,11 @@ namespace H.Framework.WPF.UI.Test
         [OnlyQuery]
         public List<Order> Orders { get; set; }
 
-        [DynamicSQLField("case when a4.FieldValue != '未知' and a4.DynamicFieldID = 2 then true else false end IsHighRisk")]
-        public bool IsHighRisk { get; set; }
-
         //[DetailList("CustomerUser", "CustomerID", "UserID")]
         //public List<User> Users { get; set; }
+
+        [DynamicSQLField("case when a4.FieldValue != '未知' and a4.DynamicFieldID = 2 then true else false end IsHighRisk")]
+        public bool IsHighRisk { get; set; }
     }
 
     public class Department : BaseDBModel
@@ -411,11 +411,11 @@ namespace H.Framework.WPF.UI.Test
         }
     }
 
-    public class CustomerDAL : BaseDAL<Customer, User, User, CustomerDynamicField, Contact>
+    public class CustomerDAL : BaseDAL<Customer>
     {
     }
 
-    public class CustomerBLL : BaseBLL<CustomerDTO, Customer, User, User, CustomerDynamicField, Contact, CustomerDAL>
+    public class CustomerBLL : BaseBLL<CustomerDTO, Customer, CustomerDAL>
     {
         public void GetAsync()
         {
@@ -433,9 +433,9 @@ namespace H.Framework.WPF.UI.Test
             include += ",Contacts,'',Contacts";
             var nickname = "wang(aaa)";
             query0 = query0.WhereAnd((x, y, yy, d, w) => d.DynamicFieldID == "3");
-            //var bb = GetListAsync(query, query1, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders", "CustomerDynamicFields").Result;
+            var bb = GetListAsync(query, query1, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders", "CustomerDynamicFields").Result;
 
-            var bb = GetListAsync(query, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders").Result;
+            //var bb = GetListAsync(query, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders").Result;
         }
 
         public async void Get()
