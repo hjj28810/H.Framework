@@ -163,23 +163,24 @@ namespace H.Framework.Data.ORM.Foundations
             switch (type)
             {
                 case SqlType.Add:
-                    sqlStr = "insert into " + tableName.ToLower() + " (" + columnName + ")" + " values (" + columnParm + ");";
+                    sqlStr = $"insert into {tableName.ToLower()} ({columnName}) values ({columnParm});";
                     break;
 
                 case SqlType.Delete:
-                    sqlStr = "delete from " + tableName.ToLower() + " where id = @id" + paramID + ";commit;";
+                    sqlStr = $"delete from {tableName.ToLower()} where id = @id{paramID};commit;";
                     break;
 
                 case SqlType.DeleteLogic:
-                    sqlStr = "update " + tableName.ToLower() + " set isdeleted = 1 where id = @id";
+                    sqlStr = $"update {tableName.ToLower()} set isdeleted = 1 where id = @id";
                     break;
 
                 case SqlType.Update:
-                    sqlStr = "update " + tableName.ToLower() + " a set " + columnName + " where " + columnParm + ";";
+                    sqlStr = $"update {tableName.ToLower()} a set {columnName} where {columnParm};";
                     break;
 
                 case SqlType.Get:
-                    sqlStr = "select " + columnName.ReplaceKeyword() + " from " + tableName.ToLower() + " where 1 = 1" + columnParm + orderbyStr;
+                    var groupbyStr = columnName.Contains("case when") ? " group by id " : "";
+                    sqlStr = $"select {columnName.ReplaceKeyword()} from {tableName.ToLower()} where true {columnParm}{groupbyStr}{orderbyStr}";
                     break;
 
                 //case SqlType.GetPage_Oracle:
@@ -190,22 +191,22 @@ namespace H.Framework.Data.ORM.Foundations
                 //    sqlStr = "select rn," + ReplaceName(columnName).ReplaceKeyword() + " FROM (select if(@tid = a.id, @rownum := @rownum, @rownum := @rownum + 1) rn, @tid := a.id," + columnName + " from " + tableName.ToLower() + " join (SELECT @rownum := 0, @tid := NULL) rntemp where 1 = 1" + columnParm + orderbyStr + ") a where rn > " + (pageNum * pageSize).ToString() + " and rn <= " + ((pageNum + 1) * pageSize).ToString();
                 //    break;
                 case SqlType.GetPageOneToOne_MySQL:
-                    sqlStr = "select " + columnName.ReplaceKeyword() + " from " + tableName.ToLower() + " where 1 = 1" + columnParm + orderbyStr + " limit " + (pageNum * pageSize).ToString() + ", " + pageSize.ToString();
+                    sqlStr = $"select {columnName.ReplaceKeyword()} from {tableName.ToLower()} where true {columnParm}{orderbyStr} limit {pageNum * pageSize}, {pageSize}";
                     break;
                 //case SqlType.Count:
                 //    sqlStr = "select sum(ct) as DataCount from (select count(id) as ct from (select a.id from " + tableName + " where 1 = 1" + columnParm + " group by a.id))";
                 //    break;
 
                 case SqlType.Count_MySQL:
-                    sqlStr = "select count(id) as DataCount from (select a.id from " + tableName.ToLower() + " where 1 = 1" + columnParm + " group by a.id) a";
+                    sqlStr = $"select count(id) as DataCount from (select a.id from {tableName.ToLower()} where true {columnParm} group by a.id) a";
                     break;
 
                 case SqlType.CountDetail:
-                    sqlStr = "select sum(ct) as DataCount from (select count(a.id) as ct from " + tableName.ToLower() + " where 1 = 1" + columnParm + ") a";
+                    sqlStr = $"select sum(ct) as DataCount from (select count(a.id) as ct from {tableName.ToLower()} where 1 = 1{columnParm}) a";
                     break;
 
                 case SqlType.LastID:
-                    sqlStr = "select LAST_INSERT_ID() from " + tableName.ToLower() + " where 1 = 1" + columnParm + " limit 1;";
+                    sqlStr = $"select LAST_INSERT_ID() from {tableName.ToLower()} where true {columnParm} limit 1;";
                     break;
             }
             return sqlStr;

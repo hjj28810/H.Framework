@@ -120,7 +120,7 @@ namespace H.Framework.WPF.UI.Test
         //[DetailList("CustomerUser", "CustomerID", "UserID")]
         //public List<User> Users { get; set; }
 
-        [DynamicSQLField("case when a4.FieldValue != '未知' and a4.DynamicFieldID = 2 then true else false end IsHighRisk")]
+        [DynamicSQLField("case when FieldValue != '未知' and DynamicFieldID = 2 then true else false end IsHighRisk")]
         public bool IsHighRisk { get; set; }
     }
 
@@ -423,6 +423,7 @@ namespace H.Framework.WPF.UI.Test
             var query = new WhereQueryable<CustomerDTO, User, User, CustomerDynamicField, Order>((x, y, yy, d, o) => true);
             var query0 = new WhereQueryable<CustomerDTO, User, User, CustomerDynamicField, Contact>((x, y, yy, d, w) => true);
             var query1 = new WhereJoinQueryable<CustomerDynamicField>((z) => true);
+            var query2 = new WhereQueryable<CustomerDTO, User, User, Contact>((x, y, yy, d) => true);
             //var a = await GetListAsync(x => true, (y, yy, z, zzz) => true, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
             //var b = await GetListAsync(query, query1, 20, 0, "PreUser,PostUser", "Contacts,CustomerDynamicFields");
             //query.WhereAnd((x, y, yy) => true);
@@ -430,11 +431,12 @@ namespace H.Framework.WPF.UI.Test
             //query0.WhereAnd((x, y, yy, z, zzz) => true);
             var include = "PreUser,PostUser";
 
-            include += ",Contacts,'',Contacts";
-            var nickname = "wang(aaa)";
-            query0 = query0.WhereAnd((x, y, yy, d, w) => d.DynamicFieldID == "3");
-            var bb = GetListAsync(query, query1, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders", "CustomerDynamicFields").Result;
-
+            //include += ",Contacts,'',Contacts";
+            //var nickname = "wang(aaa)";
+            //query0 = query0.WhereAnd((x, y, yy, d, w) => d.DynamicFieldID == "3");
+            //var bb = GetListAsync(query, query1, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders", "CustomerDynamicFields").Result;
+            query2 = query2.WhereAnd((x, y, yy, d) => d.Content.Contains("'13321952950'"));
+            var bb = GetAsync(query2, query1, include + ",Contacts", "CustomerDynamicFields").Result;
             //var bb = GetListAsync(query, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders").Result;
         }
 
