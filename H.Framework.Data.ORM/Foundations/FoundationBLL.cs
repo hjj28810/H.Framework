@@ -2561,7 +2561,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         public Expression ChildVisitMember(MemberExpression node)
         {
-            object value = "", model = null;
+            object value = null, model = null;
             if (node.Expression is MemberExpression)
             {
                 var expr = VisitMember(node.Expression as MemberExpression);
@@ -2573,16 +2573,16 @@ namespace H.Framework.Data.ORM.Foundations
             if (node.Member is FieldInfo fieldInfo && model != null)
             {
                 if (fieldInfo.FieldType == typeof(string))
-                    value = fieldInfo.GetValue(model).ToString().Replace("'", "''");
+                    value = fieldInfo.GetValue(model) == null ? "" : fieldInfo.GetValue(model)?.ToString().Replace("'", "''");
                 else
                     value = fieldInfo.GetValue(model);
             }
             if (node.Member is PropertyInfo propertyInfo && model != null)
                 if (propertyInfo.PropertyType == typeof(string))
-                    value = propertyInfo.GetValue(model).ToString().Replace("'", "''");
+                    value = propertyInfo.GetValue(model) == null ? "" : propertyInfo.GetValue(model)?.ToString().Replace("'", "''");
                 else
                     value = propertyInfo.GetValue(model);
-            return Expression.Constant(value, value.GetType());
+            return Expression.Constant(value, value?.GetType());
         }
 
         protected override Expression VisitMethodCall(MethodCallExpression node)

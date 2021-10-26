@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.0.6.3</Version>
+    <Version>1.0.6.4</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>1.0.6.3</AssemblyVersion>
-    <FileVersion>1.0.6.3</FileVersion>
+    <AssemblyVersion>1.0.6.4</AssemblyVersion>
+    <FileVersion>1.0.6.4</FileVersion>
     <Company>H</Company>
     <Authors>Alvin Huang</Authors>
     <Product>H.Framework</Product>

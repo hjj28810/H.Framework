@@ -86,26 +86,52 @@ namespace H.Framework.WPF.UI.Test
     public class Customer : BaseDBModel
     {
         public string Phone { get; set; }
-
+        public string Nickname { get; set; }
+        public string Name { get; set; }
+        public string Sno { get; set; }
+        public int Source { get; set; }
+        public string PreUserID { get; set; }
+        public string PostUserID { get; set; }
         public string Periods { get; set; }
         public string ClassBatch { get; set; }
         public int Level { get; set; }
+        public int Type { get; set; }
+        public int Status { get; set; }
+        public bool IsValid { get; set; }
+        public bool IsSubmit { get; set; }
+        public long SubmitedAt { get; set; }
+        public int LastTrackType { get; set; }
+        public string UnionID { get; set; }
+        public long LastTrackedAt { get; set; }
+        public long LevelExpiryAt { get; set; }
+        public DateTime LastPaidTime { get; set; }
+        public long PreLastCallAt { get; set; }
+        public long PostLastCallAt { get; set; }
+        public bool IsAddWeChatWork { get; set; }
+        public bool IsInternal { get; set; }
+        public bool IsFollowWeChatWork { get; set; }
+        public bool IsPositions { get; set; }
+        public string IntroducerCustomerID { get; set; }
+        public int Points { get; set; }
+
+        [LastIDCondition]
         public string CustomerNum { get; set; }
-        public string Nickname { get; set; }
-        public string PreUserID { get; set; }
 
-        public string PostUserID { get; set; }
+        [MappingIgnore]
+        [DetailList()]
+        public List<CallRecord> CallRecords { get; set; }
 
+        [MappingIgnore]
         [Foreign("User", "PreUserID")]
         public User PreUser { get; set; }
 
+        [MappingIgnore]
         [Foreign("User", "PostUserID")]
         public User PostUser { get; set; }
 
         [MappingIgnore]
-        [DetailList()]
-        [OnlyQuery]
-        public List<CustomerDynamicField> CustomerDynamicFields { get; set; }
+        [Foreign("Customer", "IntroducerCustomerID")]
+        public Customer IntroducerCustomer { get; set; }
 
         [MappingIgnore]
         [DetailList()]
@@ -115,12 +141,14 @@ namespace H.Framework.WPF.UI.Test
         [MappingIgnore]
         [DetailList()]
         [OnlyQuery]
+        public List<CustomerDynamicField> CustomerDynamicFields { get; set; }
+
+        [MappingIgnore]
+        [DetailList()]
+        [OnlyQuery]
         public List<Order> Orders { get; set; }
 
-        //[DetailList("CustomerUser", "CustomerID", "UserID")]
-        //public List<User> Users { get; set; }
-
-        [DynamicSQLField("case when FieldValue != '未知' and DynamicFieldID = 2 then true else false end IsHighRisk")]
+        [DynamicSQLField("sum(case when FieldValue not in ('未知','') and DynamicFieldID = 36 then true else false end) IsHighRisk")]
         public bool IsHighRisk { get; set; }
     }
 
@@ -493,6 +521,8 @@ namespace H.Framework.WPF.UI.Test
         public string Remark { get; set; }
         public string RecordUrl { get; set; }
         public string UserDisplay { get; set; }
+        public int DepartmentType { get; set; }
+        public string CallID { get; set; }
 
         [MappingIgnore]
         public CustomerDTO Customer { get; set; }
@@ -526,27 +556,52 @@ namespace H.Framework.WPF.UI.Test
         public int Duration { get; set; }
         public string Phone { get; set; }
         public int Type { get; set; }
+        public string CallID { get; set; }
 
         [ForeignKeyID("customer")]
         public string CustomerID { get; set; }
 
+        [MappingIgnore]
         [Foreign("Customer", "CustomerID")]
         public Customer Customer { get; set; }
 
+        [MappingIgnore]
         [Foreign("User", "UserID")]
         public User User { get; set; }
 
         public string UserID { get; set; }
         public string Remark { get; set; }
         public string RecordUrl { get; set; }
+        public int DepartmentType { get; set; }
     }
 
     public class CallRecordDAL : BaseDAL<CallRecord, Customer, User>
     {
     }
 
+    public class CallRecordUpdateReq
+    {
+        public string ID { get; set; }
+        public int? Duration { get; set; }
+        public string Phone { get; set; }
+        public int? Type { get; set; }
+        public string CustomerID { get; set; }
+        public string UserID { get; set; }
+        public string Remark { get; set; }
+        public string RecordUrl { get; set; }
+        public string UserDisplay { get; set; }
+        public int DepartmentType { get; set; }
+        public string CallID { get; set; }
+    }
+
     public class CallRecordBLL : BaseBLL<CallRecordDTO, CallRecord, Customer, User, CallRecordDAL>
     {
+        public void GetAsync()
+        {
+            var req = new CallRecordUpdateReq();
+            var a = GetListAsync((x, y, z) => x.CustomerID == req.CustomerID && x.DepartmentType == 2, 100, 0, "Customer,User", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "CreatedTime", IsMainTable = true } }).Result;
+        }
+
         public async void AddCallRecordAsync(CallRecordDTO req)
         {
             await AddAsync(req);
