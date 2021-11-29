@@ -113,7 +113,7 @@ namespace H.Framework.Data.ORM
             }
         }
 
-        public static SqlParamModel ExecuteParm<TModel>(List<TableMap> mapList = null, string include = "", int i = 0, string joinMode = "inner join") where TModel : IFoundationModel, new()
+        public static SqlParamModel ExecuteParm<TModel>(List<TableMap> mapList = null, string include = "", int i = 0, string joinMode = "left join") where TModel : IFoundationModel, new()
         {
             lock (_locker)
             {
@@ -134,9 +134,9 @@ namespace H.Framework.Data.ORM
                             GetMap(mapList, prop.PropertyType, i, TableType.Foreign, prop.Name);
                             var map = mapList.FirstOrDefault(x => x.Type == TableType.Foreign && x.ForeignPropName?.ToLower() == prop.Name.ToLower());
                             if (string.IsNullOrWhiteSpace(foreignAttribute.ForeignPrimaryKeyIDName))
-                                tableName += "inner join `" + prop.PropertyType.Name + "` " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + ".id ";
+                                tableName += "left join `" + prop.PropertyType.Name + "` " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + ".id ";
                             else
-                                tableName += "inner join `" + prop.PropertyType.Name + "` " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + "." + foreignAttribute.ForeignPrimaryKeyIDName + " ";
+                                tableName += "left join `" + prop.PropertyType.Name + "` " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + "." + foreignAttribute.ForeignPrimaryKeyIDName + " ";
                             var foreignProps = prop.PropertyType.GetProperties();
                             foreach (var foreignProp in foreignProps)
                             {
@@ -421,7 +421,7 @@ namespace H.Framework.Data.ORM
             }
         }
 
-        private static SqlParamModel ExecuteParmInternal<TModel, TForeignModel>(Expression whereSelector, string include = "", int i = 0, string joinMode = "inner join") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
+        private static SqlParamModel ExecuteParmInternal<TModel, TForeignModel>(Expression whereSelector, string include = "", int i = 0, string joinMode = "left join") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
         {
             lock (_locker)
             {
