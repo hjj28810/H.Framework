@@ -113,7 +113,7 @@ namespace H.Framework.Data.ORM
             }
         }
 
-        public static SqlParamModel ExecuteParm<TModel>(List<TableMap> mapList = null, string include = "", int i = 0) where TModel : IFoundationModel, new()
+        public static SqlParamModel ExecuteParm<TModel>(List<TableMap> mapList = null, string include = "", int i = 0, string joinMode = "inner join") where TModel : IFoundationModel, new()
         {
             lock (_locker)
             {
@@ -134,9 +134,9 @@ namespace H.Framework.Data.ORM
                             GetMap(mapList, prop.PropertyType, i, TableType.Foreign, prop.Name);
                             var map = mapList.FirstOrDefault(x => x.Type == TableType.Foreign && x.ForeignPropName?.ToLower() == prop.Name.ToLower());
                             if (string.IsNullOrWhiteSpace(foreignAttribute.ForeignPrimaryKeyIDName))
-                                tableName += "left join `" + prop.PropertyType.Name + "` " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + ".id ";
+                                tableName += "inner join `" + prop.PropertyType.Name + "` " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + ".id ";
                             else
-                                tableName += "left join `" + prop.PropertyType.Name + "` " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + "." + foreignAttribute.ForeignPrimaryKeyIDName + " ";
+                                tableName += "inner join `" + prop.PropertyType.Name + "` " + map.Alias + " on a." + foreignAttribute.ForeignKeyIDPropName + " = " + map.Alias + "." + foreignAttribute.ForeignPrimaryKeyIDName + " ";
                             var foreignProps = prop.PropertyType.GetProperties();
                             foreach (var foreignProp in foreignProps)
                             {
@@ -171,7 +171,7 @@ namespace H.Framework.Data.ORM
                                 {
                                     GetMap(mapList, detailType, i, TableType.Detail, "");
                                     var mapTable = mapList.First(item => item.TableName == detailType.Name);
-                                    tableName += "left join `" + detailType.Name + "` " + mapTable.Alias + " on " + mapTable.Alias + "." + detailForeignIDProp.Name + " = a.id ";
+                                    tableName += joinMode + " `" + detailType.Name + "` " + mapTable.Alias + " on " + mapTable.Alias + "." + detailForeignIDProp.Name + " = a.id ";
                                     if (!prop.IsDefined(typeof(OnlyQueryAttribute)))
                                         foreach (var detailProp in detailProps)
                                         {
@@ -189,11 +189,11 @@ namespace H.Framework.Data.ORM
                                 {
                                     var transitionAlias = "a" + i.ToString();
                                     var transitionAliasID = transitionAlias + "." + listAttribute.ForeignKeyIDName;
-                                    tableName += "left join `" + listAttribute.TableName + "` " + transitionAlias + " on " + transitionAliasID + " = a.id ";
+                                    tableName += joinMode + " `" + listAttribute.TableName + "` " + transitionAlias + " on " + transitionAliasID + " = a.id ";
                                     i++;
                                     GetMap(mapList, detailType, i, TableType.Detail, "");
                                     var mapTable = mapList.First(item => item.TableName == detailType.Name);
-                                    tableName += "left join `" + detailType.Name + "` " + mapTable.Alias + " on " + transitionAlias + "." + listAttribute.ForeignKeyIDName2 + " = " + mapTable.Alias + ".id ";
+                                    tableName += joinMode + " `" + detailType.Name + "` " + mapTable.Alias + " on " + transitionAlias + "." + listAttribute.ForeignKeyIDName2 + " = " + mapTable.Alias + ".id ";
                                     if (!prop.IsDefined(typeof(OnlyQueryAttribute)))
                                         foreach (var detailProp in detailProps)
                                         {
@@ -421,12 +421,12 @@ namespace H.Framework.Data.ORM
             }
         }
 
-        private static SqlParamModel ExecuteParmInternal<TModel, TForeignModel>(Expression whereSelector, string include = "", int i = 0) where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
+        private static SqlParamModel ExecuteParmInternal<TModel, TForeignModel>(Expression whereSelector, string include = "", int i = 0, string joinMode = "inner join") where TModel : IFoundationModel, new() where TForeignModel : IFoundationModel, new()
         {
             lock (_locker)
             {
                 var mapList = new List<TableMap>();
-                var paramModel = ExecuteParm<TModel>(mapList, include, i);
+                var paramModel = ExecuteParm<TModel>(mapList, include, i, joinMode);
                 var visit = new MemberSQLVisitor<TForeignModel>(mapList);
                 var whereSQL = "";
                 if (whereSelector != null)
@@ -445,7 +445,7 @@ namespace H.Framework.Data.ORM
             lock (_locker)
             {
                 var mainSqlParam = ExecuteParmInternal<TModel, TForeignModel>(mainWhereSelector, mainInclude);
-                var joinSqlParam = ExecuteParmInternal<TModel, TForeignModel>(joinWhereSelector, joinInclude, mainInclude.Split(',').Length);
+                var joinSqlParam = ExecuteParmInternal<TModel, TForeignModel>(joinWhereSelector, joinInclude, mainInclude.Split(',').Length, "left join");
                 mainSqlParam.MainTableName = mainSqlParam.TableName;
                 mainSqlParam.MainColumnName = mainSqlParam.ColumnName;
                 if (mainSqlParam.ListDynamicSQLField != null)

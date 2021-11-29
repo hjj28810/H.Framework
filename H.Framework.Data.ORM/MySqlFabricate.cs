@@ -131,18 +131,14 @@ namespace H.Framework.Data.ORM
         {
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
-            using (var conn = new MySqlConnection(ConnectStr))
-            {
-                conn.Open();
-                using (var cmd = new MySqlCommand(sqlText, conn))
-                {
-                    cmd.CommandType = commandType;
-                    if (param != null)
-                        cmd.Parameters.AddRange(param);
-                    using (var reader = cmd.ExecuteReader())
-                        return FillList<T>(reader);
-                }
-            }
+            using var conn = new MySqlConnection(ConnectStr);
+            conn.Open();
+            using var cmd = new MySqlCommand(sqlText, conn);
+            cmd.CommandType = commandType;
+            if (param != null)
+                cmd.Parameters.AddRange(param);
+            using (var reader = cmd.ExecuteReader())
+                return FillList<T>(reader);
         }
 
         public List<T> GetListByTable<T>(CommandType commandType, string sqlText, List<TableMap> list = null, string include = "", params MySqlParameter[] param) where T : IFoundationModel, new()
@@ -154,36 +150,28 @@ namespace H.Framework.Data.ORM
         {
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
-            using (var conn = new MySqlConnection(ConnectStr))
-            {
-                using (var adapter = new MySqlDataAdapter(sqlText, conn))
-                {
-                    adapter.SelectCommand.CommandType = commandType;
-                    if (param != null)
-                        adapter.SelectCommand.Parameters.AddRange(param);
-                    var ds = new DataTable();
-                    adapter.Fill(ds);
-                    return ds;
-                }
-            }
+            using var conn = new MySqlConnection(ConnectStr);
+            using var adapter = new MySqlDataAdapter(sqlText, conn);
+            adapter.SelectCommand.CommandType = commandType;
+            if (param != null)
+                adapter.SelectCommand.Parameters.AddRange(param);
+            var ds = new DataTable();
+            adapter.Fill(ds);
+            return ds;
         }
 
         public DataSet GetSet(CommandType commandType, string sqlText, params MySqlParameter[] param)
         {
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
-            using (var conn = new MySqlConnection(ConnectStr))
-            {
-                using (var adapter = new MySqlDataAdapter(sqlText, conn))
-                {
-                    adapter.SelectCommand.CommandType = commandType;
-                    if (param != null)
-                        adapter.SelectCommand.Parameters.AddRange(param);
-                    var ds = new DataSet();
-                    adapter.Fill(ds);
-                    return ds;
-                }
-            }
+            using var conn = new MySqlConnection(ConnectStr);
+            using var adapter = new MySqlDataAdapter(sqlText, conn);
+            adapter.SelectCommand.CommandType = commandType;
+            if (param != null)
+                adapter.SelectCommand.Parameters.AddRange(param);
+            var ds = new DataSet();
+            adapter.Fill(ds);
+            return ds;
         }
 
         /// <summary>
@@ -199,45 +187,38 @@ namespace H.Framework.Data.ORM
         {
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
-            using (var conn = new MySqlConnection(ConnectStr))
-            {
-                conn.Open();
-                using (var cmd = new MySqlCommand(sqlText, conn))
-                {
-                    cmd.CommandType = commandType;
-                    if (param != null)
-                        cmd.Parameters.AddRange(param);
-                    using (var reader = cmd.ExecuteReader())
-                        return Fill<T>(reader);
-                }
-            }
+            using var conn = new MySqlConnection(ConnectStr);
+            conn.Open();
+            using var cmd = new MySqlCommand(sqlText, conn);
+            cmd.CommandType = commandType;
+            if (param != null)
+                cmd.Parameters.AddRange(param);
+            using (var reader = cmd.ExecuteReader())
+                return Fill<T>(reader);
         }
 
         public int ExecuteNonQuery(CommandType commandType, string sqlText, params MySqlParameter[] param)
         {
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
-            var result = 0;
-            using (var conn = new MySqlConnection(ConnectStr))
+            using var conn = new MySqlConnection(ConnectStr);
+            conn.Open();
+            using var cmd = new MySqlCommand(sqlText, conn);
+            int result;
+            try
             {
-                conn.Open();
-                using (var cmd = new MySqlCommand(sqlText, conn))
-                {
-                    try
-                    {
-                        cmd.CommandType = commandType;
-                        if (param != null)
-                            cmd.Parameters.AddRange(param);
-                        result = cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception e)
-                    {
-                        Trace.WriteLine("错误sql:" + sqlText);
-                        Trace.WriteLine("错误信息:" + e.Message);
-                        throw e;
-                    }
-                }
+                cmd.CommandType = commandType;
+                if (param != null)
+                    cmd.Parameters.AddRange(param);
+                result = cmd.ExecuteNonQuery();
             }
+            catch (Exception e)
+            {
+                Trace.WriteLine("错误sql:" + sqlText);
+                Trace.WriteLine("错误信息:" + e.Message);
+                throw e;
+            }
+
             return result;
         }
 
@@ -246,39 +227,34 @@ namespace H.Framework.Data.ORM
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
             string result = "";
-            using (var conn = new MySqlConnection(ConnectStr))
+            using var conn = new MySqlConnection(ConnectStr);
+            conn.Open();
+            using var tran = conn.BeginTransaction();
+            MySqlDataReader reader = null;
+            using var cmd = new MySqlCommand(sqlText, conn);
+            try
             {
-                conn.Open();
-                using (var tran = conn.BeginTransaction())
+                cmd.Transaction = tran;
+                cmd.CommandType = commandType;
+                if (param != null)
+                    cmd.Parameters.AddRange(param);
+                using (reader = cmd.ExecuteReader())
                 {
-                    MySqlDataReader reader = null;
-                    using (var cmd = new MySqlCommand(sqlText, conn))
+                    while (reader.Read())
                     {
-                        try
-                        {
-                            cmd.Transaction = tran;
-                            cmd.CommandType = commandType;
-                            if (param != null)
-                                cmd.Parameters.AddRange(param);
-                            using (reader = cmd.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    result = reader[0].ToString();
-                                }
-                            }
-                            tran.Commit();
-                        }
-                        catch (Exception e)
-                        {
-                            tran.Rollback();
-                            Trace.WriteLine("错误sql:" + sqlText);
-                            Trace.WriteLine("错误信息:" + e.Message);
-                            throw e;
-                        }
+                        result = reader[0].ToString();
                     }
                 }
+                tran.Commit();
             }
+            catch (Exception e)
+            {
+                tran.Rollback();
+                Trace.WriteLine("错误sql:" + sqlText);
+                Trace.WriteLine("错误信息:" + e.Message);
+                throw e;
+            }
+
             return result;
         }
     }

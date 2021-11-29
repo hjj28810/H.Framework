@@ -462,9 +462,9 @@ namespace H.Framework.WPF.UI.Test
             //include += ",Contacts,'',Contacts";
             //var nickname = "wang(aaa)";
             //query0 = query0.WhereAnd((x, y, yy, d, w) => d.DynamicFieldID == "3");
-            //var bb = GetListAsync(query, query1, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders", "CustomerDynamicFields").Result;
-            query2 = query2.WhereAnd((x, y, yy, d) => d.Content.Contains("'13321952950'"));
-            var bb = GetAsync(query2, query1, include + ",Contacts", "CustomerDynamicFields").Result;
+            var bb = GetListAsync(query, query1, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders", "CustomerDynamicFields").Result;
+            //query2 = query2.WhereAnd((x, y, yy, d) => d.Content.Contains("'13321952950'"));
+            //var bb = GetAsync(query2, query1, include + ",Contacts", "CustomerDynamicFields").Result;
             //var bb = GetListAsync(query, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders").Result;
         }
 
