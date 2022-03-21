@@ -31,7 +31,7 @@ namespace H.Framework.WPF.UI.Test
 
         private void tt()
         {
-            FoundationDAL.ConnectedString = "Server=10.68.99.108;Database=diqiu_crm;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8mb4";
+            FoundationDAL.ConnectedString = "Server=47.104.228.200;Database=diqiu_crm;User ID=diqiu_crm_test;Password=Qdqewe1;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8mb4";
             //var query = new WhereQueryable<UserDTO, Department, Role>((x, y, z) => true);
 
             //query = query.WhereAnd((x, y, z) => x.ID == "1");
@@ -39,6 +39,7 @@ namespace H.Framework.WPF.UI.Test
             //new OrderBLL().AddOrder();
             //new CallRecordBLL().AddCallRecordAsync(new CallRecordDTO { Duration = 12321, CustomerID = "-1", Customer = null, ID = null, Phone = "12312312", RecordUrl = "", Remark = "阿斯达四大撒大所多阿萨德", Type = 1, UpdatedTime = null, User = null, UserDisplay = null, UserID = "85", CreatedTime = DateTime.MinValue });
             new CustomerBLL().GetAsync();
+            //new UserBLL().Get();
             //new CallRecordBLL().GetAsync();
             //var a = "YHZxySCyG5iI0bnRNnlURwxVsqar3rdN07B8kNcEh7/Snfu5j3V44fWMJa/YcNmZ".AnalyseToken();
         }

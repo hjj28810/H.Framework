@@ -166,7 +166,8 @@ namespace H.Framework.Data.ORM
                                 var detailType = prop.PropertyType.GetGenericArguments()[0];
                                 var detailProps = detailType.GetProperties();
                                 var hasDetailPrimaryKeyProp = detailProps.Any(x => x.IsDefined(typeof(PrimaryKeyIDAttribute)));
-                                var detailForeignIDProp = detailProps.FirstOrDefault(item => item.GetCustomAttribute<ForeignKeyIDAttribute>()?.TableName.ToUpper() == typeof(TModel).Name.ToUpper());
+                                var foreignKeyIDAttributes = detailProps.Where(item => item.GetCustomAttribute<ForeignKeyIDAttribute>() != null);
+                                var detailForeignIDProp = foreignKeyIDAttributes.FirstOrDefault(item => item.GetCustomAttribute<ForeignKeyIDAttribute>().TableName.ToUpper().Contains(typeof(TModel).Name.ToUpper()));
                                 if (string.IsNullOrWhiteSpace(listAttribute.TableName))
                                 {
                                     GetMap(mapList, detailType, i, TableType.Detail, "");

@@ -286,6 +286,8 @@ namespace H.Framework.WPF.UI.Test
 
         public bool IsHighRisk { get; set; }
 
+        public bool IsSubmit { get; set; }
+
         public void MapFrom(Customer source)
         {
             Orders = source?.Orders?.MapAllTo(x => new OrderDTO());
@@ -445,7 +447,7 @@ namespace H.Framework.WPF.UI.Test
 
     public class CustomerBLL : BaseBLL<CustomerDTO, Customer, CustomerDAL>
     {
-        public void GetAsync()
+        public async void GetAsync()
         {
             var date = DateTime.Now.AddMonths(-1);
             var query = new WhereQueryable<CustomerDTO, User, User, CustomerDynamicField, Order>((x, y, yy, d, o) => true);
@@ -462,10 +464,11 @@ namespace H.Framework.WPF.UI.Test
             //include += ",Contacts,'',Contacts";
             //var nickname = "wang(aaa)";
             //query0 = query0.WhereAnd((x, y, yy, d, w) => d.DynamicFieldID == "3");
-            var bb = GetListAsync(query, query1, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders", "CustomerDynamicFields").Result;
+            //var bb = GetListAsync(query, query1, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders", "CustomerDynamicFields").Result;
             //query2 = query2.WhereAnd((x, y, yy, d) => d.Content.Contains("'13321952950'"));
-            //var bb = GetAsync(query2, query1, include + ",Contacts", "CustomerDynamicFields").Result;
-            //var bb = GetListAsync(query, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders").Result;
+            var bb = GetAsync(query2, query1, include + ",Contacts", "CustomerDynamicFields").Result;
+
+            //var a = await DAL.ExecuteQuerySQLAsync<Customer>("select a.ID,a.CustomerNum,a.LastPaidTime from `customer`  where a.IsSubmit = True");
         }
 
         public async void Get()
@@ -497,7 +500,7 @@ namespace H.Framework.WPF.UI.Test
         public void GetAsync()
         {
             var date = DateTime.Now.AddMonths(-1);
-            var query = new WhereQueryable<CustomerDTO, User, User>((x, y, yy) => true);
+            var query = new WhereQueryable<CustomerDTO, User, User, Customer>((x, y, yy, z) => x.IsSubmit == true);
             var query0 = new WhereQueryable<CustomerDTO, User, User, CustomerDynamicField>((x, y, yy, d) => true);
             var query1 = new WhereJoinQueryable<Contact, CustomerDynamicField>((z, zzz) => z.Content.Contains("'13321952950'"));
             //var a = await GetListAsync(x => true, (y, yy, z, zzz) => true, 20, 0, "PreUser,PostUser,Contacts,CustomerDynamicFields", new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "LastPaidTime", IsMainTable = true } });
@@ -506,8 +509,8 @@ namespace H.Framework.WPF.UI.Test
             //query1.WhereAnd((z, zz) => true);
             //query0.WhereAnd((x, y, yy, z, zzz) => true);
             query0 = query0.WhereAnd((x, y, yy, d) => d.DynamicFieldID == "7" && d.FieldKey == "310300");
-            var bb = GetListAsync(query0, 20, 0, "PreUser,PostUser,CustomerDynamicFields").Result;
-            var cc = CountAsync(query0, "PreUser,PostUser,CustomerDynamicFields").Result;
+            var bb = GetListAsync(query, 20, 0, "PreUser,PostUser,IntroducerCustomer").Result;
+            //var cc = CountAsync(query0, "PreUser,PostUser,CustomerDynamicFields").Result;
         }
     }
 

@@ -21,7 +21,7 @@ namespace H.Framework.UMeng.Push
 
         private RestClient _requestClient;
 
-        private volatile static Dictionary<Type, PropertyInfo[]> _cacheParamType = null;
+        private static volatile Dictionary<Type, PropertyInfo[]> _cacheParamType = null;
 
         private readonly ReaderWriterLock _lockrw = null;
 
@@ -69,7 +69,7 @@ namespace H.Framework.UMeng.Push
         public ReturnJsonClass SendMessage<T>(PostUMengJson<T> paramsJsonObj) where T : class, new()
         {
             var req = CreateHttpRequest(paramsJsonObj);
-            var resultResponse = _requestClient.Execute(req);
+            var resultResponse = _requestClient.ExecuteAsync(req).Result;
             return resultResponse.Content.ToJsonObj<ReturnJsonClass>();
         }
 
@@ -83,7 +83,7 @@ namespace H.Framework.UMeng.Push
         public void AsynSendMessage<T>(PostUMengJson<T> paramsJsonObj, Action<ReturnJsonClass> callback) where T : class, new()
         {
             var request = CreateHttpRequest(paramsJsonObj);
-            var resultResponse = _requestClient.Execute(request);
+            var resultResponse = _requestClient.ExecuteAsync(request).Result;
             callback?.Invoke(resultResponse.Content.ToJsonObj<ReturnJsonClass>());
         }
 
@@ -97,15 +97,12 @@ namespace H.Framework.UMeng.Push
 
             if (_requestClient == null)
             {
-                _requestClient = new RestClient(_apiFullUrl)
-                {
-                    Encoding = Encoding.UTF8,
-                    UserAgent = USER_AGENT
-                };
+                _requestClient = new RestClient(new RestClientOptions { Encoding = Encoding.UTF8, UserAgent = USER_AGENT, BaseUrl = new Uri(_apiFullUrl) });
             }
-            var request = new RestRequest(Method.POST)
+            var request = new RestRequest()
             {
-                RequestFormat = DataFormat.Json
+                RequestFormat = DataFormat.Json,
+                Method = Method.Post,
             };
             request.AddParameter("application/json", bodyJson, ParameterType.RequestBody);
             //request.AddJsonBody(paramsJsonObj);
