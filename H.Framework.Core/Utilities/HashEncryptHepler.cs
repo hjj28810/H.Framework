@@ -66,6 +66,26 @@ namespace H.Framework.Core.Utilities
             }
         }
 
+        public static string SHA256Hash(string content)
+        {
+            try
+            {
+                using (var sha256 = new SHA256CryptoServiceProvider())
+                {
+                    var bytes_in = Encoding.UTF8.GetBytes(content);
+                    var bytes_out = sha256.ComputeHash(bytes_in);
+                    sha256.Dispose();
+                    var result = BitConverter.ToString(bytes_out);
+                    result = result.Replace("-", "");
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SHA256加密出错：" + ex.Message);
+            }
+        }
+
         /// <summary>
         /// AES加密 pw长度，支持16,24,32 分别对应128 192 256
         /// </summary>

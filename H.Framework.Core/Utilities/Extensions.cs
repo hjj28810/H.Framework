@@ -10,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace H.Framework.Core.Utilities
 {
@@ -36,6 +37,46 @@ namespace H.Framework.Core.Utilities
             using (FileStream fs = fi.OpenRead())
                 fs.Read(buff, 0, Convert.ToInt32(fs.Length));
             return buff;
+        }
+
+        /// <summary>
+        /// 字符串掩码
+        /// </summary>
+        /// <param name="s">字符串</param>
+        /// <param name="mask">掩码符</param>
+        /// <returns></returns>
+        public static string Mask(this string s, char mask = '*')
+        {
+            if (string.IsNullOrWhiteSpace(s?.Trim()))
+            {
+                return s;
+            }
+            s = s.Trim();
+            string masks = mask.ToString().PadLeft(4, mask);
+            if (s.Length >= 11)
+                return Regex.Replace(s, "(.{3}).*(.{4})", $"$1{masks}$2");
+            else if (s.Length >= 10)
+                return Regex.Replace(s, "(.{3}).*(.{3})", $"$1{masks}$2");
+            else if (s.Length >= 9)
+                return Regex.Replace(s, "(.{2}).*(.{3})", $"$1{masks}$2");
+            else if (s.Length >= 8)
+                return Regex.Replace(s, "(.{2}).*(.{2})", $"$1{masks}$2");
+            else if (s.Length >= 7)
+                return Regex.Replace(s, "(.{1}).*(.{2})", $"$1{masks}$2");
+            else if (s.Length >= 6)
+                return Regex.Replace(s, "(.{1}).*(.{1})", $"$1{masks}$2");
+            else
+                return Regex.Replace(s, "(.{1}).*", $"$1{masks}");
+            //return s.Length switch
+            //{
+            //    _ when s.Length >= 11 => Regex.Replace(s, "(.{3}).*(.{4})", $"$1{masks}$2"),
+            //    _ when s.Length == 10 => Regex.Replace(s, "(.{3}).*(.{3})", $"$1{masks}$2"),
+            //    _ when s.Length == 9 => Regex.Replace(s, "(.{2}).*(.{3})", $"$1{masks}$2"),
+            //    _ when s.Length == 8 => Regex.Replace(s, "(.{2}).*(.{2})", $"$1{masks}$2"),
+            //    _ when s.Length == 7 => Regex.Replace(s, "(.{1}).*(.{2})", $"$1{masks}$2"),
+            //    _ when s.Length == 6 => Regex.Replace(s, "(.{1}).*(.{1})", $"$1{masks}$2"),
+            //    _ => Regex.Replace(s, "(.{1}).*", $"$1{masks}")
+            //};
         }
 
         public static string FileToBase64String(this string path)

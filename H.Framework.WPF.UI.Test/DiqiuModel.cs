@@ -2,6 +2,7 @@
 using H.Framework.Data.ORM;
 using H.Framework.Data.ORM.Attributes;
 using H.Framework.Data.ORM.Foundations;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -435,9 +436,9 @@ namespace H.Framework.WPF.UI.Test
             var a = await GetListAsync((x, y, z, zz) => x.CreatedTime > date, 1, 0, "Customer,User,IntroducerUser");
         }
 
-        public void AddOrder()
+        public async void AddOrder()
         {
-            Add(new OrderDTO { CouponID = "asdasd" });
+            await AddAsync(new OrderDTO { CouponID = "asdasd" });
         }
     }
 
@@ -466,9 +467,20 @@ namespace H.Framework.WPF.UI.Test
             //query0 = query0.WhereAnd((x, y, yy, d, w) => d.DynamicFieldID == "3");
             //var bb = GetListAsync(query, query1, 20, 0, "PreUser,PostUser,CustomerDynamicFields,Orders", "CustomerDynamicFields").Result;
             //query2 = query2.WhereAnd((x, y, yy, d) => d.Content.Contains("'13321952950'"));
-            var bb = GetAsync(query2, query1, include + ",Contacts", "CustomerDynamicFields").Result;
+            var bb = await GetAsync(query2, query1, include + ",Contacts", "CustomerDynamicFields");
 
             //var a = await DAL.ExecuteQuerySQLAsync<Customer>("select a.ID,a.CustomerNum,a.LastPaidTime from `customer`  where a.IsSubmit = True");
+        }
+
+        public async void GetTTTAsync()
+        {
+            using var conn = new MySqlConnection("Server=am-wz9l68j2yusb9tw0x131930o.ads.aliyuncs.com;Database=cs_wechat_focus;User ID=reader_only;Password=&q2_reader_only;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8mb4;Pooling=true;Max Pool Size=200;");
+            await conn.OpenAsync();
+            using var sqlCommand = new MySqlCommand("select prd_date,customer_id,tel_phone,fund_portfolio,max(adjust_date) adjust_date from cs_fund_adjust_warning_list where customer_id is not null and prd_date >= curdate() group by prd_date,customer_id,tel_phone,fund_portfolio;", conn);
+            using var reader = await sqlCommand.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+            }
         }
 
         public async void Get()

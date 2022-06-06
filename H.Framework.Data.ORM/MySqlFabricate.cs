@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace H.Framework.Data.ORM
 {
@@ -141,12 +142,12 @@ namespace H.Framework.Data.ORM
                 return FillList<T>(reader);
         }
 
-        public List<T> GetListByTable<T>(CommandType commandType, string sqlText, List<TableMap> list = null, string include = "", params MySqlParameter[] param) where T : IFoundationModel, new()
+        public async Task<List<T>> GetListByTableAsync<T>(CommandType commandType, string sqlText, List<TableMap> list = null, string include = "", params MySqlParameter[] param) where T : IFoundationModel, new()
         {
-            return GetTable(commandType, sqlText, param).ToList<T>(list, include);
+            return (await GetTableAsync(commandType, sqlText, param)).ToList<T>(list, include);
         }
 
-        public DataTable GetTable(CommandType commandType, string sqlText, params MySqlParameter[] param)
+        public async Task<DataTable> GetTableAsync(CommandType commandType, string sqlText, params MySqlParameter[] param)
         {
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
@@ -156,11 +157,11 @@ namespace H.Framework.Data.ORM
             if (param != null)
                 adapter.SelectCommand.Parameters.AddRange(param);
             var ds = new DataTable();
-            adapter.Fill(ds);
+            await adapter.FillAsync(ds);
             return ds;
         }
 
-        public DataSet GetSet(CommandType commandType, string sqlText, params MySqlParameter[] param)
+        public async Task<DataSet> GetSetAsync(CommandType commandType, string sqlText, params MySqlParameter[] param)
         {
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
@@ -170,7 +171,7 @@ namespace H.Framework.Data.ORM
             if (param != null)
                 adapter.SelectCommand.Parameters.AddRange(param);
             var ds = new DataSet();
-            adapter.Fill(ds);
+            await adapter.FillAsync(ds);
             return ds;
         }
 
@@ -197,7 +198,7 @@ namespace H.Framework.Data.ORM
                 return Fill<T>(reader);
         }
 
-        public int ExecuteNonQuery(CommandType commandType, string sqlText, params MySqlParameter[] param)
+        public async Task<int> ExecuteNonQueryAsync(CommandType commandType, string sqlText, params MySqlParameter[] param)
         {
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
@@ -210,7 +211,7 @@ namespace H.Framework.Data.ORM
                 cmd.CommandType = commandType;
                 if (param != null)
                     cmd.Parameters.AddRange(param);
-                result = cmd.ExecuteNonQuery();
+                result = await cmd.ExecuteNonQueryAsync();
             }
             catch (Exception e)
             {
@@ -222,15 +223,15 @@ namespace H.Framework.Data.ORM
             return result;
         }
 
-        public string ExecuteReader(CommandType commandType, string sqlText, params MySqlParameter[] param)
+        public async Task<string> ExecuteReaderAsync(CommandType commandType, string sqlText, params MySqlParameter[] param)
         {
             Trace.WriteLine(ConnectStr);
             Trace.WriteLine(sqlText);
             string result = "";
             using var conn = new MySqlConnection(ConnectStr);
             conn.Open();
-            using var tran = conn.BeginTransaction();
-            MySqlDataReader reader = null;
+            using var tran = await conn.BeginTransactionAsync();
+            DbDataReader reader = null;
             using var cmd = new MySqlCommand(sqlText, conn);
             try
             {
@@ -238,7 +239,7 @@ namespace H.Framework.Data.ORM
                 cmd.CommandType = commandType;
                 if (param != null)
                     cmd.Parameters.AddRange(param);
-                using (reader = cmd.ExecuteReader())
+                using (reader = await cmd.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {

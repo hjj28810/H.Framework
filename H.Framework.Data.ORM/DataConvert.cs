@@ -242,7 +242,7 @@ namespace H.Framework.Data.ORM
                                     foreignListT.Add(listItem);
                             }
                             //if (listItem.GetType().GetProperty("ID").GetValue(listItem) != null)
-                            //    foreignListT.Add(listItem);
+                            //    foreignListT.AddAsync(listItem);
                             foreach (var newItem in ts)
                                 if (newItem.ID == dr["ID"]?.ToString())
                                     pi.SetValue(newItem, foreignListT, null);

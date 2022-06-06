@@ -91,7 +91,7 @@ namespace H.Framework.WPF.UI.Test
                 oneM.Add("beaconList", beaconlist.ToJson());
                 //卡片状态
                 //int status = message[idx]&0xFF;
-                //oneM.Add("cardStatus", ConvertByte.byteToBit(message[idx]));
+                //oneM.AddAsync("cardStatus", ConvertByte.byteToBit(message[idx]));
 
                 oneM.Add("cardStatus1", message[idx].ToString());
                 idx += 1;
@@ -100,7 +100,7 @@ namespace H.Framework.WPF.UI.Test
                 int voltage = message[idx] & 0xFF;
                 idx += 1;
                 oneM.Add("voltage", voltage.ToString());
-                //oneM.Add("voltage", ((voltage - 3.4) / 0.8).ToString());
+                //oneM.AddAsync("voltage", ((voltage - 3.4) / 0.8).ToString());
                 //后面是可选状态，读取前都先判断一下包长度
                 while ((idx - start) < packsize)
                 {
@@ -118,7 +118,7 @@ namespace H.Framework.WPF.UI.Test
 
                     //    float longitude = float.Parse(x1.Substring(0, 2)) + float.Parse(x1.Substring(2, 4) + "." + x1.Substring(4)) / 60.0F;
                     //    float latitude = float.Parse(y1.Substring(0, 3)) + float.Parse(y1.Substring(3, 5) + "." + y1.Substring(5)) / 60.0F;
-                    //    oneM.Add("GPS" + idx, (new float[] { longitude, latitude }).ToJson());
+                    //    oneM.AddAsync("GPS" + idx, (new float[] { longitude, latitude }).ToJson());
                     //    continue;
                     //}
                     if (attr == 2)
@@ -142,7 +142,7 @@ namespace H.Framework.WPF.UI.Test
                     //    //气压
                     //    float pressure = ConvertByte.getFloat(message, idx);
                     //    idx += 4;
-                    //    oneM.Add("pressure", pressure.ToString());
+                    //    oneM.AddAsync("pressure", pressure.ToString());
                     //    continue;
                     //}
                     if (attr == 5)

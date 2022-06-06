@@ -1,7 +1,6 @@
 ﻿using H.Framework.Core.Utilities;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -32,7 +31,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         private readonly string modelName = typeof(TModel).Name;
 
-        public string Add(IEnumerable<TModel> list)
+        public async Task<string> AddAsync(IEnumerable<TModel> list)
         {
             if (list == null || !list.Any()) return "";
             //var builder = new StringBuilder("begin "); //oracle
@@ -49,10 +48,10 @@ namespace H.Framework.Data.ORM.Foundations
             var lastArr = MySQLUtility.ExecuteLastIDParm(list.Last());
             builder.Append(CreateSql(SqlType.LastID, "`" + modelName + "`", "", CreateSql(lastArr.Item1)));
             //builder.Append(" end;"); //oracle
-            return ExecuteReader(CommandType.Text, builder.ToString(), paramList.ToArray());
+            return await ExecuteReaderAsync(CommandType.Text, builder.ToString(), paramList.ToArray());
         }
 
-        public void Update(IEnumerable<TModel> list, string include = "")
+        public async Task UpdateAsync(IEnumerable<TModel> list, string include = "")
         {
             if (list == null || !list.Any()) return;
             //var builder = new StringBuilder("begin ");//oracle
@@ -67,15 +66,15 @@ namespace H.Framework.Data.ORM.Foundations
                 i++;
             }
             //builder.Append(" end;");//oracle
-            ExecuteReader(CommandType.Text, builder.ToString(), paramList.ToArray());
+            await ExecuteReaderAsync(CommandType.Text, builder.ToString(), paramList.ToArray());
         }
 
-        public void Delete(string id)
+        public async Task DeleteAsync(string id)
         {
-            ExecuteReader(CommandType.Text, CreateSql(SqlType.Delete, "`" + modelName + "`").ToLower(), new MySqlParameter("@id", id));
+            await ExecuteReaderAsync(CommandType.Text, CreateSql(SqlType.Delete, "`" + modelName + "`").ToLower(), new MySqlParameter("@id", id));
         }
 
-        public void Delete(List<string> ids)
+        public async Task DeleteAsync(List<string> ids)
         {
             var sqlStr = "";
             var paramList = new List<MySqlParameter>();
@@ -84,76 +83,55 @@ namespace H.Framework.Data.ORM.Foundations
                 sqlStr += CreateSql(SqlType.Delete, "`" + modelName + "`", "", "", null, 0, 0, x).ToLower();
                 paramList.Add(new MySqlParameter("@id" + x, x));
             });
-            ExecuteReader(CommandType.Text, sqlStr, paramList.ToArray());
+            await ExecuteReaderAsync(CommandType.Text, sqlStr, paramList.ToArray());
         }
 
-        public void DeleteLogic(TModel model)
+        public async Task DeleteLogicAsync(TModel model)
         {
-            ExecuteReader(CommandType.Text, CreateSql(SqlType.DeleteLogic, "`" + modelName + "`").ToLower(), new MySqlParameter("@id", model.ID));
+            await ExecuteReaderAsync(CommandType.Text, CreateSql(SqlType.DeleteLogic, "`" + modelName + "`").ToLower(), new MySqlParameter("@id", model.ID));
         }
 
-        protected string ExecuteReader(CommandType commandType, string sqlText, params MySqlParameter[] param)
+        protected async Task<string> ExecuteReaderAsync(CommandType commandType, string sqlText, params MySqlParameter[] param)
         {
-            return Fabricate.ExecuteReader(commandType, sqlText, param);
+            return await Fabricate.ExecuteReaderAsync(commandType, sqlText, param);
         }
 
-        public IEnumerable<T> ExecuteQuerySQL<T>(string sqlText, params MySqlParameter[] param) where T : new()
+        public async Task<IEnumerable<T>> ExecuteQuerySQLAsync<T>(string sqlText, params MySqlParameter[] param) where T : new()
         {
-            return Fabricate.GetTable(CommandType.Text, sqlText, param).ToList<T>();
+            return (await Fabricate.GetTableAsync(CommandType.Text, sqlText, param)).ToList<T>();
         }
 
-        public Dictionary<string, IEnumerable<T>> ExecuteQueryMutiSQL<T>(string sqlText, string[] keys, params MySqlParameter[] param) where T : new()
+        public async Task<Dictionary<string, IEnumerable<T>>> ExecuteQueryMutiSQLAsync<T>(string sqlText, string[] keys, params MySqlParameter[] param) where T : new()
         {
-            return Fabricate.GetSet(CommandType.Text, sqlText, param).ToDictList<T>(keys);
+            return (await Fabricate.GetSetAsync(CommandType.Text, sqlText, param)).ToDictList<T>(keys);
         }
 
-        public int ExecuteNonQuerySQL(string sqlText, params MySqlParameter[] param)
+        public async Task<int> ExecuteNonQuerySQLAsync(string sqlText, params MySqlParameter[] param)
         {
-            return Fabricate.ExecuteNonQuery(CommandType.Text, sqlText, param);
+            return await Fabricate.ExecuteNonQueryAsync(CommandType.Text, sqlText, param);
         }
 
-        public Task<IEnumerable<T>> ExecuteQuerySQLAsync<T>(string sqlText, params MySqlParameter[] param) where T : new()
-        {
-            return Task.Run(() => { return Fabricate.GetTable(CommandType.Text, sqlText, param).ToList<T>().AsEnumerable(); });
-        }
-
-        public Task<Dictionary<string, IEnumerable<T>>> ExecuteQueryMutiSQLAsync<T>(string sqlText, string[] keys, params MySqlParameter[] param) where T : new()
-        {
-            return Task.Run(() =>
-            {
-                return Fabricate.GetSet(CommandType.Text, sqlText, param).ToDictList<T>(keys);
-            });
-        }
-
-        public Task<int> ExecuteNonQuerySQLAsync(string sqlText, params MySqlParameter[] param)
-        {
-            return Task.Run(() =>
-            {
-                return Fabricate.ExecuteNonQuery(CommandType.Text, sqlText, param);
-            });
-        }
-
-        public int Count(Expression<Func<TModel, bool>> whereSelector)
+        public async Task<int> CountAsync(Expression<Func<TModel, bool>> whereSelector)
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, "");
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(SqlType.Count_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(SqlType.Count_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
         }
 
-        public TModel Get(Expression<Func<TModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public async Task<TModel> GetAsync(Expression<Func<TModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return (await GetListAsync(whereSelector, include, orderBy)).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
-        {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList(Expression<Func<TModel, bool>> whereSelector, int pageSize = 20, int pageNum = 0, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        public async Task<IEnumerable<TModel>> GetListAsync(Expression<Func<TModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null)
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync(Expression<Func<TModel, bool>> whereSelector, int pageSize = 20, int pageNum = 0, string include = "", IEnumerable<OrderByEntity> orderBy = null)
+        {
+            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
         protected string CreateSql(SqlType type, string tableName, string columnName = "", string columnParm = "", IEnumerable<OrderByEntity> orderBy = null, int pageSize = 20, int pageNum = 0, string paramID = "")
@@ -193,7 +171,7 @@ namespace H.Framework.Data.ORM.Foundations
                 case SqlType.GetPageOneToOne_MySQL:
                     sqlStr = $"select {columnName.ReplaceKeyword()} from {tableName.ToLower()} where true {columnParm}{orderbyStr} limit {pageNum * pageSize}, {pageSize}";
                     break;
-                //case SqlType.Count:
+                //case SqlType.CountAsync:
                 //    sqlStr = "select sum(ct) as DataCount from (select count(id) as ct from (select a.id from " + tableName + " where 1 = 1" + columnParm + " group by a.id))";
                 //    break;
 
@@ -253,630 +231,625 @@ namespace H.Framework.Data.ORM.Foundations
             return Regex.Replace(name, @"a\d{1,2}\.+\w+\ as\ ", "").Replace("a.", "");
         }
 
-        public TModel Get<TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
         {
-            return GetList(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy).FirstOrDefault();
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy)).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public TModel Get<TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
         {
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        {
+            return (await GetListAsync(whereSelector, include, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel>(Expression<Func<TModel, TForeignModel, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
         }
 
-        public TModel Get<TForeignModel, TForeignModel1>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
-            return GetList(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy).FirstOrDefault();
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy)).FirstOrDefault();
         }
 
-        public TModel Get<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
-            return GetList(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy).FirstOrDefault();
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy)).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel, TForeignModel1>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
         }
 
-        public TModel Get<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        {
+            return (await GetListAsync(whereSelector, include, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
         }
 
-        public int Count<TForeignModel, TForeignModel1>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        {
+            return (await GetListAsync(whereSelector, include, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, 1, 0, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        {
+            return (await GetListAsync(whereSelector, include, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        {
+            return (await GetListAsync(whereSelector, include, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
         }
 
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
         }
 
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
         }
 
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
         }
 
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
         }
 
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return (await GetListAsync(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy)).FirstOrDefault();
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
         }
 
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
         }
 
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
+        }
+
+        public async Task<TModel> GetAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
+        {
+            return (await GetListAsync(whereSelector, include, orderBy)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<IEnumerable<TModel>> GetListAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
+            return await Fabricate.GetListByTableAsync<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
         }
 
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
+        public async Task<int> CountAsync<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
         {
             var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            return GetList(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude, orderBy).FirstOrDefault();
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, int pageSize = 20, int pageNum = 0, string mainInclude = "", string joinInclude = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(paramModel.MainTableName, paramModel.PageColumnName, paramModel.MainColumnName, paramModel.MainWhereSQL, paramModel.JoinTableName, paramModel.JoinWhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, mainInclude + "," + joinInclude, paramModel.ListSqlParams.ToArray());
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, bool>> mainWhereSelector, Expression<Func<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, bool>> mainWhereSelector, Expression<Func<TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, bool>> mainWhereSelector, Expression<Func<TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, bool>> mainWhereSelector, Expression<Func<TForeignModel3, TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, bool>> mainWhereSelector, Expression<Func<TForeignModel4, TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, bool>> mainWhereSelector, Expression<Func<TForeignModel5, bool>> joinWhereSelector, string mainInclude = "", string joinInclude = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(mainWhereSelector, joinWhereSelector, mainInclude, joinInclude);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
-        }
-
-        public TModel Get<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            return GetList(whereSelector, include, orderBy).FirstOrDefault();
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.Get, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
-        }
-
-        public IEnumerable<TModel> GetList<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, int pageSize = 20, int pageNum = 1, string include = "", IEnumerable<OrderByEntity> orderBy = null) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Fabricate.GetListByTable<TModel>(CommandType.Text, CreateSql(SqlType.GetPageOneToOne_MySQL, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL, orderBy, pageSize, pageNum), paramModel.ListTableMap, include, paramModel.ListSqlParams.ToArray());
-        }
-
-        public int Count<TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5>(Expression<Func<TModel, TForeignModel, TForeignModel1, TForeignModel2, TForeignModel3, TForeignModel4, TForeignModel5, bool>> whereSelector, string include = "", bool isAll = true) where TForeignModel : IFoundationModel, new() where TForeignModel1 : IFoundationModel, new() where TForeignModel2 : IFoundationModel, new() where TForeignModel3 : IFoundationModel, new() where TForeignModel4 : IFoundationModel, new() where TForeignModel5 : IFoundationModel, new()
-        {
-            var paramModel = MySQLUtility.ExecuteParm(whereSelector, include);
-            return Convert.ToInt32(Fabricate.GetTable(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL)).Rows[0][0]);
+            return Convert.ToInt32((await Fabricate.GetTableAsync(CommandType.Text, CreateSql(isAll ? SqlType.Count_MySQL : SqlType.CountDetail, paramModel.TableName, paramModel.ColumnName, paramModel.WhereSQL))).Rows[0][0]);
         }
     }
 
@@ -892,7 +865,7 @@ namespace H.Framework.Data.ORM.Foundations
 
         CountDetail,
         LastID
-        //Count,
+        //CountAsync,
         //GetPage_Oracle,
     }
 
