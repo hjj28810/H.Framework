@@ -252,6 +252,163 @@ namespace H.Framework.WPF.UI.Test
         public string FieldKey { get; set; }
     }
 
+    public class LiveRoomDstributionDTO : BaseDTO, ICustomMap<LiveRoomDstribution>
+    {
+        public string CustomerID { get; set; }
+        public string BeforeRoomName { get; set; }
+        public string AfterRoomName { get; set; }
+        public string Reason { get; set; }
+        public int Status { get; set; }
+        public string UserID { get; set; }
+        public string RoleID { get; set; }
+        public string NextRoleID { get; set; }
+
+        [MappingIgnore]
+        public UserDTO RUser { get; set; }
+
+        public bool IsCancel { get; set; }
+
+        [MappingIgnore]
+        public RoleDTO Role { get; set; }
+
+        [MappingIgnore]
+        public RoleDTO NextRole { get; set; }
+
+        [MappingIgnore]
+        public IEnumerable<ExamineProgressDTO> ExamineProgresses { get; set; }
+
+        [MappingIgnore]
+        public IEnumerable<ExamineFlowDTO> Examineflows { get; set; }
+
+        public void MapFrom(LiveRoomDstribution source)
+        {
+            ExamineProgresses = source?.ExamineProgresses?.MapAllTo(x => new ExamineProgressDTO());
+            Examineflows = source?.Examineflows?.MapAllTo(x => new ExamineFlowDTO());
+            RUser = source?.RUser?.MapTo(x => new UserDTO());
+            Role = source?.Role?.MapTo(x => new RoleDTO());
+            NextRole = source?.NextRole?.MapTo(x => new RoleDTO());
+        }
+    }
+
+    public class ExamineProgress : BaseDBModel
+    {
+        public string Reason { get; set; }
+
+        [MappingIgnore]
+        [Foreign("Examineflow", "ExamineFlowID")]
+        public ExamineFlow Examineflow { get; set; }
+
+        [ForeignKeyID("examineflow")]
+        public string ExamineFlowID { get; set; }
+
+        [ForeignKeyID("refund,defer,liveroomdstribution")]
+        public string ForeignID { get; set; }
+
+        public string UserID { get; set; }
+        public int Status { get; set; }
+        public int Type { get; set; }
+    }
+
+    public class ExamineProgressDTO : BaseDTO, ICustomMap<ExamineProgress>
+    {
+        public string Reason { get; set; }
+        public string ExamineFlowID { get; set; }
+        public string ForeignID { get; set; }
+        public string UserID { get; set; }
+        public int Status { get; set; }
+        public int Type { get; set; }
+
+        [MappingIgnore]
+        public ExamineFlowDTO Examineflow { get; set; }
+
+        public void MapFrom(ExamineProgress source)
+        {
+            Examineflow = source?.Examineflow?.MapTo(x => new ExamineFlowDTO());
+        }
+    }
+
+    public class ExamineFlowDTO : BaseDTO, ICustomMap<ExamineFlow>
+    {
+        public int Type { get; set; }
+
+        public int Sequence { get; set; }
+
+        public string RoleID { get; set; }
+
+        [MappingIgnore]
+        public RoleDTO Role { get; set; }
+
+        [MappingIgnore]
+        public RoleDTO NextRole { get; set; }
+
+        public string NextRoleID { get; set; }
+
+        public void MapFrom(ExamineFlow source)
+        {
+            Role = source?.Role?.MapTo(x => new RoleDTO());
+            NextRole = source?.NextRole?.MapTo(x => new RoleDTO());
+        }
+    }
+
+    public class ExamineFlow : BaseDBModel
+    {
+        public int Type { get; set; }
+
+        public int Sequence { get; set; }
+
+        [ForeignKeyID("role")]
+        public string RoleID { get; set; }
+
+        [MappingIgnore]
+        [Foreign("Role", "RoleID")]
+        public Role Role { get; set; }
+
+        [MappingIgnore]
+        [Foreign("Role", "NextRoleID")]
+        public Role NextRole { get; set; }
+
+        [ForeignKeyID("role")]
+        public string NextRoleID { get; set; }
+    }
+
+    public class LiveRoomDstribution : BaseDBModel
+    {
+        public string CustomerID { get; set; }
+        public string BeforeRoomName { get; set; }
+        public string AfterRoomName { get; set; }
+        public string Reason { get; set; }
+        public int Status { get; set; }
+        public string UserID { get; set; }
+        public bool IsCancel { get; set; }
+        public DateTime CancelTime { get; set; }
+
+        [ForeignKeyID("role")]
+        public string RoleID { get; set; }
+
+        [MappingIgnore]
+        [Foreign("Role", "RoleID")]
+        public Role Role { get; set; }
+
+        [MappingIgnore]
+        [Foreign("Role", "NextRoleID")]
+        public Role NextRole { get; set; }
+
+        [ForeignKeyID("role")]
+        public string NextRoleID { get; set; }
+
+        [MappingIgnore]
+        [Foreign("User", "UserID")]
+        public User RUser { get; set; }
+
+        [MappingIgnore]
+        [DetailList()]
+        public List<ExamineProgress> ExamineProgresses { get; set; }
+
+        [MappingIgnore]
+        [DetailList()]
+        public List<ExamineFlow> Examineflows { get; set; }
+    }
+
     public class CustomerDTO : BaseDTO, ICustomMap<Customer>
     {
         public string Phone { get; set; }
@@ -296,6 +453,42 @@ namespace H.Framework.WPF.UI.Test
             CustomerDynamicFields = source?.CustomerDynamicFields?.MapAllTo(x => new CustomerDynamicFieldDTO());
             PreUser = source?.PreUser?.MapTo(x => new UserDTO());
             PostUser = source?.PostUser?.MapTo(x => new UserDTO());
+        }
+    }
+
+    public class LiveRoomDstributionDAL : BaseDAL<LiveRoomDstribution, User, Role, ExamineProgress>
+    {
+    }
+
+    public class LiveRoomDstributionReq
+    {
+        public string CustomerNum { get; set; }
+        public string CustomerID { get; set; }
+        public string RoleID { get; set; }
+        public string UserID { get; set; }
+        public int? Status { get; set; }
+        public string ID { get; set; }
+        public string NextRoleID { get; set; }
+        public bool IsCancel { get; set; }
+        public string Reason { get; set; }
+    }
+
+    public class LiveRoomDstributionBLL : BaseBLL<LiveRoomDstributionDTO, LiveRoomDstribution, User, Role, ExamineProgress, LiveRoomDstributionDAL>
+    {
+        public async Task<IEnumerable<LiveRoomDstributionDTO>> GetLiveRoomDstributionsAsync(LiveRoomDstributionReq req)
+        {
+            var mainQuery = new WhereQueryable<LiveRoomDstributionDTO, User, Role>((x, y, z) => true);
+            var joinQuery = new WhereJoinQueryable<ExamineProgress>((r) => r.Type == 1);
+            if (!string.IsNullOrWhiteSpace(req.ID))
+                mainQuery = mainQuery.WhereAnd((x, y, z) => x.ID == req.ID);
+            if (!string.IsNullOrWhiteSpace(req.UserID))
+                mainQuery = mainQuery.WhereAnd((x, y, z) => x.UserID == req.UserID);
+            if (req.Status.HasValue)
+                mainQuery = mainQuery.WhereAnd((x, y, z) => x.Status == req.Status.Value);
+            if (!string.IsNullOrWhiteSpace(req.CustomerID))
+                mainQuery = mainQuery.WhereAnd((x, y, z) => x.CustomerID == req.CustomerID);
+            return await GetListAsync(mainQuery, joinQuery, 100, 0, "RUser,Role,NextRole", "ExamineProgresses",
+                    new List<OrderByEntity> { new OrderByEntity { IsAsc = false, KeyWord = "CreatedTime", IsMainTable = true } });
         }
     }
 

@@ -25,11 +25,17 @@ namespace H.Framework.Core.Utilities
         /// </summary>
         /// <param name="mobile"></param>
         /// <returns></returns>
-        public static bool ValidateMobile(this string mobile)
+        public static bool ValidateMobile(this string mobile, out List<string> matchs)
         {
+            matchs = new List<string>();
             if (string.IsNullOrEmpty(mobile))
                 return false;
-            return Regex.IsMatch(mobile, @"^(13|14|15|16|18|19|17)\d{9}$");
+            var matchList = Regex.Matches(mobile, @"(13|14|15|16|18|19|17)\d{9}");
+            foreach (Match match in matchList)
+            {
+                matchs.Add(match.Value);
+            }
+            return matchList.Count > 0;
         }
 
         private static string DatePattern(char separator)
