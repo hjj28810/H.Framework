@@ -166,21 +166,27 @@ namespace H.Framework.Data.ORM
                         }
                         else
                         {
-                            if (dt.Columns.Contains(pi.Name))
+                            var columnName = pi.Name;
+                            if (pi.IsDefined(typeof(DataFieldAttribute)))
+                            {
+                                var dataFieldAttribute = pi.GetCustomAttribute<DataFieldAttribute>();
+                                columnName = dataFieldAttribute.ColumnName;
+                            }
+                            if (dt.Columns.Contains(columnName))
                             {
                                 try
                                 {
                                     if (!pi.CanWrite) continue;
-                                    if (dr.IsNull(pi?.Name)) continue;
+                                    if (dr.IsNull(columnName)) continue;
                                     if (pi.PropertyType.IsGenericType && pi.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                                        pi.SetValue(t, Activator.CreateInstance(pi.PropertyType, dr[pi?.Name]), null);
+                                        pi.SetValue(t, Activator.CreateInstance(pi.PropertyType, dr[columnName]), null);
                                     else
-                                        pi.SetValue(t, Convert.ChangeType(dr[pi?.Name], pi.PropertyType), null);
+                                        pi.SetValue(t, Convert.ChangeType(dr[columnName], pi.PropertyType), null);
                                 }
                                 catch (Exception e)
                                 {
                                     Trace.WriteLine(e.Message);
-                                    throw new InvalidCastException("字段名:" + pi?.Name + "-数据库值:" + dr[pi?.Name].ToString() + "-属性类型:" + pi.PropertyType.ToString());
+                                    throw new InvalidCastException("字段名:" + columnName + "-数据库值:" + dr[columnName].ToString() + "-属性类型:" + pi.PropertyType.ToString());
                                 }
                             }
                         }

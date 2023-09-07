@@ -46,7 +46,7 @@ namespace H.Framework.Data.ORM
             {
                 var properties = typeof(TModel).GetProperties();
                 var parms = new List<MySqlParameter>();
-                string columnName = "", columnParm = "", tableName = typeof(TModel).Name;
+                string columnNames = "", columnParm = "", tableName = typeof(TModel).Name;
                 foreach (var prop in properties)
                 {
                     if (prop.IsDefined(typeof(DataFieldIgnoreAttribute)) || prop.IsDefined(typeof(DynamicSQLFieldAttribute))) continue;
@@ -58,11 +58,18 @@ namespace H.Framework.Data.ORM
                             if (propValue == null) continue;
                             if (prop.PropertyType == typeof(DateTime) && Convert.ToDateTime(propValue) == DateTime.MinValue)
                                 continue;
+                            var columnName = prop.Name;
+                            if (prop.IsDefined(typeof(DataFieldAttribute)))
+                            {
+                                var dataFieldAttribute = prop.GetCustomAttribute<DataFieldAttribute>();
+                                columnName = dataFieldAttribute.ColumnName;
+                            }
+
                             if (type == "add")
                             {
                                 if (prop.IsDefined(typeof(PrimaryKeyIDAttribute))) continue;
                                 if (prop.Name.ToUpper() == "ID") continue;
-                                columnName += prop.Name + ",";
+                                columnNames += columnName + ",";
 
                                 #region 直接拼sql
 
@@ -77,7 +84,7 @@ namespace H.Framework.Data.ORM
 
                                 #region 参数化
 
-                                columnParm += $"@{prop.Name + index.ToString()},";
+                                columnParm += $"@{columnName + index.ToString()},";
 
                                 #endregion 参数化
                             }
@@ -98,18 +105,18 @@ namespace H.Framework.Data.ORM
                                 #region 参数化
 
                                 if (prop.Name.ToUpper() != "ID")
-                                    columnName += $"a.{ prop.Name } = @{prop.Name + index.ToString()},";
+                                    columnNames += $"a.{columnName} = @{columnName + index.ToString()},";
 
                                 #endregion 参数化
 
                                 columnParm = "a.id = '" + properties.First(item => item.Name.ToUpper() == "ID").GetValue(model) + "'";
                             }
 
-                            parms.Add(new MySqlParameter(prop.Name + index.ToString(), propValue));
+                            parms.Add(new MySqlParameter(columnName + index.ToString(), propValue));
                         }
                     }
                 }
-                return new Tuple<string, string, List<MySqlParameter>, string>(columnName, columnParm, parms, tableName);
+                return new Tuple<string, string, List<MySqlParameter>, string>(columnNames, columnParm, parms, tableName);
             }
         }
 
@@ -118,12 +125,18 @@ namespace H.Framework.Data.ORM
             lock (_locker)
             {
                 var properties = typeof(TModel).GetProperties();
-                string columnName = "", simpleColumnName = "", joinColumnName = "", mainTableName = $"`{typeof(TModel).GetCustomAttribute<DataTableAttribute>()?.TableName ?? typeof(TModel).Name.ToLower()}` a ", tableName = "";
+                string columnNames = "", simpleColumnName = "", joinColumnName = "", mainTableName = $"`{typeof(TModel).GetCustomAttribute<DataTableAttribute>()?.TableName ?? typeof(TModel).Name.ToLower()}` a ", tableName = "";
                 var hasPrimaryProp = properties.Any(x => x.IsDefined(typeof(PrimaryKeyIDAttribute)));
                 var includeArray = include.Split(",");
                 var dynamicSQLProps = properties.Where(x => x.IsDefined(typeof(DynamicSQLFieldAttribute)));
                 foreach (var prop in properties)
                 {
+                    var columnName = prop.Name;
+                    if (prop.IsDefined(typeof(DataFieldAttribute)))
+                    {
+                        var dataFieldAttribute = prop.GetCustomAttribute<DataFieldAttribute>();
+                        columnName = dataFieldAttribute.ColumnName;
+                    }
                     if (prop.IsDefined(typeof(DataFieldIgnoreAttribute))) continue;
                     if (prop.IsDefined(typeof(DynamicSQLFieldAttribute))) continue;
                     if (prop.IsDefined(typeof(ForeignAttribute)))
@@ -217,8 +230,8 @@ namespace H.Framework.Data.ORM
                     {
                         if (hasPrimaryProp && prop.Name.ToUpper() == "ID")
                             continue;
-                        columnName += "a." + prop.Name + ",";
-                        mapList.Add(new TableMap { Alias = "a", TableName = typeof(TModel).Name, ColumnName = prop.Name });
+                        columnNames += "a." + columnName + ",";
+                        mapList.Add(new TableMap { Alias = "a", TableName = typeof(TModel).Name, ColumnName = columnName });
                     }
                 }
                 var listDynamicSQLField = new List<string>();
@@ -226,10 +239,10 @@ namespace H.Framework.Data.ORM
                 {
                     var sql = item.GetCustomAttribute<DynamicSQLFieldAttribute>().SQLString;
                     listDynamicSQLField.Add(sql);
-                    columnName += sql + ",";
+                    columnNames += sql + ",";
                 }
-                columnName += joinColumnName;
-                return new SqlParamModel(mainTableName, tableName.ToLower(), columnName, simpleColumnName, joinColumnName, listDynamicSQLField);
+                columnNames += joinColumnName;
+                return new SqlParamModel(mainTableName, tableName.ToLower(), columnNames, simpleColumnName, joinColumnName, listDynamicSQLField);
             }
         }
 
@@ -241,9 +254,15 @@ namespace H.Framework.Data.ORM
                 var props = model.GetProperties();
                 foreach (var prop in props)
                 {
+                    var columnName = prop.Name;
+                    if (prop.IsDefined(typeof(DataFieldAttribute)))
+                    {
+                        var dataFieldAttribute = prop.GetCustomAttribute<DataFieldAttribute>();
+                        columnName = dataFieldAttribute.ColumnName;
+                    }
                     if (prop.IsDefined(typeof(DataFieldIgnoreAttribute))) continue;
                     if (!prop.IsDefined(typeof(DetailListAttribute)) && !prop.IsDefined(typeof(ForeignAttribute)))
-                        list.Add(new TableMap { Alias = "a" + i.ToString(), TableName = model.Name, ColumnName = prop.Name, Type = type, ForeignPropName = foreignPropName });
+                        list.Add(new TableMap { Alias = "a" + i.ToString(), TableName = model.Name, ColumnName = columnName, Type = type, ForeignPropName = foreignPropName });
                 }
             }
         }

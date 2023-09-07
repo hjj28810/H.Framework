@@ -5,6 +5,7 @@ using H.Framework.Data.ORM.Foundations;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -955,5 +956,22 @@ namespace H.Framework.WPF.UI.Test
 
     public class NotificationDAL : BaseDAL<Notification, NotificationMark>
     {
+    }
+
+    public class IdMappingDAL : BaseDAL<IdMapping>
+    {
+    }
+
+    public class IdMappingDTO : IFoundationViewModel
+    {
+        public string ID { get; set; }
+    }
+
+    public class IdMapping : IFoundationModel
+    {
+        public string ID { get; set; }
+
+        [DataField("created_at")]
+        public string CreatedAt { get; set; }
     }
 }

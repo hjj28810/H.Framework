@@ -31,7 +31,7 @@ namespace H.Framework.WPF.UI.Test
 
         private async void tt()
         {
-            FoundationDAL.ConnectedString = "Server=10.68.99.108;Database=diqiu_crm;User ID=root;Password=Dasong@;Port=3306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8mb4;Pooling=true;Max Pool Size=200;";
+            FoundationDAL.ConnectedString = "Server=rm-m5e5e52v0behudu9jko.mysql.rds.aliyuncs.com;Database=go-poseidon;User ID=posenet_dev;Password=OptBpQEt1sq$rGoV;Port=33306;TreatTinyAsBoolean=false;SslMode=none;Allow User Variables=True;charset=utf8;Pooling=true;Max Pool Size=200;";
             //var query = new WhereQueryable<UserDTO, Department, Role>((x, y, z) => true);
 
             //var asd = await new LiveRoomDstributionBLL().GetLiveRoomDstributionsAsync(new LiveRoomDstributionReq { CustomerID = "12" });
@@ -43,13 +43,15 @@ namespace H.Framework.WPF.UI.Test
             //new UserBLL().GetAsync();
             //new CallRecordBLL().GetAsync();
             //var a = "YHZxySCyG5iI0bnRNnlURwxVsqar3rdN07B8kNcEh7/Snfu5j3V44fWMJa/YcNmZ".AnalyseToken();
+            //var id = (await new IdMappingDAL().AddAsync(new List<IdMapping> { new IdMapping { CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") } }));
+            var a = new IdMappingDAL().GetListAsync(x => true, "", null);
             var t = "【超越自己】13475011820".ValidateMobile(out List<string> aa) ? "【超越自己】13475011820".Replace(aa[0], "") : "【超越自己】13475011820";
-            string n = null;
-            var nickname = n.ValidateMobile(out var matchs) ? n.Replace(matchs[0], "") : n;
-            var c = ToPrivacy("15229310723", "shanwaiqingshanlouwailou");
+            //string n = null;
+            //var nickname = n.ValidateMobile(out var matchs) ? n.Replace(matchs[0], "") : n;
+            //var c = ToPrivacy("15229310723", "shanwaiqingshanlouwailou");
             //var a = ToCipher("15229310723", "vGNsTj$Gfml%4YT0trifYQK6y%dJ#UIG", "SrpPMQ8lUy^CSWSF");
-            var a = ToCipher("15229310723", "26HQv^fI8mNWRkw8P*0P0ht2tKSk5ASf", "aPWPxeK&Z4D!#!jH");
-            var cc = CipherDecrypt("RDltZ4lpXJt97nNwBSjIjA==", "vGNsTj$Gfml%4YT0trifYQK6y%dJ#UIG", "SrpPMQ8lUy^CSWSF");
+            //var a = ToCipher("15229310723", "26HQv^fI8mNWRkw8P*0P0ht2tKSk5ASf", "aPWPxeK&Z4D!#!jH");
+            //var cc = CipherDecrypt("RDltZ4lpXJt97nNwBSjIjA==", "vGNsTj$Gfml%4YT0trifYQK6y%dJ#UIG", "SrpPMQ8lUy^CSWSF");
             //var b = ToCipher("openpilot is an open source driver assistance system. openpilot performs the functions of Automated Lane Centering and Adaptive Cruise Control for over 150 supported car makes and models.", "26HQv^fI8mNWRkw8P*0P0ht2tKSk5PSf", "aPWPxeK&Z4D!#!gH");
         }
 
