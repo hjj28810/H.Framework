@@ -43,7 +43,7 @@ namespace H.Framework.WPF.UI.Test
             //new UserBLL().GetAsync();
             //new CallRecordBLL().GetAsync();
             //var a = "YHZxySCyG5iI0bnRNnlURwxVsqar3rdN07B8kNcEh7/Snfu5j3V44fWMJa/YcNmZ".AnalyseToken();
-            //var id = (await new IdMappingDAL().AddAsync(new List<IdMapping> { new IdMapping { CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") } }));
+            var id = (await new IdMappingDAL().AddAsync(new List<IdMapping> { new IdMapping { CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") } }));
             var a = new IdMappingDAL().GetListAsync(x => true, "", null);
             var t = "【超越自己】13475011820".ValidateMobile(out List<string> aa) ? "【超越自己】13475011820".Replace(aa[0], "") : "【超越自己】13475011820";
             //string n = null;
